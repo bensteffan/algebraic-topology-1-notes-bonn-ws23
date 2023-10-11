@@ -1,0 +1,7 @@
+ensure_path('TEXINPUTS', '../latex-packages///');
+$pdf_mode = 4;
+$postscript_mode = $dvi_mode = 0;
+
+$pdf_previewer = 'start evince';
+
+@default_files = ('algebraic_topology_1_lecture_notes.tex');

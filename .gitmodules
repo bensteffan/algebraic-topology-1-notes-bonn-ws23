@@ -1,0 +1,3 @@
+[submodule "latex-packages"]
+	path = latex-packages
+	url = git@github.com:bensteffan/latex-packages.git
