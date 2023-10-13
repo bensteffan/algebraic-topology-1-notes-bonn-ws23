@@ -230,6 +230,293 @@ This is best encoded in a \emph{spectral sequence}.
 			Here $H_*(E^r)$ denotes the homology of $E^r$ with respect to $d^r$, which inherits a bigrading.
 	\end{itemize}
 \end{definition}
+\lecture{13.10.23}
+\begin{figure}[ht]
+	\begin{tikzpicture}[every node/.append style = {fill = white, font = \scriptsize}]
+		\def\xmin{-3}
+		\def\xmax{3}
+		\def\ymin{-3}
+		\def\ymax{3}
+		\begin{scope}
+			\coordinate (origin) at (0, 0);
+			\draw[very thick, ->] (\xmin, 0) -- (\xmax, 0);
+			\draw[very thick, ->] (0, \ymin) -- (0, \ymax);
+			%\foreach \x \in {\xmin, ..., \xmax}{
+				%\foreach \y \in {\ymin, ..., \ymax} {
+					%\node at (\x, \y) {$E^2_{\x, \y}$};
+				%}
+			%}
+		\end{scope}
+	\end{tikzpicture}
+	\caption{$E^2$ and $E^3$ pages of a homologically graded spectral sequence}
+\end{figure}
+\begin{definition}
+	We say a spectral sequence is \strong{first quadrant}\index{spectral sequence!first quadrant} if all the groups $E^2_{p, q}$ are trivial whenever $p < 0$ or $q < 0$.
+\end{definition}
+\begin{lemma}
+	For a first quadrant spectral sequence $(E^\bullet, d^\bullet, h^\bullet)$ we have $E^r_{p, q} = 0$ if $p < 0$ or $q < 0$ for all $r \geq 2$.
+	Moreover, for a given $(p, q) \in \Z \times \Z$ the map $h$ induces an isomorphism for all $r > r_0 \coloneq \max(p, q + 1)$, i.e. the groups $E^r_{p, q}$ stabilize as $r \to \infty$.
+\end{lemma}
+\begin{proof}
+	The first statement follows immediately from the existence of $h^\bullet$ by induction on $r$.
+	For the second statement, if $r > r_0$, then the target of the differential $d^r\colon E^r_{p, q} \to E^r_{p - r, q + r - 1}$ is trivial since $p - r < 0$, so every element of $E^r_{p, q}$ is a cycle.
+	Moreover, the domain of the incoming differential $E^r_{p + r, q - r + 1} \to E^r_{p, q}$ is trivial since $q - r + 1 < 0$, so $E^r_{p, q} \isom H_*(E^r_{p, q}) \isom E^{r + 1}_{p, q}$.
+\end{proof}
+\begin{definition}
+	For a first quadrant spectral sequence $(E^\bullet, d^\bullet, h^\bullet)$ we define its \strong{$E^\infty$-page}\index{$E^\infty$-page} as the bigraded abelian group
+	\begin{equation*}
+		E^\infty_{p, q} \coloneq E^{r_0(p, q) + 1}_{p, q}
+	\end{equation*}
+	with $r_0(p, q) \coloneq \max(p, q + 1)$.
+	By the previous lemma, $E^\infty_{p, q} \isom E^r_{p, q}$ whenever $r > r_0(p, q)$.
+\end{definition}
+By a \strong{filtered object}\index{filtered object} $(H, F)$ in an abelian category $\mathcal{A}$ we mean an object $H \in \mathcal{A}$ together with a sequence of inclusions
+\begin{equation*}
+	0 = F^{-1} \subseteq F^0 \subseteq F^1 \subseteq \ldots \subseteq F^n \subseteq \ldots \subseteq H
+\end{equation*}
+We will apply this to the category of graded abelian groups and $H = H_*(E; \Z)$.
+Notationally, if $(H, F)$ is a filtered object in abelian groups, we write $F^n_m$ for the $n$th object in the filtration associated to the group $H_m$; in other words, $F^0_m \subseteq F^1_m \subseteq \ldots \subseteq H_m$ is the filtration associated to $H_m$.
+\begin{definition}
+	A first quadrant spectral sequence is said to \strong{converge}\index{convergence!of spectral sequences} to a filtered object in graded abelian groups $(H, F)$ if there is a chosen isomorphism
+	\begin{equation*}
+		E^\infty_{p, q} \isom F^p_{p + q} / F^{p - 1}_{p + q}
+	\end{equation*}
+	for all values of $p$ and $q$ and moreover $F^p_n = H_n$ if $p \geq n$.
+	In this case, we write $E^2_{p, q} \Rightarrow H$.
+\end{definition}
+\begin{remark}
+	\leavevmode
+	\begin{itemize}
+		\item Convergence is really a \emph{datum} of the isomorphism $E^\infty_{p, q} \isom F^p_{p + q} / F^{p - 1}_{p + q}$ and not a property.
+		\item Convergent spectral sequences are often simply encoded as $E^2_{p, q} \Rightarrow H$, but this suppresses not only this data but also the higher pages, the differentials, and the filtration on $H$!
+	\end{itemize}
+\end{remark}
+
+\subsection{Fibre Sequences}
+In order to be able to move onto the definition of the Serre spectral sequence for fibre sequences, let us define exactly what we mean by \enquote{fibre sequence}.
+\begin{definition}
+	Let $f\colon X \to Y$ be a map of spaces and $x \in X$ a point.
+	The \strong{homotopy fibre}\index{homotopy fibre} $\hofib_x(f)$ of $f$ at $x$ is the space
+	\begin{equation*}
+		\hofib_x(f) \coloneq P_x X \times_X Y
+	\end{equation*}
+	where $P_x X = \{\gamma\colon I \to X \mid \gamma(1) = x\}$ is the \strong{based path space}\index{path space} of $X$.
+	It comes with the evaluation at 0 map $\ev_0\colon P_x X \to X,\ \gamma \mapsto \gamma(0)$.
+	In fact, it is the pullback
+	\begin{equation*}
+		\begin{tikzcd}
+			\hofib_x(f)
+					\ar[r]
+					\ar[d]
+					\ar[dr, phantom, "\lrcorner" very near start]
+				& P_x X
+					\ar[d, "\ev_0"]
+			\\
+			X 
+					\ar[r, "f"]
+				& Y
+		\end{tikzcd}
+	\end{equation*}
+\end{definition}
+In words, $\hofib_x(f)$ is the space of pairs $(\gamma, y)$ where $y \in Y$ is a points and $\gamma$ is a path from $f(y)$ to $x$.
+We note that $P_x X$ is contractible via the homotopy
+\begin{align*}
+	H\colon P_x X \times I &\to P_x X \\
+	(\gamma, t) &\mapsto (s \mapsto \gamma((1 - t)s + t))
+\end{align*}
+\begin{example}
+	If $* \xto{f} X$ is the inclusion of any point, then $\hofib_x(f) = \Omega_x X$.
+\end{example}
+\begin{definition}
+	A \strong{fibre sequence of topological spaces} is a sequence $F \xto{i} Y \xto{f} X$, a basepoint $x \in X$, and a homotopy $h\colon F \to X^I$ from the composite $f \circ i$ to the constant map $c_x\colon F \to X$ such that the induced map
+	\begin{equation*}
+		F \to \hofib_x(f),\ z \mapsto (h(z), i(z))
+	\end{equation*}
+	is a weak homotopy equivalence.
+\end{definition}
+\begin{example}\label{expl:fibresequences}
+	\leavevmode
+	\begin{enumerate}
+		\item Let $f\colon Y \to X$ be any continuous map, $x \in X$ a point.
+			Then the pair $(\hofib_x(f) \xto{i} Y \xto{f} X, h)$ where $i(\gamma, y) \coloneq y$ is a fibre sequence since by construction the map $\hofib_x(f) \to \hofib_x(f)$ is just the identity.
+	\end{enumerate}
+\end{example}
+Every fibre sequence is equivalent to such an example in the following sense:
+Given $(F \xto{i} Y \xto{f} X)$, there is a commutative diagram
+\begin{equation*}
+	\begin{tikzcd}
+		F
+				\ar[r, "\htpyeqv_w"]
+				\ar[d]
+			& \hofib_x(f)
+				\ar[d]
+		\\
+		Y
+				\ar[r, equal, "\id_Y"]
+				\ar[d, "f"]
+			& Y
+				\ar[d, "f"]
+		\\
+		X 
+				\ar[r, equal, "\id_X"]
+			& X
+	\end{tikzcd}
+\end{equation*}
+and \enquote{equivalence of fibre sequences}.
+In particular, $\Omega X \to * \to X$ is a fibre sequence where $h\colon \Omega X \times I \to X$ is the evaluation map.
+
+\strong{Warning:} If one instead chooses $h$ to be the constant homotopy, one does not obtain a fibre sequence (unless $X$ is weakly contractible) just because the induced map $\Omega X \to \hofib_x(f) = \Omega X$ is the constant map which is not a weak homotopy equivalence.
+Hence, the choice of $h$ is important!
+
+% TODO starred
+\begin{example}[continuation of example \ref{expl:fibresequences}]
+	\leavevmode
+	\begin{enumerate}[resume]
+		\item For every two spaces $F$ and $X$ and all basepoints $x \in X$, the pair $(F \to F \times X \xto{\pr_X} X, \const)$ is a fibre sequence called the \strong{trivial fibre sequence}\index{trivial fibre sequence}.
+			To see this, note that
+			\begin{equation*}
+				\hofib_x(\pr_X) = F \times P_x X
+			\end{equation*}
+			with induced map $F \to F \times P_x X,\ y \mapsto (y, \const_x)$ which is a homotopy equivalence as $P_x X$ is contractible.
+		\item\label{expl:fibrebundlefibresequence} Let $p\colon E \to B$ be a fibre bundle with fibre $F = p^{-1}(b)$ for some $b \in B$.
+			Then the sequence $F \to E \xto{p} B$ together with the constant homotopy is a fibre sequence.
+			This is a special case of the next example:
+		\item Recall that $p\colon E \to B$ is a \strong{Serre fibration}\index{fibration!Serre} if in every commutative diagram of the form
+			\begin{equation*}
+				\begin{tikzcd}
+					D^n \times \{0\}
+							\ar[r]
+							\ar[d, hook]
+						& E
+							\ar[d, "p"]
+					\\
+					D^n \times I
+							\ar[r]
+							\ar[ur, dashed]
+						& B
+				\end{tikzcd}
+			\end{equation*}
+			a lift $D^n \times I \to E$ exists making the whole diagram commute.
+			Given a Serre fibration $p\colon E \to B$ and a point $b \in B$, the sequence $F = p^{-1}(b) \incl E \to B$ together with the constant homotopy is a fibre sequence (the proof of this is exercise \ref{ex:serrefib}).
+		\item\label{expl:hopfbundle} As a special case of \ref{expl:fibrebundlefibresequence}, the \strong{Hopf fibration}\index{Hopf fibration} is a fibre bundle
+			\begin{equation*}
+				S^1 \to S^3 \xto{\eta} S^2
+			\end{equation*}
+			It arises by letting $S^1 = U(1)$ act on $S^3 \subseteq \C^2$ via
+			\begin{equation*}
+				\lambda \cdot (x_1, x_2) = (\lambda x_1, \lambda x_2)
+			\end{equation*}
+			The quotient space of this action is $\CP^1 = S^2$.
+		\item The previous example generalizes to fibre bundles
+			\begin{equation*}
+				S^1 \to S^{2n + 1} \to \CP^n
+			\end{equation*}
+			with limit case
+			\begin{equation*}
+				\begin{tikzcd}
+					S^1
+							\ar[r]
+							\ar[d, "\htpyeqv"]
+						& S^\infty
+							\ar[r]
+							\ar[d, "\htpyeqv"]
+						& \CP^\infty
+							\ar[d, equal]
+					\\
+					\Omega \CP^\infty
+							\ar[r]
+						& * 
+							\ar[r]
+						& \CP^\infty
+				\end{tikzcd}
+			\end{equation*}
+	\end{enumerate}
+\end{example}
+
+\section{Exercises}
+\begin{exercise}\label{ex:serrefib}
+	The goal of the first problem is to recall the notion of a Serre fibration and its homotopical properties.
+	\begin{itemize}
+		\item A map of spaces $p\colon E \to B$ has the \emph{homotopy lifting property with respect to a space $X$} if for every commutative diagram of the form
+			\begin{equation*}
+				\begin{tikzcd}
+					X \times \{0\} 
+							\ar[r, "\tilde{f}_0"]
+							\ar[d, hook]
+						& E
+							\ar[d, "p"]
+					\\
+					X \times I
+							\ar[r, "f"]
+						& B
+				\end{tikzcd}
+			\end{equation*}
+			there exists a map $\tilde{f}\colon X \times I \to E$ making the diagram commute.
+		\item A map $p\colon E \to B$ has the \emph{homotopy lifting property with respect to a pair of spaces $(X, A)$} if for every commutative diagram of the form
+			\begin{equation*}
+				\begin{tikzcd}
+					X \cup_A (A \times I)
+							\ar[r]
+							\ar[d, hook]
+						& E
+							\ar[d, "p"]
+					\\
+					X \times I
+							\ar[r, "f"]
+						& B
+				\end{tikzcd}
+			\end{equation*}
+			there exists a map $\tilde{f}\colon X \times I \to E$ making the diagram commute. (The space $X \cup_A (A \times I)$ is defined by gluing $A \times I$ to $X$ along the natural map $A \times \{0\} \to X$.)
+		\item A map of spaces $p\colon E \to B$ is said to be a \emph{Serre fibration} if it has the homotopy lifting property with respect to all discs $D^n$, $n \geq 0$.
+			It can be shown that having the homotopy lifting property with respect to all discs is equivalent to having the homotopy lifting property with respect to all CW-pairs.
+	\end{itemize}
+	Furthermore, we recall the notion of a \emph{homotopy fibre}.
+	For a space $X$ and $x \in X$ we let $P_x X$ denote the space of paths in $X$ to $x$, that is $P_x X \coloneq \{\gamma\colon I \to X \mid \gamma(1) = x\}$, equipped with the compact-open topology.
+	Given a map $f\colon Y \to X$, the \emph{homotopy fibre} of $f$ at $x$ is then defined as the space
+	\begin{equation*}
+		\hofib_x(f) \coloneq P_x X \times_X Y = \{(y, \gamma) \in P_x \times Y \mid \gamma(0) = f(y)\}
+	\end{equation*}
+	Now let $p\colon E \to B$ be a Serre fibration and $b \in B$ a basepoint.
+	We write $F = p^{-1}(b) \subseteq E$ for the fibre and define a map $\varphi\colon F \to \hofib_b(p)$ by the formula  
+	\begin{equation*}
+		z \mapsto (c(b), i(z))
+	\end{equation*}
+	Here, $c(b)$ denotes the constant path in $B$ at the basepoint $b$.
+
+	Prove that $\varphi$ is a weak homotopy equivalence, i.e. that it induces an isomorphism on homotopy groups for all basepoints.
+	\begin{hint}
+		If you have trouble with the proof, first focus on showing that $\varphi$ induces a bijection on path components.
+	\end{hint}
+\end{exercise}
+
+\begin{exercise}
+	Let $C$ be a chain complex filtered by subcomplexes $C_0 \subseteq C_1 \subseteq C$.
+	The pairs $(C_1, C_0)$ and $(C, C_1)$ have associated long exact sequences of homology groups
+	\begin{equation}\label{ex2:les1}
+		\cdots \to H_n(C_0) \to H_n(C_1) \xto{q_*} H_n(C_1 / C_0) \xto{\del^{(C_1, C_0)}} H_{n - 1}(C_0) \to \cdots
+	\end{equation}
+	and 
+	\begin{equation}\label{ex2:les2}
+		\cdots \to H_n(C_1) \to H_n(C) \to H_n(C / C_1) \xto{\del^{(C, C_1)}} H_{n - 1}(C_1) \to \cdots
+	\end{equation}
+	respectively.
+	The goal of this exercise is to compute the homology of $C$ in terms of the homology of the complexes $C_0$, $C_1 / C_0$, and $C / C_1$.
+	This is the length 2 special case of the spectral sequence associated to a filtered complex which we will later discuss in the lecture.
+	\begin{enumerate}
+		\item Use the long exact sequences above to define maps $f\colon H_*(C / C_1) \to H_{* - 1}(C_1 / C_0)$ and $g\colon H_*(C_1 / C_0) \to H_{* - 1}(C_0)$.
+			Show that $g \circ f = 0$.
+			In spectral sequence terminology, the maps $g$ and $f$ are the only potentially non-zero $d^1$-differentials.
+		\item Next we will construct the only potentially nonzero $d^2$-differential.
+			Use the long exact sequences above once more to construct another map $d\colon \ker(f) \to \coker(g)$ of degree $-1$ so that there are isomorphisms
+			\begin{itemize}
+				\item $\coker(d) \isom \img(H_*(C_0) \to H_*(C))$
+				\item $\ker(g) / \img(f) \isom \img(H_*(C_1) \to H_*(C)) / \img(H_*(C_0) \to H_*(C))$
+				\item $\ker(d) \isom H_*(C) / \img(H_*(C_1) \to H_*(C))$
+			\end{itemize}
+			where $\img({{-}})$ is the image of a map.
+			In words, $\coker(d)$, $\ker(g) / \img(f)$, and $\ker(d)$ are isomorphic to the subquotients in the filtration on $H_*(C)$ given by the filtration on $H_*(C)$ given by the images of $H_*(C_0)$ and $H_*(C_1)$.
+	\end{enumerate}
+\end{exercise}
 
 \printbibliography
 \printindex
