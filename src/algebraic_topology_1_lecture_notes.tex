@@ -1,8 +1,12 @@
 \documentclass[wip, topology]{bsteffan-lecturenotes}
 
+\usetikzlibrary{math}
+
 \addbibresource{references.bib}
 
 \colorlet{knowngray}{darkgray!70}
+
+\DeclareNamedOperator{Stab}
 
 \course{Algebraic Topology \uppercase\expandafter{\romannumeral 1\relax}}
 \subtitle{The Serre Spectral Sequence, Characteristic Classes, and Bordism}
@@ -232,23 +236,65 @@ This is best encoded in a \emph{spectral sequence}.
 \end{definition}
 \lecture{13.10.23}
 \begin{figure}[ht]
-	\begin{tikzpicture}[every node/.append style = {fill = white, font = \scriptsize}]
+	\centering
+	\begin{tikzpicture}[
+		pagemember/.style = {
+			fill = white, 
+			font = \tiny, 
+			inner sep = 0.5pt
+		},
+		axis/.style = {
+			thick,
+			->,
+			font = \footnotesize
+		}]
 		\def\xmin{-3}
 		\def\xmax{3}
 		\def\ymin{-3}
 		\def\ymax{3}
 		\begin{scope}
 			\coordinate (origin) at (0, 0);
-			\draw[very thick, ->] (\xmin, 0) -- (\xmax, 0);
-			\draw[very thick, ->] (0, \ymin) -- (0, \ymax);
-			%\foreach \x \in {\xmin, ..., \xmax}{
-				%\foreach \y \in {\ymin, ..., \ymax} {
-					%\node at (\x, \y) {$E^2_{\x, \y}$};
-				%}
-			%}
+			\draw[axis] (\xmin, 0) -- (\xmax, 0) node[below] {$p$};
+			\draw[axis] (0, \ymin) -- (0, \ymax) node[left] {$q$};
+			\foreach \x [parse = true, evaluate = \x using int(\x)] in {\xmin + 1, ..., \xmax - 1}{
+				\foreach \y [parse = true, evaluate = \y using int(\y)] in {\ymin + 1, ..., \ymax - 1}{
+					\node[pagemember] (E2-\x-\y) at (\x, \y) {$E^2_{\x, \y}$};
+				}
+			}
+			\foreach \x [parse = true, evaluate = \x using int(\x)] in {\xmin + 3, ..., \xmax - 1}{
+				\foreach \y [parse = true, evaluate = \y using int(\y)] in {\ymin + 1, ..., \ymax - 2}{
+					\tikzmath{
+						int \tx, \ty;
+						\tx = \x - 2;
+						\ty = \y + 1;
+					}
+					\draw[->] (E2-\x-\y) -- (E2-\tx-\ty);
+				}
+			}
 		\end{scope}
+		\begin{scope}[xshift = 2.5 * \xmax cm]
+			\coordinate (origin) at (0, 0);
+			\draw[axis] (\xmin, 0) -- (\xmax, 0) node[below] {$p$};
+			\draw[axis] (0, \ymin) -- (0, \ymax) node[left] {$q$};
+			\foreach \x [parse = true, evaluate = \x using int(\x)] in {\xmin + 1, ..., \xmax - 1}{
+				\foreach \y [parse = true, evaluate = \y using int(\y)] in {\ymin + 1, ..., \ymax - 1}{
+					\node[pagemember] (E3-\x-\y) at (\x, \y) {$E^3_{\x, \y}$};
+				}
+			}
+			\foreach \x [parse = true, evaluate = \x using int(\x)] in {\xmin + 4, ..., \xmax - 1}{
+				\foreach \y [parse = true, evaluate = \y using int(\y)] in {\ymin + 1, ..., \ymax - 3}{
+					\tikzmath{
+						int \tx, \ty;
+						\tx = \x - 3;
+						\ty = \y + 2;
+					}
+					\draw[->] (E3-\x-\y) -- (E3-\tx-\ty);
+				}
+			}
+		\end{scope}
+		\draw[|->, thick] (1.2 * \xmax, 0) --++(0:.2 * \xmax) node[anchor = south, midway, font = \footnotesize] {$H_*({{-}})$};
 	\end{tikzpicture}
-	\caption{$E^2$ and $E^3$ pages of a homologically graded spectral sequence}
+	\caption{$E^2$- and $E^3$-pages of a homologically graded spectral sequence}
 \end{figure}
 \begin{definition}
 	We say a spectral sequence is \strong{first quadrant}\index{spectral sequence!first quadrant} if all the groups $E^2_{p, q}$ are trivial whenever $p < 0$ or $q < 0$.
@@ -402,7 +448,7 @@ Hence, the choice of $h$ is important!
 			\begin{equation*}
 				S^1 \to S^3 \xto{\eta} S^2
 			\end{equation*}
-			It arises by letting $S^1 = U(1)$ act on $S^3 \subseteq \C^2$ via
+			It arises by letting $S^1 = \Uni(1)$ act on $S^3 \subseteq \C^2$ via
 			\begin{equation*}
 				\lambda \cdot (x_1, x_2) = (\lambda x_1, \lambda x_2)
 			\end{equation*}
@@ -432,6 +478,431 @@ Hence, the choice of $h$ is important!
 			\end{equation*}
 	\end{enumerate}
 \end{example}
+
+\subsection{The Serre Spectral Sequence}\lecture{16.10.23}
+We are now ready to show the existence of the Serre spectral sequence:
+\begin{theorem}[Serre]\index{Serre spectral sequence}
+	For every fibre sequence $(F \to Y \to X, h)$ with $X$ simply connected and abelian group $A$ there exists a first quadrant spectral sequence of the form
+	\begin{equation}\label{s3:defn}
+		E^2_{p, q} = H_p(X; H_q(F; A)) \Rightarrow H_{p + q}(Y; A)
+	\end{equation}
+\end{theorem}
+The expression in \ref{s3:defn} does not include information about the differentials and higher pages, nor about the filtration on $H_*(Y; A)$ and the identification of its subquotients with the $E^\infty$-page.
+
+One edge case is easy to state:
+The map
+\begin{equation*}
+	H_n(F; A) \isom H_0(Y; H_n(F; A)) = E^2_{0, n} \twoheadrightarrow E^\infty_{0, n} \incl H_n(Y; A)
+\end{equation*}
+agrees with the factorization
+\begin{equation*}
+	\begin{tikzcd}
+		H_n(X; A) 
+				\ar[r, two heads]
+				\ar[rr, bend right, swap, "H_n(c; A)"]
+			& \img
+				\ar[r, hook]
+			& H_n(Y; A)
+	\end{tikzcd}
+\end{equation*}
+
+Before proving the theorem, let us first look at some examples.
+\begin{example}\index{Hopf fibration}
+	We revisit the Hopf fibration
+	\begin{equation*}
+		S^1 \incl S^3 \xto{\eta} S^2
+	\end{equation*}
+\end{example}
+
+\begin{lemma}
+	There is a fibre bundle
+	\begin{equation*}
+		\Uni(n - 1) \xto{i} \Uni(n) \to S^{2n - 1}
+	\end{equation*}
+	where $\Uni(n)$ denotes the topological group of unitary $(n \times n)$-matrices and $i$ is the standard inclusion which adds a trivial $\C$-summand:
+	\begin{equation*}
+		i(A) = \begin{pmatrix}
+			A & 0 \\
+			0 & 1
+		\end{pmatrix}
+	\end{equation*}
+\end{lemma}
+\begin{proof}
+	The group $\Uni(n)$ acts on $\C^n$ by definition.
+	This action restricts to the unit sphere $S^{2n - 1} \subseteq \C^n$.
+	Furthermore, this action is transitive because every length 1 vector can be extended to an orthonormal basis.
+	Hence, $S^{2n - 1}$ is in bijection with the \enquote{orbit space} $\Uni(n) / \Stab(x)$ for any $x \in S^{2n - 1}$ where $\Stab(x) \coloneq \{A \in \Uni(n) \mid Ax = x\}$ is the \emph{stabilizer} of $x$.
+	For $x = (0, \ldots, 0, 1)$, this stabilizer equals $\Uni(n - 1)$.
+	We obtain a continuous bijection
+	\begin{align*}
+		\Uni(n) / \Uni(n - 1) &\to S^{2n - 1} \\
+		A \cdot \Uni(n - 1) &\mapsto A \cdot (0, \ldots, 0, 1)
+	\end{align*}
+	As $\Uni(n) / \Uni(n - 1)$ is quasi-compact and $S^{2n - 1}$ is Hausdorff, this map is a homeomorphism.
+	% TODO: cite Lee
+	Finally, we use the fact that for a smooth free action of a compact Lie group $G$ on a manifold $M$, the map $M \to M / G$ is always a fibre bundle (in fact a $G$-principal bundle).
+\end{proof}
+\begin{example}
+	We consider the case $n = 2$, i.e. the fibre sequence $S^1 \isom \Uni(1) \to \Uni(2) \to S^3$.
+	Our goal is to compute the homology of $\Uni(2)$ via the Serre spectral sequence.
+	All differentials on all pages have to be trivial for degree reasons.
+	Hence the $E^\infty$-page equals the $E^2$-page.
+	Moreover, every antidiagonal has at most one non-trivial term, so we can read off
+	\begin{equation*}
+		H_n(\Uni(2); \Z) \isom \begin{cases}
+			\Z & n = 0, 1, 3, 4 \\
+			0  & \text{else}
+		\end{cases}
+	\end{equation*}
+	In fact, one can show that $\Uni(2)$ is in fact homeomorphic to $S^3 \times \Uni(1)$, so this statement could also be derived from the Künneth theorem.
+\end{example}
+\begin{example}
+	Next, we consider the fibre sequence $\Uni(2) \to \Uni(3) \to S^5$.
+	The first potentially non-trivial differential is a $d^5$, the map
+	\begin{equation*}
+		d^5\colon \underbrace{E^5_{5, 0}}_{\isom \Z} \to \underbrace{E^5_{0, 4}}_{\isom \Z}
+	\end{equation*}
+	At this point, we cannot decide what the differential is (at least not without resorting to tools like Poincaré duality).
+	All higher differentials are again trivial for degree reasons and all filtrations collapse to at most one entry, so we obtain
+	\begin{equation*}
+		H_n(\Uni(3); \Z) \isom \begin{cases}
+			\Z 			& n = 0, 1, 3, 6, 8, 9 \\
+			\coker d^5 	& n = 4 \\
+			\ker d^5 	& n = 5 \\
+			0 			& \text{else}
+		\end{cases}
+	\end{equation*}
+	This example illustrates a typical situation, namely that one can often not fully determine all differentials but still deduce a lot of information.
+	We will soon see that $d^5 = 0$ and hence $H_4(\Uni(3); \Z) \isom H_5(\Uni(3); \Z) \isom \Z$.
+\end{example}
+\begin{example}
+	We consider $\Uni(3) \to \Uni(4) \to S^7$.
+	The only possible non-trivial differentials are
+	\begin{align*}
+		d^7\colon E^7_{7, 0} &\to E^7_{0, 6} \\
+		d^7\colon E^7_{7, 5} &\to E^7_{0, 9}
+	\end{align*}
+	which we cannot compute at this point.
+	Nevertheless we can still deduce a lot, for example that
+	\begin{equation*}
+		H_n(\Uni(4); \Z) \isom \begin{cases}
+			\Z 					& n = 0, 1, 3 \\
+			H_4(\Uni(3); \Z) 	& n = 4 \\
+			H_5(\Uni(3); \Z) 	& n = 5 \\
+			0 					& n = 2
+		\end{cases}
+	\end{equation*}
+	and that there is a short exact sequence
+	\begin{equation*}
+		0 \to \Z \to H_8(\Uni(4); \Z) \to \Z \to 0
+	\end{equation*}
+	which splits to yield $H_8(\Uni(4); \Z) \isom \Z \dsum \Z$.
+\end{example}
+
+In the previous examples we used the Serre spectral sequence to compute the homology of the total space of the fibre sequence.
+We now show that it can be used to compute the homology of the basespace or fibre.
+\begin{example}
+	We consider the fibre sequence $S^1 \to S^{2n + 1} \to \CP^n$ for $n \geq 2$.
+	Let us pretend that we do not know $H_*(\CP^n)$.
+	Since $H_1(S^{2n + 1}; \Z) = 0$, there must be a surjective $d^2$-differential $d^2\colon E^2_{2, 0} \to E^2_{0, 1}$.
+	As $H_2(S^{2n + 1}; \Z) = 0$, this differential must be injective, so $\Z \isom E^2_{2, 0} = H_2(\CP^n; H_0(S^1; \Z)) = H_2(\CP^n; \Z)$.
+	Furthermore, we see that $H_1(\CP^n; \Z) = E^2_{1, 0} = 0$.
+	This implies that $E^2_{1, 1} = H_1(\CP^n; H_1(S^1; \Z)) = 0$ and $E^2_{2, 1} = H_2(\CP^n; H_1(S^1; \Z)) \isom \Z$ as $H_1(S^1; \Z) \isom \Z$.
+	Since we also have $H_3(S^{2n + 1}; \Z) = 0$, we can repeat the same argument to deduce that $d^2\colon E^2_{4, 0} = H_4(\CP^n; H_0(S^1; \Z)) \to E^2_{2, 2} \isom \Z$ must be an isomorphism, hence $H_4(\CP^n; \Z) \isom \Z$.
+	This can be iterated until we get the following picture: % TODO
+	Since $H_{2n + 1}(S^{2n + 1}; \Z) \isom \Z$, we cannot conclude that the $\Z$ in bidegree $(2n, 1)$ must be the image of a differential.
+	There are then two possibilities:
+	\begin{enumerate}
+		\item $d^2\colon E^2_{2n + 2, 0} \to E^2_{2n, 1}$ is trivial.
+			This implies $E^2_{2n + 2, 0} = 0$ and by induction that $E^2_{p, q} = 0$ for all $p > 2n$; or
+		\item $d^2\colon E^2_{2n + 2, 0} \to E^2_{2n, 1} \isom \Z$ is non-zero.
+			Since its cokernel is isomorphic to the lowest term of the filtration on $H_{2n + 1}(S^{2n + 1}; \Z) \isom \Z$, this forces $d^2$ to be surjective as no $\Zn{n}$ with $n > 1$ embeds into $\Z$.
+			We obtain the following pattern: % TODO
+			This can be ruled out using e.g. that $\CP^n$ is $2n$-dimensional CW-complex and therefore $H_k(\CP^n; \Z) = 0$ for $k > 2n$.
+	\end{enumerate}
+	We thus obtain 
+	\begin{equation*}
+		H_k(\CP^n; \Z) \isom \begin{cases}
+			\Z & k = 2, 4, \ldots, 2n \\
+			0  & \text{else}
+		\end{cases}
+	\end{equation*}
+\end{example}
+
+\lecture{20.10.23}
+Next, we turn to an exercise of how the Serre spectral sequence can be used to compute the homology of the fibre.
+\begin{example}
+	We consider the fibre sequence
+	\begin{equation*}
+		\Omega S^3 \to * \to S^3
+	\end{equation*}
+	The $E^2$-page looks like this:
+	The homotopy of the point trivial in positive degree, so we must have $E^\infty_{p, q} = 0$ unless $p = q = 0$.
+	The only non-trivial differentials are $d^3$s, so we conclude that $d^3\colon E^3_{3, q} \to E^3_{0, q + 2}$ must be an isomorphism for all $q \in \N$.
+	As $E^3_{3, q} \isom H_3(S^3; H_q(\Omega S^3; \Z)) \isom H_q(\Omega S^3; \Z)$ and $E^3_{0, q + 2} \isom H_0(S^3; H_{q + 2}(\Omega S^3; \Z)) \isom H_{q + 2}(\Omega S^3; \Z)$ and finally $H_0(\Omega S^3; \Z) \isom \Z$, this implies that $H_k(\Omega S^3; \Z) \isom \Z$ if $k$ is even and 0 else, and the $E^3$-page looks like this:
+	In particular, we see that $\Omega S^3$ is infinite-dimensional.
+\end{example}
+
+We now discuss the cohomological version of the Serre spectral sequence and its multiplicative structure.
+The multiplication also helps in determining the differentials, for example for the spectral sequences computing (co)homology of unitary groups.
+\begin{definition}
+	A \strong{cohomologically-graded spectral sequence}\index{spectral sequence!cohomologically graded}	is a triple $(E_\bullet, d_\bullet, h_\bullet)$ where
+	\begin{itemize}
+		\item $(E_r)_{r \geq 2}$ is a sequence of bigraded abelian groups,
+		\item $d_r\colon E_r \to E_r$ is a sequence of differentials (satisfying $d_r^2 = 0$) of bidegree $(r, 1 - r)$, and
+		\item $h_r\colon H_*(E_r) \to E_{r + 1}$ is a sequence of bigrading-preserving isomorphisms.
+	\end{itemize}
+\end{definition}
+As before we define what it means for a spectral sequence to be \strong{first quadrant}\index{spectral sequence!first quadrant} (namely $E^{p, q}_2 = 0$ if $p < 0$ or $q < 0$) and the \strong{$E^\infty$-page}\index{$E^\infty$-page}.
+For convergence, we consider descending filtrations $H = F_0 \supseteq F_1 \supseteq \cdots$ instead of the ascending filtrations $0 = F^{-1} \subseteq F_0 \subseteq \cdots \subseteq H$ used in the homologically graded case.
+\begin{definition}
+	A cohomological first quadrant spectral sequence is said to \strong{converge}\index{convergence!of spectral sequences} to a filtered object $(H, F)$ in graded abelian groups if there are isomorphisms $E^{p, q}_\infty \isom F^{p + q}_p / F^{p + q}_{p + 1}$ for all $p, q$ and if $F^n_p = 0$ if $p \geq n$.
+	As before, we write $E^{p, q}_2 \Rightarrow H$.
+\end{definition}
+\begin{definition}
+	A (\strong{commutative}) \strong{multiplicative structure}\index{multiplicative structure!on a spectral sequence} on a cohomologically graded spectral sequence $(E_\bullet, d_\bullet, h_\bullet)$ is a bigraded (commutative) ring structure on $E_\bullet$, i.e. associative multiplication maps
+	\begin{equation*}
+		E_r^{p, q} \tensor E_r^{p', q'} \to E_r^{p + p', q + q'}
+	\end{equation*}
+	such that $d_r\colon E_r \to E_r$ is a \emph{graded derivation}\index{graded derivation}, that is to say
+	\begin{equation*}
+		d_r(x \cdot y) = d_r(x) \cdot y + (-1)^{p + q} x \cdot d_r(y)
+	\end{equation*}
+	for all $x$ in bidegree $(p, q)$ and all $y$.
+	Commutativity here is meant in the graded sense: $x \cdot y$ = $(-1)^{(p + q)(p' + q')} y \cdot x$.
+
+	As a result, each $H_*(E_r)$ is a bigraded ring and we accordingly require the maps $h_\bullet\colon H_*(E_\bullet) \xto{\isom} E_{\bullet + 1}$ to be isomorphisms of bigraded rings.
+	Furthermore, the $E_\infty$-page also inherits the structure of a (commutative) bigraded ring.
+\end{definition}
+\begin{definition}\index{multiplicative filtration}
+	A filtration $\cdots \subseteq F_n \subseteq \cdots \subseteq F_1 \subseteq F_0 = H$ on a graded ring $H$ is said to be \strong{multiplicative} or \strong{compatible with the multiplicative structure} if $F_s \cdot F_t \subseteq F_{s + t}$.
+	We say that $(H, F)$ is a \strong{filtered graded ring}\index{filtered graded ring}.
+\end{definition}
+It follows that the associated graded group $\bigdsum_p F_p / F_{p + 1}$ of a filtered graded (commutative) ring is a bigraded (commutative) ring.
+
+\begin{definition}
+	A multiplicative first quadrant spectral sequence $(E_\bullet, d_\bullet, h_\bullet)$ is said to \strong{converge}\index{convergence!of spectral sequences} to a filtered graded ring $(H, F)$ if it converges additively and the chosen isomorphisms $E_\infty^{p, q} \isom F^{p + q}_p / F^{p + q}_{p + 1}$ is compatible with the graded ring structure.
+\end{definition}
+\begin{theorem}[Serre]\index{Serre spectral sequence}
+	For every fibre sequence of spaces $(F \to Y \to X, h)$ with simply connected base space $X$ and every abelian group $A$ there exists a first quadrant spectral sequence of the form
+	\begin{equation*}
+		E^{p, q}_2 = H^p(X; H^q(F; A)) \Rightarrow H^{p + q}(Y; A)
+	\end{equation*}
+	If $A = R$ is a (commutative) ring, then the spectral sequence and its convergence are multiplicative where on the $E_2$-page the multiplication is given by $(-1)^{q \cdot p'}$ times the composite 
+	\begin{equation*}
+		\begin{tikzcd}
+			H^p(X; H^q(F; R)) \tensor_R H^{p'}(X; H^{q'}(F; R))
+					\ar[d]
+			\\
+			H^{p + p'}(X; H^q(F; R) \tensor_R H^{q'}(F; R))
+					\ar[d]
+			\\
+			H^{p + p'}(X; H^{q + q'}(F; R))
+		\end{tikzcd}
+	\end{equation*}
+\end{theorem}
+\begin{note}
+	If $H^*(F; R)$ or $H^*(X; R)$ is flat (e.g. free) and of finite type over $R$, then the $E_2$-page is isomorphic to the graded tensor product of $H^*(X; R)$ and $H^*(F; R)$.
+\end{note}
+\begin{example}
+	We reconsider the fibre sequence
+	\begin{equation*}
+		\Uni(1) \to \Uni(2) \to S^3
+	\end{equation*}
+	There can be no non-trivial differentials.
+	As a graded ring, the $E_2$-page and thus also the $E_\infty$-page are isomorphic to $H^*(S^3; \Z) \tensor_{\Z} H^*(\Uni(1); \Z)$.
+	Let $x_1 \in H^1(\Uni(1); \Z)$ and $x_3 \in H^3(S^3; \Z)$ be generators.
+	Then $H^*(\Uni(1); \Z) \isom \Lambda(x_1)$ and $H^*(S^3; \Z) \isom \Lambda(x_3)$ where $\Lambda(M)$ denotes the \emph{exterior algebra}\index{exterior algebra} on a set $M$, i.e. the free algebra on $M$ modulo the relations $x_i x_j = -x_j x_i$ and $x_i^2 = 0$ for all $x_i, x_j \in M$.
+	Hence, the $E_2$-page is the exterior algebra $\Lambda(x_1, x_3)$ and the $\Z$ in bidegree $(3, 1)$ is spanned by $x_1 x_3$.
+	The filtration collapses degree-wise and hence $H^*(\Uni(2); \Z)$ is exterior on classes $x_1 \in H^1(\Uni(2); \Z)$ and $x_3 \in H^3(\Uni(2); \Z)$ that are uniquely determined by the spectral sequence.
+\end{example}
+\begin{example}
+	We move on to the fibre sequence $\Uni(2) \to \Uni(3) \to S^5$.
+	Again, the $E_2$-page is given by $H^*(S^5; \Z) \tensor_{\Z} H^*(\Uni(2); \Z) \isom \Lambda(x_1, x_3, x_5)$ where $x_5 \in H^5(S^5; \Z)$ is a generator.
+	There is only one possibly non-trivial differential $d_5\colon E_5^{0, 4} \to E_5^{5, 0}$.
+	However, the product rule implies 
+	\begin{equation*}
+		d_5(x_1 x_3) = \underbrace{d_5(x_1)}_{= 0} \cdot x_3 + (-1)^{1 + 0} x_1 \cdot \underbrace{d_5(x_3)}_{= 0} = 0
+	\end{equation*}
+	Again the filtration collapses and hence $H^*(\Uni(3); \Z) \isom \Lambda(x_1, x_3, x_5)$.
+\end{example}
+\begin{example}
+	We revisit $\Uni(3) \to \Uni(4) \to S^7$.
+	As before, the product rule implies that all $d_7$-differentials must be trivial.
+	There is a non-trivial filtration on $H^8(\Uni(4); \Z)$ of the form
+	\begin{equation*}
+		0 \to \underbrace{E_\infty^{7, 1}}_{\substack{\isom \Z[x_1 x_7] \\ \isom \Z}} \to H^8(\Uni(4); \Z) \to \underbrace{E_\infty^{0, 8}}_{\substack{\isom \Z[x_3 x_5] \\ \isom \Z}} \to 0
+	\end{equation*}
+	Additively, this sequence splits, but one has to be careful with the multiplicative structure.
+	To resolve this, we are precise with the differentiation between the classes $x_1, x_3, x_5, x_7$ on the $E_\infty$-page and the corresponding classes $\bar{x}_1, \bar{x}_3, \bar{x}_5, \bar{x}_7 \in H^*(\Uni(4); \Z)$.
+	Note that the choice of each $\bar{x}_i$ is unique since the filtration collapses in degrees 0 to 7.
+	Furthermore, we record their filtrations: $\bar{x}_1$ is in $F^1_0$, $\bar{x}_3$ is in $F^3_0$, $\bar{x}_5$ is in $F^5_0$, and $\bar{x}_7$ is in $F^7_7$.
+	It follows that $\bar{x}_1 \cdot \bar{x}_7$ is a generator of $F^8_7$ and that $\bar{x}_3 \cdot \bar{x}_5$ maps to a generator of $F^8_0 / F^8_1$.
+	Hence $H^8(\Uni(4); \Z)$ is a free group on $\bar{x}_1 \cdot \bar{x}_7$ and $\bar{x}_3 \cdot \bar{x}_5$, and it follows that $H^*(\Uni(4); \Z) \isom \Lambda(\bar{x}_1, \bar{x}_3, \bar{x}_5, \bar{x}_7)$.
+\end{example}
+\begin{theorem}
+	For all $n \in \N$ there is an isomorphism of graded rings
+	\begin{equation*}
+		H^*(\Uni(n); \Z) \isom \Lambda(x_1, \ldots, x_{2n - 1})
+	\end{equation*}
+	where each $x_i$ has degree $i$.
+\end{theorem}
+\lecture{23.10.23}
+\begin{proof}
+	We will do an induction on $n$.
+	The case $n = 1$ is clear.
+	Let thus $n \geq 2$ and assume that the statement is true for $n - 1$.
+	Consider the Serre spectral sequence for the fibre sequence
+	\begin{equation*}
+		\Uni(n - 1) \to \Uni(n) \to S^{2n - 1}
+	\end{equation*}
+	By induction, its $E_2$-page is isomorphic to $H^*(S^{2n - 1}; \Z) \tensor H^*(\Uni(n - 1); \Z) \isom \Lambda(x_{2n - 1}) \tensor \Lambda(x_1, x_3, \ldots, x_{2n - 3})$ with $|x_{2n - 1}| = (2n - 1, 0)$ and $|x_i| = (0, i)$ for all $i = 1, 3, \ldots, 2n - 3$.
+	For degree reasons, $d_{2n - 1}$ vanishes on all generators $x_1, x_3, \ldots, x_{2n - 3}, x_{2n - 1}$.
+	By the product rule, $d_{2n - 1}$ vanishes on all elements.
+	Hence, the $E_\infty$-page is isomorphic to the $E_2$-page and therefore an exterior algebra on $\Lambda(x_1, x_3, \ldots, x_{2n - 1})$.
+	The filtrations on $H^*(\Uni(n); \Z)$ collapse in degrees $0, \ldots, 2n - 2$, hence we obtain unique lifts $\bar{x}_1, \ldots, \bar{x}_{2n - 1} \in H^*(\Uni(n); \Z)$.
+	We only know that $x_i^2$ is of lower filtration from the spectral sequence and hence a multiple of $\bar{x}_{2n - 1}$, but not necessarily that $\bar{x}_i^2 = 0$.
+	However, we know from the additive structure (all the subquotients are free over $\Z$) that $H^*(\Uni(n); \Z)$ is torsion-free as the multiplication is graded-commutative.
+	We hence have $\bar{x}_i^2 = 0$.
+	Thus, we obtain a ring map
+	\begin{equation*}
+		f\colon \Lambda(\bar{x}_1, \bar{x}_3, \ldots, \bar{x}_{2n - 1}) \to H^*(\Uni(n); \Z)
+	\end{equation*}
+	by sending $\bar{x}_i \to \bar{x}_i$.
+	We define a grading on $\Lambda(\bar{x}_1, \bar{x}_3, \ldots, \bar{x}_{2n - 1})$ by setting the degree of $\bar{x}_1, \ldots, \bar{x}_{2n - 3}$ to be 0 and the degree of $\bar{x}_{2n - 1}$ to be $2n - 1$.
+	This induces a filtration by setting $F_i$ to be the direct sum of the graded pieces of degree $\geq i$. 
+	Then $f$ is filtration-preserving and induces an isomorphism on associated graded pieces.
+	We now use:
+	\begin{lemma}
+		Let $A, B$ be graded abelian groups equipped with filtrations
+		\begin{gather*}
+			\cdots \subseteq F_2 \subseteq F_1 \subseteq F_0 \subseteq A \\
+			\cdots \subseteq G_2 \subseteq G_1 \subseteq G_0 \subseteq B
+		\end{gather*}
+		which are in every degree eventually 0.
+		If we have a graded filtration-preserving morphism $f\colon A \to B$ that induces an isomorphism on all associated graded pieces
+		\begin{equation*}
+			F_i / F_{i + 1} \xto{\isom} G_i / G_{i + 1}
+		\end{equation*}
+		then it is an isomorphism.
+	\end{lemma}
+	\begin{smallproof}
+		This is an iterated \enquote{5-lemma} argument.
+	\end{smallproof}
+	This finishes the proof
+\end{proof}
+\begin{example}
+	We revisit the fibre sequence
+	\begin{equation*}
+		S^1 \to S^{2n + 1} \to \CP^n
+	\end{equation*}
+	and use the Serre spectral sequence to compute the ring $H^*(\CP^n; \Z)$.
+	Arguing analogously to the homological case, the $E_2$-page looks as follows:
+	Let $e$ be a generator for $E_2^{0, 1}$.
+	Then $x \coloneq d_2(e)$ is a generator for $E_2^{2, 0}$ and $e x$ is a generator for $E_2^{2, 1}$.
+	Hence, $d_2(ex)$ generates $E_2^{4, 0}$.
+	By the product rule, we have
+	\begin{equation*}
+		d_2(ex) = \underbrace{d_2(e)}_{= x} \cdot x + (-1)^1 e \cdots \underbrace{d_2(x)}_{= 0} = x^2
+	\end{equation*}
+	Hence $x^2$ generates $E_2^{4, 0} \isom H^4(\CP^n; \Z)$.
+	Similarly, $d_2(ex^2)$ generates $E_2^{6, 0}$ and
+	\begin{equation*}
+		d_2(ex^2) = \underbrace{d_2(e)}_{= x} \cdot x^2 - e \cdot \underbrace{d_2(x^2)}_{0} = x^3
+	\end{equation*}
+	We obtain an isomorphism $H^*(\CP^n; \Z) \isom \Z[x] / (x^{n + 1})$ and in the limit $H^*(\CP^\infty; \Z) \isom \Z[x]$.
+\end{example}
+\begin{example}
+	Next we compute the ring structure on $H^*(\Omega S^3; \Z)$.
+	Dual to before, we obtain the following $E_2$-page:
+	Let $x \in H^2(\Omega S^3; \Z) \isom E_3^{0, 2}$ be a generator.
+	Then $e \coloneq d_3(x)$ generates $E_3^{3, 0}$ and $ex$ generates $E_3^{3, 2}$.
+	We have 
+	\begin{equation*}
+		d_3(x^2) = d_3(x) \cdot x + (-1)^2 x \cdot d_3(x) = d_3(x) \cdot x + x \cdot d_3(x) = 2ex
+	\end{equation*}
+	Hence $x^2$ is twice a generator of $H^4(\Omega S^3; \Z)$, which we denote by \enquote{$x^2 / 2$}.
+	Similarly, we find that
+	\begin{equation*}
+		d_3(x^3) = d_3(x) \cdot x^2 + x d_3(x^2) = ex^2 + 2ex^2 = 3ex^2 = 6 \underbrace{6 e (x^2 / 2)}_{\text{generator of } E_3^{3, 4}}
+	\end{equation*}
+	Inductively, we get that $x^n$ is $n!$ times a generator of $H^{2n}(\Omega S^3; \Z)$.
+	We get an isomorphism
+	\begin{align*}
+		H^*(\Omega S^3; \Z) &\isom \Z\bigg[x, \frac{x^2}{2!}, \frac{x^3}{3!}, \ldots\bigg] \subseteq \Q[x] \\
+							&\isom \Z[x_1, x_2, \ldots] / \langle \binom{n + m}{n} x_{m + n} = x_m x_n \rangle \\
+							&\eqcolon \Gamma(x)
+	\end{align*}
+	We call $\Gamma(x)$ a \strong{divided power algebra}\index{divided power algebra} on one generator.
+	Note that $\Gamma(x)$ is not finitely generated as a ring (and therefore not isomorphic to $\Z[x]$)!
+\end{example}
+\begin{remark}
+	There is also a ring structure on the \emph{homology} $H_*(\Omega S^3; \Z)$ induced by the H-space (in fact $A_\infty$- or $E_1$-space) structure via concatenation of loops.
+	One can show that $H_*(\Omega S^3; \Z)$ is actually a polynomial ring on one generator in degree 2.
+	More generally, if $H_*(X; \Z)$ is free over $\Z$ then $H_*(\Omega \Sigma X; \Z)$ is the tensor algebra on $H_*(X; \Z)$ (this is the \strong{Bott-Samelson theorem}\index{Bott-Samelson theorem}) and the map
+	\begin{equation*}
+		H_*(X; \Z) \to H_*(\Omega \Sigma X; \Z) \isom \Tang(H_*(X; \Z))
+	\end{equation*} 
+	is induced by the map $X \to \Omega \Sigma X$.
+\end{remark}
+\begin{remark}
+	Let us compare $\Omega S^3$ and $\CP^\infty$:
+	Both spaces have isomorphic homology groups and a CW-structure with exactly one cell in each dimension.
+	However, they have very different homotopy groups: $\pi_n \CP^\infty = 0$ for $n > 2$ whereas $\pi_n \Omega S^3 \isom \pi_{n + 1} S^3 \neq 0$ for all $n \geq 2$ (although this is a rather difficult theorem).
+	They also have non-isomorphic cohomology rings as we just showed: $H^*(\CP^\infty; \Z) \isom \Z[x]$ whereas $H^*(\Omega S^3; \Z) \isom \Gamma(x)$.
+	Comparing the attaching maps $S^3 \to S^2$ of the 4-cell, we know that for $\CP^\infty$ it is a generator of $\pi_3 S^2$ while for $\Omega S^3$ it is twice a generator (this follows from the fact that $x^2 \in H^4(\Omega S^3; \Z)$ is twice a generator (via the Hopf invariant)).
+	Finally, both are loopspaces (as $\CP^\infty \htpyeqv \Omega K(\Z, 3)$) but $H_*(\Omega S^3; \Z)$ is polynomial while $H_*(\CP^\infty; \Z)$ is a divided power algebra.
+\end{remark}
+\begin{example}
+	We consider the map
+	\begin{equation*}
+		S^3 \to K(\Z, 3)
+	\end{equation*}
+	classifying a generator of $H^3(S^3; \Z) \isom \Z$ (equivalently, inducing an iso on $\pi_3({{-}})$).
+	Let $X$ denote the homotopy fibre of this map so that 
+	\begin{equation*}
+		X \to S^3 \to K(\Z, 3)
+	\end{equation*}
+	is a fibre sequence.
+	By the long exact sequence in homotopy, $X$ is 3-connected and $\pi_n X \xto{\isom} \pi_3 S^3$ for $n \geq 4$. 
+	We want to understand the (co)homology of $X$.
+	As we do not know $H_*(K(\Z, 3); \Z)$ yet, we take a second homotopy fibre yielding a fibre sequence
+	\begin{equation*}
+		\underbrace{\Omega K(\Z, 3)}_{\htpyeqv \CP^\infty} \to X \to S^3
+	\end{equation*}
+	We obtain the following Serre spectral sequence:
+	Since $X$ is 3-connected, $d_3\colon E_3^{0, 2} \to E_3^{3, 0}$ must be an isomorphism.
+	Let $x \in E_2^{0, 2}$ be a generator.
+	By the product rule,
+	\begin{equation*}
+		d_3(x^2) = d_3(x) x + x d_3(x) = 2 d_3(x)x
+	\end{equation*}
+	is twice a generator.
+	Inductively, $d_3(x^n)$ is $n$ times a generator of $E_2^{3, 2n - 2}$ and hence
+	\begin{equation*}
+		\tilde{H}^n(X; \Z) \isom \begin{cases}
+			\Zn{k}  & n = 2k + 1 \\
+			0 		& \text{else}
+		\end{cases}
+	\end{equation*}
+	with trivial cup product.
+	By the universal coefficient theorem, we get
+	\begin{equation*}
+		\tilde{H}_n(X; \Z) \isom \begin{cases}
+			\Zn{k} 	& n = 2k \\
+			0 	  	& \text{else}
+		\end{cases}
+	\end{equation*}
+\end{example}
+\begin{corollary}
+	We have $\pi_4 S^3 \isom \Zn{2}$ and $\pi_4 S^2 \isom \Zn{2}$ as well.
+\end{corollary}
+\begin{proof}
+	$X$ is 3-connected and $H_4(X; \Z) \isom \Zn{2}$.
+	The Hurewicz theorem then says that $\pi_4 X \isom \Zn{2}$.
+	Furthermore we saw that $\pi_n X \xto{\isom} S^3$ for $n \geq 4$.
+	Finally, by the Hopf fibration $S^1 \to S^3 \to S^2$, we have that $\pi_n S^3 \isom \pi_n S^2$ for $n \geq 3$, hence $\pi_4 S^2 \isom \Zn{2}$.
+\end{proof}
 
 \section{Exercises}
 \begin{exercise}\label{ex:serrefib}
@@ -516,6 +987,35 @@ Hence, the choice of $h$ is important!
 			where $\img({{-}})$ is the image of a map.
 			In words, $\coker(d)$, $\ker(g) / \img(f)$, and $\ker(d)$ are isomorphic to the subquotients in the filtration on $H_*(C)$ given by the filtration on $H_*(C)$ given by the images of $H_*(C_0)$ and $H_*(C_1)$.
 	\end{enumerate}
+\end{exercise}
+\begin{exercise}
+	\leavevmode
+	\begin{enumerate}
+		\item Suppose that $S^n \to E \to B$ is a fibre sequence, $n \neq 0$, $B$ simply connected.
+			Show that there is a long exact sequence of the form
+			\begin{equation*}
+				\cdots \to H_{p - n}(B) \to H_p(E) \to H_p(B) \to H_{p - n - 1}(B) \to H_{p - 1}(E) \to \cdots
+			\end{equation*}
+			This sequence is called the \emph{Gysin sequence} of the sphere bundle.
+		\item Let $F \to E \to S^n$ be a fibre sequence over a sphere with $n \neq 0, 1$.
+			Show that there exists a long exact sequence of the form
+			\begin{equation*}
+				\cdots \to H_q(F) \to H_q(E) \to H_{q - n}(F) \to H_{q - 1}(F) \to H_{q - 1}(E) \to \cdots
+			\end{equation*}
+			This sequence is called the \emph{Wang sequence}.
+	\end{enumerate}
+\end{exercise}
+
+\begin{exercise}
+	Let $X$ be a simply connected space which is not weakly contractible.
+	Prove that it is not possible for both $X$ and $\Omega X$ to have the homotopy type of a finite CW-complex.
+	\begin{hint}
+		\leavevmode
+		\begin{enumerate}
+			\item Use the Hurewicz theorem to find a prime $p$ such that both $\tilde{H}_*(X; \F_p)$ and $\tilde{H}_*(\Omega X; \F_p)$ are nontrivial.
+			\item Consider the fibre sequence $\Omega X \to * \to X$.
+		\end{enumerate}
+	\end{hint}
 \end{exercise}
 
 \printbibliography
