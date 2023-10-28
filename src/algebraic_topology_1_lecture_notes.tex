@@ -1,12 +1,23 @@
 \documentclass[wip, topology]{bsteffan-lecturenotes}
 
-\usetikzlibrary{math}
+\usetikzlibrary{math, matrix, patterns, patterns.meta}
 
 \addbibresource{references.bib}
 
 \colorlet{knowngray}{darkgray!70}
 
 \DeclareNamedOperator{Stab}
+\DeclareNamedOperator{gr}
+\DeclareNamedOperator{sk}
+
+\tikzset{
+	spectral sequence/.cd,
+	axis/.style = {
+		thick,
+		->,
+		font = \footnotesize
+	},
+}
 
 \course{Algebraic Topology \uppercase\expandafter{\romannumeral 1\relax}}
 \subtitle{The Serre Spectral Sequence, Characteristic Classes, and Bordism}
@@ -242,11 +253,6 @@ This is best encoded in a \emph{spectral sequence}.
 			fill = white, 
 			font = \tiny, 
 			inner sep = 0.5pt
-		},
-		axis/.style = {
-			thick,
-			->,
-			font = \footnotesize
 		}]
 		\def\xmin{-3}
 		\def\xmax{3}
@@ -254,8 +260,8 @@ This is best encoded in a \emph{spectral sequence}.
 		\def\ymax{3}
 		\begin{scope}
 			\coordinate (origin) at (0, 0);
-			\draw[axis] (\xmin, 0) -- (\xmax, 0) node[below] {$p$};
-			\draw[axis] (0, \ymin) -- (0, \ymax) node[left] {$q$};
+			\draw[spectral sequence/axis] (\xmin, 0) -- (\xmax, 0) node[below] {$p$};
+			\draw[spectral sequence/axis] (0, \ymin) -- (0, \ymax) node[left] {$q$};
 			\foreach \x [parse = true, evaluate = \x using int(\x)] in {\xmin + 1, ..., \xmax - 1}{
 				\foreach \y [parse = true, evaluate = \y using int(\y)] in {\ymin + 1, ..., \ymax - 1}{
 					\node[pagemember] (E2-\x-\y) at (\x, \y) {$E^2_{\x, \y}$};
@@ -274,8 +280,8 @@ This is best encoded in a \emph{spectral sequence}.
 		\end{scope}
 		\begin{scope}[xshift = 2.5 * \xmax cm]
 			\coordinate (origin) at (0, 0);
-			\draw[axis] (\xmin, 0) -- (\xmax, 0) node[below] {$p$};
-			\draw[axis] (0, \ymin) -- (0, \ymax) node[left] {$q$};
+			\draw[spectral sequence/axis] (\xmin, 0) -- (\xmax, 0) node[below] {$p$};
+			\draw[spectral sequence/axis] (0, \ymin) -- (0, \ymax) node[left] {$q$};
 			\foreach \x [parse = true, evaluate = \x using int(\x)] in {\xmin + 1, ..., \xmax - 1}{
 				\foreach \y [parse = true, evaluate = \y using int(\y)] in {\ymin + 1, ..., \ymax - 1}{
 					\node[pagemember] (E3-\x-\y) at (\x, \y) {$E^3_{\x, \y}$};
@@ -299,6 +305,28 @@ This is best encoded in a \emph{spectral sequence}.
 \begin{definition}
 	We say a spectral sequence is \strong{first quadrant}\index{spectral sequence!first quadrant} if all the groups $E^2_{p, q}$ are trivial whenever $p < 0$ or $q < 0$.
 \end{definition}
+\begin{figure}[ht]
+	\centering
+	\begin{tikzpicture}[
+		shaded/.style = {
+			postaction = {
+				pattern = {
+					Lines[angle = 45, distance = 5pt]
+				}
+			}
+		}]
+		\draw[spectral sequence/axis] (-3, 0) -- (3, 0) node[below] {$p$};
+		\draw[spectral sequence/axis] (0, -3) -- (0, 3) node[left] {$q$};
+		\begin{scope}[anchor = center, text centered, font = \huge]
+			\node at (1.5, -1.5) {$0$};
+			\node at (-1.5, 1.5) {$0$};
+			\node at (-1.5, -1.5) {$0$};
+		\end{scope}
+		\path[shaded] (0, 0) rectangle (2.87, 2.87);
+		\node[draw = none, fill = white, inner sep = 2pt, outer sep = 0] at (2.75, 2.75) {$E^2_{p, q}$};
+	\end{tikzpicture}
+	\caption{A first-quadrant spectral sequence. All potentially nontrivial groups live in the shaded quadrant.}
+\end{figure}
 \begin{lemma}
 	For a first quadrant spectral sequence $(E^\bullet, d^\bullet, h^\bullet)$ we have $E^r_{p, q} = 0$ if $p < 0$ or $q < 0$ for all $r \geq 2$.
 	Moreover, for a given $(p, q) \in \Z \times \Z$ the map $h$ induces an isomorphism for all $r > r_0 \coloneq \max(p, q + 1)$, i.e. the groups $E^r_{p, q}$ stabilize as $r \to \infty$.
@@ -489,6 +517,7 @@ We are now ready to show the existence of the Serre spectral sequence:
 \end{theorem}
 The expression in \ref{s3:defn} does not include information about the differentials and higher pages, nor about the filtration on $H_*(Y; A)$ and the identification of its subquotients with the $E^\infty$-page.
 
+% TODO understand this
 One edge case is easy to state:
 The map
 \begin{equation*}
@@ -512,7 +541,111 @@ Before proving the theorem, let us first look at some examples.
 	\begin{equation*}
 		S^1 \incl S^3 \xto{\eta} S^2
 	\end{equation*}
+	The $E^2$-page of its Serre spectral sequence looks like this:
+	\begin{equation*}
+		\begin{tikzpicture}[
+			pagemember/.style = {
+				fill = white, 
+				font = \scriptsize, 
+				inner sep = 0.5pt
+			},
+			big zero/.style = {
+				anchor = center,
+				text centered,
+				font = \Large
+			}]
+			\matrix[
+				matrix of math nodes, 
+				name = m, 
+				nodes in empty cells, 
+				nodes = {outer sep = 0ex},
+				column sep = {4ex, between origins},
+				row sep = 0.5ex,
+				column 1/.style = {anchor = base east, font = \scriptsize}, 
+				row 3/.style = {font = \scriptsize}] {
+					1 &[-1.9ex] A & 0 & A \\
+					0 & A & 0 & A \\
+					& 0 & 1 & 2 \\
+			};
+			\draw[spectral sequence/axis] (m-2-2.south west) -- (m-1-2.north west) -- ++(0, 1.5) node[left] (q) {$q$};
+			\draw[spectral sequence/axis] (m-2-2.south west) -- (m-2-4.south east) -- ++(1.5, 0) node[below] (p) {$p$};
+			% need to compute a bunch of helper coordinates to position the big 0s
+			\coordinate (a) at ($(m-1-2.north west)!.5!(q)$); % roughly the midpoint of part of the y-axis "above" the matrix
+			\coordinate (b) at (m-1-3 |- a); % point at that midpoint's height centered above the "middle" top row matrix entry
+			\node[big zero] (leftzero) at (b) {$0$};
+
+			\coordinate (c) at ($(m-1-4.center)!.5!(m-2-4.center)$); % midpoint between the first two matrix entries in the rightmost column
+			\coordinate (d) at ($(m-2-4.south east)!.5!(p)$); % rough midpoint of the x-axis segment "after" the matrix raised
+			\coordinate (e) at (d |- c); % d raised to the height of c
+			\node[big zero] (rightzero) at (e) {$0$};
+
+			\node[big zero] (toprightzero) at (rightzero |- leftzero) {$0$};
+
+			\coordinate (topright) at (p |- q); % the very top right
+			\node[draw, fill = white, inner sep = 2pt, outer sep = 0, font = \footnotesize] at ($(topright) + (-0.15, -0.15)$) {$E^2_{p, q}$}; % label
+
+			\draw[commutative diagrams/every arrow, thick, preaction = {draw = white, arrows = -, line width = 0.5ex}] (m-2-4) -- (m-1-2); % differential
+		\end{tikzpicture}
+	\end{equation*}
+	There is only one potentially non-trivial $d^2$-differential, namely
+	\begin{equation*}
+		d^2\colon E^2_{2, 0} \to E^2_{0, 1}
+	\end{equation*}
+	All higher differentials are necessarily trivial for degree reasons.
+	Hence, the $E^\infty$-page looks as follows:
+	\begin{equation*}
+		\begin{tikzpicture} [
+			pagemember/.style = {
+				fill = white, 
+				font = \scriptsize, 
+				inner sep = 0.5pt
+			},
+			big zero/.style = {
+				anchor = center,
+				text centered,
+				font = \Large
+			}]
+			\matrix[
+				matrix of math nodes, 
+				name = m, 
+				nodes in empty cells, 
+				nodes = {outer sep = 0ex},
+				column sep = {5.5ex, between origins},
+				row sep = 0.5ex,
+				font = \footnotesize,
+				column 1/.style = {anchor = base east, font = \scriptsize}, 
+				row 3/.style = {font = \scriptsize}] {
+					1 &[-1.9ex] \coker d^2 & 0 & A \\
+					0 & A & 0 & \ker d^2 \\
+					& 0 & 1 & 2 \\
+			};
+			\coordinate (help1) at (m-1-2.west |- m-2-2.south west);
+			\draw[spectral sequence/axis] (help1) -- (m-1-2.north west) -- ++(0, 1.5) node[left] (q) {$q$};
+			\draw[spectral sequence/axis] (help1) -- (m-2-4.south east) -- ++(1.5, 0) node[below] (p) {$p$};
+			% need to compute a bunch of helper coordinates to position the big 0s
+			\coordinate (a) at ($(m-1-2.north west)!.5!(q)$); % roughly the midpoint of part of the y-axis "above" the matrix
+			\coordinate (b) at (m-1-3 |- a); % point at that midpoint's height centered above the "middle" top row matrix entry
+			\node[big zero] (leftzero) at (b) {$0$};
+
+			\coordinate (c) at ($(m-1-4.center)!.5!(m-2-4.center)$); % midpoint between the first two matrix entries in the rightmost column
+			\coordinate (d) at ($(m-2-4.south east)!.5!(p)$); % rough midpoint of the x-axis segment "after" the matrix raised
+			\coordinate (e) at (d |- c); % d raised to the height of c
+			\node[big zero] (rightzero) at (e) {$0$};
+
+			\node[big zero] (toprightzero) at (rightzero |- leftzero) {$0$};
+
+			\coordinate (topright) at (p |- q); % the very top right
+			\node[draw, fill = white, inner sep = 2pt, outer sep = 0, font = \footnotesize] at ($(topright) + (-0.15, -0.15)$) {$E^\infty_{p, q}$}; % label
+		\end{tikzpicture}
+	\end{equation*}
+	We know that $H_n(S^3; A) \isom A$ if $n = 0, 3$ and 0 else, so from the $E^\infty$-page we obtain that $H_0(S^3; A) \isom A$, $H_1(S^3; A) \isom \coker d^2$, $H_2(S^3; A) \isom \ker d^2$, and $H_3(S^3; A) \isom A$. 
+	Thus, $d^2\colon E^2_{2, 0} \to E^2_{0, 1}$ must be an isomorphism.
 \end{example}
+\begin{figure}[ht]
+	\centering
+	\caption{The $E^2$-page $E^2_{p, q} = H_p(S^2; H_q(S^1; A))$ of the Serre spectral sequence for the Hopf fibration $S^1 \incl S^3 \xto{\eta} S^2$.}
+	\label{fig:hopffibhomspecseq}
+\end{figure}
 
 \begin{lemma}
 	There is a fibre bundle
@@ -903,6 +1036,387 @@ It follows that the associated graded group $\bigdsum_p F_p / F_{p + 1}$ of a fi
 	Furthermore we saw that $\pi_n X \xto{\isom} S^3$ for $n \geq 4$.
 	Finally, by the Hopf fibration $S^1 \to S^3 \to S^2$, we have that $\pi_n S^3 \isom \pi_n S^2$ for $n \geq 3$, hence $\pi_4 S^2 \isom \Zn{2}$.
 \end{proof}
+
+\lecture{27.10.23}
+\subsection{Construction of the Serre Spectral Sequence}
+We focus on the cohomological version.
+Roughly speaking, it goes as follows:
+We will show how one one obtains filtered complexes from double complexes, exact couples from filtered complexes, and finally spectral sequences from exact couples (all of these terms will be defined in the process; see also figure \ref{fig:doublecpxtospecseq}).
+Then we will find double complexes giving rise to the Serre spectral sequence via this construction and prove its properties.
+\begin{figure}[ht]
+	\begin{equation*}
+		\text{double complexes} \Rightarrow \text{filtered complexes} \Rightarrow \text{exact couples} \Rightarrow \text{spectral sequences}
+	\end{equation*}
+	\caption{Going from double complexes to spectral sequences}
+	\label{fig:doublecpxtospecseq}
+\end{figure}
+\begin{definition}
+	An \strong{exact couple}\index{exact couple} is a pair of abelian groups $(A, E)$ together with a triangle
+	\begin{equation*}
+		\begin{tikzcd}[column sep = small]
+			A 
+					\ar[rr, "i"]
+				& & A
+					\ar[dl, "j"]
+			\\
+				& E
+					\ar[ul, "k"]
+		\end{tikzcd}
+	\end{equation*}
+	which is \strong{exact}, i.e. it is exact at all three corners.
+\end{definition}
+
+Define $d_1\colon E \to E$ as $d_1 \coloneq j \circ k$.
+We then have $d_1 \circ d_1 = jkjk = 0$ as $kj = 0$, so $d_1$ is a differential.
+Defining $H(E) \coloneq \ker d_1 / \img d_1$, we claim that there is a new triangle
+\begin{equation*}
+	\begin{tikzcd}[column sep = small]
+		A_2
+				\ar[rr, "i_2"]
+			& & A_2
+				\ar[dl, "j_2"]
+		\\
+			& E_2
+				\ar[ul, "k_2"]
+	\end{tikzcd}
+\end{equation*}
+where $E_2 \coloneq H(E)$ and $A_2 \coloneq \img i \subseteq A$.
+As for the morphisms:
+\begin{itemize}
+	\item $i_2$ is just the restriction $i|_{A_2}$.
+	\item $j_2$ is given by $j_2(a) \coloneq [j(b)]$ where $b \in A$ is such that $a = i(b)$.
+		This is well-defined since $j(b) \in \ker d_1$ since $kj = 0$, and if $i(b') = a$ is another choice of preimage, then $i(b' - b) = 0$ so $b' - b = k(e)$ for some $e \in E$ by exactness.
+		Then $j(b - b') = j(k(e)) = d_1(e)$, so $[j(b)] = [j(b')]$.
+	\item $k_2$ is given by $k_2([e]) \coloneq k(e)$.
+		This is well-defined since $d_1(e) = j(k(e)) = 0$ implies $k(e) \in \img i$ by exactness and if $e \in \img d_1$ then $e \in \img j$ as $d_1 = jk$, so $k(e) = 0$.
+\end{itemize}
+\begin{lemma}
+	The triangle
+	\begin{equation*}
+		\begin{tikzcd}[column sep = small]
+			A_2
+					\ar[rr, "i_2"]
+				& & A_2
+					\ar[dl, "j_2"]
+			\\
+				& E_2
+					\ar[ul, "k_2"]
+		\end{tikzcd}
+	\end{equation*}
+	is an exact couple.
+\end{lemma}
+\begin{proof}
+	This is a straightforward diagram chase and therefore omitted.
+\end{proof}
+As a result, we can iterate and obtain a sequence of exact couples $(A_n, E_n)$ with maps $i_n$, $j_n$, and $k_n$.
+In particular, we obtain a sequence of abelian groups $(E_n)$ with differentials $d_n = j_n k_n$ and isomorphisms $H(E_n) \isom E_{n + 1}$.
+This is like a spectral sequence, except we are missing the bigrading.
+
+For the Serre spectral sequence, the two gradings play different roles:
+A filtration (x-axis) and the difference between the cohomological degree and the filtration degree.
+\begin{definition}
+	An \strong{unrolled exact couple}\index{exact couple!unrolled} is a collection of pairs $(A^s, E^s)_{s \in \Z}$ of abelian groups together with maps
+	\begin{equation*}
+		\begin{tikzcd}[column sep = small]
+			\cdots	
+					\ar[rr, "i"]
+				& & A^{s + 1}
+					\ar[rr, "i"]
+					\ar[dl, "j"]
+				& & A^s
+					\ar[rr, "i"]
+					\ar[dl, "j"]
+				& & A^{s - 1}
+					\ar[rr, "i"]
+					\ar[dl, "j"]
+				& & \cdots
+			\\
+				& \cdots
+				& & E^s
+					\ar[ul, "k"]
+				& & E^{s - 1}
+					\ar[ul, "k"]
+				& & \cdots
+					\ar[ul, "k"]
+		\end{tikzcd}
+	\end{equation*}
+	such that each triangle is exact.
+	We call $s$ the \strong{filtration degree}\index{filtration degree!of an unrolled exact couple}.
+\end{definition}
+Every unrolled exact couple gives an exact couple via $A \coloneq \bigdsum_s A^s$ and $E \coloneq \bigdsum_s E^s$ combined in a single triangle.
+We obtain a cochain complex
+\begin{equation*}
+	\begin{tikzcd}
+		\cdots
+				\ar[r, "jk"]
+			& E^{s - 1}
+				\ar[r, "jk"]
+			& E^s
+				\ar[r, "jk"]
+			& E^{s + 1}
+				\ar[r, "jk"]
+			& \cdots
+	\end{tikzcd}
+\end{equation*}
+Thus, $H(E)$ inherits a grading, i.e. $H_*(E) = \bigdsum_s H^s(E)$.
+Generally we can write $E_r = \bigdsum_s E_r^s \isom \bigdsum_s H^s(E_{r - 1})$.
+Given $e \in E^s$, we can chase its \enquote{life} in the spectral sequence:
+If $d_1(e) \neq 0$, then $e$ does not define a class in $H^*(E)$; otherwise $[e] \in H^s(E) = E_2^s$.
+In the unrolled picture, $d_2([e]) = j_2 k_2(e)$ is computed as follows:
+If $d_2(e) \neq 0$, then $e$ does not define a class in $H^*(E_2)$; otherwise we continue this way.
+% TODO diagram
+
+In general, if $k(e) = i^r(b)$ for some $r \geq 0$ and $b \in A^{s + r + 1}$, then $e$ defines a class in $E^s_{r + 1} = H^s(E_r)$ and $d_{r + 1}([e])$ is represented by $j(h)$.
+If $e$ \enquote{survives} in every step, it is called a \strong{permanent cycle}\index{permanent cycle}.
+We note:
+If $e \in E_r^s$, then $d_r([e])$ is represented by some element of $E_r^{s + r}$, i.e. $d_r$ raises the filtration degree by $r$.
+\begin{definition}
+	A \strong{filtered cochain complex}\index{filtered cochain complex} is a cochain complex $C^*$ together witha sequence of subcomplexes
+	\begin{equation*}
+		\cdots \subseteq F^2 C^* \subseteq F^1 C^* \subseteq F^0 C^* = C^*
+	\end{equation*}
+	For convenience, we extend the filtration grading to $\Z$ via $F^s C^* = C^*$ for $s < 0$.
+	The \strong{associated graded complex}\index{graded complex!associated to a filtered chain complex} is the collection of subquotients $\gr^s C^* \coloneq F^s C^* / F^{s +1} C^*$.
+\end{definition}
+The short exact sequence
+\begin{equation*}
+	\begin{tikzcd}
+		0 
+				\ar[r]
+			& F^{s + 1} C^* 
+				\ar[r]
+			& F^s C^* 
+				\ar[r]
+			& \gr^s C^* 
+				\ar[r]
+			& 0
+	\end{tikzcd}
+\end{equation*}
+induces a long exact sequence
+\begin{equation*}
+	\begin{tikzcd}[column sep = small]
+		\cdots
+				\ar[r]
+			& H^t(F^{s + 1} C^*)
+				\ar[r]
+			& H^t(F^s C^*)
+				\ar[r]
+			& H^t(\gr^s C^*) 
+				\ar[r]
+			& H^{t + 1}(F^{s + 1} C^*)
+				\ar[r]
+			& \cdots
+	\end{tikzcd}
+\end{equation*}
+Taking the direct sum over all $t$, we obtain
+\begin{equation*}
+	\begin{tikzcd}[column sep = -1.4em]
+		\cdots 
+				\ar[rr, "i"]
+			& & H^\bullet(F^{s + 1} C^*) 
+				\ar[rr, "i"]
+				\ar[dl, "j"]
+			& & H^\bullet(F^s C^*)
+				\ar[rr, "i"]
+				\ar[dl, "j"]
+			& & H^\bullet(F^{s - 1} C^*)
+				\ar[rr, "i"]
+				\ar[dl, "j"]
+			& & \cdots
+		\\
+			& \mathmakebox[\widthof{$\displaystyle H^\bullet(\gr^s C^*)$}]{\cdots}
+			& & H^\bullet(\gr^s C^*)
+				\ar[ul, "k"]
+			& & H^\bullet(\gr^{s + 1} C^*)
+				\ar[ul, "k"]
+			& & \mathmakebox[\widthof{$\displaystyle H^\bullet(\gr^s C^*)$}]{\cdots}
+				\ar[ul, "k"]
+	\end{tikzcd}
+\end{equation*}
+in which each triangle is exact.
+We observe that $i$ and $j$ preserve the cohomological degree $t$, but $k$ raises it by 1.
+We hence obtain an unrolled exact couple with an additional cohomological degree and exact couple with $A = \bigdsum_{s, t} H^t(F^s C^*)$, $E = \bigdsum_{s, t} H^t(\gr^s C^*)$ and therefore an associated spectral sequence.
+What does it converge to?
+
+We define a filtration on $H^\bullet(C^*)$ by setting $F^s H^t(C^*) \coloneq \img(H^t(F^s C^*) \to H^t(C^*))$.
+\begin{theorem}\label{thm:couplespecseqconvergence}
+	If for every $t$ the cohomology $H^t(F^s C^*)$ becomes trivial for $s \gg 0$, then the spectral sequence associated to this exact couple converges to $(H^\bullet(C^*), F^s H^\bullet(C^*))$ with $E_1$-page $E_1^{s, t} = H^t(\gr^s C^*)$.
+\end{theorem}
+\begin{remark}
+	The grading of this spectral sequence is different from the one for the Serre spectral sequence: $d_r$ raises filtration degree by $r$ and the cohomological degree by 1.
+	If $C^*$ is concentrated in non-negative degrees, we get a first quadrant spectral sequence.
+	% TODO illustration
+	For the Serre spectral sequence, we use cohomological degree minus filtration degree.
+	This regrading remains in the first quadrant because all terms with filtration degree greater than the cohomological degree are trivial.
+\end{remark}
+\begin{proof}[Proof of theorem \ref{thm:couplespecseqconvergence}.]
+	In the exact couple, $A_r$ is the direct sum over all $s$ of
+	\begin{equation*}
+		A_r^s \coloneq \img(i^{r - 1}\colon H^\bullet(F^{s + r - 1} C^*) \to H^\bullet(F^s C^*))
+	\end{equation*}
+	For $t \in \Z$, we set $n_t \in \N$ to be the minimum over all $n$ such that $H^t(F^n C^*) = 0$.
+	Then for $r \geq n_t + 1$, we have:
+	\begin{enumerate}
+		\item If $s > 0$, then $s + r - 1 > n_t$, so $H^t(F^{s + r - 1} C^*) = 0$ and $A_r^{s, t} = 0$. % TODO check upper index on this last term
+		\item If $s \leq 0$, then $H^t(F^s C^*) = H^t(C^*)$ and $A_r^{s, t} = F^{s + r - 1} H^t(C^*)$.
+	\end{enumerate}
+	Thus, $A_r^t = \bigdsum_{s \leq 0} F^{s + r - 1} H^t(C^*) = \bigdsum_{0 \leq p \leq n_t} F^p H^t(C^*)$.
+	This is independent of $r \geq n_t + 1$.
+	Let $A_\infty^t$ be this value.
+	The map $i_r\colon A_r^t \to A_r^t$ is the direct sum over the inclusions $F^{p + 1} H^t(C^*) \to F^p H^t(C^*)$.
+	In particular, $i_r$ is injective, so by exactness $k_r\colon E_r^{t + 1} \to A_r^t$ must be 0.
+	Hence all differentials are zero for large $r$ and the terms $E_r^t$ stabilize as well with stable value $E_\infty^t$.
+	Moreover, by exactness of
+	\begin{equation*}
+		\begin{tikzcd}[column sep = small]
+			A_\infty
+					\ar[rr, "i_r"]
+				& & A_\infty
+					\ar[dl, "j_r"]
+			\\
+				& E_\infty
+					\ar[ul, "0"]
+		\end{tikzcd}
+	\end{equation*}
+	we have $E_\infty^t \isom \coker(i_r\colon A_r^t \to A_r^t) \isom \bigdsum_{p \leq n_t} F^p H^t(C^*) / F^{p + 1} H^t(C^*)$.
+\end{proof}
+\begin{example}\label{epl:cwfiltration}
+	Let $X$ be a CW-complex with skeleta
+	\begin{equation*}
+		\sk_0 X \subseteq \sk_1 X \subseteq \cdots \subseteq X
+	\end{equation*}
+	and $A$ any abelian group.
+	We can filter $C^*(X; A)$ by
+	\begin{align*}
+		F^s C^*(X; A) &= \ker(C^*(X; A) \to C^*(\sk_s X; A)) \\
+					  &= C^*(X, \sk_s X; A)
+	\end{align*}
+	We then obtain a spectral sequence with $E_1$-page
+	\begin{align*}
+		H^t(C^*(X, \sk_s X; A) / C^*(X, \sk_{s + 1} X)) &\isom H^t(\sk_{s + 1} X, \sk_s X; A) \\
+													  &\isom \tilde{H}^t(\underbrace{\sk_{s + 1} X / \sk_s X}_{\isom \bigvee S^{k + 1}}; A)
+	\end{align*}
+	It converges to $H^\bullet(C^*(X; A)) = H^\bullet(X; A)$.
+	In other words, this reproves that the cellular cochain complex computes ordinary cohomology.
+	% TODO figure
+\end{example}
+\begin{figure}[ht]
+	\centering
+	\pgfdeclarelayer{background}
+	\pgfsetlayers{background, main}
+	\begin{tikzpicture}[
+		pagemember/.style = {
+			fill = white, 
+			font = \scriptsize, 
+			inner sep = 0.5pt
+		},
+		differential/.style = {
+			commutative diagrams/every arrow, 
+			thick, 
+			preaction = {
+				draw = white, 
+				arrows = -, 
+				line width = 0.5ex
+			}
+		}]
+		\begin{scope}[local bounding box = E1box]
+			\matrix[
+				name = m, 
+				nodes in empty cells, 
+				matrix of math nodes, 
+				nodes = {outer sep = 0ex, inner sep = 2pt},
+				column sep = {4ex, between origins},
+				row sep = {4ex, between origins},
+				row sep = 0.5ex,
+				column 1/.style = {anchor = base east, font = \scriptsize}, 
+				row 5/.style = {font = \scriptsize}] {
+					3 &[-2ex] \phantom{\circ} & & & \cdots \\
+					2 & & & \circ & \\
+					1 & & \circ & & \\
+					0 & \circ & & & \\
+					& 0 & 1 & 2 & 3 \\
+			};
+
+			% bounding box coordinates for the "graph" drawing area
+			\coordinate (bottom left) at (m-4-2.south west);
+			\coordinate (bottom right) at ($(m-4-5.south east) + (0.3, 0)$);
+			\coordinate (top left) at ($(m-1-2.north west) + (0, 0.3)$);
+			\coordinate (top right) at (bottom right |- top left);
+
+			\path[spectral sequence/axis, line cap = round] (bottom left) edge (bottom right)
+														edge (top left); % axes
+
+			\draw[differential] (m-4-2) -- (m-3-3);
+			\draw[differential] (m-3-3) -- (m-2-4);
+			\draw[differential] (m-2-4) -- (m-1-5);
+
+			\begin{pgfonlayer}{background}
+				\draw[draw = none, pattern = {Lines[angle = 45, distance = 2pt]}] (m-4-2.south west) rectangle ($(top right) - (.125, .125)$); % shaded background
+				\begin{scope}
+					% here we overlay the "band" in which all non-trivial groups occur with a white rectangle
+					% since this has to happen after the matrix is drawn, we need the background layer
+					\clip (bottom left) rectangle (top right);
+					\coordinate (direction) at ($(m-1-5.center) - (m-4-2.center)$);
+					\path[draw = white, line width = 2.5ex] ($(m-4-2.center) - (direction)$) -- ($(m-1-5.center) + (direction)$);
+				\end{scope}
+			\end{pgfonlayer}
+
+			\node[font = \scriptsize] at (top right) {$E_1$};
+		\end{scope}
+
+
+		\begin{scope}[xshift = 6cm, local bounding box = E2box]
+			\matrix[
+				name = m, 
+				nodes in empty cells, 
+				matrix of math nodes, 
+				font = \tiny,
+				nodes = {outer sep = 0ex, inner sep = 2pt},
+				column sep = {4ex, between origins},
+				row sep = 0.5ex,
+				column 1/.style = {anchor = base east, font = \scriptsize}, 
+				row 5/.style = {font = \scriptsize}] {
+					3 &[-0.5ex] \phantom{H^0(X; A)} & & & \cdots \\
+					2 & & & H^2(X; A) & \\
+					1 & & H^1(X; A) & & \\
+					0 & H^0(X; A) & & & \\
+					& 0 & 1 & 2 & 3 \\
+			};
+
+			% bounding box coordinates for the "graph" drawing area
+			\coordinate (bottom left) at (m-4-2.south west);
+			\coordinate (bottom right) at ($(m-4-5.south east |- bottom left) + (0.3, 0)$);
+			\coordinate (top left) at ($(m-1-2.north west) + (0, 0.3)$);
+			\coordinate (top right) at (bottom right |- top left);
+
+			\path[spectral sequence/axis, line cap = round] (bottom left) edge (bottom right)
+														edge (top left); % axes
+
+			\begin{pgfonlayer}{background}
+				\draw[draw = none, pattern = {Lines[angle = 45, distance = 2pt]}] (m-4-2.south west) rectangle ($(top right) - (.125, .125)$); % shaded background
+				\begin{scope}
+					% here we overlay the "band" in which all non-trivial groups occur with a white rectangle
+					% since this has to happen after the matrix is drawn, we need the background layer
+					\clip (bottom left) rectangle (top right);
+					\coordinate (direction) at ($(m-1-5.center) - (m-4-2.center)$);
+					\path[draw = white, line width = 4.1ex] ($(m-4-2.center) - (direction)$) -- ($(m-1-5.center) + (direction)$);
+				\end{scope}
+			\end{pgfonlayer}
+
+			\node[font = \scriptsize] at (top right) {$E_2 = E_\infty$};
+		\end{scope}
+
+		% we use the intersection coordinate to make sure that the arrow is level
+		\draw[->, thick] ($(E1box.east) + (.5, 0)$) -- ($(E2box.west |- E1box.east) - (.5, 0)$);
+	\end{tikzpicture}
+	\caption{$E_1$- and $E_\infty$-pages of the spectral sequence from example \ref{epl:cwfiltration}.}
+\end{figure}
+\begin{example}
+	Let $p\colon Y \to X$ b ea Serre fibration with $X$ a CW-complex.
+	Then we can filter $Y$ via the preimages $p^{-1}(\sk_s X)$ and obtain a filtration on $C^*(Y; A)$.
+	The resulting spectral sequence is in fact the Serre spectral sequence.
+	However, some aspects, in particular the multiplicative structure are more readily proved in the construction via double complexes.
+\end{example}
 
 \section{Exercises}
 \begin{exercise}\label{ex:serrefib}
