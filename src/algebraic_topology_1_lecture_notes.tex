@@ -7,8 +7,11 @@
 \colorlet{knowngray}{darkgray!70}
 
 \DeclareNamedOperator{Stab}
+\DeclareNamedOperator{Tot}
 \DeclareNamedOperator{gr}
 \DeclareNamedOperator{sk}
+
+\DefineCategory{Fib}
 
 \tikzset{
 	spectral sequence/.cd,
@@ -957,13 +960,13 @@ It follows that the associated graded group $\bigdsum_p F_p / F_{p + 1}$ of a fi
 	Hence $x^2$ is twice a generator of $H^4(\Omega S^3; \Z)$, which we denote by \enquote{$x^2 / 2$}.
 	Similarly, we find that
 	\begin{equation*}
-		d_3(x^3) = d_3(x) \cdot x^2 + x d_3(x^2) = ex^2 + 2ex^2 = 3ex^2 = 6 \underbrace{6 e (x^2 / 2)}_{\text{generator of } E_3^{3, 4}}
+		d_3(x^3) = d_3(x) \cdot x^2 + x d_3(x^2) = ex^2 + 2ex^2 = 3ex^2 = 6 \underbrace{6 e (x^2 / 2)}_{\substack{\text{generator} \\ \text{of } E_3^{3, 4}}}
 	\end{equation*}
 	Inductively, we get that $x^n$ is $n!$ times a generator of $H^{2n}(\Omega S^3; \Z)$.
 	We get an isomorphism
 	\begin{align*}
 		H^*(\Omega S^3; \Z) &\isom \Z\bigg[x, \frac{x^2}{2!}, \frac{x^3}{3!}, \ldots\bigg] \subseteq \Q[x] \\
-							&\isom \Z[x_1, x_2, \ldots] / \langle \binom{n + m}{n} x_{m + n} = x_m x_n \rangle \\
+							&\isom \Z[x_1, x_2, \ldots] / \big\langle {\textstyle\binom{n + m}{n}} x_{m + n} = x_m x_n \big\rangle \\
 							&\eqcolon \Gamma(x)
 	\end{align*}
 	We call $\Gamma(x)$ a \strong{divided power algebra}\index{divided power algebra} on one generator.
@@ -1417,6 +1420,551 @@ We define a filtration on $H^\bullet(C^*)$ by setting $F^s H^t(C^*) \coloneq \im
 	The resulting spectral sequence is in fact the Serre spectral sequence.
 	However, some aspects, in particular the multiplicative structure are more readily proved in the construction via double complexes.
 \end{example}
+\lecture{30.10.23}
+\subsection{Spectral sequences of double complexes}
+\begin{definition}
+	A \strong{double complex}\index{double complex} is a bigraded abelian group $C^{\bullet, \bullet}$ equipped with two differentials
+	\begin{equation*}
+		\delta_h\colon C^{\bullet, \bullet} \to C^{\bullet + 1, \bullet} \quad\text{and}\quad \delta_v\colon C^{\bullet, \bullet} \to C^{\bullet, \bullet + 1}
+	\end{equation*}
+	satisfying $\delta_h^2 = \delta_v^2 = 0$ and $\delta_h \delta_v = \delta_v \delta_h$.
+	\begin{equation*}
+		\begin{tikzcd}
+			C^{p - 1, q + 1}
+					\ar[r, "\delta_h"]
+				& C^{p, q + 1}
+					\ar[r, "\delta_h"]
+				& C^{p + 1, q + 1}
+			\\
+			C^{p - 1, q}
+					\ar[r, "\delta_h"]
+					\ar[u, "\delta_v"]
+				& C^{p, q}
+					\ar[r, "\delta_h"]
+					\ar[u, "\delta_v"]
+				& C^{p + 1, q}
+					\ar[u, "\delta_v"]
+			\\
+			C^{p - 1, q - 1}
+					\ar[r, "\delta_h"]
+					\ar[u, "\delta_v"]
+				& C^{p, q - 1}
+					\ar[r, "\delta_h"]
+					\ar[u, "\delta_v"]
+				& C^{p + 1, q - 1}
+					\ar[u, "\delta_v"]
+		\end{tikzcd}
+	\end{equation*}
+	The \enquote{vertical cohomology groups} $H^q_{\delta_v}(C^{p, \bullet})$ inherit a horizontal differential $\delta_h\colon H^q_{\delta_v}(C^{p, \bullet}) \to H^q_{\delta_v}(C^{p + 1, \bullet})$ and vice-versa.
+	We write $H_{\delta_h}^p H_{\delta_v}^q(C^{\bullet, \bullet})$ and $H_{\delta_v}^q H_{\delta_h}^p(C^{\bullet, \bullet})$ for the resulting cohomology groups, respectively.
+\end{definition}
+\begin{example}
+	Let $D_1$ and $D_2$ be cochain complexes. 
+	Then the tensor products $D_1^p \tensor D_2^q$ form a double complex with $\delta_h$ obtained from the differential of $D_1$ and $\delta_v$ from that of $D_2$.
+\end{example}
+\begin{definition}
+	Let $(C^{\bullet, \bullet}, \delta_h, \delta_v)$ be a double complex.
+	Its \strong{total complex}\index{total complex!of a double complex} $\Tot(C)$ is the cochain complex with $\Tot(C)^n \coloneq \bigdsum_{p + q = n} C^{p, q}$ and $\delta \coloneq \delta_h + (-1)^p \delta_v$.
+	Note that the sign $(-1)^p$ is needed to guarantee $\delta^2 = 0$.
+\end{definition}
+A double complex $C^{\bullet, \bullet}$ can be filtered by 
+\begin{equation*}
+	F^s(C^{p, q}) \coloneq \begin{cases}
+		C^{p, q} 	& p \geq s \\
+		0 			& \text{else}
+	\end{cases}
+\end{equation*}
+This induces a filtration on $\Tot(C)$ via $F^s \Tot(C) \coloneq \Tot(F^s(C))$.
+Then its associated graded pieces are $\gr_s \Tot(C)^t = C^{s, t - s}$ with differential $(-1)^s \delta_v$.
+The sign does not affect cohomology, hence
+\begin{equation*}
+	H^t(\gr_s \Tot(C)) = H^{t - s}_{\delta_v}(C^{s, \bullet})
+\end{equation*}
+We hence obtain a spectral sequence with $E_1$-page $E_1^{s, t} = H^t(\gr_s \Tot(C)) \isom H_{\delta v}^{t - s}(C^{s, \bullet})$.
+Moreover, $d_1$ agrees with the horizontal differential $\delta_h$ (this we leave as an exercise to the reader), so
+\begin{equation*}
+	E_2^{s, t} \isom H_{\delta_h}^s H_{\delta_v}^{t - s}(C^{\bullet, \bullet})
+\end{equation*}
+If $C^{p, q} = 0$ whenever $p < 0$ or $q < 0$, then the $E_1$-page is concentrated in degrees $t \geq s \geq 0$ and the spectral sequence converges to $H^*(\Tot(C))$.
+It is hence customary to reindex to $(s, t - s)$ and obtain a first quadrant spectral sequence with Serre grading $H_{\delta_h}^s H_{\delta_v}^t(C^{\bullet, \bullet}) \Rightarrow H^{s + t}(\Tot(C))$.
+\begin{remark}
+	Swapping the horizontal and vertical directions yields a \emph{different} spectral sequence converging to $H^*(\Tot(C))$.
+	We will exploit this below.
+\end{remark}
+
+\subsection{Dress' construction of the Serre spectral sequence}
+Let $f\colon E \to B$ be a Serre fibration.
+A \strong{singular $(p, q)$-simplex}\index{singular $(p, q)$-simplex} of $f$ is a commutative diagram
+\begin{equation*}
+	\begin{tikzcd}
+		\Delta^p \times \Delta^q
+				\ar[r]
+				\ar[d, swap, "\pr_1"]
+			& E
+				\ar[d, "f"]
+		\\
+		\Delta^p
+				\ar[r]
+			& B
+	\end{tikzcd}
+\end{equation*}
+Let $C_{p, q}(f)$ be the free abelian group on all singular $(p, q)$-simplices.
+There is a differential $\delta_h\colon C_{p, q}(f) \to C_{p - 1, q}(f)$ given by taking the alternating sum over the faces of the $p$-simplex, where the $i$th face is given by the outer rectangle in
+\begin{equation*}
+	\begin{tikzcd}
+		\Delta^{p - 1} \times \Delta^q
+				\ar[r, "d_i \times \id"]
+				\ar[d, swap, "\pr_1"]
+			& \Delta^p \times \Delta^q
+				\ar[r]
+				\ar[d, swap, "\pr_1"]
+			& E
+				\ar[d, "f"]
+		\\
+		\Delta^{p - 1}
+				\ar[r, "d_i"]
+			& \Delta^p
+				\ar[r]
+			& B
+	\end{tikzcd}
+\end{equation*}
+where $d_i\colon \Delta^{p - 1} \incl \Delta^p$ is the $i$th face inclusion.
+Similarly, we obtain a vertical differential $\delta_v\colon C_{p, q}(f) \to C_{p, q - 1}(f)$ as the alternating sum of the faces of $q$-simplex where the $i$th face is defined by
+\begin{equation*}
+	\begin{tikzcd}
+		\Delta^p \times \Delta^{q - 1}
+				\ar[r, "\id \times d_i"]
+				\ar[d, swap, "\pr_1"]
+			& \Delta^p \times \Delta^q
+				\ar[r]
+				\ar[d, swap, "\pr_1"]
+			& E
+				\ar[d, "f"]
+		\\
+		\Delta^p
+				\ar[r, equal, "\id"]
+			& \Delta^p
+				\ar[r]
+			& B
+	\end{tikzcd}
+\end{equation*}
+By dualizing, we obtain a double complex $C^{\bullet, \bullet}(f; A) \coloneq \Hom(C_{\bullet, \bullet}(f), A)$ for every coefficient group $A$.
+We have $C^{p, q}(f; A) = 0$ for $p < 0$ or $q < 0$, so we obtain a Serre-graded first quadrant spectral sequence with $E_2$-page $E_2^{p, q} = H^s_{\delta_h} H^t_{\delta_v}(C^{\bullet, \bullet}(f; A))$ converging to $H^*(\Tot(C^{\bullet, \bullet}(f; A)))$.
+This is the Serre spectral sequence.
+We have to show that
+\begin{enumerate}
+	\item $H^*(\Tot(C^{\bullet, \bullet}(f; A))) \isom H^*(E; A)$, and that
+	\item the $E_2$-page is isomorphic to $H^*(B; H^*(F; A))$ (if $B$ is simply connected).
+\end{enumerate}
+We begin with the first point.
+For this, we swap the horizontal and vertical directions to obtain another spectral sequence with $E_2$-page $E_2^{s, t} = H_{\delta_v}^s H_{\delta_h}^t(C^{\bullet, \bullet}(f; A))$.
+\begin{claim}
+	$E_2^{s, t} = 0$ if $s \neq 0$ and $H_{\delta_v}^0 H_{\delta_h}^t(C^{\bullet, \bullet}(f; A)) \isom H^t(E; A)$.
+\end{claim}
+\begin{proof}
+	We fix $s \geq 0$ and consider diagrams of the form
+	\begin{equation*}
+		\begin{tikzcd}
+			\Delta^t \times \Delta^s
+					\ar[r]
+					\ar[d, swap, "\pr_1"]
+				& E
+					\ar[d, "f"]
+			\\
+			\Delta^t
+					\ar[r]
+				& B
+		\end{tikzcd}
+	\end{equation*}
+	We can rewrite this to
+	\begin{equation*}
+		\begin{tikzcd}
+			\Delta^t
+					\ar[r]
+					\ar[d]
+				& \map(\Delta^s, E)
+					\ar[d, "{\map(\Delta^s,\, f)}"]
+			\\
+			B
+					\ar[r, "\const"]
+				& \map(\Delta^s, B)
+		\end{tikzcd}
+	\end{equation*}
+	This in turn is equivalent to a single map $\Delta^t \to P$ into the pullback $P \coloneq B \times_{\map(\Delta^s, B)} \map(\Delta^s, E)$, i.e. a single $t$-simplex of the space $P$.
+	One checks that $C^{s, t}(f; A)$ is in fact isomorphic $C^\bullet(P; A)$.
+	Now $\Delta^s$ is contractible, so $B \to \map(\Delta^S, B)$ is a homotopy equivalence.
+	Since $f$ is a Serre fibration, it follows that $P \to \map(\Delta^s, E) \htpyeqv E$ is a weak homotopy equivalence.
+	In particular, $H_{\delta_h}^t(C^{s, \bullet}(f; A)) \isom H^t(E; A)$ for all $s \geq 0$.
+	Under these identifications, every face map of $\Delta^s$ induces the identity on these groups.
+	Hence the complex computing $H_{\delta_v}^s H^t(E; A)$ equals
+	\begin{equation*}
+		\begin{tikzcd}
+			H^t(E; A)
+					\ar[r, "0"]
+				& H^t(E; A)
+					\ar[r, "\id"]
+				& H^t(E; A)
+					\ar[r, "0"]
+				& H^t(E; A)
+					\ar[r, "\id"]
+				& \cdots
+		\end{tikzcd}
+	\end{equation*}
+	Hence $H_{\delta_v}^s H_{\delta_h}^t(C^{\bullet, \bullet}(f; A)) = H^t(E; A)$ if $s = 0$ and 0 else.
+	It follows that the $E_\infty$-page equals the $E_2$-page and therefore that $H^t(\Tot(C(f; A))) \isom H^t(E; A)$.
+\end{proof}
+It remains to compute the $E_2$-term.
+For this, it will be useful to consider a generalization of ordinary (co)homology.
+
+\subsubsection{(Co)homology with local coefficients}
+\begin{definition}
+	The \strong{fundamental groupoid}\index{fundamental groupoid} $\pi_1 X$ of a space $X$ is the category with
+	\begin{itemize}
+		\item objects the points of $X$, and
+		\item as morphisms between $x, y \in X$ the set 
+			\begin{equation*}
+				\mor_{\pi_1 X}(x, y) \coloneq 
+					\begin{Bmatrix}
+						\text{endpoint-preserving homotopy} \\ 
+						\text{classes of paths } \gamma\colon x \rightsquigarrow y
+					\end{Bmatrix}
+			\end{equation*}
+			(we use the notation $x \rightsquigarrow y$ to denote a path starting in $x$ and ending in $y$).
+	\end{itemize}
+	Composition is the concatenation of paths.
+\end{definition}
+As the name suggests, $\pi_1 X$ is a \strong{groupoid}\index{groupoid}, i.e. every morphism is invertible, and by definition $\mor_{\pi_1 X}(x, x) = \Aut_{\pi_1 X}(x) = \pi_1(X, x)$.
+\begin{definition}
+	A \strong{local system}\index{local system} on $X$ is a functor $M\colon \pi_1 X \to \Ab$.
+	We write $M_x$ for the group $M(x)$ for any point $x \in X$.
+\end{definition}
+Note:
+\begin{itemize}
+	\item If $X$ is path-connected, then $\pi_1 X$ is equivalent to the groupoid with one object $x \in X$ and automorphism group $\pi_1(X, x)$.
+		Hence a local system is equivalent to an abelian group with action by $\pi_1(X, x)$.
+	\item If $X$ is simply connected, every local system on $X$ is isomorphic to the constant local system for any abelian group $A$.
+\end{itemize}
+\begin{example}
+	Let $f\colon E \to B$ be a Serre fibration, $A$ an abelian group, and $q \in \N$.
+	We write $F_x \coloneq f^{-1}(x)$ for the fibre over $x \in B$.
+	There is then a local system $x \mapsto H_q(F_x; A)$.
+	On homotopy classes of paths $[\gamma\colon x \rightsquigarrow y]$ this is defined as follows:
+	Consider the pullback
+	\begin{equation*}
+		\begin{tikzcd}
+				\textcolor{knowngray}{F_x}
+					\ar[r, knowngray]
+					\ar[d, knowngray]
+					\ar[dr, knowngray, phantom, "\lrcorner" very near start]
+				& F_\gamma
+					\ar[r]
+					\ar[d]
+					\ar[dr, phantom, "\lrcorner" very near start]
+				& E
+					\ar[d, "f"]
+			\\
+			\textcolor{knowngray}{*} 
+					\ar[r, knowngray, "\htpyeqv"]
+				& I
+					\ar[r, "\gamma"]
+				& B
+		\end{tikzcd}
+	\end{equation*}
+	which comes with weak homotopy equivalences $F_x \htpyeqv_w F_\gamma$, $F_y \htpyeqv_w F_\gamma$ (via the \textcolor{knowngray}{gray} square).
+	Hence on homology we obtain an induced map
+	\begin{equation*}
+		H_q(\gamma; A) \colon H_q(F_x; A) \xto{\isom} H_q(F_\gamma; A) \xto{\isom} H_q(F_y; A)
+	\end{equation*}
+	To show compatibility with composition and homotopy invariance, consider the pullback
+	% TODO ???
+	\begin{equation*}
+		\begin{tikzcd}
+			P_{\Delta}
+					\ar[r]
+					\ar[d]
+					\ar[dr, phantom, "\lrcorner" very near start]
+				& E
+					\ar[d]
+			\\
+			\Delta^2 
+					\ar[r]
+				& B
+		\end{tikzcd}
+	\end{equation*}
+	Similarly, we obtain a local system $x \mapsto H^q(F_x; A)$.
+\end{example}
+\begin{example}
+	Let $M$ be a topological manifold of dimension $n$.
+	Then the assignment $x \mapsto M_x \coloneq H_n(M, M \setminus \{x\})$ extends to a local system which we denote by $\Z^\text{or}$.
+	For a path $\gamma\colon x \rightsquigarrow y$, cover the path by contractible opens $U_i$ and use that $H_n(M, M \setminus \{x\}) \isom H_n(M, M \setminus U)$ iteratively.
+	$M$ is orientable iff this local system is isomorphic to the constant one.
+\end{example}
+Next, we define (co)homology with coefficients in a local system $M$ on $X$.
+We set
+\begin{equation*}
+	C_n(X; M) \coloneq \bigdsum_{\sigma\colon \Delta^n \to X} M_{\sigma_0}
+\end{equation*}
+where $\sigma_0 \in X$ is the image of the 0th vertex of $\Delta^n$.
+There is a differential $d\colon C_n(X; M) \to C_{n - 1}(X; M)$ given by
+\begin{equation*}
+	d(\sigma, m) = (\sigma \circ d_0, (\sigma_{0, 1})_*(m)) + \sum_{i = 1}^n (-1)^i (\sigma \circ d_i, m)
+\end{equation*}
+where $d_i\colon \Delta^{n - 1} \incl \Delta^n$ is the $i$th face map and $\sigma_{0, 1}$ is the image under $\sigma$ of any path from the 0th to the 1st vertex in $\Delta^n$.
+Note that $(\sigma \circ d_i)_0 = \sigma_0$ unless $i = 0$, in which case $(\sigma \circ d_0)_0 = \sigma_1$, so this formula is well-defined.
+The proof that this defines a chain complex is similar to the one for ordinary singular chains and we omit it.
+\begin{definition}\index{homology with local coefficients}
+	For a local system $M$ we define $H_*(X; M)$ as the homology of this complex.
+\end{definition}
+Observe the following:
+\begin{itemize}
+	\item If $M$ is constant, this recovers ordinary homology.
+	\item A map $M \to N$ of local systems on $X$ (i.e. a natural transformation) induces a map $H_*(X; M) \to H_*(X; N)$.
+	\item A map of spaces $f\colon X' \to X$ induces a map $H_*(X', f^* M) \to H_*(X, M)$ where $f^* M$ is the \strong{pullback}\index{pullback!of a local system} of the local system $M$ under $X$ given pointwise by $(f^* M)_x' \coloneq M_{f(x')}$ and similarly on paths.
+\end{itemize}
+\lecture{03.11.23}
+Moving on to cohomology, we similarly define
+\begin{equation*}
+	C^n(X; M) \coloneq \prod_{\sigma\colon \Delta^n \to X} M_{\sigma 0}
+\end{equation*}
+with differential
+\begin{equation*}
+	d(f(\sigma)) \coloneq M_{(\sigma_{0, 1})^{-1}}(f(d^0 \sigma)) + \sum_{i = 1}^n f(d^i \sigma)
+\end{equation*}
+\begin{example}
+	One can show that using local coefficients there is a version of Poincaré duality\index{Poincaré duality!with local coefficients} without an orientability assumption:
+	If $M$ is a compact topological manifold of dimension $n$, there is a fundamental class
+	\begin{equation*}
+		[M] \in H_n(M; \Z^\text{or})
+	\end{equation*}
+	such that there are isomorphisms
+	\begin{gather*}
+		{{-}} \frown [M]\colon H^*(M; \Z) \xto{\isom} H_{n - *}(M; \Z^\text{or}) \\
+		{{-}} \frown [M]\colon H^*(M; \Z^\text{or}) \xto{\isom} H_{n - *}(M; \Z)
+	\end{gather*}
+\end{example}
+We now get back to the spectral sequence constructed out of the double complex $C^{\bullet, \bullet}(p; A)$ for a Serre fibration $p\colon E \to B$.
+We already know that it is a first quadrant spectral sequence converging to $H^*(E; A)$.
+It remains to study the $E_2$-page.
+We fix a map $\sigma\colon \Delta^p \to B$ and consider a square
+\begin{equation*}
+	\begin{tikzcd}
+		\Delta^p \times \Delta^q
+				\ar[r]
+				\ar[d]
+			& E
+				\ar[d, "f"]
+		\\
+		\Delta^p
+				\ar[r, "\sigma"]
+			& B
+	\end{tikzcd}
+\end{equation*}
+This is equivalent to a square
+\begin{equation*}
+	\begin{tikzcd}
+		\Delta^q
+				\ar[r]
+				\ar[d]
+			& \map(\Delta^p, E)
+				\ar[d, "{\map(\Delta^p, f)}"]
+		\\
+		*
+				\ar[r, "\sigma"]
+			& \map(\Delta^p, B)
+	\end{tikzcd}
+\end{equation*}
+which in turn is equivalent to a map $\Delta^q \to F_\sigma$ where $F_\sigma$ is the fibre of the fibration $\map(\Delta^p, E) \to \map(\Delta^p, B)$ over the point $\sigma$.
+Thus the columns of the double complex are isomorphic to a product over all maps $\sigma\colon \Delta^p \to X$ of the singular cochain complex of $F_\sigma$.
+Again, $F_\sigma$ is weakly homotopy equivalent to the fibre $F_{\sigma_0}$ of the original fibration $p\colon E \to B$ over the 0th vertex $\sigma_0$ (using that $\Delta^p$ is contractible).
+Hence, the vertical cohomologies of the double complex are the product
+\begin{equation*}
+	\prod_{\sigma\colon \Delta^p \to B} H^q(F_\sigma; A) \isom \prod_{\sigma\colon \Delta^p \to B} H^q(F_{\sigma_0}; A)
+\end{equation*}
+with this composition, the horizontal differentials work out as follows:
+For $i > 0$, the diagram
+\begin{equation*}
+	\begin{tikzcd}
+		H^q(F_{\sigma_0}; A)
+		\\
+		H^q(F_\sigma; A) 
+				\ar[r, "d^i"]
+				\ar[u, "\isom"]
+			& H^q(F_{\sigma \circ d}; A)
+				\ar[ul, swap, "\isom"]
+	\end{tikzcd}
+\end{equation*}
+commutes.
+For $i = 0$, we have a commutative square
+\begin{equation*}
+	\begin{tikzcd}[column sep = large]
+		H^q(F_{\sigma_0}; A)
+				\ar[r, "H^q(\gamma; A)"]
+			& H^q(F_{(\sigma \circ d_0)_0}; A)
+		\\
+		H^q(F_\sigma; A)
+				\ar[r, "d^0"]
+				\ar[u, "\isom"]
+			& H^q(F_{\sigma \circ d_0}; A)
+				\ar[u, "\isom"]
+	\end{tikzcd}
+\end{equation*}
+where $\gamma$ is the image of any path from $\sigma_0$ to $\sigma_1$ in $\Delta^p$ in $X$ essentially by definition of $H^q(\gamma; A)$.
+Hence, the vertical cohomologies equipped with the horizontal differentials are isomorphic to the cochain complex $C^*(X; H^q(F_{-}; A))$.
+This shows that the $E_2$-page is given by $E_2^{p, q} \isom H^p(B; H^q(F_{-}; A))$ as claimed.
+
+Analogously, the spectral sequence associated to the double complex $C_{\bullet, \bullet}(f; A)$ yields the homological Serre spectral sequence with $E_2$-term the local system homology $H_p(B; H_q(F_{-}; A))$.
+
+It remains to discuss multiplicative properties.
+\begin{definition}
+	A \strong{multiplicative structure}\index{multiplicative structure!on a double complex} on a double complex $C^{\bullet, \bullet}$ is a collection of maps $\mu\colon C^{p, q} \tensor C^{p', q'} \to C^{p + p', q + q'}$ that are associative and unital (with unit 1 in degree $(0, 0)$).
+	Moreover, the differential $\delta = \delta_h + (-1)^p \delta_v$ of $\Tot(C)$ must satisfy the Leibniz rule, i.e.
+	\begin{equation*}
+		\delta(xy) = \delta(x)y + (-1)^{p + q} x \delta(y)
+	\end{equation*}
+\end{definition}
+Chasing through the construction, we find:
+\begin{proposition}
+	The spectral sequence associated to a multiplicative double complex is multiplicative.
+\end{proposition}
+\begin{proof}
+	Omitted.
+\end{proof}
+To apply this, we define a multiplicative structure on $C^{\bullet, \bullet}(p; R)$ where $R$ is a ring and $p\colon E \to B$ a Serre fibration.
+Recall that for cochains $\phi \in C^p(X; R)$, $\psi \in C^q(X; R)$, and $\sigma\colon \Delta^{p + q} \to X$ one defines
+\begin{equation*}
+	(\phi \smile \psi)(\sigma) = \phi(d_{p\text{-front}}^* \sigma) \cdot \psi(d_{q\text{-back}}^* \sigma)
+\end{equation*}
+where $d_{p\text{-front}}\colon \Delta^p \to \Delta^{p + q}$ and $d_{q\text{-back}}\colon \Delta^q \to \Delta^{p + q}$ are the inclusions into the sub-$p$-simplex on the first $p + 1$ vertices and the sub-$q$-simplex on the last $q + 1$ vertices, respectively.
+Similarly, for $\phi \in C^{p, q}(p; R)$, $\psi \in C^{p', q'}(p; R)$ and a singular $(p + p', q + q')$-simplex $\sigma$ represented by
+\begin{equation*}
+	\begin{tikzcd}
+		\Delta^{p + p'} \times \Delta^{q + q'}
+				\ar[r, "d"]
+				\ar[d, "\pr_1"]
+			& E
+				\ar[d, "p"]
+		\\
+		\Delta^{p + p'} 
+				\ar[r, "\beta"]
+			& B
+	\end{tikzcd}
+\end{equation*}
+we set $(\phi \smile \psi)(\sigma) \coloneq \phi(d_{(p, q)\text{-front}}^* \sigma) \circ \psi(d_{(p', q')\text{-back}}^* \sigma)$ where $d_{(p, q)\text{-front}^*}$ is given via
+\begin{equation*}
+	\begin{tikzcd}
+		\Delta^p \times \Delta^q
+				\ar[r, "d_{p\text{-front}} \times d_{q\text{-front}}"]
+				\ar[d, "\pr_1"]
+			&[4em] \Delta^{p + p'} \times \Delta^{q + q'}
+				\ar[r, "d"]
+				\ar[d, "\pr_1"]
+			& E
+				\ar[d, "p"]
+		\\
+		\Delta^p
+				\ar[r, "d_{p\text{-front}}"]
+			& \Delta^{p + p'} 
+				\ar[r, "\beta"]
+			& B
+	\end{tikzcd}
+\end{equation*}
+and similarly for $d_{(p, q)\text{-back}}^*$.
+\begin{lemma}
+	Both the horizontal and vertical differentials on $C^{\bullet, \bullet}(p; R)$ satisfy the graded Leibniz rule with respect to this cup product and $C^{\bullet, \bullet}(p; R)$ becomes a multiplicative double complex.
+\end{lemma}
+\begin{proof}
+	Analogous to the Leibniz rule for the ordinary cup product.
+\end{proof}
+Thus, the cohomological Serre spectral sequence becomes multiplicative and one checks that the identification $E_2^{\bullet, \bullet} = H^\bullet(B; H^\bullet(F; R))$ is multiplicative with respect to the multiplication on $H^\bullet(B; H^\bullet(F; R))$ described earlier and that the convergence to $(H^*(E; R), F)$ is multiplicative.
+
+Finally, we record the naturality of the Serre spectral sequence.
+\begin{definition}
+	A \strong{morphism of cohomologically graded spectral sequences}\index{morphism of spectral sequences}
+	\begin{equation*}
+		f\colon (E_r, d_r, h_r) \to (E'_r, d'_r, h'_r)
+	\end{equation*}
+	is a collection of bigrading-preserving maps $f_r\colon E_r \to E'_r$ that commutes with the differentials and satisfies $h'_r \circ f_{r + 1} = H^*(f_r) \circ h_r$.
+\end{definition}
+Note that $f$ is determined by $f_2$, but it is a condition that the higher $f_r$ commute with the differentials.
+We make the analogous definition for homological grading.
+
+Consider now the category $\Fib$ of Serre fibrations $p\colon E \to B$ with morphisms all commutative squares
+\begin{equation*}
+	\begin{tikzcd}
+		E 
+				\ar[r, "g^E"]
+				\ar[d, "p"]
+			& E'
+				\ar[d, "p'"]
+		\\
+		B
+				\ar[r, "g^B"]
+			& B'
+	\end{tikzcd}
+\end{equation*}
+Then:
+\begin{itemize}
+	\item $C_{\bullet, \bullet}({{-}}; A)$ becomes a functor from $\Fib$ to double complexes by postcomposition.
+		Hence the assignment sending $p\colon E \to B$ to its Serre spectral sequence becomes a functor (similarly for the cohomological version).
+	\item The identification $E^2_{p, q} \isom H_p(B; H_q(F_{-}; A))$ is a natural isomorphism of functors $\Fib \to \Ab$.
+	\item The maps $H_*(g^E; A)$ and $H^*(g^E; A)$ preserve the filtration and
+		\begin{equation*}
+			E^\infty_{p, q} \isom F^p(H_{p + q}(E; A)) / F^{p - 1}(H_{p + q}(E; A))
+		\end{equation*}
+		is natural (similarly for the cohomological version).
+\end{itemize}
+We give a simple application of naturality.
+Let $p\colon E \to B$ be a Serre fibration.
+We have surjections
+\begin{equation*}
+	E_2^{p, 0} \surj E_3^{p, 0} \surj \cdots \surj E_\infty^{p, 0}
+\end{equation*}
+as well as an inclusion $E_\infty^{p, 0} = F^p(H^p(F_{-}; A)) \incl H^p(E; A)$ and a map $H^p(B; A) \to H^p(B; H^0(F_{-}; A)) = E_2^{p, 0}$ induced by the map of local systems $A \to H^*(F_{-}; A)$ from the projections $F_* \to *$.
+% TODO rename the p
+The composite $e(p)\colon H^p(B; A) \to H^p(E; A)$ is called the \strong{edge homomorphism}\index{edge homomorphism}.
+\begin{lemma}
+	The map $e(p)$ agrees with $H^p(p; A)$.
+\end{lemma}
+\begin{proof}
+	By naturality of the Serre spectral sequence, the edge homomorphism is also natural.
+	We consider the square of fibrations
+	\begin{equation*}
+		\begin{tikzcd}
+			E
+				\ar[r, "p"]
+				\ar[d, swap, "p"]
+				& B
+					\ar[d, equals]
+			\\
+			B
+					\ar[r, equals]
+				& B
+		\end{tikzcd}
+	\end{equation*}
+	and obtain a commutative square
+	\begin{equation*}
+		\begin{tikzcd}
+			H^*(B; A)
+					\ar[r, equals]
+					\ar[d, "e(\id)"]
+				& H^*(B; A)
+					\ar[d, "e(p)"]
+			\\
+			H^*(B; A)
+					\ar[r, "p^*"]
+				& H^*(E; A)
+		\end{tikzcd}
+	\end{equation*}
+	It hence suffices to check that $e(\id) = \id$ which one easily checks directly.
+\end{proof}
+There is also an edge homomorphism of the form
+\begin{align*}
+	H^q(E; A) &\surj F_0 H^q(E; A) / F_1 H^q(E; A) \isom E_\infty^{0, q} \\
+			  &\incl E_2^{0, q} \isom H^0(B; H^q(F_{-}; A)) \to H^q(F_*; A)
+\end{align*}
+where the last map is induced by the inclusion $* \incl B$ which one can show similarly to agree with $H^q(F_* \incl E; A)$.
+There are also homological versions of the edge homomorphisms.
+
 
 \section{Exercises}
 \begin{exercise}\label{ex:serrefib}
