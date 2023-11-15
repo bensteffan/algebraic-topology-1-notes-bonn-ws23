@@ -4,7 +4,7 @@
 
 \addbibresource{references.bib}
 
-\colorlet{knowngray}{darkgray!70}
+\colorlet{knowngray}{darkgray!80}
 
 \DeclareNamedOperator{Stab}
 \DeclareNamedOperator{Tot}
@@ -12,6 +12,15 @@
 \DeclareNamedOperator{sk}
 
 \DefineCategory{Fib}
+
+\newcommand{\Hur}{\text{Hur}}
+
+% Serre classes
+\newcommand{\Cfg}{\catfont{C}^\text{f. g.}}
+\newcommand{\Ctor}{\catfont{C}^\text{tor}}
+\newcommand{\Cptor}{\catfont{C}^\text{p}}
+\newcommand{\Cfin}{\catfont{C}^\text{fin}}
+\newcommand{\Cfinp}{\catfont{C}^\text{p, fin}}
 
 \tikzset{
 	spectral sequence/.cd,
@@ -1965,6 +1974,323 @@ There is also an edge homomorphism of the form
 where the last map is induced by the inclusion $* \incl B$ which one can show similarly to agree with $H^q(F_* \incl E; A)$.
 There are also homological versions of the edge homomorphisms.
 
+We now turn to structural application of the Serre spectral sequence.
+
+\subsection{Structure applications}
+As a warmup, we reprove the Hurewicz theorem using only the case $\pi_1(X, *)^\ab \to H_1(X; \Z)$ for path connected $X$ as input.
+\begin{proposition}[Hurewicz]\index{Hurewicz theorem}
+	Let $n > 1$ and $X$ be $(n - 1)$-connected.
+	Then $H_k(X; \Z) = 0$ for $0 < k < n$ and the Hurewicz map $\pi_n(X, *) \to H_n(X; \Z)$ is an isomorphism.
+\end{proposition}
+\begin{proof}
+	We proceed by induction on $n$.
+	Assume the theorem holds up to $n - 1$.
+	The loop space $\Omega X$ is $(n - 2)$-connected and satisfies $\pi_k(X, *) \xto{\isom} \pi_{k - 1}(\Omega X, *)$, so by the induction hypothesis $H_k(\Omega X; \Z) = 0$ for $0 < k < n - 1$ and we have an isomorphism
+	\begin{equation*}
+		\pi_n(X, *) \isom \pi_{n - 1}(\Omega X, *) \isom H_{n - 1}(\Omega X; \Z)
+	\end{equation*}
+	% TODO spectral sequence diagram
+	Applying the Serre spectral sequence for the fibre sequence $\Omega X \to * \to X$, the $E^\infty$-page must be 0 away from $(0, 0)$, hence we see directly that $H_k(X; \Z) = 0$ for $0 < k < n$.
+	Moreover, $d^n\colon H_n(X; \Z) \to H_{n - 1}(\Omega X; \Z)$ must be an isomorphism.
+
+	We therefore obtain an isomorphism
+	\begin{equation*}
+		\begin{tikzcd}
+			\pi_n(X, *)
+					\ar[r, "\isom"]
+					\ar[rrr, bend right = 12, swap, "\eqcolon c_X"]
+				& \pi_{n - 1}(\Omega X, *)
+					\ar[r, "\Hur"', "\isom"]
+				& H_{n - 1}(\Omega X; \Z)
+				& H_n(X; \Z)
+					\ar[l, swap, "\isom"]
+		\end{tikzcd}
+	\end{equation*}
+	where $\Hur\colon \pi_{n - 1}(\Omega X, *) \to H_{n - 1}(\Omega X; \Z)$ is the Hurewicz map.
+
+	Why does this composite $c_X$ agree with the Hurewicz map (up to sign)?
+	Note that $c_X$ is natural in $(n - 1)$-connected spaces.
+	We can therefore reduce to the universal case $X = S^n$:
+	Let $x \in \pi_n(X, *)$ be represented by $f\colon S^n \to X$.
+	We obtain a square
+	\begin{equation*}
+		\begin{tikzpicture}[
+			% setup some helpers to declutter the matrix head below
+			gray column/.style args = {#1}{
+				column #1/.append style = {
+					knowngray
+				},
+			},
+			column separators/.style args = {#1/#2}{
+				column #1/.append style = {
+					column sep = #2,
+				},
+			},
+			row separators/.style args = {#1/#2}{
+				row #1/.append style = {
+					row sep = #2,
+				},
+			},
+			commutative diagrams/.cd, 
+			every diagram, 
+			sep = large]
+			\matrix[
+				matrix of math nodes, 
+				name = m, 
+				commutative diagrams/every matrix,
+				commutative diagrams/every cell,
+				gray column/.list = {1, 4},
+				column separators/.list = {1/0pt, 3/0pt},
+				row separators/.list = {1/0pt, 3/0pt}] {
+				{[\id]} 	& 				& 			 	& c_{S^n}([\id]) \\
+							& \pi_n(S^n, *) & H_n(S^n; \Z) 					 \\
+							& \pi_n(X, *) 	& H_n(X; \Z) 					 \\
+				{[f] = x} 	& 				& 				& c_X(x) 		 \\
+			};
+			\draw[commutative diagrams/.cd, every arrow, every label]
+				(m-2-2) edge["$c_{S^n}$", "$\isom$"'] (m-2-3)
+						edge["$f_*$"'] (m-3-2)
+				(m-2-3) edge["$H_n(f)$"] (m-3-3)
+				(m-3-2) edge["$c_X$", "$\isom$"'] (m-3-3);
+			\draw[commutative diagrams/.cd, every arrow, every label, mapsto, knowngray]
+				(m-1-1) edge (m-1-4)
+						edge (m-4-1)
+				(m-1-4) edge (m-4-4)
+				(m-4-1) edge (m-4-4);
+		\end{tikzpicture}
+	\end{equation*}
+	Note that $c_{S^n}$ must send $[\id]$ to one of the two orientation classes for $S^n$, i.e. $c_{S^n} = \pm \Hur_{S^n}$.
+	Hence,
+	\begin{align*}
+		c_X(x) &= H_n(f)(c_{S^n}([\id])) \\
+			   &= H_n(f)(\pm \Hur_{S^n}([\id])) \\
+			   &= \pm \Hur([f]) \\
+			   &= \pm \Hur([x])
+	\end{align*}
+	and the sign is the same for all $(n - 1)$-connected $X$ and $x \in \pi_n(X, *)$.
+\end{proof}
+
+\subsection{Serre classes}
+\begin{definition}
+	Let $\catfont{C} \subseteq \Ab$ be a non-empty full subcategory.
+	$\catfont{C}$ is called a \strong{Serre class}\index{Serre class} if it is closed under extensions, subgroups, quotient groups, and isomorphisms, i.e. such that given a short exact sequence 
+	\begin{equation*}
+		\begin{tikzcd}
+			0 
+					\ar[r]
+				& A
+					\ar[r, hook]
+				& B
+					\ar[r, two heads]
+				& C
+					\ar[r]
+				& 0
+		\end{tikzcd}
+	\end{equation*}
+	of abelian groups, $B \in \catfont{C}$ if and only if $A, C \in \catfont{C}$.
+\end{definition}
+\begin{example}
+	The following full subcategories of $\Ab$ are Serre classes:	
+	\begin{enumerate}
+		\item $\Cfg$, the class of finitely generated abelian groups.
+		\item $\Ctor$, the class of torsion abelian groups (i.e. abelian groups $A$ such that for all $a \in A$ there exists some $n \in \N$ with $n a = 0$).
+		\item $\Cptor$, the class of $p$-power torsion abelian groups (i.e. abelian groups $A$ such that for all $a \in A$ there exists $n \in \N$ with $p^n a = 0$).
+		\item $\Cfin$, the class of finite abelian groups.
+		\item $\Cfinp$, the class of finite $p$-power torsion abelian groups.
+	\end{enumerate}
+\end{example}
+\begin{example}
+	The following full subcategories of $\Ab$ are \emph{non-examples} of Serre classes:
+	\begin{enumerate}
+		\item The cagegory of torsion-free groups (consider $0 \to \Z \xto{\cdot 2} \Z \to \Zn{2} \to 0$).
+		\item The category of $p$-torsion groups (consider $0 \to \Zn{p} \xto{\cdot p} \Zn{p^2} \to \Zn{p} \to 0$).
+		\item The category of rational / uniquely divisible abelian groups (consider $0 \to \Z \to \Q \to \Q / \Z \to 0$).
+	\end{enumerate}
+\end{example}
+\begin{lemma}\label{lmm:serreclasssequences}
+	Let $\catfont{C}$ be a Serre class.
+	Then:
+	\begin{enumerate}
+		\item Given an exact sequence $0 \to A_1 \to A_2 \to \cdots \to A_n \to 0$, if all but one of the $A_i$ are in $\catfont{C}$, then all $A_i$ are in $\catfont{C}$.
+		\item If $C_*$ is a chain complex in $\catfont{C}$, then $H_n(C_*) \in \catfont{C}$ for all $n$.
+		\item If $0 = A_0 \subseteq A_1 \subseteq \cdots \subseteq A_n = A$ is a finite filtration, then $A \in \catfont{C}$ if and only if $A_i / A_{i - 1} \in \catfont{C}$ for all $i = 1, \ldots, n$.
+	\end{enumerate}
+\end{lemma}
+\begin{proof}
+	\leavevmode
+	\begin{enumerate}
+		\item From $A_{i - 1} \xto{f} A_i \xto{g} A_{i + 1}$ we get a short exact sequence
+			\begin{equation*}
+				\begin{tikzcd}
+					0 
+							\ar[r]
+						& \img f
+							\ar[r, hook]
+						& A_i
+							\ar[r, two heads]
+						& \img g
+							\ar[r]
+						& 0
+				\end{tikzcd}
+			\end{equation*}
+			and $\img f \in \catfont{C}$ as it is a quotient of $A_{i - 1}$ as well as $\img_g \in \catfont{C}$ as a subgroup of $A_{i + 1} \in \catfont{C}$, so $A_i \in \catfont{C}$.
+		\item Similarly, we get
+			\begin{equation*}
+				\begin{tikzcd}
+					0 
+							\ar[r]
+						& \img d_{n + 1}
+							\ar[r, hook]
+						& \ker d_n
+							\ar[r, two heads]
+						& H_n(C_*)
+							\ar[r]
+						& 0
+				\end{tikzcd}
+			\end{equation*}
+			for $d_{n + 1}\colon C_{n + 1} \to C_n$ the differential, so since $\img d_{n + 1} \in \catfont{C}$ as a quotient of $C_{n + 1}$ and $\ker d_n \subseteq C_n \in \catfont{C}$, we conclude that $H_n(C_*) \in \catfont{C}$ as well.
+		\item This claim follows similarly by induction on $n$.
+	\end{enumerate}
+\end{proof}
+
+We sometimes require stronger axioms:
+\begin{definition}
+	A Serre class $\catfont{C}$ satisfies
+	\begin{enumerate}
+		\item the \strong{tensor axiom}\index{Serre class!tensor axiom} if $A \tensor B \in \catfont{C}$ and $\Tor(A, B) \in \catfont{C}$ whenever $A, B \in \catfont{C}$.
+		\item the \strong{group homology axiom}\index{Serre class!group homology axiom} if $H_n(K(A, 1); \Z) \in \catfont{C}$ for all $n \geq 1$ whenever $A \in \catfont{C}$.
+	\end{enumerate}
+\end{definition}
+Recall that $\Tor(A, B)$ computes the kernel of $P_1 \tensor B \surj P_0 \tensor B$ where $0 \to P_1 \to P_2 \to A \to 0$ is a free resolution of $A$ while $A \tensor B$ is the cokernel of this map.
+Hence the tensor axiom is automatic if
+\begin{itemize}
+	\item $\catfont{C}$ is closed under infinite direct sums (this holds for $\Ctor$, for instance), or
+	\item $\catfont{C}$ is a subclass of $\Cfg$ since then $P_1$ and $P_0$ can be chosen free of finite rank and every Serre class is closed under finite sums.
+\end{itemize}
+
+Furthermore we have:
+\begin{lemma}
+	Every Serre class $\catfont{C}$ of finitely generated abelian groups satisfies the group homology axiom.
+\end{lemma}
+\begin{proof}
+	We have
+	\begin{equation*}
+		\tilde{H}_n(K(\Z, 1); \Z) \isom \begin{cases}
+			\Z & n = 1 \\
+			0  & \text{else}
+		\end{cases}
+	\end{equation*}
+	as $S^1$ is a $K(\Z, 1)$ and
+	\begin{equation*}
+		\tilde{H}_n(K(\Zn{n}, 1); \Z) \isom \begin{cases}
+			\Zn{m} & n \text{ odd} \\
+			0 	   & n \text{ even}
+		\end{cases}
+	\end{equation*}
+	This latter statement can for example be seen via lens space models for $K(\Zn{n}, 1)$ which have $S^\infty$ as universal cover with $\Zn{m}$ acting by multiplication with an $m$th root of unity.
+	Alternatively, this result can also be obtained via group homology.
+
+	As every finitely generated abelian group is a finite direct sum of $\Zn{m}$'s and $\Z$'s, the claim then follows by induction using the Künneth short exact sequences
+	\begin{equation*}
+		\begin{tikzcd}
+			0
+					\ar[r]
+				& H_*(K(A, 1)) \tensor H_*(K(B, 1))
+					\ar[r, hook]
+				& H_*(K(A \times B, 1))
+					\ar[dl, rounded corners, two heads, to path = {
+						-- ([xshift = 1em] \tikztostart.east)
+						|- ($(\tikzcdmatrixname-1-2)!0.5!(\tikzcdmatrixname-2-2)$) \tikztonodes
+						-| ([xshift = -2ex] \tikztotarget.west)
+						--(\tikztotarget)
+					}]	
+			\\
+				& {[-1]\Tor(H_*(K(A, 1)), H_*(K(B, 1)))}
+					\ar[r]
+				& 0
+		\end{tikzcd}
+	\end{equation*}
+	We have already seen that $\catfont{C}$ satifies the tensor axiom, hence $H_*(K(A \times B, 1); \Z) \in \catfont{C}$.
+\end{proof}
+
+Our next goal is to show the following:
+\begin{theorem}\label{thm:protohurmodc}
+	Let $\catfont{C}$ be a Serre class satisfying the tensor and group homology axioms, and $X$ a simple space.
+	Then the following statements are equivalent:
+	\begin{enumerate}
+		\item $H_n(X; \Z) \in \catfont{C}$ for all $n \geq 1$.
+		\item $\pi_n(X; \Z) \in \catfont{C}$ for all $n \geq 1$.
+	\end{enumerate}
+\end{theorem}
+Recall that a space $X$ is \strong{simple}\index{simple space} if it is path-connected, $\pi_1(X, *)$ is abelian and $\pi_1(X, *)$ acts trivially on $\pi_n(X, *)$ for all $n > 1$.
+In particular, every H-space is simple.
+\begin{corollary}
+	$\pi_k(S^n, *)$ is finitely generated for all $k, n$.
+\end{corollary}
+\begin{corollary}
+	More generally, $\pi_k(X, *)$ is finitely generated for every simple finite CW-complex.
+\end{corollary}
+\begin{remark}
+	Theorem \ref{thm:protohurmodc} holds more generally for \strong{nilpotent spaces}\index{nilpotent space}.
+
+	On the other hand, $X = S^1 \vee S^2$ shows that the theorem does not hold for all spaces, since $\pi_2(X, *) \isom H_2(\tilde{X}; \Z) \isom \dsum_{\Z} \Z$ where $\tilde{X}$ is the universal covering of $X$.
+	% TODO: picture?
+\end{remark}
+\begin{lemma}
+	Let $\catfont{C}$ be a Serre class satisfying the tensor axiom, $F \to Y \to X$ a fibre sequence of path-connected spaces with $\pi_1(X, *)$ acting trivially on $H_*(F; \Z)$ (i.e. the local system $H_*(F_{-}; \Z))$ is isomorhic to the trivial one).
+	If two out of $F$, $Y$, and $X$ have $H_n({{-}}; \Z) \in \catfont{C}$ for all $n \geq 1$, then so does the third.
+\end{lemma}
+\begin{proof}
+	We abbreivate $H_*({{-}}; \Z)$ to $H_*$ and distinguish the following cases:
+	\begin{enumerate}
+		\item $H_k(F)$, $H_k(X) \in \catfont{C}$ for all $k \geq 1$.
+			Then for the associated Serre spectral sequence we have
+			\begin{equation*}
+				E^2_{p, q} = H_p(X; H_q(F)) \isom H_p(X) \tensor H_q(F) \dsum \Tor(H_{p - 1}(X), H_q(F)) \in \catfont{C}
+			\end{equation*}
+			for $(p, q) \neq (0, 0)$.
+			Note that for $p = 1$ we have $\Tor(H_{p - 1}(X), H_q(F)) = 0$ since $H_0(X)$ is free.
+			Hence lemma \ref{lmm:serreclasssequences} implies $E^\infty_{p, q} \in \catfont{C}$ for $(p, q) \neq (0, 0)$ and thus $H_k(Y) \in \catfont{C}$ for $k \geq 1$.
+		\item $H_k(F)$, $H_k(Y) \in \catfont{C}$ for all $k \geq 1$.
+			By lemma \ref{lmm:serreclasssequences} we have $E^\infty_{p, q} \in \catfont{C}$ for $(p, q) \neq (0, 0)$.
+			We now show that $H_n(X) \in \catfont{C}$ by induction over $n$.
+			% TODO picture?
+			For $n = 1$ we have $H_1(X) \isom E^2_{1, 0} \isom E^\infty_{1, 0} \in \catfont{C}$.
+			We now choose $n \geq 1$ and assume $H_k(X) \in \catfont{C}$ for $k = 1, \ldots, n - 1$.
+			Then $E^r_{p, q} \in \catfont{C}$ for $p < n$, $(p, q) \neq (0, 0)$ and all $r$.
+			We have a filtration $H_n(X) \supseteq E^3_{n, 0} \supseteq E^4_{n, 0} \supseteq \cdots \supseteq E^{n + 1}_{n, 0} = E_{n, 0}^\infty$ and short exact sequences
+			\begin{equation*}
+				\begin{tikzcd}
+					0
+							\ar[r]
+						& E^{i + 1}_{n, 0}
+							\ar[r, hook]
+						& E^i_{n, 0}
+							\ar[r, two heads, "d^i"]
+						& \img d^i
+							\ar[r]
+						& 0
+				\end{tikzcd}
+			\end{equation*}
+			with $\img d^i \subseteq E^i_{n - i, i - 1}$.
+			Since $n - i < n$, this group lies in $\catfont{C}$, hence so does $\img d^i$.
+			By backwards induction (starting with $E^{n + 1}_{n, 0}$) it follows that $H_n(X) \in \catfont{C}$.
+		\item $H_k(X), H_k(Y) \in \catfont{C}$ for all $k \geq 1$.
+			This case is similar to the last and therefore left as an exercise to the reader.
+			\qedhere
+	\end{enumerate}
+\end{proof}
+\begin{corollary}
+	Let $\catfont{C}$ be a Serre class satisfying the tensor and group homology axioms.
+	Then if $A \in \catfont{C}$, we have $H_k(K(A, n)) \in \catfont{C}$ for all $k > 0, n \geq 1$.
+\end{corollary}
+\begin{proof}
+	By induction on $n$ starting with the group homology axiom for $n = 1$ and using the fibre sequences
+	\begin{equation*}
+		K(A, n - 1) \htpyeqv \Omega K(A, n) \to * \to K(A, n)
+		\qedhere
+	\end{equation*}
+\end{proof}
 
 \section{Exercises}
 \begin{exercise}\label{ex:serrefib}
