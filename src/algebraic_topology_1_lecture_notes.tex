@@ -11,16 +11,18 @@
 \DeclareNamedOperator{gr}
 \DeclareNamedOperator{sk}
 
+\DeclareMathOperator*{\holim}{holim}
+
 \DefineCategory{Fib}
 
 \newcommand{\Hur}{\text{Hur}}
 
 % Serre classes
-\newcommand{\Cfg}{\catfont{C}^\text{f. g.}}
+\newcommand{\Cfg}{\catfont{C}^\text{f.g.}}
 \newcommand{\Ctor}{\catfont{C}^\text{tor}}
-\newcommand{\Cptor}{\catfont{C}^\text{p}}
+\newcommand{\Cptor}[1][p]{\catfont{C}^\text{#1}}
 \newcommand{\Cfin}{\catfont{C}^\text{fin}}
-\newcommand{\Cfinp}{\catfont{C}^\text{p, fin}}
+\newcommand{\Cfinp}[1][p]{\catfont{C}^\text{#1, fin}}
 
 \tikzset{
 	spectral sequence/.cd,
@@ -30,6 +32,8 @@
 		font = \footnotesize
 	},
 }
+
+\hyphenation{mo-du-lo}
 
 \course{Algebraic Topology \uppercase\expandafter{\romannumeral 1\relax}}
 \subtitle{The Serre Spectral Sequence, Characteristic Classes, and Bordism}
@@ -1974,6 +1978,7 @@ There is also an edge homomorphism of the form
 where the last map is induced by the inclusion $* \incl B$ which one can show similarly to agree with $H^q(F_* \incl E; A)$.
 There are also homological versions of the edge homomorphisms.
 
+\lecture{06.11.23}
 We now turn to structural application of the Serre spectral sequence.
 
 \subsection{Structure applications}
@@ -2150,6 +2155,7 @@ As a warmup, we reprove the Hurewicz theorem using only the case $\pi_1(X, *)^\a
 			\end{equation*}
 			for $d_{n + 1}\colon C_{n + 1} \to C_n$ the differential, so since $\img d_{n + 1} \in \catfont{C}$ as a quotient of $C_{n + 1}$ and $\ker d_n \subseteq C_n \in \catfont{C}$, we conclude that $H_n(C_*) \in \catfont{C}$ as well.
 		\item This claim follows similarly by induction on $n$.
+			\qedhere
 	\end{enumerate}
 \end{proof}
 
@@ -2182,7 +2188,7 @@ Furthermore we have:
 	\end{equation*}
 	as $S^1$ is a $K(\Z, 1)$ and
 	\begin{equation*}
-		\tilde{H}_n(K(\Zn{n}, 1); \Z) \isom \begin{cases}
+		\tilde{H}_n(K(\Zn{m}, 1); \Z) \isom \begin{cases}
 			\Zn{m} & n \text{ odd} \\
 			0 	   & n \text{ even}
 		\end{cases}
@@ -2215,14 +2221,14 @@ Furthermore we have:
 
 Our next goal is to show the following:
 \begin{theorem}\label{thm:protohurmodc}
-	Let $\catfont{C}$ be a Serre class satisfying the tensor and group homology axioms, and $X$ a simple space.
+	Let $\catfont{C}$ be a Serre class satisfying the tensor and group homology axioms and $X$ a simple space.
 	Then the following statements are equivalent:
 	\begin{enumerate}
 		\item $H_n(X; \Z) \in \catfont{C}$ for all $n \geq 1$.
-		\item $\pi_n(X; \Z) \in \catfont{C}$ for all $n \geq 1$.
+		\item $\pi_n(X, *) \in \catfont{C}$ for all $n \geq 1$.
 	\end{enumerate}
 \end{theorem}
-Recall that a space $X$ is \strong{simple}\index{simple space} if it is path-connected, $\pi_1(X, *)$ is abelian and $\pi_1(X, *)$ acts trivially on $\pi_n(X, *)$ for all $n > 1$.
+Recall that a space $X$ is \strong{simple}\index{simple space} if it is path-connected and $\pi_1(X, *)$ abelian acting trivially on $\pi_n(X, *)$ for all $n > 1$.
 In particular, every H-space is simple.
 \begin{corollary}
 	$\pi_k(S^n, *)$ is finitely generated for all $k, n$.
@@ -2233,15 +2239,15 @@ In particular, every H-space is simple.
 \begin{remark}
 	Theorem \ref{thm:protohurmodc} holds more generally for \strong{nilpotent spaces}\index{nilpotent space}.
 
-	On the other hand, $X = S^1 \vee S^2$ shows that the theorem does not hold for all spaces, since $\pi_2(X, *) \isom H_2(\tilde{X}; \Z) \isom \dsum_{\Z} \Z$ where $\tilde{X}$ is the universal covering of $X$.
+	On the other hand, $X = S^1 \vee S^2$ shows that the theorem does not hold for all spaces, since $\pi_2(X, *) \isom H_2(\tilde{X}; \Z) \isom \bigdsum_{\Z} \Z$ where $\tilde{X}$ is the universal covering of $X$.
 	% TODO: picture?
 \end{remark}
-\begin{lemma}
-	Let $\catfont{C}$ be a Serre class satisfying the tensor axiom, $F \to Y \to X$ a fibre sequence of path-connected spaces with $\pi_1(X, *)$ acting trivially on $H_*(F; \Z)$ (i.e. the local system $H_*(F_{-}; \Z))$ is isomorhic to the trivial one).
+\begin{lemma}\label{lmm:twointhreeserreclass}
+	Let $\catfont{C}$ be a Serre class satisfying the tensor axiom, $F \to Y \to X$ a fibre sequence of path-connected spaces with $\pi_1(X, *)$ acting trivially on $H_*(F; \Z)$ (so that the local system $H_*(F_{-}; \Z))$ is isomorphic to the trivial one).
 	If two out of $F$, $Y$, and $X$ have $H_n({{-}}; \Z) \in \catfont{C}$ for all $n \geq 1$, then so does the third.
 \end{lemma}
 \begin{proof}
-	We abbreivate $H_*({{-}}; \Z)$ to $H_*$ and distinguish the following cases:
+	We abbreviate $H_*({{-}}; \Z)$ to $H_*({{-}})$ and distinguish the following cases:
 	\begin{enumerate}
 		\item $H_k(F)$, $H_k(X) \in \catfont{C}$ for all $k \geq 1$.
 			Then for the associated Serre spectral sequence we have
@@ -2280,7 +2286,7 @@ In particular, every H-space is simple.
 			\qedhere
 	\end{enumerate}
 \end{proof}
-\begin{corollary}
+\begin{corollary}\label{crl:maclanespaceserreclass}
 	Let $\catfont{C}$ be a Serre class satisfying the tensor and group homology axioms.
 	Then if $A \in \catfont{C}$, we have $H_k(K(A, n)) \in \catfont{C}$ for all $k > 0, n \geq 1$.
 \end{corollary}
@@ -2290,6 +2296,183 @@ In particular, every H-space is simple.
 		K(A, n - 1) \htpyeqv \Omega K(A, n) \to * \to K(A, n)
 		\qedhere
 	\end{equation*}
+\end{proof}
+\lecture{10.11.23}
+We return to our goal of proving theorem \ref{thm:protohurmodc}.
+Let $X$ be a space and recall that a \strong{Postnikov tower}\index{Postnikov tower} of $X$ is a commutative diagram
+\begin{equation*}
+	\begin{tikzcd}
+			& \vdotswithin{=}
+				\ar[d]
+		\\
+			& \tau_{\leq 1} X
+				\ar[d]
+		\\
+		X
+				\ar[uur]
+				\ar[ur]
+				\ar[r]
+			& \tau_{\leq 0} X
+	\end{tikzcd}
+\end{equation*}
+of spaces such that $\pi_k(\tau_{\leq n} X) = 0$ for $k > n$ and $X \to \tau_{\leq n} X$ induces an isomorphism on $\pi_k$ for $k \leq n$.
+The map $X \to \holim_n \tau_{\leq n} X$ is then a weak homotopy equivalence.
+
+For simplicity's sake, we assume $X$ to be path-connected.
+Then each $\tau_{\leq n} X$ is also path-connected and there is a fibre sequence
+\begin{equation*}
+	K(\pi_n X, n) \to \tau_{\leq n} X \to \tau_{\leq n - 1} X
+\end{equation*}
+(this follows from the long exact sequence of homotopy groups).
+The key point is that if $X$ is simple, the action of $\pi_1(\tau_{\leq n} X) \isom \pi_1(X)$ on $H_*(K(\pi_n X, n))$ is trivial.
+This follows from the following two facts:
+\begin{enumerate}
+	% TODO link exercise
+	\item The action of $\pi_1(X) \isom \pi_1(\tau_{\leq n - 1} X)$ on $\pi_n(K(\pi_n X, n)) \isom \pi_n(X)$ agrees with the \enquote{usual} one (this is exercise TODO).
+	\item Any self-map of $K(A, n)$ which induces the identity on $\pi_n(K(A, n))$ is homotopic to the identity.
+		In fact, $[K(A, n), K(A, n)] \xto[\isom]{\pi_n} \Hom(A, A)$ is a bijection.
+\end{enumerate}
+We can now prove theorem \ref{thm:protohurmodc}, or in fact a more general version, after setting up some additional terminology:
+\begin{definition}
+	Let $\catfont{C}$ be a Serre class.
+	We say that a map $f\colon A \to B$ of abelian groups is an \strong{isomorphism modulo $\catfont{C}$}\index{Serre class!isomorphism modulo} if $\ker f, \coker f \in \catfont{C}$.  
+	It is a \strong{monomorphism modulo $\catfont{C}$}\index{Serre class!isomorphism modulo} if $\ker f \in \catfont{C}$ and an \strong{epimorphism modulo $\catfont{C}$}\index{Serre class!epimorphism modulo} if $\coker f \in \catfont{C}$.
+\end{definition}
+\begin{example}
+	$f\colon A \to B$ is an isomorphism modulo $\Ctor$ if and only if $f \tensor \Q$ is an isomorphism.
+	The map $\Z \xto{\cdot 2} \Z$ is an isomorphism modulo $\Cfinp[2]$.
+\end{example}
+\begin{theorem}[Hurewicz modulo $\catfont{C}$]\index{Hurewicz theorem!modulo $\catfont{C}$}
+	Let $\catfont{C}$ be a Serre class satisfying the tensor and group homology axioms.
+	For $n > 0$ and a simple space $X$ the following are equivalent:
+	\begin{itemize}
+		\item $H_k(X) \in \catfont{C}$ for all $0 < k < n$.
+		\item $\pi_k(X) \in \catfont{C}$ for all $0 < k < n$.
+	\end{itemize}
+	In this case, the Hurewicz map 
+	\begin{equation*}
+		\pi_n(X) \to H_n(X)
+	\end{equation*}
+	is an isomorphism modulo $\catfont{C}$.
+\end{theorem}
+\begin{proof}
+	We first assume $\pi_k(X) \in \catfont{C}$ for $0 < k < n$.
+	Consider the Postnikov tower of $X \isom \holim_n \tau_{\leq n} X$.
+	Since $H_k(X) \isom H_k(\tau_{\leq k} X)$\footnote{(from me) This holds since we can construct a model of $\tau_{\leq k} X$ from (a CW-approximation of) $X$ by attaching cells of dimension $\geq k + 2$ to kill off higher homotopy groups so that the map $X \to \tau_{\leq k} X$ induces an isomorphism on (cellular) homology in degrees $\leq k + 1$.} it suffices to show that $H_m(\tau_{\leq k} X) \in \catfont{C}$ for all $k < n$ and all $m > 0$.
+	This follows by induction from the fibre sequences
+	\begin{equation*}
+		K(\pi_k X, k) \to \tau_{\leq k} X \to \tau_{\leq k - 1} X
+	\end{equation*}
+	via lemma \ref{lmm:twointhreeserreclass} and corollary \ref{crl:maclanespaceserreclass}.
+
+	Next we show by induction on $n$ that if $H_k(X) \in \catfont{C}$ for all $0 < k < n$, then $\pi_n(X) \to H_n(X)$ is an isomorphism modulo $\catfont{C}$.
+	This proves the general statement by applying it inductively for smaller $n$:
+	The Hurewicz map $\pi_n(X) \to H_n(X)$ is equivalent to the map $\pi_n(X) \isom \pi_n(K(\pi_n X, n)) \xto{\isom} H_n K(\pi_n X, n) \xto{\isom} H_n(\tau_{\leq n} X) \isom H_n(X)$.
+	The induction hypothesis implies that $\pi_k(X) \in \catfont{C}$ for $k < n$.
+	By the first part of the proof we know that $H_k(\tau_{\leq n - 1} X) \in \catfont{C}$ for all $k > 0$.
+	We analyze the Serre spectral sequence for the fibre sequence
+	\begin{equation*}
+		K(\pi_n X, n) \to \tau_{\leq n} X \to \tau_{\leq n - 1} X
+	\end{equation*}
+	% TODO picture
+	The first possible differential from the 0th row is $d^{n + 1}\colon H_{n + 1}(\tau_{\leq n - 1} X) \to H_n(K(\pi_n X, n))$ with cokernel $E^\infty_{0, n}$ which sits in a short exact sequence
+	\begin{equation*}
+		\begin{tikzcd}
+			0
+					\ar[r]
+				& E^\infty_{0, n}
+					\ar[r, hook]
+				& H_n(\tau_{\leq n} X)
+					\ar[r, two heads]
+				& H_n(\tau_{\leq n - 1} X)
+					\ar[r]
+				& 0
+		\end{tikzcd}
+	\end{equation*}
+	from the filtration.
+	Put together, we obtain an exact sequence
+	\begin{equation*}
+		\begin{tikzcd}
+			H_{n + 1}(\tau_{\leq n - 1} X)
+					\ar[r, "d^{n + 1}"]
+				& H_n K(\pi_n X, n) 
+					\ar[r]
+				& H_n(\tau_{\leq n})
+					\ar[r]
+				& H_n(\tau_{\leq n - 1} X) 
+					\ar[r]
+				& 0
+		\end{tikzcd}
+	\end{equation*}
+	As the first and last term are in $\catfont{C}$, this finishes the proof.
+\end{proof}
+\begin{corollary}
+	Let $p$ be a prime.
+	Then the first $p$-power torsion in $\pi_*(S^3)$ is a copy of $\Zn{p}$ in degree $2p$.
+\end{corollary}
+\begin{proof}
+	Recall that we computed the homology of the homotopy fibre of $S^3 \to K(\Z, 3) = \tau_{\leq 3} S^3$ as
+	\begin{equation*}
+		H_k(F) \isom \begin{cases}
+			\Z / n 	& k = 2n\; (n > 1) \\
+			0 		& k \text{ odd}
+		\end{cases}
+	\end{equation*}
+	Application of the modulo $\catfont{C}$ Hurewicz theorem for the Serre class of finite abelian groups with order coprime to $p$ shows that $\pi_k(F)$ is finite with no $p$-torsion for $k < 2p$ and that the kernel and cokernel of $\pi_{2p}(F) \to H_{2p}(F) \isom \Zn{p}$ have order coprime to $p$.
+	It follows that the $p$-power torsion of $\pi_{2p}(F) \isom \pi_{2p}(S^3)$ is a copy of $\Zn{p}$.
+\end{proof}
+
+Next, we want to prove the Whitehead theorem modulo $\catfont{C}$ which requires a further condition:
+\begin{definition}
+	A good Serre class $\catfont{C}$ is called a \strong{Serre ideal}\index{Serre ideal} if for every $A \in \catfont{C}$ and any abelian group $B$, the tensor product $A \tensor B$ lies in $\catfont{C}$.
+\end{definition}
+\begin{lemma}
+	A Serre class $\catfont{C}$ is a Serre ideal if and only if $\bigdsum_I A \in \catfont{C}$ whenever $A \in \catfont{C}$ for all sets $I$.
+\end{lemma}
+\begin{proof}
+	We have $\bigdsum_I A = \big(\bigdsum_I \Z\big) \tensor A$.
+	For the other direction, use that any abelian group is a quotient of a free group and ${{-}} \tensor {{-}}$ is right exact.
+\end{proof}
+\begin{example}
+	$\Cptor$, $\Ctor$ are Serre ideals, but $\Cfg$ is not.
+\end{example}
+\begin{theorem}[Whitehead modulo $\catfont{C}$]\index{Whitehead's theorem!modulo $\catfont{C}$}
+	Let $\catfont{C}$ be a Serre ideal, $f\colon X \to Y$ a map of 1-connected spaces and $n > 0$.
+	The following statements are equivalent:
+	\begin{enumerate}
+		\item $\pi_k(f)\colon \pi_k(X) \to \pi_k(Y)$ is an isomorphism modulo $\catfont{C}$ for $0 < k < n$ and an epimorphism modulo $\catfont{C}$ for $k = n$.
+		\item $H_k(f)\colon H_k(X) \to H_k(Y)$ is an isomorphism modulo $\catfont{C}$ for $0 < k < n$ and an epimorphism modulo $\catfont{C}$ for $k = n$.
+	\end{enumerate}
+\end{theorem}
+\begin{proof}
+	We consider the fibre sequence $F \to X \xto{f} Y$ where $F$ is the homotopy fibre of $f$.
+	By the long exact sequence on $\pi_*$ reduced modulo $\catfont{C}$, the first condition is equivalent to saying that $F$ is $(n - 1)$-connected modulo $\catfont{C}$, i.e. that $\pi_k(F) \in \catfont{C}$ for $0 < k \leq n - 1$.
+	By the Hurewicz theorem modulo $\catfont{C}$, this is equivalent to saying that $H_k(F) \in \catfont{C}$ for $0 < k < n$.
+	We claim that $H_p(Y; H_q(F)) \in \catfont{C}$ for $0 < q \leq n - 1$, or in fact that $H_p(Y; A)$ for any $A \in \catfont{C}$.
+	This follows from the ideal property of $\catfont{C}$ which implies that $C_m(Y; A) \in \catfont{C}$ for all $m$ and hence so is its homology.
+	Thus, the region $0 < q \leq n - 1$ of the Serre spectral sequence $E^2$-page lies in $\catfont{C}$ and likewise for the $E^\infty$-page.
+	% TODO picture
+	Hence, $H_k(X)$ admits a filtration $0 \subseteq F_0 \subseteq F_1 \subseteq \cdots \subseteq F_k = H_k(X)$ with $F_i / F_{i - 1} \in \catfont{C}$ whenever $i \geq k - n + 1$ and $i < k$.
+	Moreover, the last quotient $F_k / F_{k - 1}$ is isomorphic to $H_k(Y) \isom E^2_{k, 0}$ modulo $\catfont{C}$ for $k \leq n$.
+	This implies the result for $0 < k < n$ via the edge homomorphism (all terms on the $k$th antidiagonal except for $(k, 0)$ lie in $\catfont{C}$).
+	It also implies surjectivity modulo $\catfont{C}$ for $k = n$ (it might not be injective modulo $\catfont{C}$ as $E^\infty_{0, n}$ might not be in $\catfont{C}$).
+
+	For the converse we assume that $H_k(X) \to H_k(Y)$ is an isomorphism modulo $\catfont{C}$ for $0 < k < n$ and an epimorphism modulo $\catfont{C}$ for $k = n$.
+	We want to show that $\pi_k(F) \in \catfont{C}$ for $k < n$.
+	If this was not the case, there would be a minimal $0 < k < n$ for which $\pi_k(F) \notin \catfont{C}$.
+	Inspecting the Serre spectral sequence as before, we find that
+	\begin{equation*}
+		H_k(F) \isom E^2_{0, k} \surj E^3_{0, k} \surj \ldots \surj E^{k + 1}_{0, k}
+	\end{equation*}
+	are all isomorphisms modulo $\catfont{C}$ as well as that
+	\begin{equation*}
+		E^{k + 1}_{k + 1, 0} \incl E^k_{k + 1, 0} \incl \ldots \incl E^2_{k + 1, 0} \isom H_{k + 1}(Y)
+	\end{equation*}
+	are all isomorphisms modulo $\catfont{C}$.
+	By the modulo $\catfont{C}$ Hurewicz theorem, $H_k(F) \notin \catfont{C}$ and hence $E^{k + 1}_{0, k} \notin \catfont{C}$.
+	By assumption, $H_{k + 1}(X) \to H_{k + 1}(Y)$ is an epimorphism modulo $\catfont{C}$, which by the description of the edge homomorphism implies that $E^{k + 1}_{k + 1, 0} \to E^{k + n}_{k + 1, 0} = E^\infty_{k + 1, 0}$ must also be an epimorphism modulo $\catfont{C}$, i.e. that its cokernel lies in $\catfont{C}$.
+	This in turn implies that $E^{k + 1}_{0, k} \surj E^{k + 2}_{0, k} \isom E^\infty_{0, k}$ is an isomorphism modulo $\catfont{C}$ and hence $E^\infty_{0, k} \notin \catfont{C}$.
+	Since $E^\infty_{0, k} \isom F_0 \subseteq H_k(X)$ lies in the kernel of the edge homomorphism $H_k(X) \to H_k(Y)$, contradicting that $H_k(X) \to H_k(Y)$ is an isomorphism modulo $\catfont{C}$.
 \end{proof}
 
 \section{Exercises}
