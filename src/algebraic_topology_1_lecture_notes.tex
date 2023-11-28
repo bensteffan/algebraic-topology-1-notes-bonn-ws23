@@ -13,6 +13,7 @@
 \DeclareNamedOperator{tel}
 
 \DeclareMathOperator*{\holim}{holim}
+\DeclareMathOperator{\chr}{char}
 
 \DefineCategory{Fib}
 
@@ -32,6 +33,20 @@
 		->,
 		font = \footnotesize
 	},
+}
+
+\tikzcdset{
+    ar symbol/.style = {
+        draw = none,
+        "\textstyle#1" description,
+        sloped
+    },
+    isomorphic/.style = {
+        ar symbol = {\cong}
+    },
+    summand/.style = {
+        ar symbol = {\oplus}
+    },
 }
 
 \hyphenation{mo-du-lo}
@@ -910,7 +925,7 @@ It follows that the associated graded group $\bigdsum_p F_p / F_{p + 1}$ of a fi
 	\begin{equation*}
 		\Uni(n - 1) \to \Uni(n) \to S^{2n - 1}
 	\end{equation*}
-	By induction, its $E_2$-page is isomorphic to $H^*(S^{2n - 1}; \Z) \tensor H^*(\Uni(n - 1); \Z) \isom \Lambda(x_{2n - 1}) \tensor \Lambda(x_1, x_3, \ldots, x_{2n - 3})$ with $|x_{2n - 1}| = (2n - 1, 0)$ and $|x_i| = (0, i)$ for all $i = 1, 3, \ldots, 2n - 3$.
+	By induction, its $E_2$-page is isomorphic to the tensor product $H^*(S^{2n - 1}; \Z) \tensor H^*(\Uni(n - 1); \Z) \isom \Lambda(x_{2n - 1}) \tensor \Lambda(x_1, x_3, \ldots, x_{2n - 3})$ with $|x_{2n - 1}| = (2n - 1, 0)$ and $|x_i| = (0, i)$ for all $i = 1, 3, \ldots, 2n - 3$.
 	For degree reasons, $d_{2n - 1}$ vanishes on all generators $x_1, x_3, \ldots, x_{2n - 3}, x_{2n - 1}$.
 	By the product rule, $d_{2n - 1}$ vanishes on all elements.
 	Hence, the $E_\infty$-page is isomorphic to the $E_2$-page and therefore an exterior algebra on $\Lambda(x_1, x_3, \ldots, x_{2n - 1})$.
@@ -1574,8 +1589,10 @@ We have to show that
 	\item $H^*(\Tot(C^{\bullet, \bullet}(f; A))) \isom H^*(E; A)$, and that
 	\item the $E_2$-page is isomorphic to $H^*(B; H^*(F; A))$ (if $B$ is simply connected).
 \end{enumerate}
-We begin with the first point.
+We start with the first point.
 For this, we swap the horizontal and vertical directions to obtain another spectral sequence with $E_2$-page $E_2^{s, t} = H_{\delta_v}^s H_{\delta_h}^t(C^{\bullet, \bullet}(f; A))$.
+% For some reason without this \par we get a spurious new line and a very underfull hbox
+
 \begin{claim}
 	$E_2^{s, t} = 0$ if $s \neq 0$ and $H_{\delta_v}^0 H_{\delta_h}^t(C^{\bullet, \bullet}(f; A)) \isom H^t(E; A)$.
 \end{claim}
@@ -2380,7 +2397,7 @@ We can now prove theorem \ref{thm:protohurmodc}, or in fact a more general versi
 		K(\pi_n X, n) \to \tau_{\leq n} X \to \tau_{\leq n - 1} X
 	\end{equation*}
 	% TODO picture
-	The first possible differential from the 0th row is $d^{n + 1}\colon H_{n + 1}(\tau_{\leq n - 1} X) \to H_n(K(\pi_n X, n))$ with cokernel $E^\infty_{0, n}$ which sits in a short exact sequence
+	The first interesting differential from the 0th row is $d^{n + 1}\colon H_{n + 1}(\tau_{\leq n - 1} X) \to H_n(K(\pi_n X, n))$ with cokernel $E^\infty_{0, n}$ which sits in a short exact sequence
 	\begin{equation*}
 		\begin{tikzcd}
 			0
@@ -2397,10 +2414,10 @@ We can now prove theorem \ref{thm:protohurmodc}, or in fact a more general versi
 	from the filtration.
 	Put together, we obtain an exact sequence
 	\begin{equation*}
-		\begin{tikzcd}
+		\begin{tikzcd}[column sep = small]
 			H_{n + 1}(\tau_{\leq n - 1} X)
 					\ar[r, "d^{n + 1}"]
-				& H_n K(\pi_n X, n) 
+				&[1.2em] H_n K(\pi_n X, n) 
 					\ar[r]
 				& H_n(\tau_{\leq n})
 					\ar[r]
@@ -2627,7 +2644,8 @@ Then $\tilde{a} \smile \tilde{a} = h(f) \tilde{b}$ for a unique $h(f) \in \Z$.
 	\end{itemize}
 \end{lemma}
 \begin{proof}
-	Left as an exercise to the reader.
+	% TODO: link exercise 7.1
+	This is exercise TODO.
 \end{proof}
 \begin{corollary}
 	For even $n$, the map $h({{-}})\colon \underbrace{\pi_{2n - 1}(S^n) / \text{torsion}}_{\isom \Z} \to \Z$ is injective.
@@ -2683,6 +2701,687 @@ Using our computation of $H^*(K(\Z, n); \Q)$, we can deduce a rationl Hurewicz t
 In particular, $\pi^\text{st}_*({{-}}) \tensor \Q$ is a homology theory, i.e. it has long exact sequences for cofiber sequences even though the unstable $\pi_*$ do not.
 We will see in an exercise that in fact $\pi^\text{st}_*({{-}})$ is already a homology theory called \emph{stable homotopy}\index{stable homotopy}.
 Its coefficients are the stable homotopy groups of spheres.
+\lecture{17.11.23}
+\begin{theorem}
+	Let $X$ be 1-connected, $\pi_i(X) \tensor \Q = 0$ for $i = 1, \ldots, n - 1$.
+	Then the Hurewicz map $\pi_i(X) \tensor \Q \to H_i(X; \Q)$ is an isomorphism for $0 \leq i \leq 2n - 2$ and surjective for $i = 2n - 1$.
+\end{theorem}
+\begin{proof}
+	Let $\tau_{\geq i} X$ be the $(i - 1)$-connected cover of $X$, i.e. the fibre of $X \mapsto \tau_{\leq i - 1} X$.
+	We consider the diagram
+	\begin{equation*}
+		\begin{tikzcd}
+			\pi_i(\tau_{\geq i} X) \tensor \Q
+					\ar[r, "\isom"]
+					\ar[d, "\isom"]
+				& H_i(\tau_{\geq i} X; \Q)
+					\ar[d]
+			\\
+			\pi_i(X) \tensor \Q
+					\ar[r]
+				& H_i(X; \Q)
+		\end{tikzcd}
+	\end{equation*}
+	where the top row horizontal isomorphism stems from the Hurewicz theorem.
+	Hence, $\pi_i(X) \tensor \Q \to H_i(X; \Q)$ is an isomorphism (surjective, respectively) if and only if $H_i(\tau_{\geq i} X; \Q) \to H_i(X; \Q)$ is.
+\begin{lemma}
+	If $X$ is 1-connected and rationally $(n - 1)$-connected, then
+	\begin{equation*}
+		H_i(\tau_{\geq n + 1} X; \Q) \to H_i(X; \Q)
+	\end{equation*}
+	is an isomorphism for $n < i \leq 2n - 2$ and surjective for $i = 2n - 1$.
+\end{lemma}
+Iterated application of this lemma then yields the result.
+% TODO picture
+\begin{smallproof}[Proof of lemma]
+	Let $A$ be an abelian group.
+	Then $H_*(K(A, n); \Q)$ is concentrated in degrees a multiple of $n$ and $H_n(K(A, n); \Q) \isom A \tensor \Q$.
+	We consider the fibre sequence $\tau_{\geq n + 1} X \to X \to \tau_{\leq n} X$ and its rotation $\Omega \tau_{\leq n} \to \tau_{\geq n + 1} X \to X$.
+	There is a diagram of fibre sequences
+	\begin{equation*}
+		\begin{tikzcd}
+			\Omega \tau_{\leq n} X 
+					\ar[r]
+					\ar[d, equal]
+				& \tau_{\geq n + 1} X
+					\ar[r]
+					\ar[d]
+				& X
+					\ar[d]
+			\\
+			\Omega \tau_{\leq n} X
+					\ar[r]
+				& *
+					\ar[r]
+				& \tau_{\leq n} X
+			\\
+			K(\pi_n X, n - 1)
+					\ar[r]
+					\ar[u, "f"]
+				& *
+					\ar[r]
+					\ar[u, equal]
+				& K(\pi_n X, n)
+					\ar[u, "g"]
+		\end{tikzcd}
+	\end{equation*}
+	where $f$ induces an isomorphism on $H_*({{-}}; \Q)$ and $g$ induces an isomorphism on $\pi_*({{-}}) \tensor \Q$ and by the Hurewicz theorem therefore also on $H_*({{-}}; \Q)$.
+	Up to total degree $2n - 1$, the rational Serre spectral sequence for the top row has potentially non-trivial entries only in degrees $(0, 0)$, $(i, 0)$ for $n \leq i$, $(0, n - 1)$, $(n, n - 1)$, and $(0, 2n - 2)$.
+	% TODO picture
+	By naturality, the differential $d_n\colon H_n(X; \Q) \to H_{n - 1}(\Omega \tau_{\leq n} X; \Q)$ must also be an isomorphism and $d_n\colon E^n_{n, n - 1} \to E^n_{0, 2n - 1}$ is surjective.
+	Hence, in this range the $(n + 1)$st page has entries at most in the positions $(0, 0)$, $(i, 0)$ for $i > n$, and $(n, n - 1)$.
+	% TODO picture
+	For degree reasons there are no further differentials.
+	By the edge homomorphism, the claim follows.
+\end{smallproof}
+\end{proof}
+
+\subsection{Cohomology operations and the cohomology of \texorpdfstring{$K(\F_2, n)$}{K(F2, n)}}
+\begin{definition}
+	A \strong{cohomology operation}\index{cohomology operation} is a natural transformation 
+	\begin{equation*}
+		\phi\colon H^k({{-}}; A) \to H^l({{-}}; B)
+	\end{equation*}
+	for abelian groups $A, B$ and $k, l \in \Z$.
+	A \strong{stable cohomology operation}\index{cohomology operation!stable}\index{stable cohomology operations|see {cohomology operation!stable}} of degree $n$ is  collection of cohomology operations $\{\phi^{(k)}\colon H^k({{-}}; A) \to H^{k + n}({{-}}; B)\}$ which commute with the suspension isomorphism, i.e. such that the diagram
+	\begin{equation*}
+		\begin{tikzcd}
+			H^k(X; A) 
+					\ar[r, "\phi^{(k)}"]
+					\ar[d, "\sigma", "\isom"']
+				& H^{k + n}(X; B)
+					\ar[d, "\sigma", "\isom"']
+			\\
+			H^{k + 1}(\Sigma X; A)
+					\ar[r, "\phi^{(k + 1)}"]
+				& H^{k + 1 + n}(\Sigma X; B)
+		\end{tikzcd}
+	\end{equation*}
+	commutes for all spaces $X$.
+\end{definition}
+\begin{example}
+	\leavevmode
+	\begin{itemize}
+		\item Let $R$ be a ring and $n \in \N$.
+			Then
+			\begin{align*}
+				H^k(X; R) &\to H^{n k}(X; R) \\
+				x &\mapsto x^{\smile n}
+			\end{align*}
+			is a cohomology operation.
+			Note that this is typically no additive\footnote{For the purpose of cohomology operations, we consider $H^*({{-}}; A)$ to take values in (pointed) sets, not in abelian groups.} (unless $n = p^k$ and $\chr(R) = p$).
+		\item If $f\colon A \to B$ is a map of abelian groups, then $f_*^{(k)}\colon H^k({{-}}; A) \to H^k({{-}}; B)$ is a cohomology operation.
+			The family $\{f_*^{(k)}\}$ is a stable operation of degree 0.
+		\item Given a short exact sequence $0 \to A \to B \to C \to 0$ of abelian groups, the sequence $0 \to C^*(X; A) \to C^*(X; B) \to C^*(X; C) \to 0$ is exact for any space $X$, so we obtain boundary maps $\delta^{(k)}\colon H^k(X; C) \to H^{k + 1}(X; A)$.
+			The family $\{\delta^{(k)}\}$ is stable of degree 1 and known as the \strong{Bockstein homomorphism}\index{Bockstein homomorphism} associated to the given short exact sequence.
+	\end{itemize}
+\end{example}
+\begin{lemma}
+	Every stable operation $\{\phi^{(k)}\}$ is additive.
+\end{lemma}
+\begin{proof}
+	Let $Y$ be a pointed $(m - 1)$-connected space for some $m \geq 2$.
+	Then $Y \vee Y \to Y \times Y$ induces an isomorphism on $H_k({{-}}; \Z)$ for $k = 0, \ldots, 2m - 1$ by the Künneth theorem.
+	We obtain a diagram
+	\begin{equation*}
+		\begin{tikzcd}[column sep = small]
+			{\renewcommand\arraystretch{0.8}\begin{matrix}
+				H^k(Y; A) \\
+				\times \\
+				H^k(Y; A)
+			\end{matrix}}
+					\ar[r, "\isom"]
+					\ar[rrr, highlightcol, bend left = 15, "{{-}} + {{-}}"]
+					\ar[d, "\phi^{(k)} \times \phi^{(k)}"]
+				& H^k(Y \vee Y; A) 
+					\ar[d, "\phi^{(k)}"]
+				& H^k(Y \times Y; A)
+					\ar[l, swap, "\isom"]
+					\ar[r, "\Delta^*"]
+					\ar[d, "\phi^{(k)}"]
+				& H^k(Y; A)
+					\ar[d, "\phi^{(k)}"]
+			\\
+			{\renewcommand\arraystretch{0.8}\begin{matrix}
+				H^{k + n}(Y; A) \\
+				\times \\
+				H^{k + n}(Y; A)
+			\end{matrix}}
+					\ar[r, "\isom"]
+					\ar[rrr, highlightcol, bend right = 15, "{{-}} + {{-}}"]
+				& H^{k + n}(Y \vee Y; A) 
+				& H^{k + n}(Y \times Y; A)
+					\ar[l, swap, "\isom"]
+					\ar[r, "\Delta^*"]
+				& H^{k + n}(Y; A)
+		\end{tikzcd}
+	\end{equation*}
+	if $k + n, k < 2m - 1$.
+	By naturality of $\phi^{(k)}$, this diagram commutes.
+	Now let $X$ be arbitrary and $k \in \Z$.
+	Then $\phi^{(m + l)}\colon H^{m + k}(\Sigma^m X; A) \to H^{m + k + n}(\Sigma^m X; B)$ is additive whenever $m + k < 2m$ and $m + k + n < 2m$ which we can achieve by choosing $m$ large enough.
+	By stability, $\phi^{(k)}\colon H^k(X; A) \to H^{k + n}(X; B)$ agrees with this map up to suspension isomorphism, so it is also additive.
+\end{proof}
+Note that for a ring $R$ and abelian group $A$, the set of cohomology operations $H^k({{-}}; A) \to H^*({{-}}; R)$ forms a graded ring by pointwise sum and cup product.
+It is graded commutative if $R$ is commutative.
+Moreover, the set of stable cohomology operations $\{H^k({{-}}; A) \to H^{k + *}({{-}}; A) \mid k \in \Z\}$ forms a graded ring under composition.
+This is generally not commutative.
+\begin{proposition}\label{prp:cohopsbijections}
+	We have bijections
+	\begin{align*}
+		\{\phi\colon H^k({{-}}; A) \to H^l({{-}}; B) \text{ cohomology operation}\} &\xto{\isom} H^l(K(A, k); B) \\
+		\phi &\mapsto \phi(\iota_k)
+	\end{align*}
+	where $\iota_k \in H^k(K(A, k); A)$ is the fundamental class, and
+	\begin{align*}
+		\{H^*({{-}}; A) \to H^{* + n}({{-}}; B) \text{ stable cohomology operation}\} &\xto{\isom} \lim_{k \in \N} H^{k + n}(K(A, k); B)
+	\end{align*}
+	where the limit is taken along the maps
+	\begin{equation*}
+		H^{k + 1 + n}(K(A, k + 1), B) \to H^{k + 1 + n}(\Sigma K(A, k); B) \isom H^{k + n}(K(A, k); B)
+	\end{equation*}
+	with $\Sigma K(A, k) \to K(A, k + 1)$ adjoint to the weak homotopy equivalence $K(A, k) \to \Omega K(A, k + 1)$ that induces $\id_A$ on $\pi_k$.
+\end{proposition}
+\begin{remark}
+	By the Freudenthal suspension theorem, the map $\Sigma K(A, k) \to K(A, k + 1)$ is an isomorphism on $\pi_*$ up to degree $2k - 1$, hence by the Hurewicz theorem also $H^l({{-}}; B)$, so for fixed $n$ the connecting maps stabilize.
+\end{remark}
+\begin{proof}[Proof of proposition]
+	The first bijection is a consequence of the natural isomorphism
+	\begin{align*}
+		[X, K(A, k)] &\to H^k(X; A) \\
+		f &\mapsto f^*(\iota_n)
+	\end{align*}
+	and the Yoneda lemma.
+
+	For the second bijection, stable operations are by definition the limit over $k$ along the maps
+	\begin{align*}
+		\{H^{k + 1}({{-}}; A) \to H^{k + 1 + n}({{-}}; B) \text{ cohomology operation}\} &\to \{H^k({{-}}; A) \to H^{k + n}({{-}}; B) \text{ cohomology operation}\} \\
+		\phi &\mapsto \sigma^{-1} \circ \phi \circ \sigma
+	\end{align*}
+	where $\sigma$ denotes the suspension isomorphism.
+	Using the first bijection, it now suffices to observe that we have
+	\begin{align*}
+		H^{k + 1}(K(A, k + 1); B) &\to H^{k + 1}(\Sigma K(A, k); A) \\
+		\iota_{k + 1} &\mapsto \sigma(\iota_k)
+	\end{align*}
+	which follows from $K(A, k) \to \Omega K(A, k + 1)$ inducing the identity of $A$ on $\pi_k$ and the natural identification
+	\begin{equation*}
+		H^{k + 1}(K(A, k + 1); A) \isom \Hom(H_{k + 1}(K(A, k + 1); A), A) \isom \Hom(\pi_{k + 1} K(A, k + 1), A)
+	\end{equation*}
+	and likewise for $k$.
+\end{proof}
+\begin{corollary}
+	All operations $H^k({{-}}; A) \to H^l({{-}}; B)$ with $l < k$ are trivial.
+\end{corollary}
+\begin{proof}
+	$K(A, k)$ is $(n - 1)$-connected, hence $H^l(K(A, k); B) = 0$ for $0 < l < k$.
+\end{proof}
+\begin{corollary}
+	\leavevmode
+	\begin{enumerate}
+		\item Let $k$ be odd and $l > 0$.
+			Then
+			\begin{equation*}
+				\{H^k({{-}}; \Q) \to H^l({{-}}; \Q) \text{ cohomology operation}\} \isom \begin{cases}
+					\Q 	& k = l \\
+					0 	& \text{else}
+				\end{cases}
+			\end{equation*}
+		\item For $k$ even, we obtain
+			\begin{equation*}
+				\{H^k({{-}}; \Q) \to H^l({{-}}; \Q) \text{ cohomology operation}\} \isom \begin{cases}
+					\Q\{({{-}})^{\smile n}\} 	& l = n k \\
+					0 							& \text{else}
+				\end{cases}
+			\end{equation*}
+		\item The graded ring of stable operations $H^({{-}}; \Q) \to H^{* + *}({{-}}; \Q)$ is a copy of $\Q$ concentraded in degree 0.
+	\end{enumerate}
+\end{corollary}
+\begin{proof}
+	This follows from proposition \ref{prp:cohopsbijections} and earlier computations of
+	\begin{equation*}
+		H^*(K(\Q, k); \Q) \isom \begin{cases}
+			\Lambda(x_k) 	& k \text{ odd} \\
+			\Q[x_k] 		& k \text{ even}
+		\end{cases}
+	\end{equation*}
+\end{proof}
+
+\lecture{20.11.23}
+We now turn to operations on cohomology with $\F_2$-coefficients.
+\begin{theorem}[Steenrod]\index{Steenrod squares}
+	There are unique cohomology operations
+	\begin{equation*}
+		\Sq^i\colon H^n(X; \F_2) \to H^{n + i}(X; \F_2)
+	\end{equation*}
+	for every $n, i \geq 0$ with the following properties:
+	\begin{itemize}
+		\item $\Sq^0 = \id$.
+		\item $\Sq^i\colon H^i(X; \F_2) \to H^{2i}(X; \F_2)$ is the cup square.
+		\item If $i > |x|$, then $\Sq^i(x) = 0$.
+		\item The \strong{Cartan formula}\index{Cartan formula}
+			\begin{equation*}
+				\Sq^n(x y) = \sum_{i + j = n} \Sq^i(x) \smile \Sq^j(y)
+			\end{equation*}
+			holds.
+	\end{itemize}
+	Moreover, these operations are stable, $\Sq^1$ is the Bockstein homomorphism associated to the short exact sequence $0 \to \F_2 \to \Zn{4} \to \F_2 \to 0$, and they satisfy the \strong{Adem relations}\index{Adem relations}
+	\begin{equation*}
+		\Sq^i \Sq^j = \sum_{n = 0}^{\lceil i / 2\rceil} \binom{j - n - 1}{i - 2n} \Sq^{i + j - n} \Sq^n
+	\end{equation*}
+	for all $0 < i < 2j$ (the product $\Sq^i \Sq^j$ here is given by composition).
+\end{theorem}
+Those who took Topology 2 last term have already seen a construction (and proofs of some the properties).
+We explain a different way to construct the $\Sq^i$ using the Serre spectral sequence.
+
+Let $S^\infty \isom E C_2 \to B C_2 \isom \RP^\infty$ be the universal cover (here $C_2 \isom \Zn{2}$ is the cyclic group of order 2).
+The group $C_2$ acts on $K(\F_2, n)^{\times 2}$ by permuting the factors and likewise on $K(\F_2, n)^{\wedge 2} = K(\F_2, n)^{\times 2} / K(\F_2, n)^{\vee 2}$.
+We can form the quotients $E C_2 \times_{C_2} K(\F_2, n)^{\times 2}$ and $(E C_2)_{+} \wedge_{C_2} K(\F_2, n)^{\wedge 2}$ where $(E C_2)_{+}$ is $E C_2$ with a free basepoint adjoined.
+\begin{proposition}
+	We have a bijection
+	\begin{equation*}
+		H^{2n}((E C_2)_{+} \wedge_{C_2} K(\F_2, n)^{\wedge 2}; \F_2) \xto{\isom} H^{2n}(K(\F_2, n)^{\wedge 2}; \F_2) \isom \F_2\{\iota_n \cup \iota_n\}
+	\end{equation*}
+\end{proposition}
+Conceptionally, the extension of the cup square $K(\F_2, n)^{\wedge 2} \to K(\F_2, 2n)$ to a map $(E C_2)_{+} \wedge_{C_2} K(\F_2, n)^{\wedge 2} \to K(\F_2, 2n)$ comes from the fact that the cochains $C^*(X; \F_2)$ (or the spectrum $H \F_2$ comes with a so-called $E_\infty$-multiplication (it \enquote{commutes up to all higher homotopies}), and there are maps $(E \Sigma_m)_{+} \wedge_{\Sigma_m} K(\F_2, n)^{\wedge m} \to K(\F_2, m n)$ for all $m, n$).
+We can also construct the class in an ad-hoc way using our methods.
+This is easiest done using a relative form of the Serre spectral sequence.
+\begin{proposition}
+	Let $f\colon E \to B$ be a Serre fibration and $E' \subseteq E$ be a subspace such that $f|_{E'}\colon E' \to B$ is again a Serre fibration.
+	We write $F = f^{-1}(b)$ and $F' = (f|_{E'})^{-1}(b)$ for the fibres.
+	Then there is a spectral sequence of the form
+	\begin{equation*}
+		E_2^{p, q} = H^p(B; H^q(F, F'; A)) \Rightarrow H^{p + q}(E, E'; A)
+	\end{equation*}
+	for any abelian group $A$.
+	As before, $H^q(F, F'; A)$ is to be interpreted as a local system in general.
+\end{proposition}
+\begin{proof}[Sketch of proof]
+	The spectral sequences can be obtained from the quotient double complex
+	\begin{equation*}
+		C^{*, *}(f; A) / C^{*, *}(f|_{E'}; A)
+	\end{equation*}
+	in the usual way.
+\end{proof}
+
+We now apply this to the Serre fibration $E C_2 \times_{C_2} K(\F_2, n)^{\times 2} \to B C_2$ with fibre $K(\F_2, n)^{\times 2}$ and its subfibration $E C_2 \times_{C_2} K(\F, n)^{\vee 2} \to B C_2$.
+By the Künneth theorem, the groups
+\begin{equation*}
+	H^q(K(\F_2, n)^{\times 2}, K(\F_2, n)^{\vee 2}; \F_2) \isom \tilde{H}^q(K(\F_2, n)^{\wedge 2}; \F_2)
+\end{equation*}
+are 0 for $q < 2n$ and isomorphic to a copy of $\F_2$ spanned by $\iota_n \smile \iota_n$ in degree $2n$.
+Note that any group action on $\F_2$ is necessarily trivial, so that the local system $H^{2n}(K(\F_2, n)^{\times 2}, K(\F_2, n)^{\vee 2}; \F_2)$ must be constant.
+Hence, for the relative Serre spectral sequence we have that $E_2^{0, 2n} \isom H^0(B C_2; H^{2n}(K(\F_2, n)^{\times 2}, K(\F_2, n)^{\vee 2}; \F_2)) \isom \F_2$.
+% TODO picture?
+For degree reasons there cannot be any nontrivial out of $E_2^{0, 2n}$, so we obtain a unique class $\alpha_n \in H^{2n}((E C_2)_{+} \wedge_{C_2} K(\F_2, n)^{\wedge 2}; \F_2)$ refining the cup square in $H^{2n}(K(\F_2, n)^{\wedge 2}; \F_2)$.
+\begin{remark}
+	The same proof works for all $m$:
+	\begin{equation*}
+		H^{n m}((E \Sigma_{m})_{+} \wedge_{\Sigma m} K(\F_2, n)^{\wedge m}; \F_2) \xto{\isom} H^{n m}(K(\F_2, n)^{\wedge m}; \F_2) \isom \F_2\{\iota_n^{\smile m}\}
+	\end{equation*}
+\end{remark}
+We now proceed by pulling back $\alpha_n$ under the map 
+\begin{equation*}
+	H^{2n}((E C_2)_+ \wedge_{C_2} K(\F_2, n)^{\wedge 2}; \F_2) \xto{\Delta^*} H^{2n}((B C_2)_+ \wedge K(\F_2, n); \F_2) \isom \bigdsum_{i = 0}^n H^i(B C_2; \F_2) \tensor \tilde{H}^{2n - i}(K(\F_2, n); \F_2)
+\end{equation*}
+Let $u \in H^1(B C_2; \F_2)$ be a generator.
+Then $\Sq^i(\iota_n) \in H^{n + i}(K(\F_2, n); \F_2)$ is uniquely defined by the expression
+\begin{equation*}
+	\Delta^*(\alpha_n) = \sum_{i = 0}^n u^{n - i} \smile \Sq^i(\iota_n)
+\end{equation*}
+By the Yoneda lemma (cf. proposition \ref{prp:cohopsbijections}), $\Sq^i(\iota_n)$ corresponds to a cohomology operation $\Sq^i\colon H^n({{-}}; \F_2) \to H^{n + i}({{-}}; \F_2)$.
+We omit the proof of the properties from the theorem.
+
+Let $\symcal{A}$ denote the \strong{Steenrod algebra}\index{Steenrod algebra} defined as the free graded algebra on the classes $\Sq^i$ (with $|\Sq^i| = i$) modulo the Adem relations and the relation $\Sq^0 = 1$.
+By construction, we obtain a map from $\symcal{A}$ to the ring of stable cohomology operations on $H^*({{-}}; \F_2)$.
+We will later show this to be an isomorphism. 
+Note that the cohomology ring $H^*(X; \F_2)$ is naturally a module over $\symcal{A}$, satisfying the Cartan formula, the condition $\Sq^i(x) = 0$ for $i > |x|$, and $\Sq^{|x|}(x) = x^2$ (a so-called \enquote{unstable module}).
+
+For now, we record some application.
+We say that an element $x \in \symcal{A}_n$ is \strong{decomposable}\index{Steenrod algebra!decomposable element} if it can be written as
+\begin{equation*}
+	x = x_1 y_1 + \ldots + x_k y_k
+\end{equation*}
+for homogeneous $x_i, y_i \in \symcal{A}$ of positive degree.
+\begin{lemma}
+	The class $\Sq^m$ is decomposable if and only if $m$ is not a power of 2.
+\end{lemma}
+\begin{proof}
+	Assume $m$ is not a power of 2.
+	Let $i$ be the smallest power of 2 which does not appear in the binary expansion of $m - 1$.
+	We consider the Adem relation
+	\begin{equation*}
+		\Sq^i \Sq^{m - i} = \sum_{n = 0}^{\lceil i / 2\rceil} \binom{m - i - n - 1}{i - 2n} \Sq^{m - n} \Sq^n
+	\end{equation*}
+	The coefficient of $\Sq^m$, i.e. the case $n = 0$ is given by $\binom{m - i -1}{i}$.
+	This number is odd since $i$ appears in the binary expansion of $m - i - 1$ (cf. Lucas' theorem). % TODO cite reference
+	Hence, $\Sq^m = \Sq^i \Sq^{m - i} + \sum_{n = 1}^{\lceil i / 2\rceil} \binom{m - i - n - 1}{i - 2n} \Sq^{m - n} \Sq^n$ is decomposable.
+
+	Now let $m = 2^k$.
+	It suffices to give a graded $\symcal{A}$-module $V$ and a homogeneous element $v \in V$ such thath $\Sq^{2^k}(v) \neq 0$ and $\Sq^i(v) = 0$ for all $i = 1, \ldots, 2^k - 1$.
+	We claim that $V = H^*(\RP^\infty; \F_2) \isom \F_2[u]$ and $v = u^{2^k}$ does the job.
+	For $k = 0$, we have that $\Sq^1(u) = u^2 \neq 0$ and there is no degree between 0 and 1 to consider.
+	Let us now inductively asssume that the statement holds up to $k - 1$, given a general $k$.
+	We then have
+	\begin{align*}
+		\Sq^0(u^{2^{k - 1}}) &= u^{2^{k - 1}} \\
+		\Sq^{2^{k - 1}}(u^{2^{k - 1}}) &= (u^{2^{k - 1}})^2 = u^{2^k} \\
+		\Sq^i(u^{2^{k - 1}}) = 0 \qquad\text{for all } i = 1, \ldots, 2^{k - 1} - 1
+	\end{align*}
+	For $l = 1, \ldots, 2^k - 1$ we now have
+	\begin{equation*}
+		\Sq^l(u^{2^k}) = \Sq^l(u^{2^{k - 1}} \smile u^{2^{k - 1}}) = \sum_{i = 0}^l \Sq^i(u^{2^{k - 1}}) \smile \Sq^{l - i}(u^{2^{k - 1}})
+	\end{equation*}
+	by the Cartan formula, but $\Sq^i(u^{2^{k - 1}}) \smile \Sq^{l - i}(u^{2^{k - 1}}) \neq 0$ only if $i, l \in \{0, 2^{k - 1}\}$ which in the given range is the case only for $l = 2^{k - 1}, i = 0$ and $l = 0, i = 2^{k - 1}$ whose terms cancel each other out.
+	Hence, $\Sq^l(u^k) = 0$ for $l = 1, \ldots, 2^k - 1$ and $\Sq^{2^k}(u^{2^k}) = (u^{2^k})^2 = y^{2^{k + 1}} \neq 0$.
+\end{proof}
+\begin{remark}
+	More conceptually, the total squaring operation\index{Steenrod squares!total square}
+	\begin{equation*}
+		\Sq \colon \Sq^0 + \Sq^1 + \ldots\colon H^*(X; \F_2) \to H^*(X; \F_2)
+	\end{equation*}
+	is a ring homomorphism by the Cartan formula, hence $\Sq(u^{2^k}) = \Sq(u)^{2^k} = (u + u^2)^{2^k} = u^{2^k} + u^{2^{k + 1}}$ via the $\F_2$-Frobenius.
+\end{remark}
+\begin{example}
+	Here are a few decompositions of Steenrod squares:
+	\begin{itemize}
+		\item $\Sq^3 = \Sq^1 \Sq^2$
+		\item $\Sq^5 = \Sq^1 \Sq^4$
+		\item In general, $\Sq^{2n + 1} = \Sq^1 \Sq^{2n}$
+		\item $\Sq^6 = \Sq^2 \Sq^4 + \Sq^5 \Sq^1 = \Sq^2 \Sq^4 + \Sq^1 \Sq^4 \Sq^1$
+	\end{itemize}
+\end{example}
+\begin{corollary}
+	If there exists an element $[f] \in \pi_{2n - 1}(S^n)$ of Hopf invariant 1, then $n$ is a power of 2.
+\end{corollary}
+\begin{proof}
+	Let $f\colon S^{2n - 1} \to S^n$ be a representative of such a class.
+	By definition, if $x \in H^n(C(f); \Z) \isom \Z$ is a generator, then $x^2$ generates $H^{2n}(C(f); \Z) \isom \Z$.
+	Reducing modulo 2, we conclude that the cup square of a generator $\bar{x} \in H^n(C(f); \F_2) \isom \F_2$ generates $H^{2n}(C(f); \F_2) \isom \F_2$.
+	Hence $\Sq^n(\bar{x}) = \bar{x}^2 \neq 0$, but $H^k(C(f); \F_2) = 0$ for $k = n + 1, \ldots, 2n - 1$, implying that $\Sq^1(\bar{x}), \ldots, \Sq^{n - 1}(\bar{x})$ are trivial.
+	By the previous lemma, we conclude that $n$ must be a power of 2.
+\end{proof}
+\lecture{24.11.23}
+\begin{example}
+	We use the Adem relations to show that $f = \eta \circ \Sigma \eta\colon S^4 \to S^2$ is non-trivial in $\pi_4(S^2)$.
+	If $f$ was trivial, we could extend $\eta\colon S^3 \to S^2$ over the cone of $\Sigma \eta$, which is given by $\Sigma \CP^2$, as in
+	\begin{equation*}
+		\begin{tikzcd}[column sep = small]
+			S^4 
+					\ar[rr, "\Sigma \eta"]
+				& & S^3
+					\ar[rr, "\eta"]
+					\ar[dr]
+				& & S^2
+			\\
+				& & & C(\Sigma \eta)
+					\ar[ur, dashed]
+		\end{tikzcd}
+	\end{equation*}	
+	where the triangle at the right commutes.
+	Let $g\colon \Sigma \CP^2 \to S^2$ be this extension.
+	The mapping cone $C(g)$ has one cell each in dimensions 0, 2, 4, and 6.
+	Let $x_2, x_4, x_6 \in H^*(C(g); \F_2)$ denote the generators in the respective degrees.
+	We obtain the following picture on cohomology from the maps $\CP^2 = C(\eta) \incl C(g)$ and $C(g) \to \Sigma^2 \CP^2$:
+	\begin{equation*}
+		\begin{tikzpicture}[
+				dot/.style = {
+					shape = circle, 
+					fill,
+					inner sep = 1.2pt,
+					outer sep = 1.5pt
+				}, 
+				arrow path/.style = {
+					commutative diagrams/every arrow,
+					commutative diagrams/every label,
+				},
+				xscale = 4, 
+				yscale = 2]
+			\node[dot] (LX4) at (-1, -1) {};
+			\node[dot] (LX2) at (-1, -2) {};
+
+			\node[dot, label = right:$x_6$] (X6) at (0, 0) {};
+			\node[dot, label = right:$x_4$] (X4) at (0, -1) {};
+			\node[dot, label = right:$x_2$] (X2) at (0, -2) {};
+
+			\node[dot] (RX6) at (1, 0) {};
+			\node[dot] (RX4) at (1, -1) {};
+
+			\node (Left Group) at (-1, .5) {$\tilde{H}^*(\CP^2; \F_2)$};
+			\node (Middle Group) at (0, .5) {$\tilde{H}^*(C(g); \F_2)$};
+			\node (Right Group) at (1, .5) {$\tilde{H}^*(\Sigma^2 \CP^2; \F_2)$};
+			
+			\draw[every edge/.append style = {
+						arrow path, 
+						thick, 
+						bend left = 12, 
+						"$\Sq^2$"
+					}] 
+				(LX2) edge (LX4)
+				(X2) edge[highlightcol] (X4)
+				(X4) edge[highlightcol] (X6)
+				(RX4) edge (RX6);
+
+			\def\shiftval{0.25}
+			\path[every edge/.append style = {arrow path}]
+				($(X4.west) - (\shiftval, 0)$) edge ($(LX4.east) + (\shiftval, 0)$)
+				($(X2.west) - (\shiftval, 0)$) edge ($(LX2.east) + (\shiftval, 0)$)
+				($(RX6.west) - (\shiftval, 0)$) edge ($(X6.east) + (\shiftval, 0)$)
+				($(RX4.west) - (\shiftval, 0)$) edge ($(X4.east) + (\shiftval, 0)$);
+
+			\path[every edge/.append style = {arrow path}]
+				(Middle Group) edge (Left Group)
+				(Right Group) edge (Middle Group);
+		\end{tikzpicture}
+	\end{equation*}
+	By naturality, we have $\Sq^2 \Sq^2 x_2 = x_6 \neq 0$.
+	But $\Sq^2 \Sq^2 = \Sq^3 \Sq^1$ by the Adem relations and $\Sq^1(x_2) = 0$ for degree reasons.
+
+	Note that this also shows that $\Sigma^k(\eta \circ \Sigma \eta)$ is homotopically nontrivial for all $k$.
+\end{example}
+
+Now we turn to the computation of $H^*(K(\F_2, n); \F_2)$ for all $n$.
+\subsection{Cohomology of Eilenberg-Mac Lane spaces over \texorpdfstring{$\F_2$}{F2}}
+\begin{definition}
+	For $I = (i_n, i_{n - 1}, \ldots, i_0)$ an $(n + 1)$-tuple of natural numbers, we denote by $\Sq^I \in \symcal{A}$ the composite $\Sq^{i_n} \Sq^{i_{n - 1}} \cdots \Sq^{i_0}$.
+	We call $I$ \strong{admissible}\index{Steenrod squares!admissible sequence of} if $i_k \geq 2 i_{k - 1}$ for all $k$ and $i_0 \geq 1$.
+	Here, the empty sequence is admissible and $\Sq^{\emptyset} = 1$.
+	We further write $\big|I\big| \coloneq i_n + \ldots + i_0 = \big|\Sq^I\big|$ for the total degree.
+	The \strong{excess}\index{Steenrod squares!admissible sequence of!excess of} $e(I)$ of an admissible sequence is 
+	\begin{equation*}
+		e(I) \coloneq (i_n - 2 i_{n - 1}) + \ldots + (i_1 - 2 i_0) = i_0 = 2 i_n - \big|I\big|
+	\end{equation*}
+\end{definition}
+\begin{theorem}[Cartan-Serre]\index{Cartan-Serre theorem}
+	For $n \geq 1$ we have 
+	\begin{equation*}
+		H^*(K(\F_2, n); \F_2) \isom \F_2\big[\big\{\Sq^I \iota_n \mid I \text{ admissible}, e(I) < n\big\}\big]
+	\end{equation*}
+	where $\iota_n \in H^n(K(\F_2, n); \F_2)$ denotes the fundamental class and the expression on the right hand side denotes the polynomial over $\F_2$ on the given set (with $\Sq^I \iota_n$ sitting in degree $n + \big|I\big|$).
+	Moreover, for $n \geq 2$, we have 
+	\begin{equation*}
+		H^*(K(\Z, n); \F_2) \isom \F_2\big[\big\{\Sq^I \iota_n \mid I \text{ admissible}, i_0 \geq 2, e(I) \leq n\big\}\big]
+	\end{equation*}
+\end{theorem}
+\begin{example}
+	\leavevmode
+	\begin{itemize}
+		\item $H^*(K(\F_2, 1); \F_2) \isom \F_2[\iota_1]$ since every non-empty admissible sequence $I$ has $e(I) \geq 1$.
+		\item $H^*(K(\F_2, 2); \F_2) \isom \F_2[\{\Sq^{2^n} \Sq^{2^{n - 1}} \cdots \Sq^1 \iota_2 \mid n \geq -1\}]$.
+		\item $H^*(K(\Z, 2); \F_2) \isom \F_2[\iota_2]$ since every non-empty, admissible sequence $I$ with $i_0 \geq 2$ has $e(I) \geq 2$.
+	\end{itemize}
+\end{example}
+For some motivation, consider the fibre sequence $K(\F_2, n) \to * \to K(\F_2, n + 1)$.
+% TODO picture
+
+Let $F \to E \xto[p] B$ be a fibre sequence where $F$ is path-connected, $B$ 1-connected, and $b_0 \in B$ a basepoint.
+The differentials $d_r\colon E_r^{0, r - 1} \to E_r^{r, 0}$ are each defined on a subgroup of $E_2^{0, r - 1} \isom H^{r - 1}(F; A)$ and take values in a quotient of $H^n(B; A)$ ($A$ any abelian group).
+\begin{definition}
+	We call these differentials the \strong{transgressions}\index{transgression} and $x \in H^{r - 1}(F; A)$ \strong{transgressive}\index{transgressive element} if it lies in $E_r^{0, r - 1}$ so that its transgression is defined.
+	We say that $x$ \emph{transgresses} to $y \in H^r(B; A)$ if $y$ is a representative of $d_r(x)$ in the quotient.
+\end{definition}
+\begin{theorem}
+	In the diagram
+	\begin{equation*}
+		\begin{tikzcd}
+			H^{r - 1}(F; A)
+					\ar[r, "\delta"]
+				& H^n(E, F; A)
+				& H^n(B, b_0; A)
+					\ar[l, swap, "p^*"]
+		\end{tikzcd}
+	\end{equation*}
+	where $\delta$ is the coboundary map $x \in H^{r - 1}(F; A)$ is transgressive if and only if $\delta(x) \in \img p^*$.
+	Moreover, the kernel of $H^r(B; A) \isom H^r(B, b_0; A) \to E_r^{r, 0}$ agrees with the kernel of $p^*$ and the transgression can be identified with
+	\begin{equation*}
+		\begin{tikzcd}[column sep = small, row sep = tiny]
+			E_r^{0, r - 1}
+					\ar[r, isomorphic]
+				&[-1.1em] \delta^{-1}(\img p^*)
+					\ar[r, "\delta"]
+					\ar[d, ar symbol = \subseteq]
+				& \img p^*
+					\ar[d, ar symbol = \subseteq]
+				& H^r(B, b_0; A) / \ker p^*
+					\ar[l, swap, "p^*", "\isom"']
+					\ar[d, isomorphic]
+			\\
+				& H^{r - 1}(F; A)
+				& H^r(E, F; A)
+				& E_r^{r, 0}
+		\end{tikzcd}	
+	\end{equation*}
+\end{theorem}
+\begin{proof}[Sketch of proof]
+	Let $C_{\bullet, \bullet}(p; \Z)$ denote the double complex of singular $(p, q)-chains$.
+	The applying $\Hom({{-}}; A)$ to the quotient
+	\begin{equation*}
+		C_{\bullet, \bullet}(p; \Z) / C_{\bullet, \bullet}(F \to \{b_0\}; \Z)
+	\end{equation*}
+	gives rise to a reduced version $\{\tilde{E}_r\}$ of the cohomological Serre spectral sequence of the form
+	\begin{equation*}
+		\tilde{E}_2^{p, q} = H^p(B, b_0; H^q(F; A)) \Rightarrow H^{p + q}(E, F; A)
+	\end{equation*}
+	We obtain a map of spectral sequences
+	\begin{equation*}
+		\{\tilde{E}_r\} \to \{E_r\}
+	\end{equation*}
+	Note that $\tilde{E}_2^{0, q} = 0$ and $\tilde{E}_2^{p, q} \to E_2^{p, q}$ is an isomorphism for all $p > 0$, so the second pages only differ in the first column.
+	Applying our characterization of the edge homomorphism to the reduced spectral sequence, we conclude that
+	\begin{equation*}
+		\begin{tikzcd}
+			E_r^{r, 0}
+				& \tilde{E}_r^{r, 0} \isom \img(p^*\colon H^r(B, b_0; A) \to H^n(E, F; A))
+					\ar[l, swap, "\isom"]
+		\end{tikzcd}
+	\end{equation*}
+	and that the map
+	\begin{equation*}
+		\begin{tikzcd}
+			H^r(B, b_0; A) \isom \tilde{E}_2^{r, 0}
+					\ar[r]
+				& \tilde{E}_r^{r, 0} \isom \tilde{E}_{\infty}^{r, 0}
+					\ar[r, hook]
+				& H^r(E, F; A)
+		\end{tikzcd}
+	\end{equation*}
+	agrees with $p^*$.
+	Let $\delta\colon H^{r - 1}(F; A) \to H^r(E, F; A)$ be the coboundary map and let $\alpha \in H^{r - 1}(F; A)$.
+	Then the first non-zero differential on $\alpha$ in the absolute spectral sequence determines which filtration entry detects $\delta \alpha \in H^r(E, F; A)$ in the relative spectral sequence.
+	Hence $\alpha$ is transgressive if and only if $\delta \alpha$ is of filtration degree $n$ which is isomorphic to the image of $p^*$ and its transgression is the coset $(p^*)^{-1}(\delta \alpha)$.
+\end{proof}
+\begin{theorem}[Transgression theorem]\index{transgression!theorem}
+	The subset of transgressive classes in $H^*(F; \F_2)$ is closed under the application of each $\Sq^i$.
+	If $x \in H^{n - 1}(F; \F_2)$ transgresses to $y \in H^n(B; \F_2)$, then $\Sq^i x$ transgresses to $\Sq^i y$.
+\end{theorem}
+\begin{proof}
+	If $\delta(x) = p^*(y)$, then $\delta(\Sq^i x) = \Sq^i(\delta x) = \Sq^i(p^*(y)) = p^*(\Sq^i y)$ since $\delta$ commutes with $\Sq^i$ as it can be written as
+	\begin{equation*}
+		\begin{tikzcd}[column sep = small]
+			H^{n - 1}(F; \F_2)
+					\ar[r, "\sigma", "\isom"']
+				& \tilde{H}^n(\Sigma F; \F_2)
+					\ar[r]
+				& \tilde{H}^n(C(i); \F_2) \isom H^n(E, F; \F_2)
+		\end{tikzcd}
+	\end{equation*}
+	where $\sigma$ denotes the suspension isomorphism and $i$ is the inclusion $F \incl E$, and the $\Sq^i$ are stable.
+\end{proof}
+\begin{lemma}
+	Let $X$ be a space, $x \in H^n(X; \F_2)$, and $I = (i_k, \ldots, i_0)$ an admissible sequence of natural numbers.
+	Then:
+	\begin{enumerate}
+		\item If $e(I) > n$, then $\Sq^I x = 0$.
+		\item If $e(I) = n$, then $\Sq^I x = \big(\Sq^{I'} x\big)^2$ for some $I'$ admissible with $e(I') \leq n$.
+			In particular, each $\Sq^I x$ with $e(I) = n$ can be written as $\big(\Sq^J x\big)^{2^l}$ for some $l \geq 1$ with $e(J) < n$.
+	\end{enumerate}
+\end{lemma}
+\begin{proof}
+	\leavevmode
+	\begin{enumerate}
+		\item Since $i_k = i_{k - 1} + \ldots + i_0 + e(I)$, we have
+			\begin{equation*}
+				\big|\Sq^{i_{k - 1}} \cdots \Sq^{i_0} x\big| = |x| + i_{k - 1} + \ldots + i_0 = |x| + i_k - e(I) = n - \underbrace{e(I)}_{> n} + i_k < i_k
+			\end{equation*}
+			hence $\Sq^I x = \Sq^{i_k}\big(\Sq^{i_{k - 1}} \cdots \Sq^{i_0} x\big) = 0$.\footnote{since it is one of the axioms of the squares that $\Sq^l x = 0$ for all $l > |x|$ (from me)}
+		\item Similarly, if $e(I) = n$, then $\big|\Sq^{i_{k - 1}} \cdots \Sq^{i_0} x\big| = i_k$, hence 
+			\begin{equation*}
+				\Sq^I x = \Sq^{i_k}\big(\Sq^{i_{k - 1}} \cdots \Sq^{i_0} x\big) = \big(\Sq^{i_{k - 1}} \cdots \Sq^{i_0} x\big)^2
+			\end{equation*}
+			and $e(I') - e(I) = n$ where $I' = (i_{k - 1}, \ldots, i_0)$.
+			If $e(I') = n$, we can iterate this procedure until we reach a sequence $J$ of lower excess.
+			\qedhere
+	\end{enumerate}
+\end{proof}
+\begin{theorem}[Borel's theorem]\index{Borel's theorem}
+	Let $F \to E \to B$ be a fibre sequence with $E$ contractible and $B$ 1-connected.
+	Assume that there exist transgressive elements $x_i \in H^*(F; \F_2)$ such that the square-free monomials in the $x_i$ form a basis of $H^*(F; \F_2)$.
+	Let $y_i \in H^*(B; \F_2)$ denote an element representing the transgression of $x_i$ for all $i$.
+	Then $H^*(B; \F_2)$ is a polynomial ring on the classes $y_i$.
+\end{theorem}
+\begin{remark}
+	(from me) This theorem holds more generally for coefficients in an arbitrary field $K$, under the added assumption that $|x_i|$ be odd if $\chr K \neq 2$, see 
+	% TODO cite Hatcher Ch. 5 Thm. 5.34
+\end{remark}
+\begin{proof}
+	We define a spectral sequence $\{\bar{E}_r^{p, q}\}_{r \geq 2}$ as follows:
+	The groups $\bar{E}_r^{p, q}$ shall be given by
+	\begin{equation*}
+		\bar{E}_r^{p, q} \coloneq \bigdsum_{x_{i_1} \cdots x_{i_k} \in S^p_r} x_{i_1} \cdots x_{i_k} \cdot \F_2[\{y_j \mid |y_j| \geq r\}]_q
+	\end{equation*}
+	where $S^p_r \coloneq \big\{x_{i_1} \cdots x_{i_k} \mid k \in \N,\ |x_{i_j}| \geq r - 1 \text{ for all } j = 1, \ldots, k,\ |x_{i_1} \cdots x_{i_k}| = p\big\}$ is the set of square free monomials in the $x_i$ of degree $\geq r - 1$ of total degree $p$, the subscript $q$ on the right denotes degree $q$ of the internal grading of the polynomial ring, and the whole expression is graded by extending the degree of the $y_i$ in the obvious way.
+	As for the differentials, we put
+	\begin{equation*}
+		d_r(x_{i_1} \cdots x_{i_k} \cdot P) \coloneq \sum_{j = 1}^k d_r(x_{i_j}) \cdot \prod_{l \neq j} x_{i_l} \cdot P
+	\end{equation*}
+	for $P \in \F_2[\{y_j \mid |y_j| \geq r\}]$ where
+	\begin{equation*}
+		d_r(x_i) \coloneq \begin{cases}
+			y_i & |x_i| = r - 1 \\
+			0 	& \text{else}
+		\end{cases}
+	\end{equation*}
+	We note the following:
+	\begin{enumerate}
+		\item $d_r(x_{i_1} \cdots x_{i_k} \cdot P) = 0$ if and only if $|x_{i_l}| > r - 1$ for all $l = 1, \ldots, k$.
+			This is because of the square-free condition which guarantess that the non-zero summands in $d_r(x_{i_1} \cdots x_{i_k} \cdot P)$ do not sum to 0.
+		\item $\img d_r$ is contained in the subgroup generated by expressions of the form $x_{i_1} \cdots x_{i_k} \cdot Q$ where $Q$ is a monomial containing at least one $y_i$ with $|y_i| = r$.
+		\item If $x_{i_1} \cdots x_{i_k} \cdot Q$ is such a monomial and $d_r(x_{i_1} \cdots x_{i_k} \cdot Q) = 0$, then $x_{i_1} \cdots x_{i_k} \cdot Q \in \img d_r$.
+			\begin{smallproof}
+				By the above we must have $|x_{i_l}| \geq r$ for all $l$.
+				We can write $Q = Q' \cdot y_i$ with $|y_i| = r$.
+				Then $i_l \neq i$ for all $l = 1, \ldots, k$, so $x_{i_1} \cdots x_{i_l} x_i$ is square-free, and
+				\begin{equation*}
+					d_r(x_{i_1} \cdots x_{i_l} x_i \cdot Q) = x_{i_1} \cdots x_{i_l} y_i \cdot Q' = x_{i_1} \cdots x_{i_l} Q
+				\end{equation*}
+			\end{smallproof}
+		\item $d_r^2 = 0$: We calculate
+			\begin{equation*}
+				d_r^2(x_{i_1} \cdots x_{i_k} \cdot P) = \sum_{\substack{j \neq l \\ \mathclap{|x_{i_j}| = |x_{i_l}| = r - 1}}} y_{i_j} \cdot y_{i_l} \cdot \prod_{s \neq j, l} x_{i_s} \cdot P = 0
+			\end{equation*}
+			since every summand applies twice.
+	\end{enumerate}
+\end{proof}
 
 \section{Exercises}
 \begin{exercise}\label{ex:serrefib}
