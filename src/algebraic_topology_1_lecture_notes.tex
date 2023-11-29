@@ -11,9 +11,12 @@
 \DeclareNamedOperator{gr}
 \DeclareNamedOperator{sk}
 \DeclareNamedOperator{tel}
+\DeclareNamedOperator{CohOps}
 
 \DeclareMathOperator*{\holim}{holim}
 \DeclareMathOperator{\chr}{char}
+
+\DeclareMathOperator{\CohOpsst}{CohOps^{\mathrm{st}}}
 
 \DefineCategory{Fib}
 
@@ -25,6 +28,8 @@
 \newcommand{\Cptor}[1][p]{\catfont{C}^\text{#1}}
 \newcommand{\Cfin}{\catfont{C}^\text{fin}}
 \newcommand{\Cfinp}[1][p]{\catfont{C}^\text{#1, fin}}
+
+\renewcommand*{\Zn}[1]{\Z / #1}
 
 \tikzset{
 	spectral sequence/.cd,
@@ -2831,7 +2836,7 @@ Iterated application of this lemma then yields the result.
 				H^k(Y; A)
 			\end{matrix}}
 					\ar[r, "\isom"]
-					\ar[rrr, highlightcol, bend left = 15, "{{-}} + {{-}}"]
+					\ar[rrr, highlightcol, bend left = 15, "+"]
 					\ar[d, "\phi^{(k)} \times \phi^{(k)}"]
 				& H^k(Y \vee Y; A) 
 					\ar[d, "\phi^{(k)}"]
@@ -2848,7 +2853,7 @@ Iterated application of this lemma then yields the result.
 				H^{k + n}(Y; A)
 			\end{matrix}}
 					\ar[r, "\isom"]
-					\ar[rrr, highlightcol, bend right = 15, "{{-}} + {{-}}"]
+					\ar[rrr, highlightcol, bend right = 15, "+"]
 				& H^{k + n}(Y \vee Y; A) 
 				& H^{k + n}(Y \times Y; A)
 					\ar[l, swap, "\isom"]
@@ -2864,17 +2869,26 @@ Iterated application of this lemma then yields the result.
 \end{proof}
 Note that for a ring $R$ and abelian group $A$, the set of cohomology operations $H^k({{-}}; A) \to H^*({{-}}; R)$ forms a graded ring by pointwise sum and cup product.
 It is graded commutative if $R$ is commutative.
-Moreover, the set of stable cohomology operations $\{H^k({{-}}; A) \to H^{k + *}({{-}}; A) \mid k \in \Z\}$ forms a graded ring under composition.
+Moreover, the set of stable cohomology operations $\big\{H^k({{-}}; A) \to H^{k + *}({{-}}; A) \mid k \in \Z\big\}$ forms a graded ring under composition.
 This is generally not commutative.
+\begin{notation}
+	We write
+	\begin{itemize}
+		\item $\CohOps(k, A, l, B)$ for the set of all cohomology operations $H^k({{-}}; A) \to H^l({{-}}; B)$,
+		\item $\CohOps(k, A, R)$ for the ring of cohomology operations $H^k({{-}}; A) \to H^*({{-}}; R)$,
+		\item $\CohOpsst(n, A, B)$ for the collection of all stable cohomology operations $H^*({{-}}; A) \to H^{* + n}({{-}}; B)$, and
+		\item $\CohOpsst(A)$ for the ring of stable cohomology operations $H^*({{-}}; A) \to H^{* + *}({{-}}; A)$.
+	\end{itemize}
+\end{notation}
 \begin{proposition}\label{prp:cohopsbijections}
 	We have bijections
 	\begin{align*}
-		\{\phi\colon H^k({{-}}; A) \to H^l({{-}}; B) \text{ cohomology operation}\} &\xto{\isom} H^l(K(A, k); B) \\
+		\CohOps(k, A, l, B) &\xto{\isom} H^l(K(A, k); B) \\
 		\phi &\mapsto \phi(\iota_k)
 	\end{align*}
 	where $\iota_k \in H^k(K(A, k); A)$ is the fundamental class, and
 	\begin{align*}
-		\{H^*({{-}}; A) \to H^{* + n}({{-}}; B) \text{ stable cohomology operation}\} &\xto{\isom} \lim_{k \in \N} H^{k + n}(K(A, k); B)
+		\CohOpsst(n, A, B) &\xto{\isom} \lim_{k \in \N} H^{k + n}(K(A, k); B)
 	\end{align*}
 	where the limit is taken along the maps
 	\begin{equation*}
@@ -2895,7 +2909,7 @@ This is generally not commutative.
 
 	For the second bijection, stable operations are by definition the limit over $k$ along the maps
 	\begin{align*}
-		\{H^{k + 1}({{-}}; A) \to H^{k + 1 + n}({{-}}; B) \text{ cohomology operation}\} &\to \{H^k({{-}}; A) \to H^{k + n}({{-}}; B) \text{ cohomology operation}\} \\
+		\CohOps(k + 1, A, k + 1 + n, B) &\to \CohOps(k, A, k + n, B) \\
 		\phi &\mapsto \sigma^{-1} \circ \phi \circ \sigma
 	\end{align*}
 	where $\sigma$ denotes the suspension isomorphism.
@@ -2905,9 +2919,10 @@ This is generally not commutative.
 		\iota_{k + 1} &\mapsto \sigma(\iota_k)
 	\end{align*}
 	which follows from $K(A, k) \to \Omega K(A, k + 1)$ inducing the identity of $A$ on $\pi_k$ and the natural identification
-	\begin{equation*}
-		H^{k + 1}(K(A, k + 1); A) \isom \Hom(H_{k + 1}(K(A, k + 1); A), A) \isom \Hom(\pi_{k + 1} K(A, k + 1), A)
-	\end{equation*}
+	\begin{align*}
+		H^{k + 1}(K(A, k + 1); A) &\isom \Hom(H_{k + 1}(K(A, k + 1); A), A) \\ 
+								  &\isom \Hom(\pi_{k + 1} K(A, k + 1), A)
+	\end{align*}
 	and likewise for $k$.
 \end{proof}
 \begin{corollary}
@@ -2922,19 +2937,19 @@ This is generally not commutative.
 		\item Let $k$ be odd and $l > 0$.
 			Then
 			\begin{equation*}
-				\{H^k({{-}}; \Q) \to H^l({{-}}; \Q) \text{ cohomology operation}\} \isom \begin{cases}
+				\CohOps(k, \Q, l, \Q) \isom \begin{cases}
 					\Q 	& k = l \\
 					0 	& \text{else}
 				\end{cases}
 			\end{equation*}
 		\item For $k$ even, we obtain
 			\begin{equation*}
-				\{H^k({{-}}; \Q) \to H^l({{-}}; \Q) \text{ cohomology operation}\} \isom \begin{cases}
+				\CohOps(k, \Q, l, \Q) \isom \begin{cases}
 					\Q\{({{-}})^{\smile n}\} 	& l = n k \\
 					0 							& \text{else}
 				\end{cases}
 			\end{equation*}
-		\item The graded ring of stable operations $H^({{-}}; \Q) \to H^{* + *}({{-}}; \Q)$ is a copy of $\Q$ concentraded in degree 0.
+		\item The graded ring of stable operations $H^*({{-}}; \Q) \to H^{* + *}({{-}}; \Q)$ is a copy of $\Q$ concentraded in degree 0.
 	\end{enumerate}
 \end{corollary}
 \begin{proof}
@@ -2980,7 +2995,7 @@ We can form the quotients $E C_2 \times_{C_2} K(\F_2, n)^{\times 2}$ and $(E C_2
 \begin{proposition}
 	We have a bijection
 	\begin{equation*}
-		H^{2n}((E C_2)_{+} \wedge_{C_2} K(\F_2, n)^{\wedge 2}; \F_2) \xto{\isom} H^{2n}(K(\F_2, n)^{\wedge 2}; \F_2) \isom \F_2\{\iota_n \cup \iota_n\}
+		H^{2n}((E C_2)_{+} \wedge_{C_2} K(\F_2, n)^{\wedge 2}; \F_2) \xto{\isom} H^{2n}(K(\F_2, n)^{\wedge 2}; \F_2) \isom \F_2\{\iota_n \smile \iota_n\}
 	\end{equation*}
 \end{proposition}
 Conceptionally, the extension of the cup square $K(\F_2, n)^{\wedge 2} \to K(\F_2, 2n)$ to a map $(E C_2)_{+} \wedge_{C_2} K(\F_2, n)^{\wedge 2} \to K(\F_2, 2n)$ comes from the fact that the cochains $C^*(X; \F_2)$ (or the spectrum $H \F_2$ comes with a so-called $E_\infty$-multiplication (it \enquote{commutes up to all higher homotopies}), and there are maps $(E \Sigma_m)_{+} \wedge_{\Sigma_m} K(\F_2, n)^{\wedge m} \to K(\F_2, m n)$ for all $m, n$).
@@ -3010,10 +3025,10 @@ By the Künneth theorem, the groups
 	H^q(K(\F_2, n)^{\times 2}, K(\F_2, n)^{\vee 2}; \F_2) \isom \tilde{H}^q(K(\F_2, n)^{\wedge 2}; \F_2)
 \end{equation*}
 are 0 for $q < 2n$ and isomorphic to a copy of $\F_2$ spanned by $\iota_n \smile \iota_n$ in degree $2n$.
-Note that any group action on $\F_2$ is necessarily trivial, so that the local system $H^{2n}(K(\F_2, n)^{\times 2}, K(\F_2, n)^{\vee 2}; \F_2)$ must be constant.
+Note that any group action on $\F_2$ is necessarily trivial, so the local system $H^{2n}(K(\F_2, n)^{\times 2}, K(\F_2, n)^{\vee 2}; \F_2)$ is constant.
 Hence, for the relative Serre spectral sequence we have that $E_2^{0, 2n} \isom H^0(B C_2; H^{2n}(K(\F_2, n)^{\times 2}, K(\F_2, n)^{\vee 2}; \F_2)) \isom \F_2$.
 % TODO picture?
-For degree reasons there cannot be any nontrivial out of $E_2^{0, 2n}$, so we obtain a unique class $\alpha_n \in H^{2n}((E C_2)_{+} \wedge_{C_2} K(\F_2, n)^{\wedge 2}; \F_2)$ refining the cup square in $H^{2n}(K(\F_2, n)^{\wedge 2}; \F_2)$.
+For degree reasons there cannot be any nontrivial differential out of $E_2^{0, 2n}$, so we obtain a unique class $\alpha_n \in H^{2n}((E C_2)_{+} \wedge_{C_2} K(\F_2, n)^{\wedge 2}; \F_2)$ refining the cup square in $H^{2n}(K(\F_2, n)^{\wedge 2}; \F_2)$.
 \begin{remark}
 	The same proof works for all $m$:
 	\begin{equation*}
@@ -3021,9 +3036,10 @@ For degree reasons there cannot be any nontrivial out of $E_2^{0, 2n}$, so we ob
 	\end{equation*}
 \end{remark}
 We now proceed by pulling back $\alpha_n$ under the map 
-\begin{equation*}
-	H^{2n}((E C_2)_+ \wedge_{C_2} K(\F_2, n)^{\wedge 2}; \F_2) \xto{\Delta^*} H^{2n}((B C_2)_+ \wedge K(\F_2, n); \F_2) \isom \bigdsum_{i = 0}^n H^i(B C_2; \F_2) \tensor \tilde{H}^{2n - i}(K(\F_2, n); \F_2)
-\end{equation*}
+\begin{align*}
+	H^{2n}((E C_2)_+ \wedge_{C_2} K(\F_2, n)^{\wedge 2}; \F_2) \xto{\Delta^*} & H^{2n}((B C_2)_+ \wedge K(\F_2, n); \F_2) \\ 
+																			  &\; \isom \bigdsum_{i = 0}^n H^i(B C_2; \F_2) \tensor \tilde{H}^{2n - i}(K(\F_2, n); \F_2)
+\end{align*}
 Let $u \in H^1(B C_2; \F_2)$ be a generator.
 Then $\Sq^i(\iota_n) \in H^{n + i}(K(\F_2, n); \F_2)$ is uniquely defined by the expression
 \begin{equation*}
@@ -3192,7 +3208,7 @@ Now we turn to the computation of $H^*(K(\F_2, n); \F_2)$ for all $n$.
 		e(I) \coloneq (i_n - 2 i_{n - 1}) + \ldots + (i_1 - 2 i_0) = i_0 = 2 i_n - \big|I\big|
 	\end{equation*}
 \end{definition}
-\begin{theorem}[Cartan-Serre]\index{Cartan-Serre theorem}
+\begin{theorem}[Cartan-Serre]\index{Cartan-Serre theorem}\label{thm:cartanserre}
 	For $n \geq 1$ we have 
 	\begin{equation*}
 		H^*(K(\F_2, n); \F_2) \isom \F_2\big[\big\{\Sq^I \iota_n \mid I \text{ admissible}, e(I) < n\big\}\big]
@@ -3307,7 +3323,7 @@ The differentials $d_r\colon E_r^{0, r - 1} \to E_r^{r, 0}$ are each defined on 
 	\end{equation*}
 	where $\sigma$ denotes the suspension isomorphism and $i$ is the inclusion $F \incl E$, and the $\Sq^i$ are stable.
 \end{proof}
-\begin{lemma}
+\begin{lemma}\label{lmm:admissiblesquarestructure}
 	Let $X$ be a space, $x \in H^n(X; \F_2)$, and $I = (i_k, \ldots, i_0)$ an admissible sequence of natural numbers.
 	Then:
 	\begin{enumerate}
@@ -3333,7 +3349,7 @@ The differentials $d_r\colon E_r^{0, r - 1} \to E_r^{r, 0}$ are each defined on 
 			\qedhere
 	\end{enumerate}
 \end{proof}
-\begin{theorem}[Borel's theorem]\index{Borel's theorem}
+\begin{theorem}[Borel's theorem]\index{Borel's theorem}\label{thm:borel}
 	Let $F \to E \to B$ be a fibre sequence with $E$ contractible and $B$ 1-connected.
 	Assume that there exist transgressive elements $x_i \in H^*(F; \F_2)$ such that the square-free monomials in the $x_i$ form a basis of $H^*(F; \F_2)$.
 	Let $y_i \in H^*(B; \F_2)$ denote an element representing the transgression of $x_i$ for all $i$.
@@ -3381,7 +3397,107 @@ The differentials $d_r\colon E_r^{0, r - 1} \to E_r^{r, 0}$ are each defined on 
 			\end{equation*}
 			since every summand applies twice.
 	\end{enumerate}
+	\lecture{27.11.23}
+	Items 1--3 show that the inclusions $\bar{E}_{r + 1} \to \bar{E}_r$ land in the kernel of $d_r$ and induce isomorphisms
+	\begin{equation*}
+		\bar{E}_{r + 1} \xto{\isom} H^*(\bar{E}_r)
+	\end{equation*}
+	so we indeed have a spectral sequence.
+	Moreover, we obtain a map of spectral sequences 
+	\begin{align*}
+		\phi\colon \bar{E} &\to E \\
+		x_{i_1} \cdots x_{i_k} \cdot P &\mapsto x_{i_1} \cdots x_{i_k} \cdot P
+	\end{align*}
+	using that the differentials $d_r$ on $E_r$ on elements of the form $x_{i_1} \cdots x_{i_k} \cdot P$ are determined by the differentials on the $x_i$ and the Leibniz rule.
+	This map is an isomorphism on $E_r^{0, q}$ for all $r$ and on $E_\infty^{*, *}$.
+	We now show that it is an isomorphism on $E_2^{p, q}$ by induction on $p$.
+	Assume we know that it is an isomorphism on $E_2^{p, 0}$ for all $p < n$. 
+	Then it is an isomorphism on $E_2^{p, q}$ for all $p < n$ and on $E_i^{n - i, i - 1}$ for all $i = 2, \ldots, n$ since all outgoing differentials do not leave that range until $d_i\colon E_i^{n - i, i - 1} \to E_i^{n, 0}$.
+	Every $\alpha \in E_2^{n, 0}$ must be in the image of one of these $d_i$ since $E_\infty^{n, 0} = 0$.
+	It follows that $\bar{E}_2^{n, 0} \to E_2^{n, 0}$ is surjective.
+	Now assume that $\phi\colon \bar{E}_2^{n, 0} \to E_2^{n, 0}$ is not injective.
+	Let $\alpha \neq 0 \in E_2^{n, 0}$ be in the kernel of $\phi$.
+	Again, we can write $[\alpha] = d_i(\beta)$ for some $i$ and $\beta \in \bar{E}_i^{n - i, i - 1}$.
+	Then $d_i(\phi(\beta)) = \phi(d_i(\beta)) = \phi(\alpha) = 0$.
+	Hence $\phi(\beta) \in E_2^{n - i, i - 1}$ is a permanent cycle as $d_i$ is the last possible non-trivial differential at that point.
+	But $\phi(\beta)$ is not in the image of $d_i$ since $\beta \in \bar{E}_i^{n - i, i - 1}$ is not (as $d_i(\beta) = [\alpha] \neq 0$) and all differentials landing in $E_i^{n - i, i - 1}$ are determined by these up into $\bar{E}_i^{n - i, i - 1}$ by the induction assumption.
+	This finishes the proof.
 \end{proof}
+\begin{proof}[Proof of theorem \ref{thm:cartanserre}]
+	For $K(\F_2, n)$ we start the induction with $K(\F_2, 1) \isom \RP^\infty$ for which we know the statement to hold.
+	For $K(\Z, n)$ we analogously start with $K(\Z, 2) \isom \CP^\infty$.
+	In theorem \ref{thm:borel} applied to the induction step and the Serre spectral sequence for the fibre sequence $K(\F_2, n) \to * \to K(\F_n, n + 1)$ we set the $x_i$ to be all the $\big(\Sq^I \iota_n\big)^{2^k}$ with $I$ an admissible sequence of excess $e(I) < n$.
+	Note that the square-free monomials on these form a basis for $H^*(K(\F_2, n); \F_2)$ as powers of the form $\big(\Sq^I \iota_n\big)^m$ can be uniquely determined via their binary expansion\footnote{As an example, consider the graded ring $\F_2[x, y]$. This has as basis the monomials $x^k y^l$ which can be split up as $x^{2^{k_1}} \cdots x^{2^{k_m}} y^{2^{l_1}} \cdots y^{2^{l_n}}$ with the $k_i$ and $l_j$ uniquely determined by the binary expansions of $k$ and $l$}.
+	For the integral case we only consider those $I$ with $i_0 \geq 2$.
+
+	Note that $\iota_n$ transgresses to $\iota_{n + 1}$ since the $(n + 1)$-differential on $\iota_n$ is the only possibly nontrivial one.
+	% TODO is this really the correct lemma to cite here?
+	By lemma \ref{lmm:admissiblesquarestructure}, $\Sq^I \iota_n$ hence transgresses to $\Sq^I \iota_{n + 1}$ and $\big(\Sq^I \iota_n\big)^2$ transgresses to $\Sq^{2^{k - 1}(|I| + n)} \cdots \Sq^{|I| + n}\big(\Sq^I \iota_{n + 1}\big) = \Sq^J \iota_{n + 1}$ for $J = \big(2^{k - 1}(|I| + n), 2^{k - 2}(|I| + n), \ldots, |I| + n, I\big)$ if $k > 0$.
+	As we saw, every $J$ with $e(I) = n$ arises in this way from an admissible sequence of smaller excess; this finishes the proof.
+\end{proof}
+\begin{example}
+	Consider the fibre sequence $\RP^\infty \to * \to K(\F_2, 2)$.
+	% TODO picture
+\end{example}
+\begin{corollary}
+	The map 
+	\begin{equation*}
+		\psi\colon \symcal{A} \to \CohOpsst(\F_2)
+	\end{equation*}
+	is an isomorphism.
+\end{corollary}
+\begin{proof}
+	We saw in proposition \ref{prp:cohopsbijections} that $\CohOpsst(\F_2)$ can be described in degree $k$ as the limit 
+	\begin{equation*}
+		\lim_{n \in \N} H^{k + n}(K(\F_2, n); \F_2)
+	\end{equation*}
+	We note that in degree $< n$ all admissible sequences $I$ have excess $e(I) < n$ since $e(I) = 2 i_n - |I| \leq 2 |I| - |I| = |I|$.
+	Moreover, every product of the form $\Sq^I \iota_n \cdots \Sq^J \iota_n$ lies in degree $\geq 2n$ inside $H^*(K(\F_2, n); \F_2)$.
+	It follows that up to degree $2n - 1$, $H^*(K(\F_2, n); \F_2)$ has a basis consisting of all the $\Sq^I \iota_n$ with $I$ admissible and $|I| < n$.
+	Hence, in the limit, the ring of stable operations has a basis given by all $\Sq^I$ with $I$ admissible since the element $(\iota_1, \iota_2, \iota_3, \ldots)$ is the image of $1 \in \symcal{A}$.
+	All $\Sq^I$ up to a given degree, all products, and all $\Sq^I \iota_n$ with $e(I) \geq n$ lie outside the stable range.
+	In particular, $\psi$ is surjective.
+	For injectivity, it suffices to show that every element in $\symcal{A}$ can be written as a sum of elements of the form $\Sq^I$ for $I$ an admissible sequence since $\psi$ is injective on their span given that their images are linearly independent.
+	This can be achieved inductively using the Adem relations:
+	Consider $\Sq^I = \Sq^{i_1} \cdots \Sq^{i_r}$ not necessarily admissible.
+	We define $m(I) \coloneq \sum_{s = 1}^r s \cdot i_s$.
+	If $I$ is not admissible, there exists some $j \in \{2, \ldots, r\}$ with $i_j < 2_{i_j} + 1$.
+	We can then use the Adem relation
+	\begin{equation*}
+		\Sq^{i_1}\Sq^{i_{j + 1}} = \sum_{n = 0}^{\lfloor i_j / 2\rfloor} \binom{i_{j + 1} - n - 1}{i_j - 2n} \Sq^{i_j + i_{j + 1} - n}\Sq^n
+	\end{equation*}
+	to replace $\Sq^I$ with a sum of terms $\Sq^{I'}$ where
+	\begin{equation*}
+		I' = (i_1, \ldots, i_{j - 1}, i_j + i_{j + 1} - n, n, i_{j + 2}, \ldots, i_r)
+	\end{equation*}
+	Furthermore, 
+	\begin{align*}
+		m(I') &= m(I) + j (i_j + i_{j + 1} - n) + (j + 1) n - j i_j - (j + 1) i_{j + 1} \\
+			  &= m(I) n - i_{j + 1} \\
+			  &< m(I)
+	\end{align*}
+	since $n \leq i_j / 2$ and $i_j < 2_{i_{j + 1}}$.
+	Since $m({{-}})$ cannot decrease beyond 0, this process must terminate.
+\end{proof}
+The following rather long exercise is not relevant for the exam but highly recommended:
+\begin{exercise}
+	Use our computation of $H^*(K(\F_2, n); \F_2)$ and $H^*(K(\Z, n); \F_2)$ and our understanding of transgressions to compute $\pi_6(S^3, *)$ as follows:
+	\begin{enumerate}
+		\item We know that $\pi_6(S^3, *)$ is finite and that its 3-torsion is a copy of $\Zn{3}$, and that there is no $p$-torsion for $p > 3$.
+		\item To understand the 2-torsion, proceed inductively:
+			\begin{enumerate}
+				\item Compute $H^*(\tau_{\geq 4} S^3; \F_2)$ up to sufficiently high degrees via the fibre sequence $\tau_{\geq 4} S^3 \to S^3 \to K(\Z, 3)$.
+				\item Compute $H^*(\tau_{\geq 5} S^3; \F_2)$ up to sufficiently high degrees via the fibre sequence $\tau_{\geq 5} S^3 \to \tau_{\geq 4} S^3 \to K(\F_2, 4)$.
+				\item Compute $H^*(\tau_{\geq 6} S^3; \F_2)$ in degrees 6 and 7 and use the following fact to understand $H_6(\tau_{\geq 6} S^3; \Z) \isom \pi_6(S^3, *)$:
+					If $X$ is a space, then
+					\begin{itemize}
+						\item every $\Z$-summand in $H_n(X; \Z)$ contributes an $\F_2$-summand in $H^n(X; \F_2)$,
+						\item every $\Zn{2}$-summand in $H_n(X; \Z)$ contributes an $\F_2$-summand in $H^n(X; \Z)$ and one in $H^{n + 1}(X; \F_2)$ which are related by a $\Sq^1$, and
+						\item every $\Zn{2^k}$-summand with $k > 1$ contributes one $\F_2$-summand in $H^n(X; \F_2)$ and one in $H^{n + 1}(X; \F_2)$ with no $\Sq^1$ between them.
+					\end{itemize}
+			\end{enumerate}
+	\end{enumerate}
+\end{exercise}
 
 \section{Exercises}
 \begin{exercise}\label{ex:serrefib}
