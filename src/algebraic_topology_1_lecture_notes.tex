@@ -14,6 +14,7 @@
 \DeclareNamedOperator{CohOps}
 
 \DeclareNamedOperator{Fr}
+\DeclareNamedOperator{Th}
 
 \DeclareMathOperator*{\holim}{holim}
 \DeclareMathOperator{\chr}{char}
@@ -3666,9 +3667,15 @@ For instance, $\Gr_1(\F^N)$ is by definition just $\FP^n$ and $\gamma_{\R}^{1, 2
 				U \times \R^k &\incl U \times \R^n \\
 				(b, v) &\mapsto (b, \psi(b, v))
 			\end{align*}
-			By reordering the entries of $\R^n$ if necessary and replacing $U$ by a smaller neighborhood, we can assume that $\psi(b, e_1), \ldots, \psi(b, e_k)$ intersect trivially with $\{b\} \times \R^0 \times \R^{n - k}$ for all $b$.
-			Hence, the tuple $(\psi(b, e_1), \ldots, \psi(b, e_k), e_{k + 1}, \ldots, e_n)$ forms a basis of $\R^n$ for all $b$.
-			Applying the Gram-Schmidt process (which is continuous), we obtain a basis $\psi(b, e_1), \ldots, \psi(b, e_k), \bar{\psi}(b)_1, \ldots, \bar{\psi}_{n - k}$.
+			By reordering the entries of $\R^n$ if necessary and replacing $U$ by a smaller neighborhood, we can assume that $\psi(b, e_1), \ldots, \psi(b, e_k)$ intersect trivially with $\{b\} \times \R^0 \times \R^{n - k}$ for all $b$ so that the tuple 
+			\begin{equation*}
+				(\psi(b, e_1), \ldots, \psi(b, e_k), e_{k + 1}, \ldots, e_n)
+			\end{equation*}
+			forms a basis of $\R^n$ for all $b$.
+			Applying the Gram-Schmidt process (which is continuous), we obtain a basis 
+			\begin{equation*}
+				(\psi(b, e_1), \ldots, \psi(b, e_k), \bar{\psi}(b)_1, \ldots, \bar{\psi}(b)_{n - k})
+			\end{equation*}
 			Then the function
 			\begin{align*}
 				U \times \R^{n - k} &\incl U \times \R^n \\
@@ -3678,6 +3685,123 @@ For instance, $\Gr_1(\F^N)$ is by definition just $\FP^n$ and $\gamma_{\R}^{1, 2
 			Translated back to $h$, this provides a local trivialization of $\hat{E}^\perp$.
 	\end{enumerate}
 \end{definition}
+% TODO lecture 17
+\stepcounter{lecture}
+\lecture{08.12.23}
+\begin{example}
+	From the above, we obtain isomorphisms
+	\begin{equation*}
+		\Vect_{\R}^1(X) \isom [X, \RP^\infty] \isom H^1(X; \F_2)
+	\end{equation*}
+	and
+	\begin{equation*}
+		\Vect_{\C}^1(X) \isom [X, \CP^\infty] \isom H^2(X; \Z)
+	\end{equation*}
+	if $X$ is a CW-complex.
+	It follows that $\gamma_{\R}^1$ is the unique non-trivial line bundle on $\RP^\infty$ since $H^1(\RP^\infty; \F_2) \isom \F_2$.
+	Since $H^1(\RP^\infty; \F_2) \xto{\isom} H^1(\RP^m; \F_2)$ for all $m \geq 1$, we see that $\gamma_{\R}^{1, m + 1}$ is also non-trivial for all $m \geq 1$; in particular the Möbius bundle is non-trivial.
+	Similarly, the line bundles $\gamma_{\C}^{1, m + 1}$ are generators of $\Vect_{\C}^1(\CP^m)$ for all $m \geq 1$.
+	In particular, $\Vect_{\R}^1(X)$ and $\Vect_{\C}^1(X)$ have natural abelian group structures.
+	One can show that this is given by the tensor product of line bundles.
+	In fact, natural operations $\Vect_{\R}^1({{-}}) \times \Vect_{\R}^1({{-}}) \to \Vect_{\R}^1({{-}})$ correspond, by the Yoneda lemma, to elements of
+	\begin{equation*}
+		H^1(\RP^\infty \times \RP^\infty; \F_2) \isom H^1(\RP^\infty \times \{*\}; \F_2) \dsum H^1(\{*\} \times \RP^\infty; \F_2)
+	\end{equation*}
+	Only two of these are invariant under the $C_2$-action which is the case for the one classifying the tensor product since it is symmetric.
+	Since the tensor product is non-trivial in general, it must correspond to the diagonal element $(1, 1) \in \F_2 \dsum \F_2$.
+	Hence, every real line bundle $\xi$ on $X$ has an associated cohomology class $\omega_1(\xi) \in H^1(X; \F_2)$ which is a full invariant of $\xi$ up to isomorphism.
+	This is an example of a \emph{characteristic class}, the theory of which we now develop systematically.
+\end{example}
+
+\subsection{Characteristic classes}
+\begin{definition}
+	A \strong{characteristic class}\index{characteristic class} is a natural transformation of the form
+	\begin{equation*}
+		\Vect_{\F}^n({{-}}) \Rightarrow H^m({{-}}; A)
+	\end{equation*}
+	for $n, m \in \N$ and $A$ an abelian group.
+\end{definition}
+\begin{remark}
+	At least when we restrict to paracompact spaces, characteristic classes correspond to elements in $H^m\big(\Gr^{\F}_n; A\big)$.
+\end{remark}
+We will mainly focus on the case $\F = \R$ and $A = \F_2$.
+Our main goal is to show the following:
+\begin{theorem}
+	For every real vector bundle $\xi\colon E \to B$ there exist characteristic classes $\omega_i(\xi) \in H^i(B; \F_2)$, $i \in \N$, called the \strong{Stiefel-Whitney classes}\index{Stiefel-Whitney class} satisfying the following properties:
+	\begin{enumerate}
+		\item $\omega_0(\xi) = 1$ and $\omega_i(\xi) = 0$ for $i > \dim \xi$.
+		\item \strong{Naturality}:
+			If $f\colon B' \to B$ is a continuous map, then
+			\begin{equation*}
+				\omega_i(f^* \xi) = f^* \omega_i(\xi)
+			\end{equation*}
+		\item \strong{Whitney product formula}\index{Whitney product formula}:
+			If $\xi$ and $\eta$ are real vector bundles over the same base $B$, then
+			\begin{equation*}
+				\omega_k(\xi \dsum \eta) = \sum_{i = 0}^k \omega_i(\xi) \smile \omega_{k - i}(\eta)
+			\end{equation*}
+		\item\label{ax:stiefwhitnormalization} $\omega_1\big(\gamma_{\R}^{1, 2}\big) \neq 0$ in $H^1(\RP^1; \F_2)$.
+	\end{enumerate}
+	Moreover, when restricted to paracompact spaces the $\omega_i$ are unique with these properties.
+\end{theorem}
+We first assume the theorem and record some elementary properties:
+\begin{itemize}
+	\item If $\epsilon$ is a trivial bundle, then $\omega_i(\epsilon) = 0$ for $i > 0$ since $\epsilon$ can be pulled back from a point and $H^i({{*}}; \F_2) = 0$ for $i > 0$.
+	\item We have $\omega_i(\xi \dsum \epsilon) = \omega_i(\xi)$ for all $i$ by the Whitney product formula and the previous item (this is to say that the $\omega_i$ are \emph{stable}).
+	\item We set $H^\pi(B; \F_2) \coloneq \prod_{n \in \N} H^n(B; \F_2)$ with ring structure given by extending the cup product, i.e.
+		\begin{equation*}
+			(x_i)_{i \in \N} \cdot (y_j)_{j \in \N} \coloneq \bigg(\sum_{i = 0}^k x_i \smile y_{k - i}\bigg)_{k \in \N}
+		\end{equation*}
+		The \strong{total Stiefel-Whitney class}\index{Stiefel-Whitney class!total class} $\omega(\xi) \in H^\pi(B; \F_2)$ is defined as $\omega(\xi) \coloneq \omega_0(\xi) + \omega_1(\xi) + \omega_2(\xi) + \cdots$.
+		Then $\omega(\xi \dsum \eta) = \omega(\xi) \omega(\eta)$.
+		Hence, if $\xi \dsum \eta = \epsilon^m$ is a trivial bundle, we have $\omega(\xi) \omega(\eta) = \omega(\xi \dsum \eta) = \omega(\epsilon^m) = 1$ and hence $\omega(\xi) = \omega(\eta)^{-1}$.
+	\item We have $\Vect_{\R}^1 \isom H^1(\RP^1; \F_2) \isom \F_2$, hence axiom \ref{ax:stiefwhitnormalization} forces $\omega_1\big(\gamma_{\R}^{1, 2}\big)$ to be the unique non-trivial element of $H^1(\RP^n; \F_2)$.
+		Since $\gamma_{\R}^{1, 2}$ is the pullback of $\gamma_{\R}^1$ along $\RP^1 \incl \RP^\infty$ and $H^1(\RP^\infty; \F_2) \to H^1(\RP^1; \F_2)$ is an isomorphism, we have that $\omega_1(\gamma_{\R}^1) \in H^1(\RP^\infty; \F_2)$ is the non-trivial element $u$.
+		Hence, $\omega(\gamma_{\R}^1) = 1 + u \in H^\pi(\RP^\infty; \F_2)$.
+		Its inverse is given by $1 + u + u^2 + u^3 + \cdots \in H^\pi(\RP^\infty; \F_2)$, but this has infinitely many non-trivial terms and can thus not be equal to $\omega(\eta)$ for some vector bundle $\eta$ on $\RP^\infty$.
+		% TODO cite the right corollary once available
+		Hence, $\gamma_{\R}^1$ does not embed into a trivial bundle, in contrast to bundles over compact spaces (Cor. 6. 13).
+		Over $\RP^n$, we have $\omega\big(\gamma_{\R}^{1, n + 1}\big)^{-1} = 1 + u + u^2 + \cdots + u^n = \omega(\xi)$ where $\gamma_{\R}^{1, n + 1} \dsum \xi = \epsilon^{n + 1}$ (i.e. $\xi \isom \big(\gamma_{\R}^{1, n + 1}\big)^\perp$).
+\end{itemize}
+We now turn to the construction of the $\omega_i$.
+We start with \emph{Thom classes} and \emph{Thom isomorphisms}.
+Let $p\colon E \to B$ be a real vector bundle.
+We set $E_0 \subset E$ to be all elements which are not the 0-element in their respective fibre.
+Then $p|_{E_0}\colon E_0 \to B$ is a fibre bundle with fibres homeomorphic to $\R^n \setminus \{0\}$.
+We can apply the relative Serre spectral sequence of the form $H^p(B; H^q(\R^n, \R^n \setminus \{0\}; \F_2)) \Rightarrow H^{p + q}(E, E_0; F_2)$.
+Now $H^q(\R^n, \R^n \setminus \{0\}; \F_2) \isom \F_2$ if $q = n$ and 0 else, and the local coefficient system is necessarily trivial since any automorphism of $\F_2$ is the identity.
+We therefore obtain the following picture:
+% TODO picture
+\begin{theorem}
+	There is a natural isomorphism 
+	\begin{equation*}
+		\Phi\colon H^*(B; \F_2) \xto{\isom} H^{* + n}(E, E_0; \F_2)
+	\end{equation*}
+	called the \strong{Thom isomorphism}\index{Thom isomorphism}.
+	The image $u = \Phi(1) \in H^n(E, E_0; \F_2)$ is called the \strong{Thom class}\index{Thom class} of the bundle.
+	Then the map $\Phi$ is given by the cup-product $H^*(B; \F_2) \xto{\isom} H^*(E; \F_2) \xto{{{-}} \smile u} H^{* + n}(E, E_0; \F_2)$.
+\end{theorem}
+\begin{proof}
+	This follows directly from the Serre spectral sequence we just considered and its multiplicative structure.
+\end{proof}
+Note that $u$ is uniquely determined by the fact that it restricts to a generator in $H^n(F_b, (F_b)_0; \F_2)$ on each of the fibres $F_b$.
+\begin{remark}
+	\leavevmode
+	\begin{enumerate}
+		\item This crucially depends on $\F_2$-coefficients.
+			Over $\Z$, the local system $H^q\big(F_{({{-}})}, \big(F_{({{-}})}\big)_0; \Z\big)$ is trivial if and only if the bundle is \strong{orientable}\index{orientability!of vector bundles}, i.e. one can choose orientations on each fibre $F_b$ which are locally compatible in the sense that the local trivializations all send them to the same orientation of $\R^n$.
+			Since every complex vector space has a canonical real orientation, every complex vector bundle is orientable and hence has a Thom isomorphism with $\Z$-coefficients.
+		\item The Thom isomorphism is sometimes phrased differently:
+			If $p\colon E \to B$ is euclidean, we can form the \strong{disc bundle}\index{disc bundle} $D(E)$ and the \strong{sphere bundle}\index{sphere bundle} $S(E)$ by restricting to the vectors of length $\leq 1$ and $= 1$ fibrewise, respectively.
+			Then $D(E) \incl E$ and $S(E) \incl E_0$ are both homotopy equivalences; homotopy inverses are given by the maps $E \xto{p} B \xto{s_0} D(E)$ where $s_0$ is the 0-section and $E_0 \to S(E)$, $v \mapsto \frac{v}{|v|}$, and homotopies are formed fibrewise.
+			Hence, there is an isomorphism $H^*(E, E_0; \F_2) \xto{\isom} H^*(D(E), S(E); \F_2)$.
+			The pair $(D(E), S(E))$ has the advantage that it is excisive, so we can further identify
+			\begin{equation*}
+				H^*(D(E), S(E); \F_2) \xto{\isom} \tilde{H}^*(D(E) / S(E); \F_2)
+			\end{equation*}
+			The space $D(E) / S(E) \eqcolon \Th(p)$ is called the \strong{Thom space}\index{Thom space} of $p$.
+	\end{enumerate}
+\end{remark}
 
 \section{Exercises}
 \begin{exercise}\label{ex:serrefib}
