@@ -22,6 +22,9 @@
 \DeclareMathOperator{\CohOpsst}{CohOps^{\mathrm{st}}}
 
 \DefineCategory{Fib}
+\DefineCategory{hTop}
+
+\newcommand{\hToprcpt}{\hTop^{\mathrm{prcpt.}}}
 
 \newcommand{\Hur}{\mathrm{Hur}}
 
@@ -58,6 +61,7 @@
     summand/.style = {
         ar symbol = {\oplus}
     },
+	column sep/smallish/.initial = +1.9em,
 }
 
 \hyphenation{mo-du-lo}
@@ -3685,8 +3689,143 @@ For instance, $\Gr_1(\F^N)$ is by definition just $\FP^n$ and $\gamma_{\R}^{1, 2
 			Translated back to $h$, this provides a local trivialization of $\hat{E}^\perp$.
 	\end{enumerate}
 \end{definition}
-% TODO lecture 17
-\stepcounter{lecture}
+\lecture{04.12.23}
+% TODO check this example
+\begin{example}
+	Consider the Möbius bundle $\gamma_{\R}^{1, 2} \to \RP^1 \isom S^1$ as a subbundle of the trivial bundle $\RP^1 \times \R^2 \to \RP^1$.
+	The orthogonal complement bundle $\big(\gamma_{\R}^{1, 2}\big)^\perp$ is isomorphic to $\gamma_{\R}^{1, 2}$ itself via $\gamma_{\R}^{1, 2} \to \big(\gamma_{\R}^{1, 2}\big)^\perp$, $(L, v) \mapsto (L, Av)$ where $A\colon \R^2 \to \R^2$ is rotation by $\pi / 2$.
+	We will soon see that $\gamma_{\R}^{1, 2}$ is non-trivial.
+	However, it becomes trivial after pulling back along the degree-2 map $f\colon S^1 \to \RP^1 \isom S^1$, $x \mapsto [x]$:
+	$f^* \gamma_{\R}^{1, 2}$ is given by the space of pairs $\{(x, v) \mid v \in [x]\} \subseteq S^1 \times \R^2$.
+	The map $S^1 \times \R^2 \to f^* \gamma_{\R}^{1, 2}$, $(x, \lambda) \mapsto (x, \lambda x)$ is then a bundle isomorphism.
+\end{example}
+\begin{definition}
+	Let $X$ be a topological space and $n \in \N$ a natural number.
+	We denote by $\Vect_{\F}^n(X)$ the set of equivalence classes of $n$-dimensional $\F$-vector bundles on $X$.
+	Via the pullback of bundles this becomes a contravariant functor in $X$.
+\end{definition}
+We want to study this functor.
+We start with the following:
+\begin{proposition}\label{prp:vecbundlehtpyinvariance}
+	Let $X$ be paracompact and $\xi$ a vector bundle on $X \times I$.
+	Then the pullbacks $\iota_0^* \xi$ and $\iota_1^* \xi$ where $\iota_t\colon X \incl X \times I$ is the inclusion $x \mapsto (x, t)$ for all $t \in I$ are isomorphic as vector bundles over $X$.
+\end{proposition}
+For this, we will need the following lemma:
+\begin{lemma}
+	There exists an open covering $\{U_j\}_j$ of $X$ such that $\xi$ is trivializable over each $U_j \times I$.
+\end{lemma}
+\begin{proof}
+	First we note that if $U \subseteq X$ is open and $\xi$ is trivializable over $U \times [a, b]$ and over $U \times [b, c]$ for given $a \leq b \leq c \in I$, then it is trivializable over $U \times [a, c]$.
+	To see this, let $h_1\colon p^{-1}(U \times [a, b]) \xto{\isom} U \times [a, b] \times \F^n$ and $h_2\colon p^{-1}(U \times [b, c]) \xto{\isom} U \times [b, c] \times \F^n$ be trivializations.
+	Then
+	\begin{equation*}
+		\begin{tikzcd}[column sep = smallish]
+			{h_3\colon p^{-1}(U \times [b, c])}
+					\ar[r, "h_2"]
+				& {U \times [b, c] \times \F^n}
+					\ar[r, "{\id_{[b, c]} \times \varphi}"]
+				&[2.1em] {U \times [b, c] \times \F^n}
+		\end{tikzcd}
+	\end{equation*}
+	where
+	\begin{equation*}
+		\begin{tikzcd}[column sep = smallish]
+			\varphi\colon U \times \F^n \isom U \times \{b\} \times \F^n
+					\ar[r, "h_2^{-1}"]
+				& p^{-1}(U \times \{b\})
+					\ar[r, "h_1"]
+				& U \times \{b\} \times \F^n \isom U \times \F^n
+		\end{tikzcd}
+	\end{equation*}
+	is another trivialization which agrees with $h_1$ on $U \times \{b\}$.
+	Hence the two glue together, giving a trivialization on all of $U \times [a, c]$.
+
+	By compactness of $I$, for every $x \in X$ we can find open neighbourhoods $U_{x, 1}, \ldots, U_{x, k}$ of $x$ and partitions $0 = t_0 < t_1 < \ldots < t_k = 1$ such that $\xi$ is trivializable over each $U_{x, i} \times [t_{i - 1}, t_i]$.
+	Thus $\xi$ is trivializable on all of $U_x \times I$, with $U_x = U_{x, 1} \cap \ldots \cap U_{x, k}$ by the above.
+\end{proof}
+\begin{proof}[Proof of proposition \ref{prp:vecbundlehtpyinvariance}]
+	Let $\{U_j\}_j$ be an open cover of $X \times I$ as in the previous lemma.
+	Since $X$ is paracompact, there exists a countable cover $\{V_i\}_{i \in \N}$ of $X$ subordinate to $\{U_j\}_j$ (i.e. each $V_i$ is contained in some $U_j$) and a partition of unity $\{\varphi_i\colon X \to [0, 1]\}_{i \in \N}$ with $\supp(\varphi_i) \subseteq V_i$.
+	Hence $\xi$ is trivializable over each $V_i \times I$.
+	Let $\psi_i \coloneq \varphi_1 + \ldots + \varphi_i$ and let $p_i\colon E_i \to X$ be the pullback of $\xi$ along $X \times X \times I$, $x \mapsto (x, \psi_i(x))$ (example \ref{expl:smallcovervbhtpyinv} below may help with intuition).
+	We define a homeomorphism $h_i\colon E_i \xto{\isom} E_{i - 1}$ as follows:
+	Outside $p^{-1}(V_i)$, set $h_i \coloneq \id$, choose a trivialization $\tilde{h}_i\colon p^{-1}(V_i \times I) \xto{\isom} V_i \times I \times \F^n$, and set $h_i(x, \psi_i(x), v) \coloneq (x, \psi_{i - 1}(x), v)$ where $(x, \psi_i(x), v) \in V_i \times I \times \F^n$.
+	Then the infinite composite $\cdots \circ h_2 \circ h_1$ is an isomorphism from the pullback $\iota_0^* \xi$ to the pullback $\iota_1^* \xi$ as desired.
+\end{proof}
+\begin{example}\label{expl:smallcovervbhtpyinv}
+	Let $X = V_1 \cup V_2$ be an open cover.
+	% TODO ???
+	Then a trivialization $\varphi$ on $V_1 \times I$ yields an isomorphism $\iota_0 \xi \isom (\id, \varphi_1)^* \xi$ that is constant outside $V_1$.
+\end{example}
+\begin{corollary}
+	If $X$ is paracompact, $f_1, f_2\colon X \to Y$ are two homotopic maps and $\xi$ is a vector bundle over $Y$, then $f_1^* \xi \isom f_2^* \xi$.
+\end{corollary}
+\begin{proof}
+	Let $H\colon X \times I \to Y$ be a homotopy.
+	Then $f_1 = H \circ \iota_0$ and $f_2 = H \circ \iota_1$ and hence
+	\begin{equation*}
+		f_1^* \xi = \iota_0^* H^* \xi \isom i_1^* H^* \xi = f_2^* \xi
+	\end{equation*}
+	where $H^* \xi$ is the bundle over $X \times I$.
+\end{proof}
+Next we aim to show that there exist universal bundles, at least over paracompact spaces.
+\begin{definition}
+	For $n \in \N$ we define the \strong{infinite Grassmann manifold}\index{infinite Grassmann manifold|see {Grassmannian!infinite}} or \strong{infinite Grassmannian}\index{Grassmannian!infinite} $\Gr_n^{\F} \coloneq \Gr_n(\F^\infty)$, where $\F^\infty$ is the $\F$-vector space of sequences $(x_1, x_2, \ldots)$, $x_i \in \F$, with almost all $x_i = 0$.
+	Note that $\Gr_n^{\F}$ is not a manifold.
+	It comes equipped with the weak topology with respect to the filtration by the $\Gr_n(\F^N)$.
+	Similarly, we define $\gamma_{\F}^n \coloneq \{(V, v) \mid v \in V\} \subseteq \Gr_n^{\F} \times \F^\infty$ with $(\gamma_{\F}^n)_V \isom \{V\} \times V \isom V$ a vector space.
+\end{definition}
+\begin{lemma}
+	The projection $p\colon \gamma^n_{\F} \to \Gr_n^{\F}$, $(V, v) \mapsto V$ is an $n$-dimensional $\F$-vector bundle.
+\end{lemma}
+\begin{proof}
+	Similar to the finite-dimensional case, using that $\Gr_n^{\F} \times \F^\infty$ comes with the weak topology.
+\end{proof}
+\begin{theorem}
+	If $X$ is paracompact, then the natural map
+	\begin{equation*}
+		\big[X, \Gr_n^{\F}\big] \to \Vect_{\F}^n(X), \qquad \big[f\colon X \to \Gr^{F}_n\big] \mapsto [f^* \gamma_{\F}^n]
+	\end{equation*}
+	is a bijection.
+	In other words, the functor $\Vect_{\F}^n({{-}})$ is represented by the pair $\big(\Gr_n^{\F}, \gamma_{\F}^n\big)$ in the homotopy category $\hToprcpt_*$ of based paracompact topological spaces.
+\end{theorem}
+\begin{proof}
+	For surjectivity, let $p\colon E \to X$ be an $n$-dimensional $\F$-vector bundle.
+	Assume there exists continuous map $\tilde{f}\colon E \to \F^\infty$ which is linear and injective on each fibre.
+	Then $f\colon X \to \Gr_n^{\F}$, $x \mapsto \tilde{f}(E_x)$ is continuous (this can be checked after trivialization) and $E \mapsto f^* \gamma_{\F}^n \subseteq X \times \Gr_n^{\F} \times \F^\infty$, $e \mapsto (p(e), f(p(e)), \tilde{f}(e))$ defines a bundle isomorphism from $E$ to $f^* \gamma_{\F}^n$.
+
+	To construct $\tilde{f}$, we choose a trivializing cover $\{U_i\}_i$ as before and trivializations $h_i\colon p^{-1}(V_i) \to U_i \times \F^n$.
+	Then $\tilde{f}_i\colon p^{-1}(V_i) \xto{h_i} U_i \times \F^n \xto{\pr_{\F^n}} \F^n$ defines such a map for the restricted bundle over each $U_i$ with codomain $\F^n$ instead of $\F^\infty$.
+	We choose a partition of unity $\{\varphi_i\}_i$ subordinate to this cover and define
+	\begin{equation*}
+		\tilde{f} = \big(\varphi_1 \circ p \circ \tilde{f}_1, \varphi_2 \circ p \circ \tilde{f}_2, \ldots\big) \subseteq (\F^n)^\infty \isom \F^\infty
+	\end{equation*}
+	which has the desired properties.
+
+	For injectivity, let $f_1, f_2\colon X \to \Gr^{\F}_n$ be such that $f_1^* \gamma_{\F}^n \isom f_2^* \gamma_{\F}^n$.
+	Write $E_i$ for the total space of $f_i^* \gamma_{\F}^n$.
+	As in the first part, we obtain maps $\tilde{f}_i\colon E_i \to \F^\infty$.
+	We can precompose $\tilde{f}_2$ with the homeomorphism $E_1 \to E_2$ to get two maps $\tilde{f}_1, \tilde{g}\colon E_1 \to \F^\infty$, each linear and injective on fibres.
+
+	It suffices to show that $\tilde{f}_1$ and $\tilde{g}$ are homotopic through maps that are linear and injective on fibres, since this gives a homotopy $f_1 \Rightarrow f_2$.
+	To produce this homotopy, we first note that there is a linear injective homotopy $h_t\colon \F^\infty \to \F^\infty$ from $\id_{\F^\infty}$ to the map $\tau(x_1, x_2, \ldots) = (x_1, 0, x_2, 0, \ldots)$, for example the direct path.
+	After postcomposing with this homotopy, we can assume that $\tilde{g}$ is concentrated purely in odd and similarly that $\tilde{f}_1$ is concentrated purely in even degrees.
+	Then the direct path homotopy $t \mapsto t \tilde{f}_1 + (1 - t) \tilde{g}$ has the desired properties.
+\end{proof}
+\begin{corollary}
+	If $X$ is compact and $p\colon E \to X$ is an $n$-dimensional $\F$-vector bundle, then there exists $m \in \N$ and $f\colon X \to \Gr_n(\F^m)$ such that $f^* \gamma_{\F}^{n, m} \isom E$. 
+\end{corollary}
+\begin{proof}
+	By compactness, the classifying map $X \to \Gr^{\F}_n$ factors through some finite stage in the filtration definining $\Gr^{\F}_n$, i.e. some $\Gr_n(\F^m)$, since $\Gr^{\F}_n$ carries the weak topology.
+\end{proof}
+\begin{corollary}
+	Let $X$ be compact and $p\colon E \to X$ an $n$-dimensional $\F$-vector bundle.
+	The there is an $\F$-vector bundle $p'\colon E' \to X$ such that $p \dsum p'\colon E \dsum E' \to X$ is isomorphic to a trivial bundle.
+\end{corollary}
+\begin{proof}
+	Since pullbacks of bundles preserve direct sums and trivial bundles, it suffices to show the statement for the bundles $\gamma_{\F}^{n , m}$ by the previous corollary.
+	But $\gamma_{\F}^{n, m}$ is by definition a subbundle of the trivial bundle $\Gr_n(\F^m) \times \F^m$ with complement given by the orthogonal complement bundle for the standard euclidean metric.
+\end{proof}
 \lecture{08.12.23}
 \begin{example}
 	From the above, we obtain isomorphisms
