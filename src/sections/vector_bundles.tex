@@ -357,7 +357,7 @@ Next we aim to show that there exist universal bundles, at least over paracompac
 \end{remark}
 We will mainly focus on the case $\F = \R$ and $A = \F_2$.
 Our main goal is to show the following:
-\begin{theorem}
+\begin{theorem}\label{thm:existenceofswclasses}
 	For every real vector bundle $\xi\colon E \to B$ there exist characteristic classes $\omega_i(\xi) \in H^i(B; \F_2)$, $i \in \N$, called the \strong{Stiefel-Whitney classes}\index{Stiefel-Whitney class} satisfying the following properties:
 	\begin{enumerate}
 		\item $\omega_0(\xi) = 1$ and $\omega_i(\xi) = 0$ for $i > \dim \xi$.
@@ -394,28 +394,30 @@ We first assume the theorem and record some elementary properties:
 		Hence, $\gamma_{\R}^1$ does not embed into a trivial bundle, in contrast to bundles over compact spaces (Cor. 6. 13).
 		Over $\RP^n$, we have $\omega\big(\gamma_{\R}^{1, n + 1}\big)^{-1} = 1 + u + u^2 + \cdots + u^n = \omega(\xi)$ where $\gamma_{\R}^{1, n + 1} \dsum \xi = \epsilon^{n + 1}$ (i.e. $\xi \isom \big(\gamma_{\R}^{1, n + 1}\big)^\perp$).
 \end{itemize}
-We now turn to the construction of the $\omega_i$.
-We start with \emph{Thom classes} and \emph{Thom isomorphisms}.
+\subsubsection{Construction of the Stiefel-Whitney classes}
+Throughout this whole subsection, we implicitly assume $\F_2$-coefficients for (co)homology.
+
+We start our construction of the $\omega_i$ with \emph{Thom classes} and \emph{Thom isomorphisms}.
 Let $p\colon E \to B$ be a real vector bundle.
 We set $E_0 \subset E$ to be all elements which are not the 0-element in their respective fibre.
 Then $p|_{E_0}\colon E_0 \to B$ is a fibre bundle with fibres homeomorphic to $\R^n \setminus \{0\}$.
-We can apply the relative Serre spectral sequence of the form $H^p(B; H^q(\R^n, \R^n \setminus \{0\}; \F_2)) \Rightarrow H^{p + q}(E, E_0; F_2)$.
-Now $H^q(\R^n, \R^n \setminus \{0\}; \F_2) \isom \F_2$ if $q = n$ and 0 else, and the local coefficient system is necessarily trivial since any automorphism of $\F_2$ is the identity.
+We can apply the relative Serre spectral sequence of the form $H^p(B; H^q(\R^n, \R^n \setminus \{0\})) \Rightarrow H^{p + q}(E, E_0)$.
+Now $H^q(\R^n, \R^n \setminus \{0\}) \isom \F_2$ if $q = n$ and 0 else, and the local coefficient system is necessarily trivial since any automorphism of $\F_2$ is the identity.
 We therefore obtain the following picture:
 % TODO picture
 \begin{theorem}
 	There is a natural isomorphism 
 	\begin{equation*}
-		\Phi\colon H^*(B; \F_2) \xto{\isom} H^{* + n}(E, E_0; \F_2)
+		\Phi\colon H^*(B) \xto{\isom} H^{* + n}(E, E_0)
 	\end{equation*}
 	called the \strong{Thom isomorphism}\index{Thom isomorphism}.
-	The image $u = \Phi(1) \in H^n(E, E_0; \F_2)$ is called the \strong{Thom class}\index{Thom class} of the bundle.
-	Then the map $\Phi$ is given by the cup-product $H^*(B; \F_2) \xto{\isom} H^*(E; \F_2) \xto{{{-}} \smile u} H^{* + n}(E, E_0; \F_2)$.
+	The image $u = \Phi(1) \in H^n(E, E_0)$ is called the \strong{Thom class}\index{Thom class} of the bundle.
+	Then the map $\Phi$ is given by the cup-product $H^*(B) \xto{\isom} H^*(E) \xto{{{-}} \smile u} H^{* + n}(E, E_0)$.
 \end{theorem}
 \begin{proof}
 	This follows directly from the Serre spectral sequence we just considered and its multiplicative structure.
 \end{proof}
-Note that $u$ is uniquely determined by the fact that it restricts to a generator in $H^n(F_b, (F_b)_0; \F_2)$ on each of the fibres $F_b$.
+Note that $u$ is uniquely determined by the fact that it restricts to a generator in $H^n(F_b, (F_b)_0)$ on each of the fibres $F_b$.
 \begin{remark}
 	\leavevmode
 	\begin{enumerate}
@@ -425,11 +427,164 @@ Note that $u$ is uniquely determined by the fact that it restricts to a generato
 		\item The Thom isomorphism is sometimes phrased differently:
 			If $p\colon E \to B$ is euclidean, we can form the \strong{disc bundle}\index{disc bundle} $D(E)$ and the \strong{sphere bundle}\index{sphere bundle} $S(E)$ by restricting to the vectors of length $\leq 1$ and $= 1$ fibrewise, respectively.
 			Then $D(E) \incl E$ and $S(E) \incl E_0$ are both homotopy equivalences; homotopy inverses are given by the maps $E \xto{p} B \xto{s_0} D(E)$ where $s_0$ is the 0-section and $E_0 \to S(E)$, $v \mapsto \frac{v}{|v|}$, and homotopies are formed fibrewise.
-			Hence, there is an isomorphism $H^*(E, E_0; \F_2) \xto{\isom} H^*(D(E), S(E); \F_2)$.
+			Hence, there is an isomorphism $H^*(E, E_0) \xto{\isom} H^*(D(E), S(E))$.
 			The pair $(D(E), S(E))$ has the advantage that it is excisive, so we can further identify
 			\begin{equation*}
-				H^*(D(E), S(E); \F_2) \xto{\isom} \tilde{H}^*(D(E) / S(E); \F_2)
+				H^*(D(E), S(E)) \xto{\isom} \tilde{H}^*(D(E) / S(E))
 			\end{equation*}
 			The space $D(E) / S(E) \eqcolon \Th(p)$ is called the \strong{Thom space}\index{Thom space} of $p$.
 	\end{enumerate}
 \end{remark}
+\lecture{11.12.23}
+Note that we have a commutative square
+\begin{equation*}
+	\begin{tikzcd}
+		S(E)
+				\ar[r, "p|_{S(E)}"]
+				\ar[d, equal]
+			& B
+		\\
+		S(E)
+				\ar[r, hook]
+			& D(E)
+				\ar[u, swap, "\isom"]
+	\end{tikzcd}
+\end{equation*}
+Hence, $\Th(p)$ is homotopy equivalent to the mapping cone of the sphere bundle $S(E) \to B$.
+% TODO link exercise
+If $B$ is compact, then $\Th(p)$ is a homeomorphism to the one-point compactification of $E$ (showing this is exercise TODO).
+If $p = \epsilon^n$ is trivial, then $\Th(p) = S^n \wedge B_{+}$ is the unreduced suspension and the Thom isomorphism is the usual suspension isomorphism.
+In general, $\Th(p)$ is a twisted suspension of $B_{+}$.
+The Thom isomorphism says that this twist is invisible to $H^*({{-}})$, at least if considered as a functor to graded $\F_2$-vector spaces.
+\begin{definition}\index{Stiefel-Whitney class}
+	Let $\xi\colon E \to B$ be a real vector bundle.
+	We define $\omega_i(\xi) \coloneq \Phi^{-1}\big(\Sq^i u\big) \in H^i(B)$.
+	In other words, $\omega_i(\xi)$ is characterized by the equation
+	\begin{equation*}
+		\omega_i(\xi) \smile u = \Sq^i u \in H^{n + i}(E, E_0)
+	\end{equation*}
+\end{definition}
+This leads to the slogan \enquote{Stiefel-Whitney classes measure the failure of $\Phi$ to commute with the Steenrod operations.}
+\begin{remark}
+	By definition, the Stiefel-Whitney classes depend only on the underlying sphere bundle of the vector bundle.
+\end{remark}
+\begin{proof}[Proof of theorem \ref{thm:existenceofswclasses}]
+	It remains to show that the $\omega_i$ satisfy the four axioms put forth:
+	\begin{enumerate}
+		\item We have $\omega_0(\xi) = \Phi^{-1}\big(\Sq^0 u\big) = \Phi^{-1}(u) = 1 \in H^0(B)$.
+			Moreover, $u$ sits in degree $n = \dim \xi$, so $\Sq^i u = 0$ and therefore $\omega_i = 0$ for all $i > n$.
+		\item For naturality, if $f\colon B' \to B$ is a map, we obtain a canonical bundle map $g\colon f^* E \to E$ which induces a linear isomorphism on fibres $(f^* E)_{b'} \xto{\isom} E_{f(b')}$ for all $b' \in B'$.
+			It follows that $g^* u \in H^n\big(f^* E, (f^* E)_0\big)$ is the Thom class for $f^* E$ since its restriction to the fibres can be computed through the diagram
+			\begin{equation*}
+				\begin{tikzcd}
+					H^n\big(f^* E, (f^* E)_0\big)
+							\ar[d]
+						& H^n\big(E, E_0\big)
+							\ar[l]
+							\ar[d]
+					\\
+					H^n\big((f^* E)_{b'}, ((f^* E)_{b'})_0\big)
+						& H^n\big(E_{f(b')}, (E_{f(b')})_0\big)
+							\ar[l, swap, "\isom"]
+				\end{tikzcd}
+			\end{equation*}
+			to be a generator.
+			Hence we obtain $g^* u = u'$ and see that 
+			\begin{align*}
+				f^* \omega_i(\xi) \smile u' &= f^* \omega_i(\xi) \smile g^* u \\ 
+											&= g^*(\omega_i(\xi) \smile u) \\ 
+											&= g^*\big(\Sq^i u\big) \\ 
+											&= \Sq^i(g^* u) \\
+											&= \Sq^i(u')
+			\end{align*}
+			which is to say that $f^* \omega_i(\xi) = \omega_i(f^* \xi)$.
+		\item To show the Whitney product formula, we first discuss the effect of the external cross product on Stiefel-Whitney classes.
+			Given real vector bundles $p\colon E \to B$ and $p'\colon E' \to B'$ of dimension $m$ and $n$, respectively, the product $p \times p'\colon E \times E' \to B \times B'$ again forms a vector bundle of dimension $m + n$ with the fibres $(E \times E')_{(b, b')} = E_b \times E'_{b'}$ given the product vector space structure.
+			Local trivializations of this bundle are then given by products of local trivializations of the component bundles.
+			The previously defined \emph{internal} direct sum $p \dsum p'$ in the case where $B = B'$ is obtained as the pullback $p \dsum p' = \Delta^*(p \times p')$ along the diagonal $\Delta\colon B \to B \times B$.
+
+
+			We consider the cross-product $H^m(E, E_0) \times H^n(E', E'_0) \xto{\times} H^{m + n}(E \times E', E_0 \times E' \cup E \times E'_0)$.
+			Observing that $E_0 \times E' \cup E \times E'_0 = (E \times E')_0$ since $(V \times W) \setminus \{0\} = (V \setminus \{0\}) \times W \cup V \times (W \setminus \{0\})$ for all vector spaces $V, W$.
+			We claim that $u \times u'$ is a Thom class for $p \times p'$.
+			For this, it suffices to show that it restricts to a generator on each fibre.
+			By naturality of the cross product, this restriction is the cross product of the restriction of $u$ to $H^m(E_0, (E_b)_0)$ and $u'$ to $H^n(E'_{b'}, (E'_{b'})_0)$.
+			We know that this is a generator (for example, identify $H^m(\R^m, \R^m \setminus \{0\})$ with $H^m(D^m, S^{m - 1}) \isom \tilde{H}^m(S^m)$ and likewise for $H^n(\R^n, \R^n \setminus \{0\}) \isom \tilde{H}^n(S^n)$ and note that by the Künneth theorem $\tilde{H}^m(S^m) \tensor \tilde{H^n}(S^n) \xto{\isom} \tilde{H}^{m + n}(S^{m + n})$).
+			Hence, given $a \in H^*(B)$ and $b \in H^*(B')$ we obtain $(a \times b) \smile (u \times u') = (a \smile u) \times (b \smile u')$ by the compatibility of $\times$ and $\smile$.
+			This shows that the Thom isomorphism satisfies $\Phi(a \times b) = \Phi(a) \times \Phi(b)$.
+
+			Thus,
+			\begin{align*}
+				\omega_i(p \times p') &= \Phi^{-1}\big(\Sq^i (u \times u')\big) \\ 
+				% extremely good typesetting
+									  &= \Phi^{-1}\bigg(\sum_{j = 0}^i \Sq^j u \times \Sq^{i - j} u'\bigg) \;\;\mathrlap{\text{(by the Cartan formula)}}\qquad\qquad\qquad \\
+									  &= \sum_{j = 0}^i \Phi^{-1}\big(\Sq^j u \times \Sq^{i - j} u'\big) \\
+									  &= \sum_{j = 0}^i \omega_j(p) \times \omega_{i - j}(p')
+			\end{align*}
+			As mentioned above, we obtain $p \dsum p'$ (in the case $B = B'$) as $\Delta^*(p \times p')$.
+			By naturality, we get 
+			\begin{align*}
+				\omega_i(p \dsum p') &= \omega_i \Delta^*(p \times p') \\
+									 &= \Delta^* \omega_i(p \times p') \\
+									 &= \Delta^*\bigg(\sum_{j = 0}^i \omega_j(p) \times \omega_{i - j}(p')\bigg) \\
+									 &= \sum_{j = 0}^i \omega_j(p) \smile \omega_{i - j}(p')
+			\end{align*}
+			since $\Delta^*(a \times b) = a \smile b$ by definition.
+		\item We consider the Möbius bundle $\gamma_\R^{1, 2}$ over $\RP^1$ equipped with the euclidean metric from its embedding into $\RP^1 \times \R^2$.
+			% TODO link exercise
+			Then the disc bundle $D\big(\gamma_\R^{1, 2}\big)$ is a closed Möbius strip and the sphere bundle $S\big(\gamma_\R^{1, 2}\big)$ is its boundary, so 
+			\begin{equation*}
+				H^*\big(\gamma_\R^{1, 2}, \big(\gamma_\R^{1, 2}\big)_0\big) \isom \tilde{H}^*\big(D\big(\gamma_\R^{1, 2}\big) / S\big(\gamma_\R^{1, 2}\big)\big) \isom \tilde{H}^*\big(\RP^2\big)
+			\end{equation*}
+			as $D\big(\gamma_\R^{1, 2}\big) / S\big(\gamma_\R^{1, 2}\big) \isom \RP^2$ (see exercise TODO).
+			The Thom class $u \in \tilde{H}^1\big(\RP^2\big)$ must be the generator, so we have $\Sq^1 u = u^2 \neq 0$ in $\tilde{H}^2\big(\RP^2\big) \isom \F_2$ and therefore $\omega_1\big(\gamma_\R^{1, 2}\big) \neq 0$.
+			\qedhere
+	\end{enumerate}
+\end{proof}
+
+Note that we can form further characteristic classes out of the $\omega_i$ via sum and cup product.
+For example, $\omega_1^3 + \omega_1 \omega_2$ is a characteristic class of degree 3 defined for all real vector bundles.
+Our next goal is to show that over paracompact spaces \emph{all} characteristic classes are of this form.
+Using the identification 
+\begin{equation*}
+	H^*\big(\Gr_n^{\R}\big) \leftrightarrow \{\text{characteristic classes for bundles over paracompact spaces}\}
+\end{equation*}
+we can think of the $\omega_i$ as elements in $H^*\big(\Gr^\R_n\big)$ and abbreviate $\omega_i(\gamma_\R^n)$ to $\omega_i$.
+We obtain a map
+\begin{equation*}
+	\F_2[\omega_1, \ldots, \omega_n] \xto{\alpha_n} H^*\big(\Gr_n^\R\big)
+\end{equation*}
+where the domain is the polynomial ring in the $\omega_i$ situated in the appropriate degees.
+\begin{theorem}
+	The map $\alpha_n$ is an isomorphism for all $n \in \N$.
+\end{theorem}
+\begin{proof}
+	Since $\omega_1\big(\gamma_\R^1\big) \in H^1(\RP^\infty)$ is the generator, we already know that $\alpha_1$ is an isomorphism.
+	We now first show that $\alpha_n$ is always injective.
+	To this end, consider the map
+	\begin{equation*}
+		\varphi_n\colon (\RP^\infty)^{\times n} \to \Gr_n^\R
+	\end{equation*}
+	corresponding under the bijection $\Vect_\R^n((\RP^\infty)^{\times n}) \isom \big[(\RP^\infty)^{\times n}, \Gr_n^\R\big]$ to the product bundle $\big(\gamma_\R^1\big)^{\times n}$.
+	We obtain a map 
+	\begin{equation*}
+		H^*\big(\Gr_\R^1\big) \xto{\varphi_n^*} H^*((\RP^\infty)^{\times n}) \isom H^*(\RP^\infty)^{\tensor n} \isom \F_2[u_1, \ldots, u_n]
+	\end{equation*}
+	using the Künneth isomorphism, where $u_i$ is the image of $u \in H^1(\RP^\infty)$ under $(\pr_i)^*\colon H^1(\RP^\infty) \to H^1((\RP^\infty)^{\times n})$.
+	We study the composite 
+	\begin{align*}
+		(\varphi_n)^* \circ \alpha_n\colon \F_2[\omega_1, \ldots, \omega_n] &\to \F_2[u_1, \ldots, u_n] \\
+		\omega_1 &\mapsto \omega_i\big(\big(\gamma_\R^1\big)^{\times n}\big)
+	\end{align*}
+	By the Whitney product formula, we have $\omega\big(\big(\gamma_\R^1\big)^{\times n}\big) = (1 + u_1) \cdot \ldots \cdot (1 + u_n)$.
+	Hence, 
+	\begin{equation*}
+		\omega_i((\gamma_\R^1)^{\times n}) = \smashoperator{\sum_{0 < j_1 < \ldots < j_i \leq n}} u_{j_1} \cdot \ldots \cdot u_{j_i} \eqcolon e_i(u_1, \ldots, u_n)
+	\end{equation*}
+	The polynomial $e_i(u_1, \ldots, u_n)$ is called the \strong{elementary symmetric polynomial}\index{symmetric polynomial!elementary} in $n$ variables.
+	For example, $e_1(u_1, \ldots, u_n) = u_1 + \ldots + u_n$ and $e_n(u_1, \ldots, u_n) = u_1 u_2 \cdots u_n$.
+	They are called \emph{symmetric} because they are invariant under the $\Sigma_n$-action on $\F_2[u_1, \ldots, u_n]$ permuting the $u_i$'s.
+	\begin{proposition}
+		The $e_i(u_1, \ldots, u_n)$ are algebraically independent, i.e. there are no polynomial relations among them, and $(\varphi_n)^* \circ \alpha_n$ is injective.
+	\end{proposition}
+\end{proof}
