@@ -1,0 +1,435 @@
+\lecture{01.12.23}
+\section{Vector bundles and characteristic classes}
+For the whole section, let $\F$ be either $\R$ or $\C$.
+\begin{definition}
+	An $n$-dimensional \strong{$\F$-vector bundle}\index{vector bundle} $\xi$ over a base space $B$ consists of a map $p\colon E(\xi) = E \to B$ together with an $n$-dimensional $\F$-vector space structure on $E_b = p^{-1}(b)$ for each $b \in B$ satisfying the \emph{local triviality condition}:
+	For every $b \in B$ there exists an open neighborhood $U \subseteq B$ of $b$ and a homeomorphism
+	\begin{equation*}
+		h\colon U \times \F^n \xto{\isom} p^{-1}(U)
+	\end{equation*}
+	such that for each $b \in U$ the map $x \mapsto h(b, x)$ is a vector space isomorphism from $\F^n \isom \{b\} \times \F^n$ to $E_b$.
+	In particular, the triangle
+	\begin{equation*}
+		\begin{tikzcd}[column sep = small]
+			U \times \F^n 
+					\ar[rr, "h"]
+					\ar[dr, swap, "\pr_U"]
+				& & p^{-1}(U)
+					\ar[dl, "p"]
+			\\
+				& U
+		\end{tikzcd}
+	\end{equation*}
+	commutes.
+\end{definition}
+\begin{example}
+	Let $B$ be any space and $n \in \N$ arbitrary.
+	Then $B \times \F^n \xto{\pr_B} B$ is an $\F$-vector bundle with vector space structure on $\pr_B^{-1}(b) = \{b\} \times \F^n$ carried over from from the identification $\F^n \isom \{b\} \isom \F^n$, $v \mapsto (b, v)$.
+	This bundle is called the \strong{trivial bundle}\index{vector bundle!trivial}\index{trivial vector bundle|see {vector bundle!trivial}}.
+\end{example}
+\begin{example}
+	Let $B = \RP^1$ be 1-dimensional real projective space and $E = \{(L, v) \mid L \in \RP^1, v \in L\} \subseteq \RP^1 \times \R^2$ with projection $E \xto{p} \RP^1$, $(L, v) \mapsto L$ (we understand $\RP^1$ here as the space of lines in $\R^2$).
+	Then $E_L = p^{-1}(\{L\}) = \{L\} \times L \isom L$ gives $E_L$ an $\R$-vector space structure.
+	To see that this definies a 1-dimensional vector bundle over $\RP^1 \isom S^1$, we need to show that it is locally trivial.
+	Let $\pi_1, \pi_2\colon \R^2 \to \R$ be the projections and let $U_i \subseteq \RP^1$ be the set of lines $L$ such that $\pi_i|_L\colon L \to \R$ is an isomorphism.
+	Then each $U_i$ is open (in fact its complement consists of a single point), $\RP^1 = U_1 \cup U_2$, and
+	% TODO picture
+	\begin{align*}
+		p^{-1}(U_i) &\xto{h} U_i \times \R \\
+		(L, v) &\mapsto (L, \pi_i(v))
+	\end{align*}
+	defines a homeomorphism.
+	Each $\pi_i$ is linear, so $h$ is linear on each fibre as required.
+	This is known as the \strong{Möbius bundle}\index{Möbius bundle}.
+	% TODO picture
+\end{example}
+This example generalizes:
+\begin{example}
+	Let $N, n \geq 1$.
+	The \strong{Grassmannian}\index{Grassmannian} $\Gr_n(\F^N)$ is the set of $n$-dimensional subspaces of $\F^N$.
+	Let $\Fr_n(\F^N) \subseteq (\F^N)^n$ be the subspace of linearly independent sequences $(v_1, \ldots, v_n)$.
+	We obtain a surjective map 
+	\begin{align*}
+		q\colon \Fr_n(\F^N) &\to \Gr_n(\F^N) \\
+		(v_1, \ldots, v_n) &\mapsto \langle v_1, \ldots, v_n\rangle_{\F}
+	\end{align*}
+	where $\langle \ldots\rangle_{\F}$ denotes the $\F$-span.
+	We give $\Gr_n(\F^N)$ the quotient topology for $q$.
+
+	Let $\gamma_{\F}^{n, N} \coloneq \{(V, v) \in \Gr_n(\F^N) \times \F^N \mid v \in V\}$ and $p\coloneq \gamma_{\F}^{n, N} \to \Gr_n(\F^N)$ be the projection $(V, v) \mapsto V$.
+	The fibre $p^{-1}(V)$ identifies with $\{V\} \times V \isom V$ and hence form a vector space.
+	This is locally trivial:
+	For $V \in \Gr_n(\F^N)$ consider the orthogonal projections $\pi_V\colon \F^N \to V$.
+	The set $U \coloneq \{W \in \Gr_n(\F^N) \mid \pi_V|_W\colon W \to V \text{ is an isomorphism}\}$ is open since 
+	\begin{equation*}
+		q^{-1}(U) = \{(v_1, \ldots, v_n) \in (\F^N)^n \mid \pi_V(v_1), \ldots, \pi_V(v_n) \text{ linearly independent}\}
+	\end{equation*}
+	is open in $(\F^N)^n$.
+	Again the map $p^{-1}(U) \to U \times V$, $(W, v) \mapsto (W, \pi_V(v))$ is a homeomorphism, yielding a local trivialization.
+
+	The vector bundle $\gamma_{\F}^{n, N}$ is called the \strong{tautological bundle}\index{vector bundle!tautological}\index{tautological vector bundle|see {vector bundle!tautological}} on $\Gr_n(\F^N)$.
+\end{example}
+For instance, $\Gr_1(\F^N)$ is by definition just $\FP^n$ and $\gamma_{\R}^{1, 2}$ is the Möbius bundle from the previous example.
+
+\subsection{Operations on vector bundles}
+\begin{definition}
+	\leavevmode
+	\begin{enumerate}
+		\item A \strong{subbundle}\index{vector bundle!subbundle}\index{vector subbundle|see {vector bundle!subbundle}} of a vector bundle $p\colon E \to B$ is a subspace $E' \subseteq E$ such that each $E' \cap E_b$ is a vector subspace of $E_b$ and $p|_{E'}\colon E' \to B$ is locally trivial.
+			\begin{example}
+				By definition, each $\gamma_{\F}^{n, N} \to \Gr_n(\F^N)$ is a subbundle of the trivial bundle $\Gr_n(\F^N) \times \F^N \to \Gr_n(\F^N)$.
+			\end{example}
+		\item A \strong{morphism}\index{vector bundle!morphism of} of vector bundles $E_1 \xto{p_1} B$, $E_2 \xto{p_2} B$ over the same base space is a commutative diagram
+			\begin{equation*}
+				\begin{tikzcd}[column sep = small]
+					E_1 
+							\ar[rr, "\varphi"]
+							\ar[dr, swap, "p_1"]
+						& & E_2
+							\ar[dl, "p_2"]
+					\\
+						& B
+				\end{tikzcd}
+			\end{equation*}
+			such that for each $b \in B$ the restriction $\varphi|_{(E_1)_b}\colon (E_1)_b \to (E_2)_b$ is $\F$-linear.
+			Two vector bundles are \strong{isomorphic}\index{vector bundle!isomorphism of} if there exist mutually inverse morphisms $f\colon E_1 \to E_2$ and $g\colon E_2 \to E_1$ between them.
+		\item If $p\colon E \to B$ is a vector bundle and $f\colon X \to B$ a continuous map, we define the \strong{pullback bundle}\index{vector bundle!pullback}\index{pullback vector bundle|see {vector bundle!pullback}} $f^* E \coloneq X \times_B E = \{(x, e) \in X \times E \mid f(x) = p(e)\}$ with projection $f^* p\colon E \to X$.
+			In other words, we have a pullback square
+			\begin{equation*}
+				\begin{tikzcd}
+					f^* E
+							\ar[r]
+							\ar[d, "f^* p"]
+							\ar[dr, phantom, "\lrcorner" very near start]
+						& E
+							\ar[d, "p"]
+					\\
+					X
+							\ar[r, "f"]
+						& B
+				\end{tikzcd}
+			\end{equation*}
+			Then $(f^* E)_x \isom E_{f(x)}$ via $(x, e) \mapsto e$ which we use to give $(f^* E)_x$ the structure of an $\F$-vector space.
+			If $\varphi_U\colon U \times \F^N \xto{\isom} p^{-1}(U)$ is a local trivialization of $p$, then setting $V \coloneq f^{-1}(U)$ we obtain a local trivialization of $f^* p$ via
+			\begin{align*}
+				V \times \F^n &\xto{\isom} (f^* E)^{-1}(V) \\
+				(x, v) &\mapsto (x, \varphi_V(f(x), e))
+			\end{align*}
+			so $f^* p$ does indeed define a vector bundle.
+	\end{enumerate}
+	Roughly speaking, any natural continuous operations on vector spaces can be extended to vector bundles.
+	We focus on the following examples:
+	\begin{enumerate}[resume]
+		\item \strong{Sum of vector bundles}\footnote{This operation is also commonly called the \strong{Whitney sum}\index{Whitney sum|see {vector bundle!sum of}}.}\index{vector bundle!sum of}:
+			If $p\colon E \to B$ is an $n$-dimensional and $p'\colon E' \to B$ is n $n'$-dimensional $\F$-vector bundle, then there is an $(n + n')$-dimensional $\F$-vector bundle $p \dsum p'\colon E \dsum E' \to B$ with $E \dsum E' \coloneq E \times_B E' = \{(e, e') \in E \times E' \mid p(e) = p(e')\}$ the fibrewise direct sum with projection $(p \dsum p')(e, e') \coloneq p(e) = p'(e')$.
+			We have $(E \dsum E')_b = E_b \times E'_b = E_b \dsum E'_b$ which inherits an $(n + n')$-dimensional $\F$-vector bundle structure.
+			We omit the proof of local triviality.
+		\item \strong{Realification}\index{vector bundle!realification of}\index{realification|see {vector bundle!realification of}} and \strong{complexification}\index{vector bundle!complexification of}\index{complexification|see {vector bundle!complexification of}}:
+			If $p\colon E \to B$ is an $n$-dimensional complex vector bundle, we can also consider it as a $2n$-dimensional real vector bundle by neglecting structure fibrewise.
+			We write $E_{\R}$ to emphasize the real vector bundle structure.
+			Conversely, if $p\colon E \to B$ is an $n$-dimensional real vector bundle, we can use the natural identifications
+			\begin{align*}
+				\C \tensor_{\R} V &\isom V \tensor V \\
+				(1, v) &\mapsto (v, 0) \\
+				(i, v) &\mapsto (0, v)
+			\end{align*}
+			to enhance the $2n$-dimensional $\R$-vector bundle $E \dsum E$ to an $n$-dimensional $\C$-vector bundle.
+			We write $E \tensor_{\R} \C$ for this complex bundle.
+		\item \strong{Euclidean bundles}\index{vector bundle!euclidean}\index{euclidean vector bundle|see {vector bundle!euclidean}}.
+			Recall that a euclidean vector space is a finite-dimensional real vector space equipped with a positive definite quadratic form $\mu\colon V \to \R$, i.e. $\mu(v) > 0$ for all $v \neq 0$ and $v \cdot w \coloneq 1 / 2 (\mu(v + w) - \mu(v) - \mu(w))$ is bilinear.
+			An euclidean vector bundle is then a real vector bundle $p\colon E \to B$ together with a continuous function $\mu\colon E \to \R$ which restricts to a positive definite quadratic form on each fibre.
+			$\mu$ is called a \strong{euclidean metric}\index{euclidean metric} on $E$.
+			\begin{example}
+				The trivial bundle $B \times \R^n \to B$ carries the euclidean metric $\mu(b, x) = x_1^2 + \ldots + x_n^2$.
+				One can show that
+				\begin{itemize}
+					% TODO link exercise
+					\item if $B$ is \emph{paracompact}\index{paracompactness} (i.e. every open cover admits a locally finite refinement), then every vector bundle over $B$ can be given a euclidean metric (this is exercise TODO); and 
+					% TODO properly cite Milnor-Stasheff
+					\item if $\mu$ and $\mu'$ are euclidean metrics on the same bundle $p\colon E \to B$, then there exists a bundle automorphism $\varphi$ of $p$ such that $\mu' = \mu \circ \varphi$ (see exercises 2-C, 2-E in Milnor-Stasheff).
+				\end{itemize}
+			\end{example}
+			Similarly one defines \strong{hermitian metrics}\index{hermitian metric} on $\C$-vector bundles.
+		\item \strong{Orthogonal complement bundles}\index{vector bundle!orthogonal complement}\index{orthogonal complement of a vector subbundle|see {vector bundle!orthogonal complement}}:
+			Let $p\colon E \to B$ be a real euclidean vector bundle with given subbundle $p|_{\hat{E}}\colon \hat{E} \to B$, $\hat{E} \subseteq E$.
+			Then the \emph{orthogonal complement bundle} $\hat{E}^\perp$ is defined to be the subspace $E \supseteq \hat{E}^\perp \coloneq \{e \in E \mid e \in (\hat{E}_{p(e)})^\perp\}$ using the scalar product induced by the metric.
+			This is locally trivial:
+			Let $h\colon U \times \R^n \to p^{-1}(U)$ be a local trivialization of $p$. 
+			Transporting the metric $\mu$ on $E \supseteq p^{-1}(U)$ over along $h$, we obtain a euclidean metric on $U \times \R^n$.
+			By the previous comment, we can assume up to isomorphism that this is the standard metric $\mu(b, x) = x_1^2 + \ldots + x_n^2$.
+			Replacing $U$ by a smaller neighborhood if necessary, we can further assume that $p|_{\hat{E}}^{-1}(U) \isom U \times \R^k$ can be trivialized.
+			Composing the two equivalences, we obtain an isometric embedding
+			\begin{align*}
+				U \times \R^k &\incl U \times \R^n \\
+				(b, v) &\mapsto (b, \psi(b, v))
+			\end{align*}
+			By reordering the entries of $\R^n$ if necessary and replacing $U$ by a smaller neighborhood, we can assume that $\psi(b, e_1), \ldots, \psi(b, e_k)$ intersect trivially with $\{b\} \times \R^0 \times \R^{n - k}$ for all $b$ so that the tuple 
+			\begin{equation*}
+				(\psi(b, e_1), \ldots, \psi(b, e_k), e_{k + 1}, \ldots, e_n)
+			\end{equation*}
+			forms a basis of $\R^n$ for all $b$.
+			Applying the Gram-Schmidt process (which is continuous), we obtain a basis 
+			\begin{equation*}
+				(\psi(b, e_1), \ldots, \psi(b, e_k), \bar{\psi}(b)_1, \ldots, \bar{\psi}(b)_{n - k})
+			\end{equation*}
+			Then the function
+			\begin{align*}
+				U \times \R^{n - k} &\incl U \times \R^n \\
+				(b, x) &\mapsto \sum x_i \bar{\psi}(b)_i
+			\end{align*}
+			defines a homeomorphism to the orthogonal complement of the image of the map $U \times \R^k \incl U \times \R^n$, $(b, v) \mapsto (b, \psi(b, v))$ above.
+			Translated back to $h$, this provides a local trivialization of $\hat{E}^\perp$.
+	\end{enumerate}
+\end{definition}
+\lecture{04.12.23}
+% TODO check this example
+\begin{example}
+	Consider the Möbius bundle $\gamma_{\R}^{1, 2} \to \RP^1 \isom S^1$ as a subbundle of the trivial bundle $\RP^1 \times \R^2 \to \RP^1$.
+	The orthogonal complement bundle $\big(\gamma_{\R}^{1, 2}\big)^\perp$ is isomorphic to $\gamma_{\R}^{1, 2}$ itself via $\gamma_{\R}^{1, 2} \to \big(\gamma_{\R}^{1, 2}\big)^\perp$, $(L, v) \mapsto (L, Av)$ where $A\colon \R^2 \to \R^2$ is rotation by $\pi / 2$.
+	We will soon see that $\gamma_{\R}^{1, 2}$ is non-trivial.
+	However, it becomes trivial after pulling back along the degree-2 map $f\colon S^1 \to \RP^1 \isom S^1$, $x \mapsto [x]$:
+	$f^* \gamma_{\R}^{1, 2}$ is given by the space of pairs $\{(x, v) \mid v \in [x]\} \subseteq S^1 \times \R^2$.
+	The map $S^1 \times \R^2 \to f^* \gamma_{\R}^{1, 2}$, $(x, \lambda) \mapsto (x, \lambda x)$ is then a bundle isomorphism.
+\end{example}
+\begin{definition}
+	Let $X$ be a topological space and $n \in \N$ a natural number.
+	We denote by $\Vect_{\F}^n(X)$ the set of equivalence classes of $n$-dimensional $\F$-vector bundles on $X$.
+	Via the pullback of bundles this becomes a contravariant functor in $X$.
+\end{definition}
+We want to study this functor.
+We start with the following:
+\begin{proposition}\label{prp:vecbundlehtpyinvariance}
+	Let $X$ be paracompact and $\xi$ a vector bundle on $X \times I$.
+	Then the pullbacks $\iota_0^* \xi$ and $\iota_1^* \xi$ where $\iota_t\colon X \incl X \times I$ is the inclusion $x \mapsto (x, t)$ for all $t \in I$ are isomorphic as vector bundles over $X$.
+\end{proposition}
+For this, we will need the following lemma:
+\begin{lemma}
+	There exists an open covering $\{U_j\}_j$ of $X$ such that $\xi$ is trivializable over each $U_j \times I$.
+\end{lemma}
+\begin{proof}
+	First we note that if $U \subseteq X$ is open and $\xi$ is trivializable over $U \times [a, b]$ and over $U \times [b, c]$ for given $a \leq b \leq c \in I$, then it is trivializable over $U \times [a, c]$.
+	To see this, let $h_1\colon p^{-1}(U \times [a, b]) \xto{\isom} U \times [a, b] \times \F^n$ and $h_2\colon p^{-1}(U \times [b, c]) \xto{\isom} U \times [b, c] \times \F^n$ be trivializations.
+	Then
+	\begin{equation*}
+		\begin{tikzcd}[column sep = smallish]
+			{h_3\colon p^{-1}(U \times [b, c])}
+					\ar[r, "h_2"]
+				& {U \times [b, c] \times \F^n}
+					\ar[r, "{\id_{[b, c]} \times \varphi}"]
+				&[2.1em] {U \times [b, c] \times \F^n}
+		\end{tikzcd}
+	\end{equation*}
+	where
+	\begin{equation*}
+		\begin{tikzcd}[column sep = smallish]
+			\varphi\colon U \times \F^n \isom U \times \{b\} \times \F^n
+					\ar[r, "h_2^{-1}"]
+				& p^{-1}(U \times \{b\})
+					\ar[r, "h_1"]
+				& U \times \{b\} \times \F^n \isom U \times \F^n
+		\end{tikzcd}
+	\end{equation*}
+	is another trivialization which agrees with $h_1$ on $U \times \{b\}$.
+	Hence the two glue together, giving a trivialization on all of $U \times [a, c]$.
+
+	By compactness of $I$, for every $x \in X$ we can find open neighbourhoods $U_{x, 1}, \ldots, U_{x, k}$ of $x$ and partitions $0 = t_0 < t_1 < \ldots < t_k = 1$ such that $\xi$ is trivializable over each $U_{x, i} \times [t_{i - 1}, t_i]$.
+	Thus $\xi$ is trivializable on all of $U_x \times I$, with $U_x = U_{x, 1} \cap \ldots \cap U_{x, k}$ by the above.
+\end{proof}
+\begin{proof}[Proof of proposition \ref{prp:vecbundlehtpyinvariance}]
+	Let $\{U_j\}_j$ be an open cover of $X \times I$ as in the previous lemma.
+	Since $X$ is paracompact, there exists a countable cover $\{V_i\}_{i \in \N}$ of $X$ subordinate to $\{U_j\}_j$ (i.e. each $V_i$ is contained in some $U_j$) and a partition of unity $\{\varphi_i\colon X \to [0, 1]\}_{i \in \N}$ with $\supp(\varphi_i) \subseteq V_i$.
+	Hence $\xi$ is trivializable over each $V_i \times I$.
+	Let $\psi_i \coloneq \varphi_1 + \ldots + \varphi_i$ and let $p_i\colon E_i \to X$ be the pullback of $\xi$ along $X \times X \times I$, $x \mapsto (x, \psi_i(x))$ (example \ref{expl:smallcovervbhtpyinv} below may help with intuition).
+	We define a homeomorphism $h_i\colon E_i \xto{\isom} E_{i - 1}$ as follows:
+	Outside $p^{-1}(V_i)$, set $h_i \coloneq \id$, choose a trivialization $\tilde{h}_i\colon p^{-1}(V_i \times I) \xto{\isom} V_i \times I \times \F^n$, and set $h_i(x, \psi_i(x), v) \coloneq (x, \psi_{i - 1}(x), v)$ where $(x, \psi_i(x), v) \in V_i \times I \times \F^n$.
+	Then the infinite composite $\cdots \circ h_2 \circ h_1$ is an isomorphism from the pullback $\iota_0^* \xi$ to the pullback $\iota_1^* \xi$ as desired.
+\end{proof}
+\begin{example}\label{expl:smallcovervbhtpyinv}
+	Let $X = V_1 \cup V_2$ be an open cover.
+	% TODO ???
+	Then a trivialization $\varphi$ on $V_1 \times I$ yields an isomorphism $\iota_0 \xi \isom (\id, \varphi_1)^* \xi$ that is constant outside $V_1$.
+\end{example}
+\begin{corollary}
+	If $X$ is paracompact, $f_1, f_2\colon X \to Y$ are two homotopic maps and $\xi$ is a vector bundle over $Y$, then $f_1^* \xi \isom f_2^* \xi$.
+\end{corollary}
+\begin{proof}
+	Let $H\colon X \times I \to Y$ be a homotopy.
+	Then $f_1 = H \circ \iota_0$ and $f_2 = H \circ \iota_1$ and hence
+	\begin{equation*}
+		f_1^* \xi = \iota_0^* H^* \xi \isom i_1^* H^* \xi = f_2^* \xi
+	\end{equation*}
+	where $H^* \xi$ is the bundle over $X \times I$.
+\end{proof}
+Next we aim to show that there exist universal bundles, at least over paracompact spaces.
+\begin{definition}
+	For $n \in \N$ we define the \strong{infinite Grassmann manifold}\index{infinite Grassmann manifold|see {Grassmannian!infinite}} or \strong{infinite Grassmannian}\index{Grassmannian!infinite} $\Gr_n^{\F} \coloneq \Gr_n(\F^\infty)$, where $\F^\infty$ is the $\F$-vector space of sequences $(x_1, x_2, \ldots)$, $x_i \in \F$, with almost all $x_i = 0$.
+	Note that $\Gr_n^{\F}$ is not a manifold.
+	It comes equipped with the weak topology with respect to the filtration by the $\Gr_n(\F^N)$.
+	Similarly, we define $\gamma_{\F}^n \coloneq \{(V, v) \mid v \in V\} \subseteq \Gr_n^{\F} \times \F^\infty$ with $(\gamma_{\F}^n)_V \isom \{V\} \times V \isom V$ a vector space.
+\end{definition}
+\begin{lemma}
+	The projection $p\colon \gamma^n_{\F} \to \Gr_n^{\F}$, $(V, v) \mapsto V$ is an $n$-dimensional $\F$-vector bundle.
+\end{lemma}
+\begin{proof}
+	Similar to the finite-dimensional case, using that $\Gr_n^{\F} \times \F^\infty$ comes with the weak topology.
+\end{proof}
+\begin{theorem}
+	If $X$ is paracompact, then the natural map
+	\begin{equation*}
+		\big[X, \Gr_n^{\F}\big] \to \Vect_{\F}^n(X), \qquad \big[f\colon X \to \Gr^{F}_n\big] \mapsto [f^* \gamma_{\F}^n]
+	\end{equation*}
+	is a bijection.
+	In other words, the functor $\Vect_{\F}^n({{-}})$ is represented by the pair $\big(\Gr_n^{\F}, \gamma_{\F}^n\big)$ in the homotopy category $\hToprcpt_*$ of based paracompact topological spaces.
+\end{theorem}
+\begin{proof}
+	For surjectivity, let $p\colon E \to X$ be an $n$-dimensional $\F$-vector bundle.
+	Assume there exists continuous map $\tilde{f}\colon E \to \F^\infty$ which is linear and injective on each fibre.
+	Then $f\colon X \to \Gr_n^{\F}$, $x \mapsto \tilde{f}(E_x)$ is continuous (this can be checked after trivialization) and $E \mapsto f^* \gamma_{\F}^n \subseteq X \times \Gr_n^{\F} \times \F^\infty$, $e \mapsto (p(e), f(p(e)), \tilde{f}(e))$ defines a bundle isomorphism from $E$ to $f^* \gamma_{\F}^n$.
+
+	To construct $\tilde{f}$, we choose a trivializing cover $\{U_i\}_i$ as before and trivializations $h_i\colon p^{-1}(V_i) \to U_i \times \F^n$.
+	Then $\tilde{f}_i\colon p^{-1}(V_i) \xto{h_i} U_i \times \F^n \xto{\pr_{\F^n}} \F^n$ defines such a map for the restricted bundle over each $U_i$ with codomain $\F^n$ instead of $\F^\infty$.
+	We choose a partition of unity $\{\varphi_i\}_i$ subordinate to this cover and define
+	\begin{equation*}
+		\tilde{f} = \big(\varphi_1 \circ p \circ \tilde{f}_1, \varphi_2 \circ p \circ \tilde{f}_2, \ldots\big) \subseteq (\F^n)^\infty \isom \F^\infty
+	\end{equation*}
+	which has the desired properties.
+
+	For injectivity, let $f_1, f_2\colon X \to \Gr^{\F}_n$ be such that $f_1^* \gamma_{\F}^n \isom f_2^* \gamma_{\F}^n$.
+	Write $E_i$ for the total space of $f_i^* \gamma_{\F}^n$.
+	As in the first part, we obtain maps $\tilde{f}_i\colon E_i \to \F^\infty$.
+	We can precompose $\tilde{f}_2$ with the homeomorphism $E_1 \to E_2$ to get two maps $\tilde{f}_1, \tilde{g}\colon E_1 \to \F^\infty$, each linear and injective on fibres.
+
+	It suffices to show that $\tilde{f}_1$ and $\tilde{g}$ are homotopic through maps that are linear and injective on fibres, since this gives a homotopy $f_1 \Rightarrow f_2$.
+	To produce this homotopy, we first note that there is a linear injective homotopy $h_t\colon \F^\infty \to \F^\infty$ from $\id_{\F^\infty}$ to the map $\tau(x_1, x_2, \ldots) = (x_1, 0, x_2, 0, \ldots)$, for example the direct path.
+	After postcomposing with this homotopy, we can assume that $\tilde{g}$ is concentrated purely in odd and similarly that $\tilde{f}_1$ is concentrated purely in even degrees.
+	Then the direct path homotopy $t \mapsto t \tilde{f}_1 + (1 - t) \tilde{g}$ has the desired properties.
+\end{proof}
+\begin{corollary}
+	If $X$ is compact and $p\colon E \to X$ is an $n$-dimensional $\F$-vector bundle, then there exists $m \in \N$ and $f\colon X \to \Gr_n(\F^m)$ such that $f^* \gamma_{\F}^{n, m} \isom E$. 
+\end{corollary}
+\begin{proof}
+	By compactness, the classifying map $X \to \Gr^{\F}_n$ factors through some finite stage in the filtration definining $\Gr^{\F}_n$, i.e. some $\Gr_n(\F^m)$, since $\Gr^{\F}_n$ carries the weak topology.
+\end{proof}
+\begin{corollary}
+	Let $X$ be compact and $p\colon E \to X$ an $n$-dimensional $\F$-vector bundle.
+	The there is an $\F$-vector bundle $p'\colon E' \to X$ such that $p \dsum p'\colon E \dsum E' \to X$ is isomorphic to a trivial bundle.
+\end{corollary}
+\begin{proof}
+	Since pullbacks of bundles preserve direct sums and trivial bundles, it suffices to show the statement for the bundles $\gamma_{\F}^{n , m}$ by the previous corollary.
+	But $\gamma_{\F}^{n, m}$ is by definition a subbundle of the trivial bundle $\Gr_n(\F^m) \times \F^m$ with complement given by the orthogonal complement bundle for the standard euclidean metric.
+\end{proof}
+\lecture{08.12.23}
+\begin{example}
+	From the above, we obtain isomorphisms
+	\begin{equation*}
+		\Vect_{\R}^1(X) \isom [X, \RP^\infty] \isom H^1(X; \F_2)
+	\end{equation*}
+	and
+	\begin{equation*}
+		\Vect_{\C}^1(X) \isom [X, \CP^\infty] \isom H^2(X; \Z)
+	\end{equation*}
+	if $X$ is a CW-complex.
+	It follows that $\gamma_{\R}^1$ is the unique non-trivial line bundle on $\RP^\infty$ since $H^1(\RP^\infty; \F_2) \isom \F_2$.
+	Since $H^1(\RP^\infty; \F_2) \xto{\isom} H^1(\RP^m; \F_2)$ for all $m \geq 1$, we see that $\gamma_{\R}^{1, m + 1}$ is also non-trivial for all $m \geq 1$; in particular the Möbius bundle is non-trivial.
+	Similarly, the line bundles $\gamma_{\C}^{1, m + 1}$ are generators of $\Vect_{\C}^1(\CP^m)$ for all $m \geq 1$.
+	In particular, $\Vect_{\R}^1(X)$ and $\Vect_{\C}^1(X)$ have natural abelian group structures.
+	One can show that this is given by the tensor product of line bundles.
+	In fact, natural operations $\Vect_{\R}^1({{-}}) \times \Vect_{\R}^1({{-}}) \to \Vect_{\R}^1({{-}})$ correspond, by the Yoneda lemma, to elements of
+	\begin{equation*}
+		H^1(\RP^\infty \times \RP^\infty; \F_2) \isom H^1(\RP^\infty \times \{*\}; \F_2) \dsum H^1(\{*\} \times \RP^\infty; \F_2)
+	\end{equation*}
+	Only two of these are invariant under the $C_2$-action which is the case for the one classifying the tensor product since it is symmetric.
+	Since the tensor product is non-trivial in general, it must correspond to the diagonal element $(1, 1) \in \F_2 \dsum \F_2$.
+	Hence, every real line bundle $\xi$ on $X$ has an associated cohomology class $\omega_1(\xi) \in H^1(X; \F_2)$ which is a full invariant of $\xi$ up to isomorphism.
+	This is an example of a \emph{characteristic class}, the theory of which we now develop systematically.
+\end{example}
+
+\subsection{Characteristic classes}
+\begin{definition}
+	A \strong{characteristic class}\index{characteristic class} is a natural transformation of the form
+	\begin{equation*}
+		\Vect_{\F}^n({{-}}) \Rightarrow H^m({{-}}; A)
+	\end{equation*}
+	for $n, m \in \N$ and $A$ an abelian group.
+\end{definition}
+\begin{remark}
+	At least when we restrict to paracompact spaces, characteristic classes correspond to elements in $H^m\big(\Gr^{\F}_n; A\big)$.
+\end{remark}
+We will mainly focus on the case $\F = \R$ and $A = \F_2$.
+Our main goal is to show the following:
+\begin{theorem}
+	For every real vector bundle $\xi\colon E \to B$ there exist characteristic classes $\omega_i(\xi) \in H^i(B; \F_2)$, $i \in \N$, called the \strong{Stiefel-Whitney classes}\index{Stiefel-Whitney class} satisfying the following properties:
+	\begin{enumerate}
+		\item $\omega_0(\xi) = 1$ and $\omega_i(\xi) = 0$ for $i > \dim \xi$.
+		\item \strong{Naturality}:
+			If $f\colon B' \to B$ is a continuous map, then
+			\begin{equation*}
+				\omega_i(f^* \xi) = f^* \omega_i(\xi)
+			\end{equation*}
+		\item \strong{Whitney product formula}\index{Whitney product formula}:
+			If $\xi$ and $\eta$ are real vector bundles over the same base $B$, then
+			\begin{equation*}
+				\omega_k(\xi \dsum \eta) = \sum_{i = 0}^k \omega_i(\xi) \smile \omega_{k - i}(\eta)
+			\end{equation*}
+		\item\label{ax:stiefwhitnormalization} $\omega_1\big(\gamma_{\R}^{1, 2}\big) \neq 0$ in $H^1(\RP^1; \F_2)$.
+	\end{enumerate}
+	Moreover, when restricted to paracompact spaces the $\omega_i$ are unique with these properties.
+\end{theorem}
+We first assume the theorem and record some elementary properties:
+\begin{itemize}
+	\item If $\epsilon$ is a trivial bundle, then $\omega_i(\epsilon) = 0$ for $i > 0$ since $\epsilon$ can be pulled back from a point and $H^i({{*}}; \F_2) = 0$ for $i > 0$.
+	\item We have $\omega_i(\xi \dsum \epsilon) = \omega_i(\xi)$ for all $i$ by the Whitney product formula and the previous item (this is to say that the $\omega_i$ are \emph{stable}).
+	\item We set $H^\pi(B; \F_2) \coloneq \prod_{n \in \N} H^n(B; \F_2)$ with ring structure given by extending the cup product, i.e.
+		\begin{equation*}
+			(x_i)_{i \in \N} \cdot (y_j)_{j \in \N} \coloneq \bigg(\sum_{i = 0}^k x_i \smile y_{k - i}\bigg)_{k \in \N}
+		\end{equation*}
+		The \strong{total Stiefel-Whitney class}\index{Stiefel-Whitney class!total class} $\omega(\xi) \in H^\pi(B; \F_2)$ is defined as $\omega(\xi) \coloneq \omega_0(\xi) + \omega_1(\xi) + \omega_2(\xi) + \cdots$.
+		Then $\omega(\xi \dsum \eta) = \omega(\xi) \omega(\eta)$.
+		Hence, if $\xi \dsum \eta = \epsilon^m$ is a trivial bundle, we have $\omega(\xi) \omega(\eta) = \omega(\xi \dsum \eta) = \omega(\epsilon^m) = 1$ and hence $\omega(\xi) = \omega(\eta)^{-1}$.
+	\item We have $\Vect_{\R}^1 \isom H^1(\RP^1; \F_2) \isom \F_2$, hence axiom \ref{ax:stiefwhitnormalization} forces $\omega_1\big(\gamma_{\R}^{1, 2}\big)$ to be the unique non-trivial element of $H^1(\RP^n; \F_2)$.
+		Since $\gamma_{\R}^{1, 2}$ is the pullback of $\gamma_{\R}^1$ along $\RP^1 \incl \RP^\infty$ and $H^1(\RP^\infty; \F_2) \to H^1(\RP^1; \F_2)$ is an isomorphism, we have that $\omega_1(\gamma_{\R}^1) \in H^1(\RP^\infty; \F_2)$ is the non-trivial element $u$.
+		Hence, $\omega(\gamma_{\R}^1) = 1 + u \in H^\pi(\RP^\infty; \F_2)$.
+		Its inverse is given by $1 + u + u^2 + u^3 + \cdots \in H^\pi(\RP^\infty; \F_2)$, but this has infinitely many non-trivial terms and can thus not be equal to $\omega(\eta)$ for some vector bundle $\eta$ on $\RP^\infty$.
+		% TODO cite the right corollary once available
+		Hence, $\gamma_{\R}^1$ does not embed into a trivial bundle, in contrast to bundles over compact spaces (Cor. 6. 13).
+		Over $\RP^n$, we have $\omega\big(\gamma_{\R}^{1, n + 1}\big)^{-1} = 1 + u + u^2 + \cdots + u^n = \omega(\xi)$ where $\gamma_{\R}^{1, n + 1} \dsum \xi = \epsilon^{n + 1}$ (i.e. $\xi \isom \big(\gamma_{\R}^{1, n + 1}\big)^\perp$).
+\end{itemize}
+We now turn to the construction of the $\omega_i$.
+We start with \emph{Thom classes} and \emph{Thom isomorphisms}.
+Let $p\colon E \to B$ be a real vector bundle.
+We set $E_0 \subset E$ to be all elements which are not the 0-element in their respective fibre.
+Then $p|_{E_0}\colon E_0 \to B$ is a fibre bundle with fibres homeomorphic to $\R^n \setminus \{0\}$.
+We can apply the relative Serre spectral sequence of the form $H^p(B; H^q(\R^n, \R^n \setminus \{0\}; \F_2)) \Rightarrow H^{p + q}(E, E_0; F_2)$.
+Now $H^q(\R^n, \R^n \setminus \{0\}; \F_2) \isom \F_2$ if $q = n$ and 0 else, and the local coefficient system is necessarily trivial since any automorphism of $\F_2$ is the identity.
+We therefore obtain the following picture:
+% TODO picture
+\begin{theorem}
+	There is a natural isomorphism 
+	\begin{equation*}
+		\Phi\colon H^*(B; \F_2) \xto{\isom} H^{* + n}(E, E_0; \F_2)
+	\end{equation*}
+	called the \strong{Thom isomorphism}\index{Thom isomorphism}.
+	The image $u = \Phi(1) \in H^n(E, E_0; \F_2)$ is called the \strong{Thom class}\index{Thom class} of the bundle.
+	Then the map $\Phi$ is given by the cup-product $H^*(B; \F_2) \xto{\isom} H^*(E; \F_2) \xto{{{-}} \smile u} H^{* + n}(E, E_0; \F_2)$.
+\end{theorem}
+\begin{proof}
+	This follows directly from the Serre spectral sequence we just considered and its multiplicative structure.
+\end{proof}
+Note that $u$ is uniquely determined by the fact that it restricts to a generator in $H^n(F_b, (F_b)_0; \F_2)$ on each of the fibres $F_b$.
+\begin{remark}
+	\leavevmode
+	\begin{enumerate}
+		\item This crucially depends on $\F_2$-coefficients.
+			Over $\Z$, the local system $H^q\big(F_{({{-}})}, \big(F_{({{-}})}\big)_0; \Z\big)$ is trivial if and only if the bundle is \strong{orientable}\index{orientability!of vector bundles}, i.e. one can choose orientations on each fibre $F_b$ which are locally compatible in the sense that the local trivializations all send them to the same orientation of $\R^n$.
+			Since every complex vector space has a canonical real orientation, every complex vector bundle is orientable and hence has a Thom isomorphism with $\Z$-coefficients.
+		\item The Thom isomorphism is sometimes phrased differently:
+			If $p\colon E \to B$ is euclidean, we can form the \strong{disc bundle}\index{disc bundle} $D(E)$ and the \strong{sphere bundle}\index{sphere bundle} $S(E)$ by restricting to the vectors of length $\leq 1$ and $= 1$ fibrewise, respectively.
+			Then $D(E) \incl E$ and $S(E) \incl E_0$ are both homotopy equivalences; homotopy inverses are given by the maps $E \xto{p} B \xto{s_0} D(E)$ where $s_0$ is the 0-section and $E_0 \to S(E)$, $v \mapsto \frac{v}{|v|}$, and homotopies are formed fibrewise.
+			Hence, there is an isomorphism $H^*(E, E_0; \F_2) \xto{\isom} H^*(D(E), S(E); \F_2)$.
+			The pair $(D(E), S(E))$ has the advantage that it is excisive, so we can further identify
+			\begin{equation*}
+				H^*(D(E), S(E); \F_2) \xto{\isom} \tilde{H}^*(D(E) / S(E); \F_2)
+			\end{equation*}
+			The space $D(E) / S(E) \eqcolon \Th(p)$ is called the \strong{Thom space}\index{Thom space} of $p$.
+	\end{enumerate}
+\end{remark}

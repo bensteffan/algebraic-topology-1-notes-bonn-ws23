@@ -1,0 +1,178 @@
+\section{Informal Introduction}\lecture{09.10.23}
+\begin{note}
+	We omit the coefficient group $\Z$ from notation in (co)homology as well as basepoints where they are of no particular relevance in homotopy groups.
+\end{note}
+One of the big goals of homotopy theory is to compute
+\[
+	[X, Y]_* = \{\text{basepoint-preserving continuous maps } X \to Y\} / \text{homotopy}
+\]
+for $X$ and $Y$ pointed CW-complexes.
+CW-complexes are built out of spheres, so the building blocks are the sets
+\[
+	[S^n, S^k]_* = \pi_n(S^k, *)
+\]
+For $n \geq 1$ these are groups and abelian if $n \geq 2$.
+We know that\textellipsis{}
+\begin{itemize}
+	\item $\pi_n(S^k) = 0$ for $n < k$ by cellular approximation, cf. \cite[Corollary 4.9]{hatcher_algebraic_2002},
+	\item $\pi_n(S^n) \isom \Z$ by the Hurewicz theorem (cf. \cite[Theorem 4.32]{hatcher_algebraic_2002}) and $H_n(S^n) \isom \Z$: 
+		If $X$ is an $(n - 1)$-connected CW-complex ($n > 1$), then there is an isomorphism $\pi_n(X) \xto{\isom} H_n(X)$, 
+	\item $\pi_k(S^1) = 0$ for $k \geq 2$ via covering space theory: The universal cover of $S^1$ is $\R$ which is contractible, 
+	\item $\pi_3(S^2) \neq 0$ since the attaching map of the 4-cell for $\CP^2$ is a map $\eta\colon S^3 \to S^2 = \CP^1$; if $\eta$ was nullhomotopic, then $\CP^2$ would be homotopy equivalent to $S^2 \vee S^4$ which contradicts the ring structure on $H^*(\CP^2) \isom \Z[x] / x^3$, and that
+	\item The sequence
+		\begin{equation*}
+			\pi_k(S^n) \to \pi_{k + 1}(S^{n + 1}) \to \pi_{k + 2}(S^{n + 2}) \to \cdots
+		\end{equation*}
+		always stabilizes by the \emph{Freudenthal suspension theorem} (see \cite[Corollary 4.24]{hatcher_algebraic_2002}).
+\end{itemize}
+To go beyond this, we will need a new tool, the \emph{Serre spectral sequence}.
+To motivate its usefulness for this question, consider the following strategy:
+There exists a map $f\colon S^2 \to K(\Z, 2)$ which induces an isomorphism $f_*\colon \pi_2(S^2) \xto{\isom} \pi_2(K(\Z, 2)) \isom \Z$.
+We can take its homotopy fibre $H \coloneq \hofib(f_*)$; there is then a fibre sequence $H \to S^2 \xto{f} K(\Z, 2)$ and thus a long exact sequence\footnote{The groups in \textcolor{knowngray}{gray} are assumed known. The groups and properties in \textcolor{col05}{red} follow from those in gray.}
+\begin{equation*}
+	\begin{tikzpicture}[commutative diagrams/.cd, every diagram, row sep = large]
+		\matrix[matrix of math nodes, name = m, commutative diagrams/every cell] {
+				& \cdots & \pi_4(K(\Z, 2)) \\
+			\pi_3(H) & \pi_3(S^2) & \pi_3(K(\Z, 2)) \\
+			\pi_2(H) & \pi_2(S^2) & \pi_2(K(\Z, 2)) \\
+			\pi_1(H) & \pi_1(S^2) & \pi_1(K(\Z, 2)) & 0 \\
+		};
+		\path[commutative diagrams/.cd, every arrow, every label]
+			(m-1-2) edge (m-1-3)
+			(m-1-3) edge[rounded corners, to path = {
+				-- ([xshift = 1em] \tikztostart.east)
+				|- ($(m-1-2)!0.5!(m-2-2)$) \tikztonodes
+				-| ([xshift = -2ex] \tikztotarget.west)
+				-- (\tikztotarget)
+			}] (m-2-1)
+			(m-2-1) edge["{\color{highlightcol}\isom}"] (m-2-2) 
+			(m-2-2) edge (m-2-3)
+			(m-2-3) edge[rounded corners, to path = {
+				-- ([xshift = 1em] \tikztostart.east)
+				|- ($(m-2-1)!0.5!(m-3-1)$) \tikztonodes
+				-| ([xshift = -2ex] \tikztotarget.west)
+				-- (\tikztotarget)
+			}] (m-3-1)
+			(m-3-1) edge (m-3-2) 
+			(m-3-2) edge["$f_*$", "$\isom$"'] (m-3-3)
+			(m-3-3) edge[rounded corners, to path = {
+				-- ([xshift = 1em] \tikztostart.east)
+				|- ($(m-3-1)!0.5!(m-4-1)$) \tikztonodes
+				-| ([xshift = -2ex] \tikztotarget.west)
+				-- (\tikztotarget)
+			}] (m-4-1)
+			(m-4-1) edge (m-4-2) 
+			(m-4-2) edge (m-4-3)
+			(m-4-3) edge (m-4-4);
+		% don't want our labeling nodes to be the usual node grid distance away
+		% better to set this via scope than to either pass it to each \node separately or set it for the whole picture
+		\begin{scope}[node distance = -5.25pt, knowngray] 
+			\node[below = of m-1-3] {$0$};
+			\node[below = of m-2-3] {$0$};
+			\node[below = of m-3-1, highlightcol] {$0$};
+			\node[below = of m-4-1, highlightcol] {$0$};
+			\node[below = of m-4-2] {$0$};
+			\node[below = of m-4-3] {$0$};
+		\end{scope}
+	\end{tikzpicture}
+\end{equation*}
+Hence, $H$ is 2-connected and $\pi_n(H) \to \pi_n(S^2)$ is an isomorphism for all $n \geq 3$.
+By the Hurewicz theorem, the following diagram commutes:
+\begin{equation*}
+	\begin{tikzcd}
+		\pi_3(H)
+				\ar[r, "\isom"]
+				\ar[dr, swap, "\isom"]
+			& H_3(H)
+		\\
+			& \pi_3(S^2)
+				\ar[u, swap, "\isom"]
+	\end{tikzcd}
+\end{equation*}
+If we had a way to compute $H_*(H)$ from $H_*(S^2)$ (the computation of which is easy) and $H_*(K(\Z, 2))$ (which is known), we could compute $\pi_3(S^2)$ this way!
+
+\subparagraph{Upshot}
+It would be useful to have a tool which relates the homology groups of the three terms in a fibre sequence.
+This will also help us to compute $\pi_n(S^k)$ in other ways (for example, we will show that $\pi_n(S^k)$ is finite unless $n = k$ or $n = 2k - 1$ and $k$ is even).
+Furthermore, the Serre spectral sequence will allow us to compute the (co)homology of spaces like $\Uni(n)$, $\SU(n)$, $\Omega S^n$, $K(\Zn{2}, n)$ and (re)prove structural theorems like the Hurewicz theorem, the Freudenthal suspension theorem, Thom isomorphisms, and more.
+
+So, given a fibre sequence $F \to Y \to X$, what could the relationship between the homology groups of $F$, $Y$ and $X$ be?
+\begin{example}
+	Consider the easiest case $F \to X \times F \xto{\pr_X} X$ (a \emph{trivial fibration}).
+	Then the Alexander-Whitney map induces an isomorphism $H_n(X \times F; \Z) \xto{\isom} \bigdsum_{p + q = n} H_p(X, H_q(F))$, so it computes the homology of the total space in terms of the homology of $X$ and $F$.
+\end{example}
+\begin{example}
+	Consider the Hopf fibration $S^1 \to S^3 \xto{\eta} S^2$.
+	We can compute
+	\begin{equation*}
+		\renewcommand{\arraystretch}{1.1}
+		\begin{tabular}{r|c|c}
+			$n$ 		& $H_n(S^3; \Z)$ 	& $\bigdsum_{p + q = n} H_p(S^3; H_q(S^1; \Z))$ \\\hline
+			0 			& $\Z$ 				& $\Z$ \\
+			1 			& $0$				& $\Z$ \\
+			2 			& $0$				& $\Z$ \\
+			3 			& $\Z$ 				& $\Z$ \\
+			4 			& $0$				& $0$ \\
+			$\vdots$ 	& $\vdots$			& $\vdots$
+		\end{tabular}
+	\end{equation*}
+	so $\bigdsum_{p + q = n} H_p(S^3; H_q(S^1; \Z))$ is in some sense \enquote{too big} to describe $H_n(S^3; \Z)$ in degrees $n = 1, 2$.
+	Note, however, that we can consider a \enquote{2-step filtration} $S^1 \subseteq S^3$ which satisfies $\tilde{H}_n(S^3 / S^1; \Z) \isom \Z$ if $n = 2, 3$ and $0$ else.
+	Then
+	\begin{equation*}
+		\renewcommand{\arraystretch}{1.1}
+		\begin{tabular}{r|c}
+			$n$ & $H_n(S^1; \Z) \dsum \tilde{H}_n(S^3 / S^1; \Z)$ \\\hline
+			0 	& $\Z$ \\
+			1 	& $\Z$ \\
+			2 	& $\Z$ \\
+			3 	& $\Z$ \\
+			4 	& 0 \\
+			$\vdots$ 	& $\vdots$ \\
+		\end{tabular}
+	\end{equation*}
+	This does not agree with $H_3(S^3; \Z)$ because in the long exact sequence
+	\begin{equation*}
+		\begin{tikzcd}[row sep = large]
+			\cdots 
+					\ar[r]
+				& H_3(S^3; \Z)
+					\ar[r]
+				& \tilde{H}_3(S^3 / S^1; \Z)
+					\ar[dll, rounded corners, swap, "\del", to path = {[pos = 1]
+						-- ([xshift = 1em] \tikztostart.east)
+						|- ($(\tikzcdmatrixname-1-2)!0.5!(\tikzcdmatrixname-2-2)$) \tikztonodes
+						-| ([xshift = -2ex] \tikztotarget.west)
+						-- (\tikztotarget)
+					}]
+			\\
+			H_2(S^1; \Z)
+					\ar[r]
+				& H_2(S^3; \Z)
+					\ar[r]
+				& \tilde{H}_2(S^3 / S^1; \Z)
+					\ar[dll, rounded corners, swap, "\del", "{\color{highlightcol}\isom}"', to path = {[pos = 1]
+						-- ([xshift = 1em] \tikztostart.east)
+						|- ($(\tikzcdmatrixname-2-2)!0.5!(\tikzcdmatrixname-3-2)$) \tikztonodes
+						-| ([xshift = -2ex] \tikztotarget.west)
+						-- (\tikztotarget)
+					}]
+			\\
+			H_1(S^1; \Z)
+					\ar[r]
+				& H_1(S^3; \Z)
+					\ar[r]
+				& \cdots
+		\end{tikzcd}
+	\end{equation*}
+	the boundary map $\tilde{H}_2(S^3 / S^1; \Z) \to H_1(S^1; \Z)$ is an isomorphism.
+	Hence, $H_1(S^1; \Z)$ does not contribute to $H_1(S^3; \Z)$ and $\tilde{H}_2(S^3 / S^1; \Z)$ does not contribute to $H_2(S^3; \Z)$.
+\end{example}
+It turns out that something similar holds for all fibre sequences $F \to Y \to X$: 
+There exists a filtration on $C_*(Y; \Z)$
+\begin{equation*}
+	F_0 \subseteq F_1 \subseteq \cdots \subseteq F_m \subseteq \cdots \subseteq C_*(Y; \Z)
+\end{equation*}
+of chain complexes such that $H_{p + q}(F_p / F_{p - 1}) \isom C^{\text{cell}}_p(X; H_q(F; \Z))$.
+To understand $H_*(Y; \Z)$, one needs to understand the cancellations in the associated long exact sequences.
+This is best encoded in a \emph{spectral sequence}.
