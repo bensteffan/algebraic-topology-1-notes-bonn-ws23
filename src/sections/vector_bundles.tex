@@ -581,10 +581,235 @@ where the domain is the polynomial ring in the $\omega_i$ situated in the approp
 	\begin{equation*}
 		\omega_i((\gamma_\R^1)^{\times n}) = \smashoperator{\sum_{0 < j_1 < \ldots < j_i \leq n}} u_{j_1} \cdot \ldots \cdot u_{j_i} \eqcolon e_i(u_1, \ldots, u_n)
 	\end{equation*}
-	The polynomial $e_i(u_1, \ldots, u_n)$ is called the \strong{elementary symmetric polynomial}\index{symmetric polynomial!elementary} in $n$ variables.
+	The polynomials $e_i(u_1, \ldots, u_n)$ are called the \strong{elementary symmetric polynomials}\index{symmetric polynomial!elementary} in $n$ variables.
 	For example, $e_1(u_1, \ldots, u_n) = u_1 + \ldots + u_n$ and $e_n(u_1, \ldots, u_n) = u_1 u_2 \cdots u_n$.
 	They are called \emph{symmetric} because they are invariant under the $\Sigma_n$-action on $\F_2[u_1, \ldots, u_n]$ permuting the $u_i$'s.
 	\begin{proposition}
 		The $e_i(u_1, \ldots, u_n)$ are algebraically independent, i.e. there are no polynomial relations among them, and $(\varphi_n)^* \circ \alpha_n$ is injective.
 	\end{proposition}
+	\lecture{15.12.23}
+	\begin{smallproof}
+		% TODO does this proof actually work???
+		We proceed by induction on $n$.
+		The case $n = 1$ is clear.
+		Assume now that we have proved the statement for the $e_i(u_1, \ldots, u_{n - 1})$ and assume that $0 \neq f \in \F_2[x_1, \ldots, x_n]$ is a polynomial with $f(e_1, \ldots, e_n) = 0$ of smallest degree when considered as an element of $\F_2[x_1, \ldots, x_{n - 1}][x_n]$.
+		Write $f = f_0 + f_1 \cdot x_1 + \ldots + f_d \cdot x_n^d$ with $f_i \in \F_2[x_1, \ldots, x_{n - 1}]$ and $d = \deg f$.
+		If $f_0 = 0$, then we can write $f = x_n \cdot \tilde{f}$ for some $f \in \F_2[x_1, \ldots, x_n]$ and hence $0 = f(e_1, \ldots, e_n) = e_n \cdot \tilde{f}(e_1, \ldots, e_n)$ implies that $\tilde{f}(e_1, \ldots, e_n) = 0$, contradicting minimality of $\deg f$.
+		Therefore, $f_0$ must be nontrivial.
+
+		We now apply the ring map $\F_2[u_1, \ldots, u_n] \to \F_2[u_1, \ldots, u_{n - 1}]$ which sends $u_n$ to 0.
+		This takes $e(u_1, \ldots, u_n)$ to $e_i(u_1, \ldots, u_{n - 1})$ if $i < n$ and $e_n(u_1, \ldots, u_n) = u_1 \cdots u_n$ to 0.
+		On the other hand, the same ring map $\F_2[x_1, \ldots, x_n] \to \F_2[x_1, \ldots, x_{n - 1}]$ considered on the $x_i$ instead of the $u_i$ takes $f$ to $f_0$, 
+		Hence we obtain $0 = f_0(e_1, \ldots, e_{n - 1}) \in \F_2[u_1, \ldots, u_{n - 1}]$, contradicting the induction assumption.
+	\end{smallproof}
+	Moreover, one can in fact show that the $e_i(u_1, \ldots, u_n)$ are in fact polynomial generators of the subring $\F_2[u_1, \ldots, u_n]^{\Sigma_2}$ of symmetric polynomials.
+	\begin{corollary}
+		The map $\alpha_n$ is injective for all $n$.
+	\end{corollary}
+	\begin{smallproof}
+		We just swoed tht $\varphi_n^* \circ \alpha_n$ is injective, hence so is $\alpha_n$.
+	\end{smallproof}
+	To show surjectivity, we use an inductive argument built on the following:
+	Let $\F = \R$ or $\C$.
+	Again we give $\gamma_\F^n$ a euclidean metric from its embeedding in $\Gr_n^\F \times \F^\infty$.
+	Hence we can consider the sphere bundle $S(\gamma_\F^n)$ by restricting to vectors of length 1 in each fibre.
+	\begin{proposition}
+		Let $\F = \R$ or $\C$.
+		There is a homotopy equivalence $S(\gamma_\F^n) \htpyeqv \Gr^\F_{n - 1}$ for every $n \geq 1$.
+	\end{proposition}
+	\begin{smallproof}
+		$S(\gamma_\F^n)$ consists of pairs $(V, v)$ of $n$-dimensional subspaces $V \subset \F^\infty$ and a unit vectors $v \in V$.
+		We obtain a map
+		\begin{align*}
+			\phi\colon S(\gamma_\F^n) &\to \Gr^\F_{n - 1} \\
+			(V, v) &\mapsto \langle v\rangle^\perp = \{x \in V \mid x \perp V\}
+		\end{align*}
+		In the other directon, we define
+		\begin{align*}
+			\psi\colon \Gr^\F_{n - 1} &\to S(\gamma_\F^n) \\
+			W &\mapsto g_*(\F \dsum W, (1, 0))
+		\end{align*}
+		where $g$ is the linear isomorphism $\F \dsum \F^\infty \to \F^\infty$ that shifts coordinates by 1 to the right.
+		The composite $\phi \circ \psi$ sends $W \subseteq \F^\infty$ to $0 \dsum W \subseteq \F \dsum \F^\infty \xto[\isom]{g^*} \F^\infty$. 
+		The straight line homotopy from $\id_{\F \dsum \F^\infty}$ to $\F^\infty \F \dsum \F^\infty$ shows that this is homotopic to the identity on $\Gr^\F_{n - 1}$.
+		The composite $\psi \circ \phi$ sends $(V, v)$ to $(\F \dsum \langle v \rangle^\perp \subset \F \dsum \F^\infty \xto[\isom]{g^*}, (1, 0))$.
+		Using a composition of straight line homotopies to the odd/even parts again shows that this is homotopic to the identity on $S(\gamma_\F^n)$.
+	\end{smallproof}
+	Alternatively, one notes that $\phi$ is a fibre bundle with fibre over $W \in \Gr^\F_{n - 1}$ given by $S(W^\perp) = \{v \in \F^\infty \mid |v| = 1,\ w \perp v \text{for all } w \in W\}$.
+	This is homeomorphic to $S^\infty$ and hence contractible.
+
+	We further note that the map
+	\begin{equation*}
+		f\colon \Gr^\F_{n - 1} \xto[\isom]{\psi} S(\gamma^\F_n) \to \Gr^\F_n
+	\end{equation*}
+	classifies the $n$-dimensional bundle $\gamma_\F^{n - 1} \dsum \F$ since the fibre of $f^* \gamma^\F_n$ over $W \in \Gr^\F_{n - 1}$ is given by $g(\F) \dsum g(W)$.
+	The summand $g(\F)$ is 1-dimensional and independent of $W$.
+	The second summand gives a bundle isomorphism to $\gamma^\F_{n - 1}$, again using that $g$ is homotopic to $\id_{\F^\infty}$.
+
+	In problem \ref{ex:gysinwang} we saw that for every fibre sequence $S^n \to E \to B$ with $n > 0$ and $B$ simply connected and any abelian group $A$ there is a long exact sequence of the form
+	\begin{equation*}
+		\begin{tikzcd}[column sep = small]
+			\cdots
+					\ar[r]
+				& H_{p - n}(B; A)
+					\ar[r]
+				& H_p(E; A)
+					\ar[r]
+				& H_p(B, A)
+					\ar[r]
+				& H_{p - n - 1}(B; A)
+					\ar[r]
+				& \cdots
+		\end{tikzcd}
+	\end{equation*}
+	called the \strong{Gysin sequence}\index{Gysin sequence} of the sphere bundle.
+	We now discuss a cohomological version of this for more general $B$.
+
+	Let $S^n \to Y \to X$ be a fibre sequence with $n > 0$ and $X$ path-connected.
+	Let $R$ be a commutative ring and assume that the local system $H^n(F_{-}; R)$ on $X$ is isomorphic to the constant one.
+	Then the cohomological Serre spectral sequence for the fibre sequence is of the form
+	\begin{equation*}
+		\underbrace{H^p(X; H^q(F_{-}; R))}_{\isom H^p(X; H^q(S^n; R))} \Rightarrow H^{p + q}(Y; R)
+	\end{equation*}
+	After a choice of isomorphism $H^n(S^n; R) \xto{\isom} R$, we further obtain
+	\begin{equation*}
+		H^p(X; H^q(S^n; R)) \isom \begin{cases}
+			H^p(X; R) 	& q = 0, n \\
+			0 			& \text{else}
+		\end{cases}
+	\end{equation*}
+	This makes use of the fact that the local system $H^0(F_{-}; R)$ is always constant since any continuous map of path-connected spaces induces the identity on $R \isom H^0({{-}}; R)$.
+	We obtain the following picture:
+	% TODO picture
+	Let $e \in H^{n + 1}(X; R)$ be the image of the generator $y \in E_2^{0, n}$ corresponding to 1 under the chosen isomorphism $E_2^{0, 1} \isom R$ under the differential $d_{n + 1}$, i.e. $e = d_{n + 1}(y) \in H^{n + 1}(X; R)$.
+	The class $e$ is called the \strong{Euler class}\index{Euler class!of a sphere bundle} of the spherical fibre sequence and depends on the chosen isomorphism $H^n(F_{-}; R) \isom \const(R)$, the constant $R$-valued system.
+	Since $H^m(X; R) \to E_2^{m, n}$, $x \mapsto x \cdot y$ is an isomorphism, it follows that $d_{n + 1}$ is determined by the Leibniz rule $d_{n + 1}(y \cdot x) = d_{n + 1}(y) x = e \smile x$.
+	By our description of the edge homeomorphism, it follows that
+	\begin{equation*}
+		\ker(p^*\colon H^*(X; R) \to H^*(E; R)) = \img(e \smile {{-}}\colon H^{* - n + 1}(X; R) \to H^*(X; R))
+	\end{equation*}
+	Furthermore, the image of the map
+	\begin{equation*}
+		\begin{tikzcd}
+			H^*(Y; R)
+					\ar[r, two heads]
+				& E_\infty^{* - n, n}
+					\ar[r, hook]
+				& E_2^{* - n, n} \isom H^{* - n}(X; R)
+		\end{tikzcd}
+	\end{equation*}
+	is given by the kernel of $e \smile {{-}}$.
+	Hence we have
+	\begin{corollary}
+		Let $S^n \to Y \xto{p} X$ be a fibre sequence with $n \neq 0$, $X$ path-connected and $R$ a commutative ring with a choice of trivialization $H^n(E; R) \isom R$.
+		Then there is an exact sequence of the form
+		\begin{equation*}
+			\begin{tikzcd}[column sep = 1em]
+				\cdots
+						\ar[r]
+					& H^m(Y; R)
+						\ar[r]
+					& H^{m - n}(X; R)
+						\ar[r, "e \smile {{-}}"]
+					&[1.28em] H^{m + 1}(X; R)
+						\ar[r, "p^*"]
+					& H^{m + 1}(Y; R)
+						\ar[r]
+					& \cdots
+			\end{tikzcd}
+		\end{equation*}
+		where $e \in H^{n + 1}(X; R)$ is the Euler class (depending on the choice of trivialization).
+	\end{corollary}
+	\begin{remark}
+		\leavevmode
+		\begin{enumerate}
+			\item A trivialization $H^n(E; R) \isom R$ is called an \strong{$R$-orientation}\index{orientation!of fibre sequences} of the spherical fibre sequence.
+			\item Every spherical fibre sequence has a unique $\F_2$-orientation since $\F_2$ has no non-trivial automorphisms.
+		\end{enumerate}
+	\end{remark}
+	We further have
+	\begin{lemma}
+		If $p\colon E \to B$ is a $(n + 1)$-dimensional euclidean real vector bundle with $B$ paracompct and associated $n$-dimensional sphere bundle $S(E) \xto{q} B$, then $e = \omega_{n + 1}(p) \in H^{n + 1}(B; \F_2)$.
+	\end{lemma}
+	\begin{proof}
+		We first note that $\omega_{n + 1}(p) f^* u \in H^{n + 1}(B; \F_2)$ where $f\colon (B, \emptyset) \to (E, E_0)$ is the zero section.
+		In other words, $f^*$ is the composite $H^*(E, E_0; \F_2) \xto{i^*} H^*(E; \F_2) \xleftarrow[\isom]{p^*} H^*(B; \F_2)$.
+		Indeed, we have $\Sq^{n + 1} u = u^2$ and $i^*(u) \smile u = u^2$ since
+		\begin{equation*}
+			\begin{tikzcd}
+				H^*(E, E_0; \F_2) \times H^*(E, E_0; \F_2)
+						\ar[r, "\smile"]
+						\ar[d, "i^* \times \id"]
+					& H^*(E, E_0; \F_2)
+						\ar[d, equal]
+				\\
+				H^*(E; \F_2) \times H^*(E, E_0; \F_2)
+						\ar[r, "\smile"]
+					& H^*(E, E_0; \F_2)
+			\end{tikzcd}
+		\end{equation*}
+		commutes by naturality of the relative cup products.
+		Now let $b \in B$.
+		We write $S(E_b)$ for the fibre $F_b$ over $b$.
+		The relevant differential $d_{n + 1}\colon H^n(S(E_b); \F_2) \to H^{n + 1}(B; \F_2)$ is a transgression, hence we know it can be computed via
+		\begin{equation*}
+			\begin{tikzcd}[row sep = 0.3ex]
+				H^n(S(E_b); \F_2)
+						\ar[r, "\del"]
+					& H^{n + 1}(S(E), S(E_b); \F_2) 
+					& H^{n + 1}(B; \F_2)
+						\ar[l, hook', swap, "q^*"]
+				\\
+				y
+						\ar[r, mapsto]
+					& \del y
+					& d_{n + 1} y
+						\ar[l, mapsto]
+			\end{tikzcd}
+		\end{equation*}
+		We now note that the diagram
+		\begin{equation*}
+			\begin{tikzcd}
+				H^n(S(E_b); \F_2)
+						\ar[r, "\del"]
+						\ar[d, swap, "\del", "\isom"']
+					& H^{n + 1}(S(E), S(E_b); \F_2)
+				\\
+				H^{n + 1}(D(E_b), S(E_b); \F_2)
+				\\
+				H^{n + 1}(D(E), S(E_b); \F_2)
+						\ar[u]
+						\ar[uur]
+					& H^{n + 1}(D(E), S(E); \F_2)
+						\ar[l]
+						\ar[uu, swap, "j^*"]
+			\end{tikzcd}
+		\end{equation*}
+		commutes, which implies that $\del(y) = j^*(u)$ where $j\colon (S(E), S(E_b)) \to (D(E), S(E))$ is the inclusion.
+		Furthermore, we have a commutative diagram
+		\begin{equation*}
+			\begin{tikzcd}
+				H^{n + 1}(S(E), S(E_b); \F_2)
+					& H^{n + 1}(B, *; \F_2)
+						\ar[l, hook', "p^*"]
+						\ar[d, hook, "p^*"]
+						\ar[r, "\isom"]
+					& H^{n + 1}(B; \F_2)
+						\ar[d, "p^*", "\isom"']
+				\\
+				H^{n + 1}(D(E), S(E); \F_2)
+						\ar[u, "j^*"]
+						\ar[r]
+						\ar[urr, "f^*" near end, to path = {
+							|- ($(\tikzcdmatrixname-2-3.south east) + (.22, -.45)$) \tikztonodes
+							|- (\tikztotarget) 
+						}]
+					& H^{n + 1}(D(E), S(E_b); \F_2)
+						\ar[ul]
+						\ar[r]
+					& H^{n + 1}(D(E); \F_2)
+			\end{tikzcd}
+		\end{equation*}
+		which implies that $p^*(f^* u) = j^* u = \del y$ and hence $f^* u = d_{n + 1} y = e$.
+	\end{proof}
 \end{proof}
