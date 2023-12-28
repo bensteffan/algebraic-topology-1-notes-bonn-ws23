@@ -28,6 +28,8 @@
 
 \newcommand{\Hur}{\mathrm{Hur}}
 
+\newcommand{\pis}{\pi^{\mathrm{st}}}
+
 % Serre classes
 \newcommand{\Cfg}{\catfont{C}^\text{f.g.}}
 \newcommand{\Ctor}{\catfont{C}^\text{tor}}
@@ -39,9 +41,17 @@
 
 \renewcommand*{\Zn}[1]{\Z / #1}
 
-
 \tikzset{
+	spectral sequence/.is family,
 	spectral sequence/.cd,
+	page/.style = {
+		nodes in empty cells,
+		matrix of math nodes,
+		nodes = {outer sep = 0ex, inner sep = 2pt},
+		column sep = {3.5em, between origins},
+		row sep = 0.5ex,
+		column 1/.style = {anchor = base east, font = \scriptsize}, 
+	},
 	axis/.style = {
 		thick,
 		->,
@@ -77,24 +87,26 @@
 \author{Ben Steffan}
 
 \begin{document}
+% TODO: Why does the \frenchspacing in the document class not go through?
+\frenchspacing 
 \maketitle
 \tableofcontents
 \listoflectures
 
 \setcounter{section}{-1}
 \section*{About These Notes}
-This document encompasses lecture notes for the course \makeatletter\@course\makeatother\ taught in the winter term of 2023/24 at the University of Bonn by \makeatletter\@lecturer\makeatother.
+This document contains lecture notes for the course \makeatletter\@course\makeatother\ taught in the winter term of 2023/24 at the University of Bonn by \makeatletter\@lecturer\makeatother.
 The assistant is \makeatletter\@assistant\makeatother.
 
 These notes are for private use. 
 They are \strong{not} official lecture notes endorsed by the lecturer.
-As such, errors and inaccuracies that persist are generally my own (unless proven otherwise).
+As such, errors and inaccuracies should generally be presumed my own. 
 
 This document is not a character-for-character transcript of the lecture.
-Changes to form (though generally not to content) have been made to improve readability of these notes as a document.
+Changes to form (and, in places, to content) have been made to improve readability of these notes as a document.
 In particular, I have taken the liberty to make adjustments to notation here and there to more closely align with my personal tastes and opinions.
 At points, I have added additional context, explanations, computations, and so on.
-These are clearly marked to that effect, although smaller changes and in-text additions (such as citations) are not.
+These are clearly marked to that effect, although smaller changes (in particular minor nottation changes) and in-text additions (such as citations) are not.
 
 \subsection*{Formatting}
 This document has hyperlinks: References, footnote marks, table-of-contents entries and so on are linked and can be clicked to take you to the corresponding item.

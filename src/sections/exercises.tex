@@ -1178,3 +1178,357 @@
 	where the top map is an isomorphism since $\pi_4(S^3)$ is already in the stable range (in the sense of the Freudenthal suspension theorem).
 	The fact that $\eta_*$ is an isomorphism is nothing new (this is immediate from the long exact sequence of homotopy groups of the first Hopf fibration), and we know all groups involved to be isomorphic to $\Zn{2}$, so the top-then-right composite takes $[\Sigma \eta] \in \pi_4(S^3)$ to $[\Sigma^2 \eta \circ \Sigma \eta] \in \pi_5(S^3)$, both of which are nontrivial since suspensions and (suspensions of) squares of Hopf invariant 1 maps are non-trivial (which Prof. Hausmann has promised us to show in the lecture, wherefore we omit the proofs here), showing the claim.
 \end{proof}
+
+\begin{exercise}
+	Let $n \geq 2$ and choose generators $\tilde{x} \in H^n(S^n; \Z)$ and $\tilde{y} \in H^{2n}(S^{2n}; \Z)$.
+	Now let $f\colon S^{2n - 1} \to S^n$ be a continuous map with mapping cone $C(f)$.
+	We obtain generators $x \in H^n(C(f); \Z)$ and $y \in H^{2n}(C(f); \Z)$ from the isomorphisms $H(C(f); \Z) \xto{\isom} H^n(S^n; \Z)$ and $H^{2n}(S^{2n}; \Z) \xto{\isom} H^{2n}(C(f); \Z)$ induced by the inclusion of the $n$-skeleton $S^n \incl C(f)$ and the projection to the $2n$-cell $C(f) \to S^{2n}$, respectively.
+	We then define the Hopf invariant $h(f)$ to be the unique integer such that $x^2 = h(f) y$.
+	\begin{enumerate}
+		\item Show that $h(f) = 0$ if $n$ is odd.
+		\item Show that the Hopf invariant gives rise to a group homomorphism $h\colon \pi_{2n - 1} S^n \to \Z$.
+		\item Show that if $g\colon S^n \to S^n$ has degree $d$, then $h(g \circ f) = d^2 h(f)$.
+		\item Consider the composite
+			\begin{equation*}
+				\alpha\colon S^{2n - 1} \to S^n \vee S^n \to S^n
+			\end{equation*}
+			where the first map is the attaching map of the $2n$-cell of $S^n \times S^n$.
+			Show that $h(\alpha)$ is $\pm 2$.
+		\item The space $\Omega S^{n + 1}$ is homotopy equivalent to a CW-complex with one cell in every dimension a multiple of $n$ (you do not have to prove this).
+			What is the Hopf invariant of the attaching map of the $2n$-cell, up to a sign?
+	\end{enumerate}
+\end{exercise}
+\begin{solution}
+	\leavevmode
+	\begin{enumerate}
+		\item If $n$ is odd, then $x \smile x = -(x \smile x)$ by graded commutativity of the cup product, which is to say that $2 x^2 = 0$, i.e. that $x^2$ is 2-torsion. 
+			But $H^{2n}(C(f)) \isom \Z$ does not have any nontrivial 2-torsion, so $x^2 = 0$ and therefore $h(f) = 0$.
+		\item Let $[f], [g] \in \pi_{2n - 1}(S^n)$ be two classes represented by maps $f, g\colon S^{2n - 1} \to S^n$, respectively.
+			We will compare the cofibres $C(f + g)$ and $C(f \vee g)$ where $f + g\colon S^{2n - 1} \xto{c} S^{2n - 1} \vee S^{2n - 1} \xto{f \vee g} S^n$ is the composite of the equator pinching map $c$ with the pointed sum $f \vee g\colon S^{2n - 1} \vee S^{2n - 1} \to S^n$. 
+			Note that $C(f \vee g)$ has a cell structure with one $n$-cell and two $2n$-cells attached via $f$ and $g$, respectively, all meeting at the 0-cell.
+			We obtain a map $c'\colon C(f + g) \to C(f \vee g)$ by extending $c$ over the $2n$-cell of $C(f + g)$, collapsing an equator.
+			On the level of homology, the induced map $\Z \isom H^{2n}(C(f + g)) \xto{c'_*} H^{2n}(C(f \vee g)) \isom \Z^2$ is given by $y \mapsto (y', y')$\footnote{We write $y$ both for the class in cohomology and its dual. In $C(f \vee g)$, we denote the respective classes by $x'$ and $y'$, where $y'$ in particular is obtained by pulling back $\tilde{y}$ along the summand inclusions $S_i^{2n} \incl S_1^{2n} \vee S_2^{2n}$, $i = 1, 2$ after collapsing the $n$-skeleton. We also allow ourselves to specify maps on generators only.} (this can be seen either by collapsing the $n$-skeleta of both spaces (the act of which does not affect $H^{2n}({{-}})$), the residual map of which operation then simply being the equatorial collapse map $c\colon S^{2n} \to S^{2n} \vee S^{2n}$,\footnote{which one could further study by collapsing either summand in the codomain and deducing the sum by a Mayer-Vietoris argument if one has never done this before} or by considering the cellular chain complex, or\textellipsis{}), so dualizing yields that the map $H^{2n}(C(f \vee g)) \xto{c'^*} H^{2n}(C(f + g))$ on cohomology is given by $(y', 0) \mapsto y$ and $(0, y') \mapsto y$.
+
+			The map $c'$ induces the isomorphism $H^n(C(f \vee g)) \xto{\isom} H^n(C(f + g))$, $x \mapsto x$ since it extends the identity on $S^n$ and the first cells of dimension $> n$ have dimension $2n$ in both spaces.
+			For the ring structure, we have that $x'^2 = h(f) (y', 0) + h(g) (0, y')$ in $C(f \vee g)$ (which can be seen either via $C(f \vee g) \isom C(f) \sqcup C(g) / {{\sim}}$ where $\sim$ identifies the $n$-skeleta and noting that this corresponds to \enquote{identifying} the two classes $x$ in degree $n$, or the other way around by considering the Mayer-Vietoris sequence for $C(f \vee g) = C(f) \cup C(g)$ and noting that all boundary maps must be zero for degree reasons), so altogether we have that $x^2 = c'^*(x'^2) = c'^*((h(f)(y', 0) + h(g)(0, y')) = (h(f) + h(g)) y$ in $H^*(C(f + g))$ which is the claim.
+		\item Let $\tel\big(S^{2n - 1} \xto{f} S^n \xto{g} S^n\big)$ be the unreduced mapping telescope of $g \circ f$ and let $X \coloneq \tel\big(S^{2n - 1} \xto{f} S^n \xto{g} S^n\big) / (S^{2n - 1} \times \{0\})$ be its \enquote{cone / cofibre}.
+			Note that $X$ is homotopy equivalent to $C(g \circ f)$ since $M_g \incl X$ is a closed cofibration (where $M_g \isom \tel\big(S^n \xto{g} S^n\big)$ is the mapping cylinder) and $M_g$ deformation retracts onto $S^n \times \{2\} \subset X$.\footnote{We treat $M_g$ as a subspace of the telescope here, so that its time coordinate runs from $1$ to $2$, not the customary $0$ to $1$.}
+			Looking at the long exact sequence in cohomology for the pair $(M_g, S^n \times \{1\})$, we get an excerpt
+			\begin{equation*}
+				\begin{tikzcd}
+					0
+							\ar[r]
+						& \underbrace{H^n(M_g)}_{\isom \Z}
+							\ar[r]
+						& \underbrace{H^n(S^n \times \{1\})}_{\isom \Z}
+							\ar[r]
+						& \underbrace{\tilde{H}^{n + 1}(C(g))}_{\isom \Zn{d}}
+							\ar[r]
+						& 0
+				\end{tikzcd}
+			\end{equation*}
+			using that $\tilde{H}^*(C(g))$ is a copy of $\Zn{d}$ concentrated in degree $n + 1$ as $g$ is a map of degree $d$ (via cellular cohomology), so we conclude that $S^n \times \{1\} \incl M_g$ induces multiplication by $\pm d$ in cohomology (alternatively, one could see this directly from the cellular (co)chain complex).
+			This directly implies that $x^2 = (\pm d x')^2 = d^2 h(f) y$ for $x \in H^n(X)$ representing the \enquote{bottom / righthand}\footnote{Strangely one thinks of the time coordinate in a mapping cylinder as running downwards whereas in a telescope we envision it running from left to right.} copy of $S^n$, $x'$ representing the copy $S^n \times \{1\}$, and $y \in H^{2n}(C(f \circ g))$ the distinguished generator, i.e. that $h(f \circ g) = d^2 h(f)$.
+		\item By the Künneth theorem, we have an isomorphism
+			\begin{equation*}
+				H^*(S^n \times S^n) \isom H^*(S^n) \tensor H^*(S^n)
+			\end{equation*}
+			of graded rings.
+			In particular, $H^{2n}(S^n \times S^n) \isom \Z\{\tilde{x} \tensor \tilde{x}\}$ where $\tilde{x}\in H^n(S^n)$ is the distinguished generator, so $(\tilde{x} \tensor 1) \smile (1 \tensor \tilde{x}) = \tilde{x} \tensor \tilde{x}$ is a multiplicative expression for a generator of $H^{2n}(S^n \times S^n)$ in terms of generators of $H^n(S^n \times S^n)$.
+			We now proceed in a similar fashion as we did for the last part:
+			Consider the space $X = \tel\big(S^{2n - 1} \xto{f} S^n \vee S^n \xto{\nabla} S^n\big) / (S^{2n - 1} \times \{0\})$ where $f$ is the given attaching map and $\nabla$ the fold map.
+			As before, $X$ is homotopy equivalent to $C(\alpha)$ so it is sufficient to treat the multiplicative structure there.
+			Restricting our attention to $M_\nabla \subset X$, we find that $(S^n \vee S^n) \times \{1\} \incl M_\nabla$ induces the map $x \mapsto (x, x)$ on $H^n({{-}})$ by a similar argument as before and our understanding of the map $\nabla^*\colon H^*(S^n) \to H^*(S^n \vee S^n)$ (we assume that the fact that this map is the diagonal is known, but it is also not hard to show by any number of arguments).
+
+			We now obtain a map $g\colon S^n \times S^n \to X$ as follows:
+			We put $g_n\colon \sk_n(S^n \times S^n) \isom S^n \vee S^n \incl X$ where the last map is the inclusion at time 1 and extend this map over the $2n$-skeleton to form $g$ by noting that the subspace $X_{[0, 1]} \coloneq \{(x, t) \in X \mid t \in [0, 1]\} \subset X$ is a $2n$-cell attached via $f$ to $(S^n \vee S^n) \times \{1\} \subset X$.
+			We then have a commutative diagram
+			\begin{equation*}
+				\begin{tikzcd}[column sep = huge]
+					H^{2n}(X)
+							\ar[r, "\phi", "\isom"']
+						& H^{2n}(S^n \times S^n)
+					\\
+					H^n(X)
+						\ar[r, swap, "{x \mapsto \tilde{x} \tensor 1 + 1 \tensor \tilde{x}}"]
+							\ar[u, "\smile"]
+						& H^n(S^n \times S^n)
+							\ar[u, "\smile"]
+				\end{tikzcd}
+			\end{equation*}
+			since $g$ restricted to the $n$-skeleton is the inclusion and the map is a homeomorphism modulo $(n + 1)$-skeleta\footnote{the $+ 1$ resulting from the fact that $Y \times I$ is a CW-complex of dimension $\dim(Y) + 1$ whenever $Y$ is a CW-complex since $\dim(I) = 1$}.
+			Starting with $x \in H^n(X)$ at the bottom left and following the arrows right-up-left, we obtain
+			\begin{equation*}
+				x^2 = \phi^{-1}((x \tensor 1 + 1 \tensor x)^2) = \phi^{-1}((x \tensor 1)^2 + \pm 2 x \tensor x + (1 \tensor x)^2) = \pm 2 y
+			\end{equation*}
+			since $\phi$ must take $y \in H^{2n}(X)$ to $\tilde{x} \tensor \tilde{x}$.\footnote{It took me a long time to see where the sign comes in in this argument, but I believe it is the following: One need not worry about, say, the extension of $g_n$ to $g$; this can be made canonical e.g. by observing that we could have constructed $X$ by gluing the top end of $M_\nabla$ to the $n$-skeleton of $S^n \times S^n$. But note that this critically involves a choice: namely the identification of summands of $S^n \vee S^n$ of one space with the other. Swapping the identification will certainly change the sign (at least when $n$ is odd): In fact, $S^n \times S^n$ admits an automorphism extending the swap map $S^n \vee S^n \xto{(a, b) \mapsto (b, a)} S^n \vee S^n$ on the $n$-skeleton which, if $n$ is odd, induces multiplication by $-1$ on $H^{2n}({{-}})$. Distinguishing all the $\tilde{x}$'s, $x$'s, and $y$'s floating around more clearly would probably have helped but oh well.}
+			This shows that $h(\alpha) = \pm 2$.
+		\item By point 1 the Hopf invariant in question must necessarily be 0 if $n$ is odd, so we can assume that $n$ is even for the following:
+			Consider the Serre spectral sequence for the fibre sequence $\Omega S^{n + 1} \to * \to S^{n + 1}$ with $E_2$-page
+			\begin{equation*}
+				E_2^{*, *} = H^*(S^{n + 1}; H^*(\Omega S^{n + 1})) \isom H^*(S^{n + 1}) \tensor H^*(\Omega S^{n + 1})
+			\end{equation*}
+			where we note that the cohomology of $S^{n + 1}$ is free and finite for the right hand isomorphism.
+			Since $S^{n + 1}$ is $n$-connected, the first group to appear on the $p$-axis is $E_2^{n + 1, 0} \isom \Z$ (via Hurewicz) and similarly we obtain the first group on the $q$-axis, $E_2^{0, n} \isom \Z$.
+			Choosing generators $e \in H^{n + 1}(S^{n + 1})$ and $x_n \in H^n(\Omega S^{n + 1})$, we must then have $d_{n + 1}(x_n) = e$ up to sign (which we without loss of generality fix to be positive) since no other possibly nontrivial differential affects either domain or codomain.
+			Letting $x_{2n} \in H^{2n}(\Omega S^{n + 1}) \isom \Z$ be a generator, we again must have $d_{n + 1}(x_{2n}) = e x_n$ (up to sign) since no other differential can harm these groups, but $d_{n + 1}(x_n^2) = d_{n + 1}(x_n) x_n + x_n d_{n + 1}(x_n) = 2 e x_n$, so we conclude that $x_n^2 = 2 x_{2n}$.
+			But this just says that the Hopf invariant of the attaching map in question is $\pm 2$.
+			\qedhere
+	\end{enumerate}
+\end{solution}
+
+\begin{exercise}
+	Let $\pis_* X$ denote the stable homotopy groups of a space $X$.
+	Construct a natural long exact sequence of the form 
+	\begin{equation*}
+		\begin{tikzcd}
+			\cdots
+					\ar[r]
+				& \pis_n A
+					\ar[r]
+				& \pis_n X
+					\ar[r]
+				& \pis_n X / A
+					\ar[r]
+				& \pis_{n - 1} A
+					\ar[r]
+				& \cdots
+		\end{tikzcd}
+	\end{equation*}
+	for pointed CW-pairs $(X, A)$.
+	\begin{hint}
+		Let $i\colon A \incl X$ denote the inclusion.
+		Construct a natural map $S^1 \wedge \hofib_x(i) \to C(i)$ and show that it is highly connected if $A$ and $X$ are.
+	\end{hint}
+\end{exercise}
+\begin{solution}
+	We have a long exact sequence
+	\begin{equation*}
+		\begin{tikzcd}
+			\cdots
+					\ar[r]
+				& \pi_n(A, x)
+					\ar[r]
+				& \pi_n(X, x)
+					\ar[r]
+				& \pi_n(X, A, x)
+					\ar[r]
+				& \pi_{n - 1}(A, x)
+					\ar[r]
+				& \cdots
+		\end{tikzcd}
+	\end{equation*}
+	The result now follows after noting that
+	\begin{enumerate}
+		\item by homotopy excision, $\pi_n(X, A, x) \isom \pi_n(C(i), x) \isom \pi_n(X / A, x)$ if $X$ and $A$ are highly connected, and
+		\item after suspending (at least) two times, the sequence ends in $\cdots \to \pi_2(\Sigma^2 A, x) \to \pi_2(\Sigma^2 X) \to \pi_2(\Sigma^2 X, \Sigma^2 A, x) \to 0$.
+			\qedhere
+	\end{enumerate}
+\end{solution}
+
+\begin{exercise}
+	Show the following for every $n \geq 0$:
+	If there is a weak homotopy equivalence
+	\begin{equation*}
+		\Sigma^n \RP^\infty \htpyeqv A \vee B
+	\end{equation*}
+	then $A$ or $B$ is weakly contractible.
+
+	(If you are interested, you can also contemplate the following question for various values of $k$ and $n$: 
+	Is $\Sigma^n \RP^k$ weakly equivalent to a wedge sum of two spaces?
+	But don't expect to obtain a full answer!)
+\end{exercise}
+\begin{solution}
+	We will use the following theorem below without proof\footnote{Prof. Hausmann also used this in his lecture (without proof), so we feel emboldened. A standard reference for this is \href{https://en.wikipedia.org/wiki/Lucas\%27s_theorem}{Wikipedia}.}:
+	\begin{theorem}[Lucas' Theorem]
+		Let $p$ be a prime and $m, n \in \N$.
+		Then
+		\begin{equation*}
+			\binom{m}{n} = \prod_{i = 0}^k \binom{m_i}{n_i} \pmod{p}
+		\end{equation*}
+		where
+		\begin{equation*}
+			m = m_k p^k + m_{k - 1} p^{k - 1} + \cdots + m_1 p + m_0
+		\end{equation*}
+		and
+		\begin{equation*}
+			n = n_k p^k + n_{k - 1} p^{k - 1} + \cdots + n_1 p + n_0
+		\end{equation*}
+		are the base-$p$ expansions of $m$ and $n$, respectively.
+	\end{theorem}
+	As a particular consequence, note that $\binom{m}{n} \equiv 1 \pmod{2}$ iff the digits in the binary expansion of $n$ form a subset of those of $m$.
+
+	Let now $\Sq = \sum_{i = 0}^\infty \Sq^i$ be the total square and $\iota \in H^1(\RP^\infty; \F_2)$ the fundamental class.
+	We then have
+	\begin{equation*}
+		\Sq(\iota) = \Sq^0(\iota) + \Sq^1(\iota) + \sum_{i = 2}^\infty \Sq^i(\iota) = \iota + \iota^2 = \iota (1 + \iota)
+	\end{equation*}
+	directly from the axioms, so multiplicativity of $\Sq$ implies that
+	\begin{equation*}
+		\Sq(\iota^k) = \Sq(\iota)^k = \iota^k (1 + \iota)^k = \iota^k \sum_{i = 0}^k \binom{k}{i} \iota^i = \sum_{i = 0}^k \binom{k}{i} \iota^{k + i}
+	\end{equation*}
+	from which we can simply read off that $\Sq^i(\iota^k) = \binom{k}{i} \iota^{k + i}$.
+	With the help of Lucas's theorem, we conclude that for every $k, l > 0$ there are tuples of natural numbers $I, J$ such that $\Sq^I(\iota^k) = \Sq^J(\iota^l) \neq 0$:
+	If $k = k_r 2^r + k_{r - 1} 2^{r - 1} + \cdots + k_0$ is the binary expansion of $k$, we can apply $\Sq^{2^{k_{i_\text{min}}}}$ where $i_\text{min}$ the least index such that $k_i \neq 0$ and iterate until the total degree is a power of 2 and then apply $\Sq^{2^l}$'s to equalize degrees as needed, with the theorem guaranteeing that no step of this operation is trivial\footnote{Why does algorithm this work? If the binary expansion of $k$ ends in $\ldots 01 \ldots 10 \ldots 0$ where the length of the stretch of 1s is $m$, then adding $2^{k_{i_\text{min}}}$ yields $\ldots 1 0 \ldots 0$ with the 1 in place of the 0 left of the leftmost 1, so the operation decreases the number of set bits by $m - 1$. In particular, if $m = 1$ this increases the least set index by 1, so after finitely many steps we reach a point at which only one bit is set and the result is a power of 2.}.
+
+	Let now $\Sigma^n \RP^\infty \htpyeqv A \vee B$ be a splitting.
+	If $n = 0$, then after replacing $A$ and $B$ by CW-approximations we have $\Zn{2} \isom \pi_1(\RP^\infty, *) \isom \pi_1(A \vee B, *) \isom \pi_1(A, *) \ast \pi_1(B, *)$ (using that CW-complexes are locally contractible for applying van Kampen and deducing the right hand isomorphism), so without loss of generality we have $\pi_1(A, *) = 0$ (as $\Zn{2}$ is abelian (and also too small) and therefore cannot be written as a non-trivial free product).
+	But $\RP^\infty$ is a $K(\Zn{2}, 1)$, so $\pi_k(\RP^\infty, *) = \pi_k(A \vee B, *) = 0$ for all $k > 1$ and therefore $\pi_*(A, *) = 0$ (as the inclusion $A \incl A \vee B$ admits a retraction and therefore $\pi_k(A, *) \to \pi_k(A \vee B, *)$ is injective).
+	
+	If $n > 0$, then note first that $A$ is already weakly contractible if $H^*(A; \F_2) = 0$, for by Hurewicz (which applies since $n > 0$ implies that $\Sigma^n \RP^\infty$ and hence also $A$ and $B$ are simply connected) it is enough that $H_*(A; \Z) = 0$, so since $\tilde{H}_k(A; \Z) \dsum H_k(B; \Z) \isom \tilde{H}_k(A \vee B; \Z) \isom \tilde{H}_k(\Sigma^n \RP^\infty; \Z)$ and this latter group is either $\Zn{2}$ or 0, $\tilde{H}_k(A; \Z)$, too, must be $\Zn{2}$ or 0 in each degree (as well as at most one of $H_k(A; \Z)$, $H_k(B; \Z)$ being nontrivial for any $k$); but in the former case the universal coefficient theorem implies that $H^k(A; \F_2) \isom \F_2$, so $H^*(A; \F_2)$ already detects nontriviality of $H_*(A; \Z)$.
+	
+	If now both $\tilde{H}^*(A; \F_2)$ and $\tilde{H}^*(B; \F_2)$ are nontrivial, pick any $0 \neq \alpha \in \tilde{H}^*(A; \F_2)$ and $0 \neq \beta \in \tilde{H}^*(B; \F_2)$.
+	Both classes are the image of $\iota^{|\alpha| - n}$ and $\iota^{|\beta| - n}$ under the suspension isomorphism, respectively, but our previous work tells us that there are sequences $I, J$ with $\Sq^I \iota^{|\alpha| - n} = \Sq^J \iota^{|\beta| - n} \neq 0$, so stability of the squares implies that $\Sq^I \alpha = \Sq^J \beta \neq 0$.
+	But $\Sq^I \alpha$ lies in \emph{either} $H^*(A; \F_2)$ or $H^*(B; \F_2)$ which is absurd since no $\Sq^i$ can connect classes from $H^*(A; \F_2)$ with classes from $H^*(B; \F_2)$ or vice-versa, contradiction!
+	Thus, either $A$ or $B$ must be weakly contractible.
+\end{solution}
+
+\begin{exercise}
+	Reprove the Freudenthal suspension theorem stated below by induction on $n$, making use of transgressions in Serre spectral sequences.
+	\begin{hint}
+		Rephrase the problem in terms of connectivity of the map $X \to \Omega \Sigma X$ and apply the Whitehead / Hurewicz theorem.
+	\end{hint}
+	\begin{theorem}[Freudenthal]\label{thm:freudenthal}
+		Suppose that $X$ is an $(n - 1)$-connected space for some $n \geq 2$.
+		Then the suspension homomorphism $\Sigma_*\colon \pi_k(X, *) \to \pi_{k + 1}(\Sigma X, *)$ is an isomorphism if $k < 2n - 1$ and an epimorphism if $k = 2n - 1$.
+	\end{theorem}
+\end{exercise}
+\begin{solution}
+	Let $\eta\colon \Id_{\Top_*} \Rightarrow \Omega \Sigma$ be the unit natural transformation of the suspension-loop space adjunction which at each based space $X \in \Top_*$ is given by applying the map $X \to \Omega \Sigma X$ adjoint to $\Sigma X \xto{\Sigma \id_X} \Sigma X$.
+	Concretely, this means $\eta$ is given by $\eta(x) = (t \mapsto (t, x))$.
+	Passing to based homotopy classes we obtain a commutative diagram
+	\begin{equation*}
+		\begin{tikzcd}
+			{[Y, X]_*}
+					\ar[r, "\Sigma_*"]
+					\ar[dr, swap, "\eta_*"]
+				& {[\Sigma Y, \Sigma X]_*}
+					\ar[d, "\isom"]
+			\\
+				& {[Y, \Omega \Sigma X]_*}
+		\end{tikzcd}
+	\end{equation*}
+	which after specializing to $Y = S^n$ yields the commutative triangle
+	\begin{equation*}
+		\begin{tikzcd}
+			\pi_n(X, *) 
+					\ar[r, "\Sigma_*"]
+					\ar[dr, swap, "\eta_*"]
+				& \pi_{n + 1}(\Sigma X, *)
+					\ar[d, "\isom"]
+			\\
+				& \pi_n(\Omega \Sigma X, *)
+		\end{tikzcd}
+	\end{equation*}
+	so $\eta_*$ \enquote{embodies}\footnote{i.e. it is a continuous map inducing an algebraic map that does not a priori arise this way} $\Sigma_*$.
+	We also note that $\eta$ is an embedding: 
+	Clearly it is injective and the map $\rho = \pr_X \circ \ev_{1 / 2}$ is a continuous inverse on $\img(\eta)$.
+
+	Note now that the map $p = \ev_1\colon P \Sigma X \to \Sigma X$, $\gamma \mapsto \gamma(1)$ admits a section, namely 
+	\begin{align*}
+		\bar{s}\colon \Sigma X &\to P \Sigma X \\
+		(t, x) &\mapsto (t' \mapsto (t t', x))
+	\end{align*}
+	Moreover, this section arises by factoring the map
+	\begin{align*}
+		s\colon C X &\to P \Sigma X \\
+		(t, x) &\mapsto (t' \mapsto (t t', x))
+	\end{align*}
+	over the quotient $\Sigma X \isom C X / X$.
+	Now $s|_X \colon X \to P \Sigma X$ is the map $s|_X(x) = (t' \mapsto (t', x))$\footnote{For this to work out nicely we deviate from the norm and assume that $C X = X \times I / (X \times \{0\}) \cup (\{x\} \times I)$ instead of collapsing the copy of $X$ at height 1 as usual.}, i.e. $s|_X = \eta$, so the map of pairs $s\colon (C X, X) \to (P \Sigma X, \Omega \Sigma X)$ induces a map of long exact sequences
+	\begin{equation}\label{diag:pairsequence}
+		\begin{tikzcd}[column sep = small]
+			\cdots
+					\ar[r]
+				& H_k(CX)
+					\ar[r]
+					\ar[d, "s_*"]
+				& H_k(CX, X)
+					\ar[r, "\del", "\isom"']
+					\ar[d, "s_*"]
+				& H_{k - 1}(X)
+					\ar[r]
+					\ar[d, "\eta_*"]
+				& H_{k - 1}(CX)
+					\ar[r]
+					\ar[d, "s_*"]
+				& \cdots
+			\\
+			\cdots
+					\ar[r]
+				& H_k(P \Sigma X)
+					\ar[r]
+				& H_k(P \Sigma X, \Omega \Sigma X)
+					\ar[r, "\del", "\isom"']
+				& H_{k - 1}(\Omega \Sigma X)
+					\ar[r]
+				& H_{k - 1}(P \Sigma X)
+					\ar[r]
+				& \cdots
+		\end{tikzcd}
+	\end{equation}
+	where the terms at the left and right are trivial since $C X$ and $P \Sigma X$ are contractible.
+	Moreover, we obtain a commutative triangle
+	\begin{equation*}
+		\begin{tikzcd}[column sep = small]
+			H_*(C X, X)
+					\ar[rr, "s_*"]
+					\ar[dr, swap, "q_*"]
+				& & H_*(P \Sigma X, \Omega \Sigma X)
+					\ar[dl, "p_*"]
+			\\
+				& H_*(\Sigma X, *)
+		\end{tikzcd}
+	\end{equation*}
+	where $q\colon C X \to \Sigma X$ is the quotient map since $q = p \circ s$ holds outright on the level of spaces, so since $\del\colon H_*(CX, X) \xto{\isom} H_{* - 1}(X)$ is the composite
+	\begin{equation*}
+		\begin{tikzcd}
+			\del\colon H_*(CX, X)
+					\ar[r, "q_*"]
+				& H_*(\Sigma X, *)
+					\ar[r, "\sigma^{-1}", "\isom"']
+				& H_{* - 1}(X)
+		\end{tikzcd}
+	\end{equation*}
+	where $\sigma\colon H_*(X) \to H_{* + 1}(\Sigma X)$ is the suspension isomorphism, we conclude that if $p_*$ is an isomorphism then so is $s_*$, and therefore so is $\eta_*$ (by virtue of the middle square in diagram \eqref{diag:pairsequence}).
+
+	What's all of this good for?
+	Recall that in the lecture\footnote{This is a blatant lie because we have only treated transgressions in cohomology. However, it is reasonable to expect that the \enquote{dual} description holds in homology, and the treatment on page 540 and following of Hatcher's Spectral Sequences confirms this.} we have proved that the transgressions in the Serre spectral sequence are (very) roughly given by diagrams of the form
+	\begin{equation}\label{diag:transdef}
+		\begin{tikzcd}
+				& H_n(P \Sigma X, \Omega \Sigma X) 
+					\ar[r, "\del", "\isom"']
+					\ar[d, "p_*"]
+				& H_{n - 1}(\Omega \Sigma X)
+			\\
+			H_n(\Sigma X) 
+					\ar[r, "\isom"]
+					\ar[urr, bend right, swap, "{\text{\textquotedblleft}d^n_{0, n}\text{\textquotedblright}}"]
+				& H_n(\Sigma X, *)
+		\end{tikzcd}
+	\end{equation}
+	up to restricting to a subgroup of the domain, projecting to a quotient of the codomain, and accounting (in a similar fashion) for the map $p_*$ running in the wrong direction, none of which will be relevant to our use case here.
+
+	Assume then that $X$ is $(n - 1)$-connected and consider the homological Serre spectral sequence for the fibre sequence $\Omega \Sigma X \to * \to \Sigma X$.
+	By the Hurewicz theorem, $\Sigma X$ is $n$-connected and $\Omega \Sigma X$ is $(n - 1)$-connected, so the first possibly nontrivial groups on the axes in positive degree are $E^2_{n + 1, 0}$ and $E^2_{0, n}$.
+	We note that since this implies that the first (in the sense of least total degree) possibly non-trivial group off the axes is $E^2_{n + 1, n}$, the differentials $d^{n + 1 + k}\colon H_{n + 1 + k}(\Sigma X) \isom E^{n + 1 + k}_{n + 1 + k, 0} \to E^{n + 1 + k}_{0, n + k} \isom H_{n + k}(\Omega \Sigma X)$ are the only possibly nontrivial ones affecting their domains and codomains for $k = 0, \ldots n - 1$, which by contractibility of the total space implies that they must all be isomorphisms.
+	Back in diagram \eqref{diag:transdef}, this implies that the big arrow is defined outright and an isomorphism, so $p_*$ must be an isomorphism as well.
+	By our previous discussion, this entails that $\eta_*$ is an isomorphism in all degrees up to $2n - 1$.
+	As a statement about the pair\footnote{Here we use that $\eta$ is an embedding. Strictly speaking one does not need this since one could work just as well with a mapping cylinder, but it's nicer this way :)} $(\Omega \Sigma X, X)$ this is to say that $H_k(\Omega \Sigma X, X) = 0$ for all $k < 2n$, so by the relative Hurewicz theorem we have that $\pi_k(\Omega \Sigma X, X) = 0$ for all $k < 2n$ which entails that $\eta_*\colon \pi_k(X) \to \pi_k(\Omega \Sigma X)$ is an isomorphism up to degree $k = 2n - 2$ and surjective for $k = 2n - 1$ as desired (via the long exact sequence of homotopy groups for the given pair).
+\end{solution}
+
+\begin{exercise}
+	Using a partition of unity, show that any vector bundle over a paracompact base space can be given a Euclidean metric.
+\end{exercise}
+\begin{solution}
+	Let $p\colon E \to B$ be an $n$-dimensional $\R$-vector bundle with paracompact base $B$ and cover $B$ by trivialization neighborhoods (i.e. open neighborhoods of points in $B$ over which $p$ is trivializable) $U_i$, $i \in I$ with $I$ some index set.
+	Pick a locally finite refinement $V_j$, $j \in J$ ($J$ some index set) of $\{U_i\}_{i \in I}$ (i.e. $\{V_j\}_{j \in J}$ is a cover of $B$ by open neighborhoods such that each $V_j$ is contained in some $U_i$ and each point of $B$ is contained in but finitely many $V_j$).
+	Finally, pick a partition of unity $\{\varphi_j\colon B \to \R\}_{j \in J}$ subordinate to $\{V_j\}_{j \in J}$ (i.e. the $\varphi_j$ are continuous maps with image $[0, 1]$ such that $\supp \varphi_j \subseteq V_j$ and $\sum_{j \in J} \varphi_j(x) = 1$ for all $x \in B$, with the local finiteness condition of $\{V_j\}_{j \in J}$ ensuring that this sum is finite and therefore defined).
+
+	Let $\mu(x) = x_1^2 + \ldots + x_n^2$ be the standard quadratic form on $\R^n$.
+	For each $j \in J$, let $h_j\colon p^{-1}(V_j) \xto{\isom} V_j \times \R^n$ be a trivialization (since $V_j \subseteq U_i$ for some $i \in I$, such a trivialization exists) and denote by $\mu_j$ the (fibrewise) pullback of $\mu$ along $h_j$ (i.e. $\mu_j(e) = \mu(\pr_{\R^n}(h_j(e)))$ for all $e \in E$).
+	We now piece this together using the $\varphi_j$ to get a metric on all of $E$: namely, define $\mu_E\colon E \to \R$ via $\mu(e) = \sum_{j \in J} \varphi_j(p(e)) \mu_j(e)$.
+	This is well-defined by the definitional properties of partitions of unity, noting in particular that $\supp \varphi_j \subseteq V_j$ (which entails that $\varphi_j|_{\compl{V_j}} = 0$) implies that we can make sense of the expression under the sum even if $\mu_j$ is not defined outside of $V_j$ by simply declaring $\mu_j|_{\compl{V_j}} \coloneq 0$ as well.
+	Being a finite sum of continuous functions at each point, $\mu_E$ is continuous, so the only thing left to show is that it is positive-definite (fibrewise).
+	But this is immediate: each $\mu_j$ is positive-definite (fibrewise), and this certainly does not change after taking a non-negatively weighted sum of them.
+\end{solution}

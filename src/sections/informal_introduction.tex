@@ -1,10 +1,10 @@
 \section{Informal Introduction}\lecture{09.10.23}
 \begin{note}
-	We omit the coefficient group $\Z$ from notation in (co)homology as well as basepoints where they are of no particular relevance in homotopy groups.
+	In this section, we omit the coefficient group $\Z$ from notation in (co)homology as well as basepoints where they are of no particular relevance in homotopy groups.
 \end{note}
 One of the big goals of homotopy theory is to compute
 \[
-	[X, Y]_* = \{\text{basepoint-preserving continuous maps } X \to Y\} / \text{homotopy}
+	[X, Y]_* = \{\text{basepoint-preserving continuous maps } X \to Y\} /\,\text{homotopy}
 \]
 for $X$ and $Y$ pointed CW-complexes.
 CW-complexes are built out of spheres, so the building blocks are the sets
@@ -15,20 +15,19 @@ For $n \geq 1$ these are groups and abelian if $n \geq 2$.
 We know that\textellipsis{}
 \begin{itemize}
 	\item $\pi_n(S^k) = 0$ for $n < k$ by cellular approximation, cf. \cite[Corollary 4.9]{hatcher_algebraic_2002},
-	\item $\pi_n(S^n) \isom \Z$ by the Hurewicz theorem (cf. \cite[Theorem 4.32]{hatcher_algebraic_2002}) and $H_n(S^n) \isom \Z$: 
-		If $X$ is an $(n - 1)$-connected CW-complex ($n > 1$), then there is an isomorphism $\pi_n(X) \xto{\isom} H_n(X)$, 
-	\item $\pi_k(S^1) = 0$ for $k \geq 2$ via covering space theory: The universal cover of $S^1$ is $\R$ which is contractible, 
+	\item $\pi_n(S^n) \isom \Z$ by the Hurewicz theorem (cf. \cite[Theorem 4.32]{hatcher_algebraic_2002} or theorem \ref{thm:hurewicz}) and $H_n(S^n) \isom \Z$, 
+	\item $\pi_k(S^1) = 0$ for $k \geq 2$ via covering space theory since the universal cover of $S^1$ is $\R$ which is contractible, 
 	\item $\pi_3(S^2) \neq 0$ since the attaching map of the 4-cell for $\CP^2$ is a map $\eta\colon S^3 \to S^2 = \CP^1$; if $\eta$ was nullhomotopic, then $\CP^2$ would be homotopy equivalent to $S^2 \vee S^4$ which contradicts the ring structure on $H^*(\CP^2) \isom \Z[x] / x^3$, and that
-	\item The sequence
+	\item the sequence
 		\begin{equation*}
 			\pi_k(S^n) \to \pi_{k + 1}(S^{n + 1}) \to \pi_{k + 2}(S^{n + 2}) \to \cdots
 		\end{equation*}
-		always stabilizes by the \emph{Freudenthal suspension theorem} (see \cite[Corollary 4.24]{hatcher_algebraic_2002}).
+		always stabilizes by the \emph{Freudenthal suspension theorem} (see \cite[Corollary 4.24]{hatcher_algebraic_2002} or theorem \ref{thm:freudenthal}).
 \end{itemize}
 To go beyond this, we will need a new tool, the \emph{Serre spectral sequence}.
 To motivate its usefulness for this question, consider the following strategy:
 There exists a map $f\colon S^2 \to K(\Z, 2)$ which induces an isomorphism $f_*\colon \pi_2(S^2) \xto{\isom} \pi_2(K(\Z, 2)) \isom \Z$.
-We can take its homotopy fibre $H \coloneq \hofib(f_*)$; there is then a fibre sequence $H \to S^2 \xto{f} K(\Z, 2)$ and thus a long exact sequence\footnote{The groups in \textcolor{knowngray}{gray} are assumed known. The groups and properties in \textcolor{col05}{red} follow from those in gray.}
+We can take its homotopy fibre $H \coloneq \hofib f$; there is then a fibre sequence $H \to S^2 \xto{f} K(\Z, 2)$ and thus a long exact sequence\footnote{The groups in \textcolor{knowngray}{gray} are assumed known. The groups and properties in \textcolor{col05}{red} follow from those in gray.}
 \begin{equation*}
 	\begin{tikzpicture}[commutative diagrams/.cd, every diagram, row sep = large]
 		\matrix[matrix of math nodes, name = m, commutative diagrams/every cell] {
@@ -89,17 +88,16 @@ By the Hurewicz theorem, the following diagram commutes:
 				\ar[u, swap, "\isom"]
 	\end{tikzcd}
 \end{equation*}
-If we had a way to compute $H_*(H)$ from $H_*(S^2)$ (the computation of which is easy) and $H_*(K(\Z, 2))$ (which is known), we could compute $\pi_3(S^2)$ this way!
+If we had a way to compute $H_*(H)$ from $H_*(S^2)$ (the computation of which is easy) and $H_*(K(\Z, 2))$ (which is known since $\CP^\infty$ is a $K(\Z, 2)$), we could compute $\pi_3(S^2)$ this way!
 
-\subparagraph{Upshot}
-It would be useful to have a tool which relates the homology groups of the three terms in a fibre sequence.
+The upshot is that it would be useful to have a tool which relates the homology groups of the three terms in a fibre sequence.
 This will also help us to compute $\pi_n(S^k)$ in other ways (for example, we will show that $\pi_n(S^k)$ is finite unless $n = k$ or $n = 2k - 1$ and $k$ is even).
-Furthermore, the Serre spectral sequence will allow us to compute the (co)homology of spaces like $\Uni(n)$, $\SU(n)$, $\Omega S^n$, $K(\Zn{2}, n)$ and (re)prove structural theorems like the Hurewicz theorem, the Freudenthal suspension theorem, Thom isomorphisms, and more.
+Furthermore, the Serre spectral sequence will allow us to compute the (co)homology of spaces like $\Uni(n)$, $\SU(n)$, $\Omega S^n$, $K(\Zn{2}, n)$ and (re)prove structural theorems like the Hurewicz theorem, the Freudenthal suspension theorem, the existence and shape of Thom isomorphisms, and more.
 
 So, given a fibre sequence $F \to Y \to X$, what could the relationship between the homology groups of $F$, $Y$ and $X$ be?
 \begin{example}
 	Consider the easiest case $F \to X \times F \xto{\pr_X} X$ (a \emph{trivial fibration}).
-	Then the Alexander-Whitney map induces an isomorphism $H_n(X \times F; \Z) \xto{\isom} \bigdsum_{p + q = n} H_p(X, H_q(F))$, so it computes the homology of the total space in terms of the homology of $X$ and $F$.
+	Then the Alexander-Whitney map (cf. \cite[Def. 3.19]{davis_lecture_2001}) induces an isomorphism $H_n(X \times F; \Z) \xto{\isom} \bigdsum_{p + q = n} H_p(X; H_q(F))$, so it computes the homology of the total space in terms of the homology of $X$ and $F$.
 \end{example}
 \begin{example}
 	Consider the Hopf fibration $S^1 \to S^3 \xto{\eta} S^2$.
@@ -131,7 +129,7 @@ So, given a fibre sequence $F \to Y \to X$, what could the relationship between 
 			$\vdots$ 	& $\vdots$ \\
 		\end{tabular}
 	\end{equation*}
-	This does not agree with $H_3(S^3; \Z)$ because in the long exact sequence
+	This does not agree with $H_*(S^3; \Z)$ because in the long exact sequence
 	\begin{equation*}
 		\begin{tikzcd}[row sep = large]
 			\cdots 
