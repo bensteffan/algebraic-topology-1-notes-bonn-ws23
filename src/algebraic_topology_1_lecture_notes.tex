@@ -1,6 +1,13 @@
 \documentclass[wip, topology]{bsteffan-lecturenotes}
 
-\usetikzlibrary{math, matrix, patterns, patterns.meta}
+\usetikzlibrary{external, math, matrix, patterns, patterns.meta}
+
+% Set up externalization for TikZ pictures: figures/ is the subdir we want the figures stored in and we only want to externalize picture with an explicit given name.
+% The reasoning behind that is that by default externalization will try to draw in anything using tikz, including tikzcd diagrams (on which it chokes, horribly) and stuff like mdframed environements.
+% Moreover, it is good practice to give explicit names to pictures anyways since otherwise adding a picture somewhere in the middle of the document will mess up the default sequential name ordering TikZ goes with and cause recompilation of all following pictures, which in our case is extremely slow.
+\tikzsetexternalprefix{figures/}
+\tikzset{external/only named = true}
+\tikzexternalize[mode = list and make]
 
 \addbibresource{references.bib}
 

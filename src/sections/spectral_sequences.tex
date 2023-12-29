@@ -2,9 +2,8 @@
 \begin{definition}
 	A (\strong{homologically}\index{spectral sequence!homologically graded}/\strong{Serre graded}\index{spectral sequence!Serre graded}) \strong{spectral sequence}\index{spectral sequence} is a triple $(E^\bullet, d^\bullet, h^\bullet)$ where
 	\begin{itemize}
-		\item $(E^r)_{r \geq 2}$ is a sequence of $\Z$-bigraded abelian groups.
-			We write $E^r_{p, q}$.
-			$E^r$ is called the $r$th \strong{page}\index{page!of a spectral sequence} of the spectral sequence.
+		\item $(E^r)_{r \geq 2}$ is a sequence of $\Z$-bigraded abelian groups which we usually write $E^r_{p, q}$.
+			The entry $E^r$ is called the $r$th \strong{page}\index{page!of a spectral sequence} of the spectral sequence.
 		\item $d^r\colon E^r \to E^r$ is a sequence of morphisms (called \strong{differentials}\index{differential!of a spectral sequence}) of bidegree $(-r, r - 1)$ satisfying $d^r \circ d^r = 0$.
 		\item $h^r\colon H_*(E^r) \to E^{r + 1}$ is a sequence of bigrading-preserving isomorphisms.
 			Here $H_*(E^r)$ denotes the homology of $E^r$ with respect to $d^r$, which inherits a bigrading.
@@ -13,6 +12,7 @@
 \lecture{13.10.23}
 \begin{figure}[ht]
 	\centering
+	\tikzsetnextfilename{specseq_diffstructexpl}
 	\begin{tikzpicture}[
 		pagemember/.style = {
 			fill = white, 
@@ -63,7 +63,7 @@
 				}
 			}
 		\end{scope}
-		\draw[|->, thick] (1.2 * \xmax, 0) --++(0:.2 * \xmax) node[anchor = south, midway, font = \footnotesize] {$H_*({{-}})$};
+		\draw[|->, thick] (1.2 * \xmax, 0) --++(0:.2 * \xmax) node[anchor = south, midway, font = \scriptsize] {$H_*({{-}})$};
 	\end{tikzpicture}
 	\caption{$E^2$- and $E^3$-pages of a homologically graded spectral sequence}
 \end{figure}
@@ -72,6 +72,7 @@
 \end{definition}
 \begin{figure}[ht]
 	\centering
+	\tikzsetnextfilename{specseq_firstquadrant}
 	\begin{tikzpicture}[
 		shaded/.style = {
 			postaction = {
@@ -308,6 +309,7 @@ Before proving the theorem, let us first look at some examples.
 	\end{equation*}
 	The $E^2$-page of its Serre spectral sequence looks like this:
 	\begin{equation*}
+		\tikzsetnextfilename{specseq_hopfserrespec}
 		\begin{tikzpicture}[
 			pagemember/.style = {
 				fill = white, 
@@ -359,6 +361,7 @@ Before proving the theorem, let us first look at some examples.
 	All higher differentials are necessarily trivial for degree reasons.
 	Hence, the $E^\infty$-page looks as follows:
 	\begin{equation*}
+		\tikzsetnextfilename{specseq_hopfserrespec_einfty}
 		\begin{tikzpicture} [
 			pagemember/.style = {
 				fill = white, 
@@ -1066,6 +1069,7 @@ We define a filtration on $H^\bullet(C^*)$ by setting $F^s H^t(C^*) \coloneq \im
 \end{example}
 \begin{figure}[ht]
 	\centering
+	\tikzsetnextfilename{specseq_diagonalexample}
 	\pgfdeclarelayer{background}
 	\pgfsetlayers{background, main}
 	\begin{tikzpicture}[
@@ -1769,6 +1773,7 @@ As a warmup, we reprove the Hurewicz theorem using only the case $\pi_1(X, *)^\a
 	Let $x \in \pi_n(X, *)$ be represented by $f\colon S^n \to X$.
 	We obtain a square
 	\begin{equation*}
+		\tikzsetnextfilename{specseq_commsquare}
 		\begin{tikzpicture}[
 			% setup some helpers to declutter the matrix head below
 			gray column/.style args = {#1}{
@@ -2862,6 +2867,7 @@ for homogeneous $x_i, y_i \in \symcal{A}$ of positive degree.
 	Let $x_2, x_4, x_6 \in H^*(C(g); \F_2)$ denote the generators in the respective degrees.
 	We obtain the following picture on cohomology from the maps $\CP^2 = C(\eta) \incl C(g)$ and $C(g) \to \Sigma^2 \CP^2$:
 	\begin{equation*}
+		\tikzsetnextfilename{specseq_mappingconesteenrodsquares}
 		\begin{tikzpicture}[
 				dot/.style = {
 					shape = circle, 
