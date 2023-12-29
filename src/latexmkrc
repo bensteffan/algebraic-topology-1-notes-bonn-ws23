@@ -5,9 +5,7 @@ $postscript_mode = $dvi_mode = 0;
 @default_files = ('algebraic_topology_1_lecture_notes.tex');
 
 # The following is more or less directly copied from https://tex.stackexchange.com/a/444224
-$figure_dir = 'figures/';
-
-$clean_ext .= sprintf ' %%R.figlist %s/%%R-figure* %%R.makefile fls.tmp', $figure_dir;
+$clean_ext .= ' %%R.figlist %%R.makefile fls.tmp';
 $latex    = 'internal tikzlatex latex    %B %O %S';
 $pdflatex = 'internal tikzlatex pdflatex %B %O %S';
 $lualatex = 'internal tikzlatex lualatex %B %O %S';

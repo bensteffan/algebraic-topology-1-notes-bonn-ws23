@@ -9,6 +9,9 @@
 \tikzset{external/only named = true}
 \tikzexternalize[mode = list and make]
 
+\AtBeginEnvironment{tikzcd}{\tikzexternaldisable}
+\AtEndEnvironment{tikzcd}{\tikzexternalenable}
+
 \addbibresource{references.bib}
 
 \colorlet{knowngray}{darkgray!80}
