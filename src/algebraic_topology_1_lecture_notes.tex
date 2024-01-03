@@ -66,7 +66,45 @@
 	axis/.style = {
 		thick,
 		->,
-		font = \footnotesize
+		line cap = round,
+		font = \footnotesize,
+	},
+	differential/.style = {
+		commutative diagrams/every arrow,
+		thick,
+		% things look better if the gaps are ever so slightly less
+		shorten <= -.5pt,
+		shorten >= -.5pt,
+		preaction = {
+			draw = white,
+			arrows = -, 
+			line width = 0.5ex,
+		},
+	},
+	page label/.style = {
+		draw = none,
+		fill = white,
+		inner sep = 1pt,
+		outer sep = 0pt,
+		anchor = north east,
+		font = \footnotesize,
+		% source for this code (idea): https://tex.stackexchange.com/a/76461
+		append after command = {%
+			\pgfextra{%
+				\begin{pgfinterruptpath}
+					\draw[line width = 0.7pt] (\tikzlastnode.north west) |- (\tikzlastnode.south east);
+				\end{pgfinterruptpath}
+			}
+		}
+	},
+	zero region/.style = {
+		draw = none,
+		pattern = {
+			Lines[
+				angle = 45,
+				distance = 3pt,
+			],
+		},
 	},
 }
 
@@ -84,6 +122,8 @@
     },
 	column sep/smallish/.initial = +1.9em,
 }
+
+\pgfdeclarelayer{background}
 
 \hyphenation{mo-du-lo}
 \hyphenation{mor-phism}

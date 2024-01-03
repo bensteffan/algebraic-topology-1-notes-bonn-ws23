@@ -20,7 +20,6 @@
 			inner sep = 0.5pt
 		}]
 		\def\xmin{-3}
-		
 		\def\xmax{3}
 		\def\ymin{-3}
 		\def\ymax{3}
@@ -84,19 +83,15 @@
 		}]
 		\draw[spectral sequence/axis] (-3, 0) -- (3, 0) node[below] {$p$};
 		\draw[spectral sequence/axis] (0, -3) -- (0, 3) node[left] {$q$};
-		\begin{scope}[anchor = center, text centered, font = \huge]
-			\node at (1.5, -1.5) {$0$};
-			\node at (-1.5, 1.5) {$0$};
-			\node at (-1.5, -1.5) {$0$};
-		\end{scope}
-		\path[shaded] (0, 0) rectangle (2.87, 2.87);
-		\node[draw = none, fill = white, inner sep = 2pt, outer sep = 0] at (2.75, 2.75) {$E^2_{p, q}$};
+
+		\path[shaded] (0, 0) -- (0, 2.87) -- (-2.87, 2.87) -- (-2.87, -2.87) -- (2.87, -2.87) -- (2.87, 0) -- cycle;
+		\node[draw = none, fill = white, inner sep = 2pt, outer sep = 0] at (2.7, 2.7) {$E^2_{p, q}$};
 	\end{tikzpicture}
-	\caption{A first-quadrant spectral sequence. All potentially nontrivial groups live in the shaded quadrant.}
+	\caption{A first-quadrant spectral sequence. All potentially nontrivial groups live in the unshaded quadrant.}
 \end{figure}
 \begin{lemma}
 	For a first quadrant spectral sequence $(E^\bullet, d^\bullet, h^\bullet)$ we have $E^r_{p, q} = 0$ if $p < 0$ or $q < 0$ for all $r \geq 2$.
-	Moreover, for a given $(p, q) \in \Z \times \Z$ the map $h$ induces an isomorphism for all $r > r_0 \coloneq \max(p, q + 1)$, i.e. the groups $E^r_{p, q}$ stabilize as $r \to \infty$.
+	Moreover, for a given pair $(p, q) \in \Z \times \Z$ the map $h$ induces an isomorphism for all $r > r_0 \coloneq \max(p, q + 1)$, i.e. the groups $E^r_{p, q}$ stabilize as $r \to \infty$.
 \end{lemma}
 \begin{proof}
 	The first statement follows immediately from the existence of $h^\bullet$ by induction on $r$.
@@ -122,19 +117,62 @@ Notationally, if $(H, F)$ is a filtered object in abelian groups, we write $F^n_
 	\begin{equation*}
 		E^\infty_{p, q} \isom F^p_{p + q} / F^{p - 1}_{p + q}
 	\end{equation*}
-	for all values of $p$ and $q$ and moreover $F^p_n = H_n$ if $p \geq n$.
+	for all values of $p$ and $q$, and $F^p_n = H_n$ if $p \geq n$.
 	In this case, we write $E^2_{p, q} \Rightarrow H$.
 \end{definition}
+\begin{figure}[ht]
+	\centering
+	\tikzsetnextfilename{specseq_convergence}
+	\begin{tikzpicture}[
+			dot/.style = {
+				draw,
+				fill, 
+				circle,
+				inner sep = 1pt,
+			},
+			pin distance = 1em,
+			every pin/.style = {
+				font = \footnotesize,
+			},
+			every label/.style = {
+				font = \footnotesize,
+			},
+		]
+		\def\maxextent{4}
+
+		\coordinate (Origin) at (0, 0);
+		\coordinate (Bottom Right) at (\maxextent, 0);
+		\coordinate (Top Left) at (0, \maxextent);
+		\coordinate (Y Midway) at ($(Origin)!0.5!(Top Left)$);
+		\coordinate (X Midway) at ($(Origin)!0.5!(Bottom Right)$);
+
+		\draw[spectral sequence/axis] (Origin) -- (Bottom Right) node[below] {$p$};
+		\draw[spectral sequence/axis] (Origin) -- (Top Left) node[left] {$q$};
+
+		\draw[line width = 0.6pt] (Y Midway) -- (X Midway);
+
+		\node[dot, pin = below left:{$F_0^0 = H_0$}] at (Origin) {};
+		\node[dot, "$n$" left, pin = 65:$F_n^0$] at (Y Midway) {};
+		\node[dot, pin = 50:$F_n^1 / F_n^0$] at ($(Y Midway)!0.15!(X Midway)$) {};
+		\node[dot, pin = 25:$F_n^2 / F_n^1$] at ($(Y Midway)!0.30!(X Midway)$) {};
+		\node[inner sep = 0.1pt, circle, fill = white, font = \scriptsize] at ($(Y Midway)!0.45!(X Midway)$) {$\ddots$};
+		\node[dot, "$n$" below, pin = above right:{$\overbrace{F_n^n}^{= H_n} / F_n^{n - 1}$}] at (X Midway) {};
+
+		\node[inner sep = 1pt, font = \footnotesize] (Label Node) at (3.5, 3.5) {$E_{p, q}^\infty$};
+		\draw[line width = 0.7pt] (Label Node.north west) -- (Label Node.south west) -- (Label Node.south east);
+	\end{tikzpicture}
+	\caption{Convergence of a first-quadrant spectral sequence.}
+\end{figure}
 \begin{remark}
 	\leavevmode
 	\begin{itemize}
-		\item Convergence is really a \emph{datum} of the isomorphism $E^\infty_{p, q} \isom F^p_{p + q} / F^{p - 1}_{p + q}$ and not a property.
+		\item Convergence is really a \emph{datum} of isomorphism $E^\infty_{p, q} \isom F^p_{p + q} / F^{p - 1}_{p + q}$ and not a property.
 		\item Convergent spectral sequences are often simply encoded as $E^2_{p, q} \Rightarrow H$, but this suppresses not only this data but also the higher pages, the differentials, and the filtration on $H$!
 	\end{itemize}
 \end{remark}
 
 \subsection{Fibre Sequences}
-In order to be able to move onto the definition of the Serre spectral sequence for fibre sequences, let us define exactly what we mean by \enquote{fibre sequence}.
+In order to be able to move onto the definition of the Serre spectral sequence for fibre sequences, let us define exactly what we mean by \enquote{fibre sequence.}
 \begin{definition}
 	Let $f\colon X \to Y$ be a map of spaces and $x \in X$ a point.
 	The \strong{homotopy fibre}\index{homotopy fibre} $\hofib_x(f)$ of $f$ at $x$ is the space
@@ -159,7 +197,7 @@ In order to be able to move onto the definition of the Serre spectral sequence f
 		\end{tikzcd}
 	\end{equation*}
 \end{definition}
-In words, $\hofib_x(f)$ is the space of pairs $(\gamma, y)$ where $y \in Y$ is a points and $\gamma$ is a path from $f(y)$ to $x$.
+In words, $\hofib_x(f)$ is the space of pairs $(\gamma, y)$ where $y \in Y$ is a point and $\gamma$ is a path from $f(y)$ to $x$.
 We note that $P_x X$ is contractible via the homotopy
 \begin{align*}
 	H\colon P_x X \times I &\to P_x X \\
@@ -203,16 +241,15 @@ Given $(F \xto{i} Y \xto{f} X)$, there is a commutative diagram
 			& X
 	\end{tikzcd}
 \end{equation*}
-and \enquote{equivalence of fibre sequences}.
+an \enquote{equivalence of fibre sequences}.
 In particular, $\Omega X \to * \to X$ is a fibre sequence where $h\colon \Omega X \times I \to X$ is the evaluation map.
 
-\strong{Warning:} If one instead chooses $h$ to be the constant homotopy, one does not obtain a fibre sequence (unless $X$ is weakly contractible) just because the induced map $\Omega X \to \hofib_x(f) = \Omega X$ is the constant map which is not a weak homotopy equivalence.
+\strong{Warning:} If one instead chooses $h$ to be the constant homotopy, one does not obtain a fibre sequence (unless $X$ is weakly contractible) because the induced map $\Omega X \to \hofib_x(f) = \Omega X$ is the constant map which is in general not a weak homotopy equivalence.
 Hence, the choice of $h$ is important!
 
-% TODO starred
-\begin{example}[continuation of example \ref{expl:fibresequences}]
+\begin{continueexample}{expl:fibresequences}
 	\leavevmode
-	\begin{enumerate}[resume]
+	\begin{enumerate}[start = 2]
 		\item For every two spaces $F$ and $X$ and all basepoints $x \in X$, the pair $(F \to F \times X \xto{\pr_X} X, \const)$ is a fibre sequence called the \strong{trivial fibre sequence}\index{trivial fibre sequence}.
 			To see this, note that
 			\begin{equation*}
@@ -272,17 +309,17 @@ Hence, the choice of $h$ is important!
 				\end{tikzcd}
 			\end{equation*}
 	\end{enumerate}
-\end{example}
+\end{continueexample}
 
 \subsection{The Serre Spectral Sequence}\lecture{16.10.23}
-We are now ready to show the existence of the Serre spectral sequence:
+We are now ready to state the existence of the Serre spectral sequence:
 \begin{theorem}[Serre]\index{Serre spectral sequence}
 	For every fibre sequence $(F \to Y \to X, h)$ with $X$ simply connected and abelian group $A$ there exists a first quadrant spectral sequence of the form
 	\begin{equation}\label{s3:defn}
 		E^2_{p, q} = H_p(X; H_q(F; A)) \Rightarrow H_{p + q}(Y; A)
 	\end{equation}
 \end{theorem}
-The expression in \ref{s3:defn} does not include information about the differentials and higher pages, nor about the filtration on $H_*(Y; A)$ and the identification of its subquotients with the $E^\infty$-page.
+The expression in \eqref{s3:defn} does not include information about the differentials and higher pages, nor about the filtration on $H_*(Y; A)$ and the identification of its subquotients with the $E^\infty$-page.
 
 % TODO understand this
 One edge case is easy to state:
@@ -293,14 +330,14 @@ The map
 agrees with the factorization
 \begin{equation*}
 	\begin{tikzcd}
-		H_n(X; A) 
+		H_n(F; A) 
 				\ar[r, two heads]
-				\ar[rr, bend right, swap, "H_n(c; A)"]
-			& \img
+			& \img \iota_*
 				\ar[r, hook]
 			& H_n(Y; A)
 	\end{tikzcd}
 \end{equation*}
+with $\iota\colon F \incl Y$ the fibre inclusion.
 
 Before proving the theorem, let us first look at some examples.
 \begin{example}\index{Hopf fibration}
@@ -308,54 +345,41 @@ Before proving the theorem, let us first look at some examples.
 	\begin{equation*}
 		S^1 \incl S^3 \xto{\eta} S^2
 	\end{equation*}
-	The $E^2$-page of its Serre spectral sequence looks like this:
+	The $E^2$-page of its associated Serre spectral sequence looks like this:
 	\begin{equation*}
+		\pgfsetlayers{background,main}
 		\tikzsetnextfilename{specseq_hopfserrespec}
-		\begin{tikzpicture}[
-			pagemember/.style = {
-				fill = white, 
-				font = \scriptsize, 
-				inner sep = 0.5pt
-			},
-			big zero/.style = {
-				anchor = center,
-				text centered,
-				font = \Large
-			}]
+		\begin{tikzpicture}
 			\matrix[
-				matrix of math nodes, 
+				spectral sequence/page,
 				name = m, 
-				nodes in empty cells, 
-				nodes = {outer sep = 0ex},
 				column sep = {4ex, between origins},
-				row sep = 0.5ex,
-				column 1/.style = {anchor = base east, font = \scriptsize}, 
 				row 3/.style = {font = \scriptsize}] {
 					1 &[-1.9ex] A & 0 & A \\
 					0 & A & 0 & A \\
 					& 0 & 1 & 2 \\
 			};
+
 			\draw[spectral sequence/axis] (m-2-2.south west) -- (m-1-2.north west) -- ++(0, 1.5) node[left] (q) {$q$};
 			\draw[spectral sequence/axis] (m-2-2.south west) -- (m-2-4.south east) -- ++(1.5, 0) node[below] (p) {$p$};
-			% need to compute a bunch of helper coordinates to position the big 0s
-			\coordinate (a) at ($(m-1-2.north west)!.5!(q)$); % roughly the midpoint of part of the y-axis "above" the matrix
-			\coordinate (b) at (m-1-3 |- a); % point at that midpoint's height centered above the "middle" top row matrix entry
-			\node[big zero] (leftzero) at (b) {$0$};
 
-			\coordinate (c) at ($(m-1-4.center)!.5!(m-2-4.center)$); % midpoint between the first two matrix entries in the rightmost column
-			\coordinate (d) at ($(m-2-4.south east)!.5!(p)$); % rough midpoint of the x-axis segment "after" the matrix raised
-			\coordinate (e) at (d |- c); % d raised to the height of c
-			\node[big zero] (rightzero) at (e) {$0$};
+			\coordinate (Top Right) at (p |- q);
 
-			\node[big zero] (toprightzero) at (rightzero |- leftzero) {$0$};
+			\coordinate (Slightly Left of p) at ($(p) - (0.14, 0)$);
+			\coordinate (Slightly Below q) at ($(q) - (0, 0.14)$);
 
-			\coordinate (topright) at (p |- q); % the very top right
-			\node[draw, fill = white, inner sep = 2pt, outer sep = 0, font = \footnotesize] at ($(topright) + (-0.15, -0.15)$) {$E^2_{p, q}$}; % label
+			\begin{pgfonlayer}{background}
+				% instead of figuring out a difficult path around the page content, we simply shade the whole page, then paint the background behind the page content white
+				\draw[spectral sequence/zero region] (m-2-2.south west) rectangle (Slightly Left of p |- Slightly Below q); 
+				\fill[white] (m-2-2.south west) rectangle (m-1-4.north east);
+			\end{pgfonlayer}
 
-			\draw[commutative diagrams/every arrow, thick, preaction = {draw = white, arrows = -, line width = 0.5ex}] (m-2-4) -- (m-1-2); % differential
+			\node[spectral sequence/page label] at ($(Top Right) - (0.3, 0.3)$) {$E^2_{p, q}$};
+
+			\draw[spectral sequence/differential] (m-2-4) -- (m-1-2); % differential
 		\end{tikzpicture}
 	\end{equation*}
-	There is only one potentially non-trivial $d^2$-differential, namely
+	There is only one potentially non-zero $d^2$-differential, namely
 	\begin{equation*}
 		d^2\colon E^2_{2, 0} \to E^2_{0, 1}
 	\end{equation*}
@@ -363,58 +387,40 @@ Before proving the theorem, let us first look at some examples.
 	Hence, the $E^\infty$-page looks as follows:
 	\begin{equation*}
 		\tikzsetnextfilename{specseq_hopfserrespec_einfty}
-		\begin{tikzpicture} [
-			pagemember/.style = {
-				fill = white, 
-				font = \scriptsize, 
-				inner sep = 0.5pt
-			},
-			big zero/.style = {
-				anchor = center,
-				text centered,
-				font = \Large
-			}]
+		\pgfsetlayers{background,main}
+		\begin{tikzpicture} 
 			\matrix[
-				matrix of math nodes, 
+				spectral sequence/page,
 				name = m, 
-				nodes in empty cells, 
-				nodes = {outer sep = 0ex},
-				column sep = {5.5ex, between origins},
-				row sep = 0.5ex,
-				font = \footnotesize,
-				column 1/.style = {anchor = base east, font = \scriptsize}, 
+				column sep = {2.5em, between origins},
 				row 3/.style = {font = \scriptsize}] {
-					1 &[-1.9ex] \coker d^2 & 0 & A \\
+					1 &[-0.8ex] \coker d^2 & 0 & A \\
 					0 & A & 0 & \ker d^2 \\
 					& 0 & 1 & 2 \\
 			};
-			\coordinate (help1) at (m-1-2.west |- m-2-2.south west);
-			\draw[spectral sequence/axis] (help1) -- (m-1-2.north west) -- ++(0, 1.5) node[left] (q) {$q$};
-			\draw[spectral sequence/axis] (help1) -- (m-2-4.south east) -- ++(1.5, 0) node[below] (p) {$p$};
-			% need to compute a bunch of helper coordinates to position the big 0s
-			\coordinate (a) at ($(m-1-2.north west)!.5!(q)$); % roughly the midpoint of part of the y-axis "above" the matrix
-			\coordinate (b) at (m-1-3 |- a); % point at that midpoint's height centered above the "middle" top row matrix entry
-			\node[big zero] (leftzero) at (b) {$0$};
 
-			\coordinate (c) at ($(m-1-4.center)!.5!(m-2-4.center)$); % midpoint between the first two matrix entries in the rightmost column
-			\coordinate (d) at ($(m-2-4.south east)!.5!(p)$); % rough midpoint of the x-axis segment "after" the matrix raised
-			\coordinate (e) at (d |- c); % d raised to the height of c
-			\node[big zero] (rightzero) at (e) {$0$};
+			% since (m-1-2.west) (the $coker d^2$-cell) sticks farther out to the left than (m-2-2.south west), we need to do an intersection to get the real "origin" of the system 
+			\coordinate (Origin) at (m-1-2.west |- m-2-2.south west);
 
-			\node[big zero] (toprightzero) at (rightzero |- leftzero) {$0$};
+			\draw[spectral sequence/axis] (Origin) -- (m-1-2.north west) -- ++(0, 1.5) node[left] (q) {$q$};
+			\draw[spectral sequence/axis] (Origin) -- (m-2-4.south east) -- ++(1.5, 0) node[below] (p) {$p$};
 
-			\coordinate (topright) at (p |- q); % the very top right
-			\node[draw, fill = white, inner sep = 2pt, outer sep = 0, font = \footnotesize] at ($(topright) + (-0.15, -0.15)$) {$E^\infty_{p, q}$}; % label
+			\coordinate (Top Right) at (p |- q);
+
+			\coordinate (Slightly Left of p) at ($(p) - (0.14, 0)$);
+			\coordinate (Slightly Below q) at ($(q) - (0, 0.14)$);
+
+			\begin{pgfonlayer}{background}
+				\draw[spectral sequence/zero region] (Origin) rectangle (Slightly Left of p |- Slightly Below q); 
+				\fill[white] (Origin) rectangle (m-1-4.north -| m-2-4.east);
+			\end{pgfonlayer}
+
+			\node[spectral sequence/page label] at ($(Top Right) - (0.3, 0.3)$) {$E^\infty_{p, q}$};
 		\end{tikzpicture}
 	\end{equation*}
 	We know that $H_n(S^3; A) \isom A$ if $n = 0, 3$ and 0 else, so from the $E^\infty$-page we obtain that $H_0(S^3; A) \isom A$, $H_1(S^3; A) \isom \coker d^2$, $H_2(S^3; A) \isom \ker d^2$, and $H_3(S^3; A) \isom A$. 
 	Thus, $d^2\colon E^2_{2, 0} \to E^2_{0, 1}$ must be an isomorphism.
 \end{example}
-\begin{figure}[ht]
-	\centering
-	\caption{The $E^2$-page $E^2_{p, q} = H_p(S^2; H_q(S^1; A))$ of the Serre spectral sequence for the Hopf fibration $S^1 \incl S^3 \xto{\eta} S^2$.}
-	\label{fig:hopffibhomspecseq}
-\end{figure}
 
 \begin{lemma}
 	There is a fibre bundle
@@ -443,27 +449,104 @@ Before proving the theorem, let us first look at some examples.
 	As $\Uni(n) / \Uni(n - 1)$ is quasi-compact and $S^{2n - 1}$ is Hausdorff, this map is a homeomorphism.
 	Finally, we use the fact that for a smooth free action of a compact Lie group $G$ on a manifold $M$, the map $M \to M / G$ is always a fibre bundle (in fact a $G$-principal bundle) see \cite[Problem 21-6]{lee_introduction_2012}.
 \end{proof}
-\begin{example}
-	We consider the case $n = 2$, i.e. the fibre sequence $S^1 \isom \Uni(1) \to \Uni(2) \to S^3$.
-	Our goal is to compute the homology of $\Uni(2)$ via the Serre spectral sequence.
+\begin{example}\label{expl:homology_uni_2}
+	We consider the case $n = 2$, i.e. the fibre sequence 
+	\begin{equation*}
+		S^1 \isom \Uni(1) \to \Uni(2) \to S^3
+	\end{equation*}
+	Our goal is to compute the homology of $\Uni(2)$ via the Serre spectral sequence, whose $E^2$-page looks as follows:
+	\begin{center}
+		\pgfsetlayers{background,main}
+		\tikzsetnextfilename{specseq_uni_1_2_seq}
+		\begin{tikzpicture}
+			\matrix[
+				spectral sequence/page,
+				name = m, 
+				column sep = {3ex, between origins},
+				row 3/.style = {font = \scriptsize}
+				] {
+					1 &[-1ex] \Z 	& 0 & 0 & \Z \\
+					0 & \Z 			& 0 & 0 & \Z \\
+					& 0 			& 1 & 2 & 3  \\
+			};
+
+			\draw[spectral sequence/axis] (m-2-2.south west) -- (m-1-2.north west) -- ++(0, 1.5) node[left] (q) {$q$};
+			\draw[spectral sequence/axis] (m-2-2.south west) -- (m-2-5.south east) -- ++(1.5, 0) node[below] (p) {$p$};
+
+			\coordinate (Top Right) at (p |- q);
+
+			\coordinate (Slightly Left of p) at ($(p) - (0.14, 0)$);
+			\coordinate (Slightly Below q) at ($(q) - (0, 0.14)$);
+
+			\begin{pgfonlayer}{background}
+				% instead of figuring out a difficult path around the page content, we simply shade the whole page, then paint the background behind the page content white
+				\draw[spectral sequence/zero region] (m-2-2.south west) rectangle (Slightly Left of p |- Slightly Below q); 
+				\fill[white] (m-2-2.south west) rectangle (m-1-5.north east);
+			\end{pgfonlayer}
+
+			\node[spectral sequence/page label] at ($(Top Right) - (0.3, 0.3)$) {$E^2_{p, q}$};
+		\end{tikzpicture} \\
+		$E^2_{p, q} = H_p(S^3; H_q(\Uni(1); \Z))$
+	\end{center}
 	All differentials on all pages have to be trivial for degree reasons.
 	Hence the $E^\infty$-page equals the $E^2$-page.
-	Moreover, every antidiagonal has at most one non-trivial term, so we can read off
+	Moreover, every antidiagonal has at most one non-trivial term, so we can read off that
 	\begin{equation*}
 		H_n(\Uni(2); \Z) \isom \begin{cases}
 			\Z & n = 0, 1, 3, 4 \\
 			0  & \text{else}
 		\end{cases}
 	\end{equation*}
-	In fact, one can show that $\Uni(2)$ is in fact homeomorphic to $S^3 \times \Uni(1)$, so this statement could also be derived from the Künneth theorem.
+	In fact, one can show that $\Uni(2)$ is homeomorphic to $S^3 \times \Uni(1)$, so this result could also be derived from the Künneth theorem.
 \end{example}
-\begin{example}
-	Next, we consider the fibre sequence $\Uni(2) \to \Uni(3) \to S^5$.
+\begin{example}\label{expl:homology_uni_3}
+	Next, we consider the fibre sequence 
+	\begin{equation*}
+		\Uni(2) \to \Uni(3) \to S^5
+	\end{equation*}
+	which has Serre spectral sequence $E^2$-page of the form
+	\begin{center}
+		\pgfsetlayers{background,main}
+		\tikzsetnextfilename{specseq_uni_2_3_seq}
+		\begin{tikzpicture}
+			\matrix[
+				spectral sequence/page,
+				name = m, 
+				column sep = {2ex, between origins},
+				row 6/.style = {font = \scriptsize}] {
+					4 &[-0.7ex] \Z & & & & & \Z \\
+					3 & \Z & & & & & \Z \\
+					2 & 0 & & & & & 0 \\
+					1 & \Z & & & & & \Z \\
+					0 & \Z & & & & & \Z \\
+					& 0 & 1 & 2 & 3 & 4 & 5 \\
+			};
+
+			\draw[spectral sequence/axis] (m-5-2.south west) -- (m-1-2.north west) -- ++(0, 1) node[left] (q) {$q$};
+			\draw[spectral sequence/axis] (m-5-2.south west) -- (m-5-7.south east) -- ++(1.5, 0) node[below] (p) {$p$};
+
+			\coordinate (Top Right) at (p |- q);
+
+			\coordinate (Slightly Left of p) at ($(p) - (0.14, 0)$);
+			\coordinate (Slightly Below q) at ($(q) - (0, 0.14)$);
+
+			\begin{pgfonlayer}{background}
+				\draw[spectral sequence/zero region] (m-5-2.south west) rectangle (Slightly Left of p |- Slightly Below q); 
+				\fill[white] (m-5-2.south west) rectangle (m-1-2.north east);
+				\fill[white] (m-5-7.south west) rectangle (m-1-7.north east);
+			\end{pgfonlayer}
+
+			\node[spectral sequence/page label] at ($(Top Right) - (0.3, 0.3)$) {$E^2_{p, q}$};
+
+			\draw[spectral sequence/differential] (m-5-7) -- node[commutative diagrams/every label, inner sep = 1pt, fill = white, swap] {$d^5$} (m-1-2);
+		\end{tikzpicture} \\
+		$E^2_{p, q} = H_p(S^5; H_q(\Uni(2); \Z))$
+	\end{center}
 	The first potentially non-trivial differential is a $d^5$, the map
 	\begin{equation*}
 		d^5\colon \underbrace{E^5_{5, 0}}_{\isom \Z} \to \underbrace{E^5_{0, 4}}_{\isom \Z}
 	\end{equation*}
-	At this point, we cannot decide what the differential is (at least not without resorting to tools like Poincaré duality).
+	At this point, we cannot decide what this differential is (at least not without resorting to tools like Poincaré duality).
 	All higher differentials are again trivial for degree reasons and all filtrations collapse to at most one entry, so we obtain
 	\begin{equation*}
 		H_n(\Uni(3); \Z) \isom \begin{cases}
@@ -476,8 +559,55 @@ Before proving the theorem, let us first look at some examples.
 	This example illustrates a typical situation, namely that one can often not fully determine all differentials but still deduce a lot of information.
 	We will soon see that $d^5 = 0$ and hence $H_4(\Uni(3); \Z) \isom H_5(\Uni(3); \Z) \isom \Z$.
 \end{example}
-\begin{example}
-	We consider $\Uni(3) \to \Uni(4) \to S^7$.
+\begin{example}\label{expl:homology_uni_4}
+	We consider 
+	\begin{equation*}
+		\Uni(3) \to \Uni(4) \to S^7
+	\end{equation*}
+	and its associated Serre spectral sequence which has $E^2$-page
+	\begin{center}
+		\pgfsetlayers{background,main}
+		\tikzsetnextfilename{specseq_uni_3_4_seq}
+		\begin{tikzpicture}
+			\matrix[
+				spectral sequence/page,
+				name = m, 
+				column sep = {2ex, between origins},
+				row 11/.style = {font = \scriptsize}] {
+					9 &[-0.6ex] \Z & & & & & & & \Z \\
+					8 & \Z & & & & & & & \Z \\
+					7 & 0 & & & & & & & 0 \\
+					6 & \Z & & & & & & & \Z \\
+					5 & ? & & & & & & & ? \\
+					4 & ? & & & & & & & ? \\
+					3 & \Z & & & & & & & \Z \\
+					2 & 0 & & & & & & & 0 \\
+					1 & \Z & & & & & & & \Z \\
+					0 & \Z & & & & & & & \Z \\
+					& 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 \\
+			};
+
+			\draw[spectral sequence/axis] (m-10-2.south west) -- (m-1-2.north west) -- ++(0, .8) node[left] (q) {$q$};
+			\draw[spectral sequence/axis] (m-10-2.south west) -- (m-10-9.south east) -- ++(1.5, 0) node[below] (p) {$p$};
+
+			\coordinate (Top Right) at (p |- q);
+
+			\coordinate (Slightly Left of p) at ($(p) - (0.14, 0)$);
+			\coordinate (Slightly Below q) at ($(q) - (0, 0.14)$);
+
+			\begin{pgfonlayer}{background}
+				\draw[spectral sequence/zero region] (m-10-2.south west) rectangle (Slightly Left of p |- Slightly Below q); 
+				\fill[white] (m-10-2.south west) rectangle (m-1-2.north east);
+				\fill[white] (m-10-9.south west) rectangle (m-1-9.north east);
+			\end{pgfonlayer}
+
+			\node[spectral sequence/page label] at ($(Top Right) - (0.3, 0.3)$) {$E^2_{p, q}$};
+
+			\draw[spectral sequence/differential] (m-10-9) -- node[commutative diagrams/every label, inner sep = 1pt, fill = white, swap] {$d^7$} (m-4-2);
+			\draw[spectral sequence/differential] (m-7-9) -- node[commutative diagrams/every label, inner sep = 1pt, fill = white, swap] {$d^7$} (m-1-2);
+		\end{tikzpicture} \\
+		$E^2_{p, q} = H_p(S^7; H_q(\Uni(3); \Z))$
+	\end{center}
 	The only possible non-trivial differentials are
 	\begin{align*}
 		d^7\colon E^7_{7, 0} &\to E^7_{0, 6} \\
@@ -502,23 +632,115 @@ Before proving the theorem, let us first look at some examples.
 
 In the previous examples we used the Serre spectral sequence to compute the homology of the total space of the fibre sequence.
 We now show that it can be used to compute the homology of the basespace or fibre.
-\begin{example}
-	We consider the fibre sequence $S^1 \to S^{2n + 1} \to \CP^n$ for $n \geq 2$.
+\begin{example}\label{expl:homology_cp_n}
+	We consider the fibre sequence 
+	\begin{equation*}
+		S^1 \to S^{2n + 1} \to \CP^n
+	\end{equation*}
+	for $n \geq 2$.
 	Let us pretend that we do not know $H_*(\CP^n)$.
+	The only thing we can say about the $E^2$-page of the associated Serre spectral sequence a priori is then that its bottom-left corner looks as follows:
+	\begin{center}
+		\tikzsetnextfilename{specseq_cpn_initial}
+		\begin{tikzpicture}
+			\matrix[
+				spectral sequence/page,
+				name = m, 
+				column sep = {2.5ex, between origins},
+				row 3/.style = {font = \scriptsize}] {
+					1 &[-0.7ex]\Z & ? & ? & \cdots \\
+					0 & \Z & ? & ? & \cdots \\
+					& 0 & 1 & 2 & \ldots \\
+			};
+
+			\draw[spectral sequence/axis] (m-2-2.south west) -- (m-1-2.north west) -- ++(0, 1) node[left] (q) {$q$};
+			\draw[spectral sequence/axis] (m-2-2.south west) -- (m-2-5.south east) -- ++(1, 0) node[below] (p) {$p$};
+
+			\coordinate (Top Right) at (p |- q);
+
+			\coordinate (Slightly Left of p) at ($(p) - (0.12, 0)$);
+			\coordinate (Slightly Below q) at ($(q) - (0, 0.14)$);
+
+			\draw[spectral sequence/zero region] (m-1-2.north west) rectangle (Slightly Left of p |- Slightly Below q); 
+
+			\node[spectral sequence/page label] at ($(Top Right) - (0.3, 0.3)$) {$E^2_{p, q}$};
+		\end{tikzpicture} \\ 
+		$E^2_{p, q} = H_p(\CP^n; H_q(S^1; \Z))$
+	\end{center}
 	Since $H_1(S^{2n + 1}; \Z) = 0$, there must be a surjective $d^2$-differential $d^2\colon E^2_{2, 0} \to E^2_{0, 1}$.
 	As $H_2(S^{2n + 1}; \Z) = 0$, this differential must be injective, so $\Z \isom E^2_{2, 0} = H_2(\CP^n; H_0(S^1; \Z)) = H_2(\CP^n; \Z)$.
 	Furthermore, we see that $H_1(\CP^n; \Z) = E^2_{1, 0} = 0$.
 	This implies that $E^2_{1, 1} = H_1(\CP^n; H_1(S^1; \Z)) = 0$ and $E^2_{2, 1} = H_2(\CP^n; H_1(S^1; \Z)) \isom \Z$ as $H_1(S^1; \Z) \isom \Z$.
-	Since we also have $H_3(S^{2n + 1}; \Z) = 0$, we can repeat the same argument to deduce that $d^2\colon E^2_{4, 0} = H_4(\CP^n; H_0(S^1; \Z)) \to E^2_{2, 2} \isom \Z$ must be an isomorphism, hence $H_4(\CP^n; \Z) \isom \Z$.
-	This can be iterated until we get the following picture: % TODO
-	Since $H_{2n + 1}(S^{2n + 1}; \Z) \isom \Z$, we cannot conclude that the $\Z$ in bidegree $(2n, 1)$ must be the image of a differential.
+	Since we also have $H_3(S^{2n + 1}; \Z) = 0$, the same argument to deduce that $d^2\colon E^2_{4, 0} = H_4(\CP^n; H_0(S^1; \Z)) \to E^2_{2, 2} \isom \Z$ must be an isomorphism, hence $H_4(\CP^n; \Z) \isom \Z$.
+	This can be iterated until we get the following picture:
+	\begin{center}
+		\tikzsetnextfilename{specseq_cpn_intermediate}
+		\begin{tikzpicture}
+			\matrix[
+				spectral sequence/page,
+				name = m, 
+				column sep = {2.5em, between origins},
+				row 3/.style = {font = \scriptsize}] {
+					1 &[-1.8em]\Z 	& 0 	& \Z 	& 0		& \cdots	  	& \textcolor{highlightcol}{\Z} & 0 		& ? 		& \cdots\\
+					0 & \Z 			& 0 	& \Z 	& 0		& \cdots	 	& \Z & 0 		& ? 		& \cdots \\
+					& 0 			& 1 	& 2 	& 3 	& \cdots 	 	& 2n & 2n + 1 	& 2n + 2 	& \cdots \\
+			};
+
+			\draw[spectral sequence/axis] (m-2-2.south west) -- (m-1-2.north west) -- ++(0, 1) node[left] (q) {$q$};
+			\draw[spectral sequence/axis] (m-2-2.south west) -- (m-2-10.south east) -- ++(1, 0) node[below] (p) {$p$};
+
+			\coordinate (Top Right) at (p |- q);
+
+			\coordinate (Slightly Left of p) at ($(p) - (0.12, 0)$);
+			\coordinate (Slightly Below q) at ($(q) - (0, 0.14)$);
+
+			\draw[spectral sequence/zero region] (m-1-2.north west) rectangle (Slightly Left of p |- Slightly Below q); 
+
+			\node[spectral sequence/page label] at ($(Top Right) - (0.3, 0.3)$) {$E^2_{p, q}$};
+
+			\draw[spectral sequence/differential] (m-2-4) -- node[commutative diagrams/every label, inner sep = 1pt, fill = white, swap] {$\isom$} (m-1-2);
+			\draw[spectral sequence/differential] (m-2-6) -- node[commutative diagrams/every label, inner sep = 1pt, fill = white, swap] {$\isom$} (m-1-4);
+		\end{tikzpicture}
+	\end{center}
+	Since $H_{2n + 1}(S^{2n + 1}; \Z) \isom \Z$, we cannot conclude that the $\textcolor{highlightcol}{\Z}$ in bidegree $(2n, 1)$ must be the image of a differential.
 	There are then two possibilities:
 	\begin{enumerate}
 		\item $d^2\colon E^2_{2n + 2, 0} \to E^2_{2n, 1}$ is trivial.
 			This implies $E^2_{2n + 2, 0} = 0$ and by induction that $E^2_{p, q} = 0$ for all $p > 2n$; or
 		\item $d^2\colon E^2_{2n + 2, 0} \to E^2_{2n, 1} \isom \Z$ is non-zero.
 			Since its cokernel is isomorphic to the lowest term of the filtration on $H_{2n + 1}(S^{2n + 1}; \Z) \isom \Z$, this forces $d^2$ to be surjective as no $\Zn{n}$ with $n > 1$ embeds into $\Z$.
-			We obtain the following pattern: % TODO
+			We obtain the following pattern infinite pattern:
+			\begin{center}
+				\tikzsetnextfilename{specseq_cpn_final_impossible}
+				\begin{tikzpicture}
+					\matrix[
+						spectral sequence/page,
+						name = m, 
+						column sep = {2.5em, between origins},
+						row 3/.style = {font = \scriptsize}] {
+							1 &[-1.8em]\Z 	& 0 	& \Z 	& 0		& \cdots	  	& \textcolor{highlightcol}{\Z} & 0 		& \textcolor{highlightcol}{\Z} & 0		& \cdots\\
+							0 & \Z 			& 0 	& \Z 	& 0		& \cdots	 	& \Z & 0 		& \textcolor{highlightcol}{\Z} 	& 0 	& \cdots \\
+							& 0 			& 1 	& 2 	& 3 	& \cdots 	 	& 2n & 2n + 1 	& 2n + 2 	& 2n + 3 & \cdots \\
+					};
+
+					\draw[spectral sequence/axis] (m-2-2.south west) -- (m-1-2.north west) -- ++(0, 1) node[left] (q) {$q$};
+					\draw[spectral sequence/axis] (m-2-2.south west) -- (m-2-11.south east) -- ++(1, 0) node[below] (p) {$p$};
+
+					\coordinate (Top Right) at (p |- q);
+
+					\coordinate (Slightly Left of p) at ($(p) - (0.12, 0)$);
+					\coordinate (Slightly Below q) at ($(q) - (0, 0.14)$);
+
+					\draw[spectral sequence/zero region] (m-1-2.north west) rectangle (Slightly Left of p |- Slightly Below q); 
+
+					\node[spectral sequence/page label] at ($(Top Right) - (0.3, 0.3)$) {$E^2_{p, q}$};
+
+					\draw[spectral sequence/differential] (m-2-4) -- node[commutative diagrams/every label, inner sep = 1pt, fill = white, swap] {$\isom$} (m-1-2);
+					\draw[spectral sequence/differential] (m-2-6) -- node[commutative diagrams/every label, inner sep = 1pt, fill = white, swap] {$\isom$} (m-1-4);
+					\draw[spectral sequence/differential, highlightcol] (m-2-9) -- node[commutative diagrams/every label, inner sep = 1pt, fill = white, swap] {$\isom$} (m-1-7);
+					\draw[spectral sequence/differential, highlightcol] (m-2-11) -- node[commutative diagrams/every label, inner sep = 1pt, fill = white, swap] {$\isom$} (m-1-9);
+				\end{tikzpicture}
+			\end{center}
 			This can be ruled out using e.g. that $\CP^n$ is $2n$-dimensional CW-complex and therefore $H_k(\CP^n; \Z) = 0$ for $k > 2n$.
 	\end{enumerate}
 	We thus obtain 
@@ -532,15 +754,88 @@ We now show that it can be used to compute the homology of the basespace or fibr
 
 \lecture{20.10.23}
 Next, we turn to an exercise of how the Serre spectral sequence can be used to compute the homology of the fibre.
-\begin{example}
+\begin{example}\label{expl:homology_loops_s_3}
 	We consider the fibre sequence
 	\begin{equation*}
 		\Omega S^3 \to * \to S^3
 	\end{equation*}
-	The $E^2$-page looks like this:
-	The homotopy of the point trivial in positive degree, so we must have $E^\infty_{p, q} = 0$ unless $p = q = 0$.
-	The only non-trivial differentials are $d^3$s, so we conclude that $d^3\colon E^3_{3, q} \to E^3_{0, q + 2}$ must be an isomorphism for all $q \in \N$.
-	As $E^3_{3, q} \isom H_3(S^3; H_q(\Omega S^3; \Z)) \isom H_q(\Omega S^3; \Z)$ and $E^3_{0, q + 2} \isom H_0(S^3; H_{q + 2}(\Omega S^3; \Z)) \isom H_{q + 2}(\Omega S^3; \Z)$ and finally $H_0(\Omega S^3; \Z) \isom \Z$, this implies that $H_k(\Omega S^3; \Z) \isom \Z$ if $k$ is even and 0 else, and the $E^3$-page looks like this:
+	The $E^2$-page of its associated Serre spectral sequence looks like this:
+	\begin{center}
+		\pgfsetlayers{background,main}
+		\tikzsetnextfilename{specseq_loop_s_3_initial}
+		\begin{tikzpicture}
+			\matrix[
+				spectral sequence/page,
+				name = m, 
+				column sep = {2.5ex, between origins},
+				row 5/.style = {font = \scriptsize}] {
+					\vdotswithin{1} & \vdotswithin{\Z}  & & & \vdotswithin{\Z} \\
+					2 & ?  & & & ? \\
+					1 & ?  & & & ? \\
+					0 & \Z & & & \Z \\ 
+					& 0 & 1 & 2 & 3 \\
+			};
+
+			\draw[spectral sequence/axis] (m-4-2.south west) -- (m-1-2.north west) -- ++(0, 1) node[left] (q) {$q$};
+			\draw[spectral sequence/axis] (m-4-2.south west) -- (m-4-5.south east) -- ++(1.5, 0) node[below] (p) {$p$};
+
+			\coordinate (Top Right) at (p |- q);
+
+			\coordinate (Slightly Left of p) at ($(p) - (0.14, 0)$);
+			\coordinate (Slightly Below q) at ($(q) - (0, 0.14)$);
+
+			\begin{pgfonlayer}{background}
+				\draw[spectral sequence/zero region] (m-4-2.south west) rectangle (Slightly Left of p |- Slightly Below q); 
+				\fill[white] (m-4-2.south west) rectangle (m-1-2.north east);
+				\fill[white] (m-4-5.south west) rectangle (m-1-5.north east);
+			\end{pgfonlayer}
+
+			\node[spectral sequence/page label] at ($(Top Right) - (0.3, 0.3)$) {$E^2_{p, q}$};
+
+			\draw[spectral sequence/differential] (m-4-5) -- node[commutative diagrams/every label, inner sep = 1pt, fill = white, swap] {$d^3$} (m-2-2);
+		\end{tikzpicture} \\
+		$E^2_{p, q} = H_p(S^3; H_q(\Omega S^3; \Z))$
+	\end{center}
+	The homology groups of the point are trivial in positive degrees, so we must have $E^\infty_{p, q} = 0$ unless $p = q = 0$.
+	The only non-trivial differentials are $d^3$'s, so we conclude that $d^3\colon E^3_{3, q} \to E^3_{0, q + 2}$ must be an isomorphism for all $q \in \N$.
+	As $E^3_{3, q} \isom H_3(S^3; H_q(\Omega S^3; \Z)) \isom H_q(\Omega S^3; \Z)$ as well as $E^3_{0, q + 2} \isom H_0(S^3; H_{q + 2}(\Omega S^3; \Z)) \isom H_{q + 2}(\Omega S^3; \Z)$ and finally $H_0(\Omega S^3; \Z) \isom \Z$, this implies that $H_k(\Omega S^3; \Z) \isom \Z$ if $k$ is even and 0 else, and the $E^3$-page looks like this:
+	\begin{center}
+		\pgfsetlayers{background,main}
+		\tikzsetnextfilename{specseq_loop_s_3_final}
+		\begin{tikzpicture}
+			\matrix[
+				spectral sequence/page,
+				name = m, 
+				column sep = {2.5ex, between origins},
+				row 6/.style = {font = \scriptsize}] {
+					\vdotswithin{1} & \vdotswithin{\Z}  & & & \vdotswithin{\Z} \\
+					3 & 0  & & & 0 \\
+					2 & \Z  & & & \Z \\
+					1 & 0  & & & 0 \\
+					0 & \Z & & & \Z \\ 
+					& 0 & 1 & 2 & 3 \\
+			};
+
+			\draw[spectral sequence/axis] (m-5-2.south west) -- (m-1-2.north west) -- ++(0, 1) node[left] (q) {$q$};
+			\draw[spectral sequence/axis] (m-5-2.south west) -- (m-5-5.south east) -- ++(1.5, 0) node[below] (p) {$p$};
+
+			\coordinate (Top Right) at (p |- q);
+
+			\coordinate (Slightly Left of p) at ($(p) - (0.14, 0)$);
+			\coordinate (Slightly Below q) at ($(q) - (0, 0.14)$);
+
+			\begin{pgfonlayer}{background}
+				\draw[spectral sequence/zero region] (m-5-2.south west) rectangle (Slightly Left of p |- Slightly Below q); 
+				\fill[white] (m-5-2.south west) rectangle (m-1-2.north east);
+				\fill[white] (m-5-5.south west) rectangle (m-1-5.north east);
+			\end{pgfonlayer}
+
+			\node[spectral sequence/page label] at ($(Top Right) - (0.3, 0.3)$) {$E^3_{p, q}$};
+
+			\draw[spectral sequence/differential] (m-5-5) -- node[commutative diagrams/every label, inner sep = 1pt, fill = white, swap] {$\isom$} (m-3-2);
+			\draw[spectral sequence/differential] (m-3-5) -- node[commutative diagrams/every label, inner sep = 1pt, fill = white, swap] {$\isom$} (m-1-2);
+		\end{tikzpicture}
+	\end{center}
 	In particular, we see that $\Omega S^3$ is infinite-dimensional.
 \end{example}
 
@@ -582,7 +877,7 @@ For convergence, we consider descending filtrations $H = F_0 \supseteq F_1 \sups
 It follows that the associated graded group $\bigdsum_p F_p / F_{p + 1}$ of a filtered graded (commutative) ring is a bigraded (commutative) ring.
 
 \begin{definition}
-	A multiplicative first quadrant spectral sequence $(E_\bullet, d_\bullet, h_\bullet)$ is said to \strong{converge}\index{convergence!of spectral sequences} to a filtered graded ring $(H, F)$ if it converges additively and the chosen isomorphisms $E_\infty^{p, q} \isom F^{p + q}_p / F^{p + q}_{p + 1}$ is compatible with the graded ring structure.
+	A multiplicative first quadrant spectral sequence $(E_\bullet, d_\bullet, h_\bullet)$ is said to \strong{converge}\index{convergence!of spectral sequences} to a filtered graded ring $(H, F)$ if it converges additively and the chosen isomorphisms $E_\infty^{p, q} \isom F^{p + q}_p / F^{p + q}_{p + 1}$ are compatible with the graded ring structure.
 \end{definition}
 \begin{theorem}[Serre]\index{Serre spectral sequence}
 	For every fibre sequence of spaces $(F \to Y \to X, h)$ with simply connected base space $X$ and every abelian group $A$ there exists a first quadrant spectral sequence of the form
@@ -610,31 +905,158 @@ It follows that the associated graded group $\bigdsum_p F_p / F_{p + 1}$ of a fi
 	\begin{equation*}
 		\Uni(1) \to \Uni(2) \to S^3
 	\end{equation*}
-	There can be no non-trivial differentials.
-	As a graded ring, the $E_2$-page and thus also the $E_\infty$-page are isomorphic to $H^*(S^3; \Z) \tensor_{\Z} H^*(\Uni(1); \Z)$.
+	from \ref{expl:homology_uni_2}. 
+	As for homology, there can be no non-trivial differentials in the associated Serre spectral sequence for degree reasons.
 	Let $x_1 \in H^1(\Uni(1); \Z)$ and $x_3 \in H^3(S^3; \Z)$ be generators.
+	As a graded ring, the $E_2$-page and thus also the $E_\infty$-page are isomorphic to $H^*(S^3; \Z) \tensor_{\Z} H^*(\Uni(1); \Z)$.
 	Then $H^*(\Uni(1); \Z) \isom \Lambda(x_1)$ and $H^*(S^3; \Z) \isom \Lambda(x_3)$ where $\Lambda(M)$ denotes the \emph{exterior algebra}\index{exterior algebra} on a set $M$, i.e. the free algebra on $M$ modulo the relations $x_i x_j = -x_j x_i$ and $x_i^2 = 0$ for all $x_i, x_j \in M$.
-	Hence, the $E_2$-page is the exterior algebra $\Lambda(x_1, x_3)$ and the $\Z$ in bidegree $(3, 1)$ is spanned by $x_1 x_3$.
-	The filtration collapses degree-wise and hence $H^*(\Uni(2); \Z)$ is exterior on classes $x_1 \in H^1(\Uni(2); \Z)$ and $x_3 \in H^3(\Uni(2); \Z)$ that are uniquely determined by the spectral sequence.
+	Hence, the $E_2$-page is the exterior algebra $\Lambda(x_1, x_3)$ and the $\Z$ in bidegree $(3, 1)$ is spanned by $x_1 x_3$, so we obtain the following picture:
+	\begin{center}
+		\pgfsetlayers{background,main}
+		\tikzsetnextfilename{specseq_uni_1_2_cohom_seq}
+		\begin{tikzpicture}
+			\matrix[
+				spectral sequence/page,
+				name = m, 
+				column sep = {2em, between origins},
+				row 3/.style = {font = \scriptsize}
+				] {
+					1 &[-0.8em] \Z x_1 	& 0 & 0 & \Z x_1 x_3 \\
+					0 & \Z 			& 0 & 0 & \Z x_3 \\
+					& 0 			& 1 & 2 & 3  \\
+			};
+
+			\coordinate (Origin) at (m-1-2.west |- m-2-5.south);
+
+			\draw[spectral sequence/axis] (Origin) -- (m-1-2.north west) -- ++(0, 1.5) node[left] (q) {$q$};
+			\draw[spectral sequence/axis] (Origin) -- (m-2-5.south east) -- ++(1.5, 0) node[below] (p) {$p$};
+
+			\coordinate (Top Right) at (p |- q);
+
+			\coordinate (Slightly Left of p) at ($(p) - (0.14, 0)$);
+			\coordinate (Slightly Below q) at ($(q) - (0, 0.14)$);
+
+			\begin{pgfonlayer}{background}
+				\draw[spectral sequence/zero region] (Origin) rectangle (Slightly Left of p |- Slightly Below q); 
+				\fill[white] (Origin) rectangle (m-1-5.north east);
+			\end{pgfonlayer}
+
+			\node[spectral sequence/page label] at ($(Top Right) - (0.3, 0.3)$) {$E_2^{p, q}$};
+		\end{tikzpicture} \\
+		$E_2^{p, q} = H^p(S^3; H^q(\Uni(1); \Z))$
+	\end{center}
+	The filtration collapses degree-wise, so $H^*(\Uni(2); \Z)$ is exterior on classes $x_1 \in H^1(\Uni(2); \Z)$ and $x_3 \in H^3(\Uni(2); \Z)$ that are uniquely determined by the spectral sequence.
 \end{example}
 \begin{example}
-	We move on to the fibre sequence $\Uni(2) \to \Uni(3) \to S^5$.
-	Again, the $E_2$-page is given by $H^*(S^5; \Z) \tensor_{\Z} H^*(\Uni(2); \Z) \isom \Lambda(x_1, x_3, x_5)$ where $x_5 \in H^5(S^5; \Z)$ is a generator.
-	There is only one possibly non-trivial differential $d_5\colon E_5^{0, 4} \to E_5^{5, 0}$.
-	However, the product rule implies 
+	We move on to the fibre sequence 
+	\begin{equation*}
+		\Uni(2) \to \Uni(3) \to S^5
+	\end{equation*}
+	from example \ref{expl:homology_uni_3}.
+	Again, the $E_2$-page of the associated spectral sequence is given by $H^*(S^5; \Z) \tensor_{\Z} H^*(\Uni(2); \Z) \isom \Lambda(x_1, x_3, x_5)$ where $x_5 \in H^5(S^5; \Z)$ is a generator, and there is only one possibly non-trivial differential $d_5\colon E_5^{0, 4} \to E_5^{5, 0}$, so we obtain the following picture:
+	\begin{center}
+		\pgfsetlayers{background,main}
+		\tikzsetnextfilename{specseq_uni_2_3_cohom_seq}
+		\begin{tikzpicture}
+			\matrix[
+				spectral sequence/page,
+				name = m, 
+				column sep = {2.2em, between origins},
+				row 6/.style = {font = \scriptsize}] {
+					4 &[-0.7ex] \Z x_1 x_3 & & & & & \Z x_1 x_3 x_5 \\
+					3 & \Z x_3 & & & & & \Z x_3 x_5 \\
+					2 & 0 & & & & & 0 \\
+					1 & \Z x_1 & & & & & \Z x_1 x_5 \\
+					0 & \Z & & & & & \Z x_5 \\
+					& 0 & 1 & 2 & 3 & 4 & 5 \\
+			};
+
+			\coordinate (Origin) at (m-1-2.west |- m-5-7.south);
+
+			\draw[spectral sequence/axis] (Origin) -- (m-1-2.north west) -- ++(0, 1) node[left] (q) {$q$};
+			\draw[spectral sequence/axis] (Origin) -- (m-5-7.south east) -- ++(1.5, 0) node[below] (p) {$p$};
+
+			\coordinate (Top Right) at (p |- q);
+
+			\coordinate (Slightly Left of p) at ($(p) - (0.14, 0)$);
+			\coordinate (Slightly Below q) at ($(q) - (0, 0.14)$);
+
+			\begin{pgfonlayer}{background}
+				\draw[spectral sequence/zero region] (Origin) rectangle (Slightly Left of p |- Slightly Below q); 
+				\fill[white] (Origin) rectangle (m-1-2.north east);
+				\fill[white] (m-1-7.west |- m-5-7.south) rectangle (m-1-7.north east);
+			\end{pgfonlayer}
+
+			\node[spectral sequence/page label] at ($(Top Right) - (0.3, 0.3)$) {$E_2^{p, q}$};
+
+			\draw[spectral sequence/differential] (m-1-2) -- node[commutative diagrams/every label, inner sep = 1pt, fill = white] {$d_5$} (m-5-7);
+		\end{tikzpicture} \\
+		$E_2^{p, q} = H^p(S^5; H^q(\Uni(2); \Z))$
+	\end{center}
+	However, the product rule now implies that
 	\begin{equation*}
 		d_5(x_1 x_3) = \underbrace{d_5(x_1)}_{= 0} \cdot x_3 + (-1)^{1 + 0} x_1 \cdot \underbrace{d_5(x_3)}_{= 0} = 0
 	\end{equation*}
-	Again the filtration collapses and hence $H^*(\Uni(3); \Z) \isom \Lambda(x_1, x_3, x_5)$.
+	Again the filtration collapses, so $H^*(\Uni(3); \Z) \isom \Lambda(x_1, x_3, x_5)$.
 \end{example}
 \begin{example}
-	We revisit $\Uni(3) \to \Uni(4) \to S^7$.
+	We revisit the fibre sequence 
+	\begin{equation*}
+		\Uni(3) \to \Uni(4) \to S^7
+	\end{equation*}
+	from example \ref{expl:homology_uni_4}.
+	The $E_2$-page of the associated Serre spectral sequence looks like this:
+	\begin{center}
+		\pgfsetlayers{background,main}
+		\tikzsetnextfilename{specseq_uni_3_4_cohom_seq}
+		\begin{tikzpicture}
+			\matrix[
+				spectral sequence/page,
+				name = m, 
+				column sep = {2.5em, between origins},
+				row 11/.style = {font = \scriptsize}] {
+					9 &[-0.6ex] \Z x_1 x_3 x_5 & & & & & & & \Z x_1 x_3 x_5 x_7 \\
+					8 & \Z x_3 x_5 & & & & & & & \Z x_3 x_5 x_7 \\
+					7 & 0 & & & & & & & 0 \\
+					6 & \Z x_1 x_5 & & & & & & & \Z x_1 x_5 x_7 \\
+					5 & \Z x_5 & & & & & & & \Z x_5 x_7 \\
+					4 & \Z x_1 x_3 & & & & & & & \Z x_1 x_3 x_7 \\
+					3 & \Z x_3 & & & & & & & \Z x_3 x_7 \\
+					2 & 0 & & & & & & & 0 \\
+					1 & \Z x_1 & & & & & & & \Z x_1 x_7\\
+					0 & \Z & & & & & & & \Z x_7 \\
+					& 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 \\
+			};
+
+			\coordinate (Origin) at (m-1-2.west |- m-10-9.south);
+
+			\draw[spectral sequence/axis] (Origin) -- (m-1-2.north west) -- ++(0, 1.2) node[left] (q) {$q$};
+			\draw[spectral sequence/axis] (Origin) -- (m-10-9.south east) -- ++(2, 0) node[below] (p) {$p$};
+
+			\coordinate (Top Right) at (p |- q);
+
+			\coordinate (Slightly Left of p) at ($(p) - (0.14, 0)$);
+			\coordinate (Slightly Below q) at ($(q) - (0, 0.14)$);
+
+			\begin{pgfonlayer}{background}
+				\draw[spectral sequence/zero region] (Origin) rectangle (Slightly Left of p |- Slightly Below q); 
+				\fill[white] (Origin) rectangle (m-1-2.north east);
+				\fill[white] (m-1-9.west |- m-10-9.south) rectangle (m-1-9.north east);
+			\end{pgfonlayer}
+
+			\node[spectral sequence/page label] at ($(Top Right) - (0.3, 0.3)$) {$E_2^{p, q}$};
+
+			\draw[spectral sequence/differential] (m-4-2) -- node[commutative diagrams/every label, inner sep = 1pt, fill = white] {$d_7$} (m-10-9);
+			\draw[spectral sequence/differential] (m-1-2) -- node[commutative diagrams/every label, inner sep = 1pt, fill = white] {$d_7$} (m-7-9);
+		\end{tikzpicture} \\
+		$E_2^{p, q} = H^p(S^7; H^q(\Uni(3); \Z))$
+	\end{center}
 	As before, the product rule implies that all $d_7$-differentials must be trivial.
 	There is a non-trivial filtration on $H^8(\Uni(4); \Z)$ of the form
 	\begin{equation*}
-		0 \to \underbrace{E_\infty^{7, 1}}_{\substack{\isom \Z[x_1 x_7] \\ \isom \Z}} \to H^8(\Uni(4); \Z) \to \underbrace{E_\infty^{0, 8}}_{\substack{\isom \Z[x_3 x_5] \\ \isom \Z}} \to 0
+		0 \to \underbrace{E_\infty^{7, 1}}_{\substack{\isom \Z x_1 x_7 \\ \isom \Z}} \to H^8(\Uni(4); \Z) \to \underbrace{E_\infty^{0, 8}}_{\substack{\isom \Z x_3 x_5 \\ \isom \Z}} \to 0
 	\end{equation*}
-	Additively, this sequence splits, but one has to be careful with the multiplicative structure.
+	Additively this sequence splits, but one has to be careful with the multiplicative structure.
 	To resolve this, we are precise with the differentiation between the classes $x_1, x_3, x_5, x_7$ on the $E_\infty$-page and the corresponding classes $\bar{x}_1, \bar{x}_3, \bar{x}_5, \bar{x}_7 \in H^*(\Uni(4); \Z)$.
 	Note that the choice of each $\bar{x}_i$ is unique since the filtration collapses in degrees 0 to 7.
 	Furthermore, we record their filtrations: $\bar{x}_1$ is in $F^1_0$, $\bar{x}_3$ is in $F^3_0$, $\bar{x}_5$ is in $F^5_0$, and $\bar{x}_7$ is in $F^7_7$.
@@ -658,8 +1080,7 @@ It follows that the associated graded group $\bigdsum_p F_p / F_{p + 1}$ of a fi
 		\Uni(n - 1) \to \Uni(n) \to S^{2n - 1}
 	\end{equation*}
 	By induction, its $E_2$-page is isomorphic to the tensor product $H^*(S^{2n - 1}; \Z) \tensor H^*(\Uni(n - 1); \Z) \isom \Lambda(x_{2n - 1}) \tensor \Lambda(x_1, x_3, \ldots, x_{2n - 3})$ with $|x_{2n - 1}| = (2n - 1, 0)$ and $|x_i| = (0, i)$ for all $i = 1, 3, \ldots, 2n - 3$.
-	For degree reasons, $d_{2n - 1}$ vanishes on all generators $x_1, x_3, \ldots, x_{2n - 3}, x_{2n - 1}$.
-	By the product rule, $d_{2n - 1}$ vanishes on all elements.
+	For degree reasons, $d_{2n - 1}$ vanishes on all generators $x_1, x_3, \ldots, x_{2n - 3}, x_{2n - 1}$, so by the product rule $d_{2n - 1}$ vanishes on all elements.
 	Hence, the $E_\infty$-page is isomorphic to the $E_2$-page and therefore an exterior algebra on $\Lambda(x_1, x_3, \ldots, x_{2n - 1})$.
 	The filtrations on $H^*(\Uni(n); \Z)$ collapse in degrees $0, \ldots, 2n - 2$, hence we obtain unique lifts $\bar{x}_1, \ldots, \bar{x}_{2n - 1} \in H^*(\Uni(n); \Z)$.
 	We only know that $x_i^2$ is of lower filtration from the spectral sequence and hence a multiple of $\bar{x}_{2n - 1}$, but not necessarily that $\bar{x}_i^2 = 0$.
@@ -690,32 +1111,146 @@ It follows that the associated graded group $\bigdsum_p F_p / F_{p + 1}$ of a fi
 	\begin{smallproof}
 		This is an iterated \enquote{5-lemma} argument.
 	\end{smallproof}
-	This finishes the proof
+	This finishes the proof.
 \end{proof}
 \begin{example}
 	We revisit the fibre sequence
 	\begin{equation*}
 		S^1 \to S^{2n + 1} \to \CP^n
 	\end{equation*}
-	and use the Serre spectral sequence to compute the ring $H^*(\CP^n; \Z)$.
+	from example \ref{expl:homology_cp_n} and use the Serre spectral sequence to compute the ring $H^*(\CP^n; \Z)$.
 	Arguing analogously to the homological case, the $E_2$-page looks as follows:
+	\begin{center}
+		\pgfsetlayers{background,main}
+		\tikzsetnextfilename{specseq_cpn_cohom_intermediate}
+		\begin{tikzpicture}
+			\matrix[
+				spectral sequence/page,
+				name = m, 
+				column sep = {2.5em, between origins},
+				row 3/.style = {font = \scriptsize}] {
+					1 &[-1.8em]\Z 	& 0 	& \Z 	& 0		& \cdots	  	& \Z \\
+					0 & \Z 			& 0 	& \Z 	& 0		& \cdots	 	& \Z \\
+					& 0 			& 1 	& 2 	& 3 	& \cdots 	 	& 2n \\
+			};
+
+			\draw[spectral sequence/axis] (m-2-2.south west) -- (m-1-2.north west) -- ++(0, 1) node[left] (q) {$q$};
+			\draw[spectral sequence/axis] (m-2-2.south west) -- (m-2-7.south east) -- ++(1, 0) node[below] (p) {$p$};
+
+			\coordinate (Top Right) at (p |- q);
+
+			\coordinate (Slightly Left of p) at ($(p) - (0.12, 0)$);
+			\coordinate (Slightly Below q) at ($(q) - (0, 0.14)$);
+
+			\begin{pgfonlayer}{background}
+				\draw[spectral sequence/zero region] (m-2-2.south west) rectangle (Slightly Left of p |- Slightly Below q); 
+				\fill[white] (m-2-2.south west) rectangle (m-1-7.north east);
+			\end{pgfonlayer}
+
+			\draw[spectral sequence/differential] (m-1-2) -- node[commutative diagrams/every label, inner sep = 1pt, fill = white] {$\isom$} (m-2-4);
+			\draw[spectral sequence/differential] (m-1-4) -- node[commutative diagrams/every label, inner sep = 1pt, fill = white] {$\isom$} (m-2-6);
+
+			\node[spectral sequence/page label] at ($(Top Right) - (0.3, 0.3)$) {$E_2^{p, q}$};
+		\end{tikzpicture} \\
+		$E_2^{p, q} = H^p(\CP^n; H^q(S^1; \Z))$
+	\end{center}
 	Let $e$ be a generator for $E_2^{0, 1}$.
 	Then $x \coloneq d_2(e)$ is a generator for $E_2^{2, 0}$ and $e x$ is a generator for $E_2^{2, 1}$.
 	Hence, $d_2(ex)$ generates $E_2^{4, 0}$.
 	By the product rule, we have
 	\begin{equation*}
-		d_2(ex) = \underbrace{d_2(e)}_{= x} \cdot x + (-1)^1 e \cdots \underbrace{d_2(x)}_{= 0} = x^2
+		d_2(ex) = \underbrace{d_2(e)}_{= x} \cdot x + (-1)^1 e \cdot \underbrace{d_2(x)}_{= 0} = x^2
 	\end{equation*}
 	Hence $x^2$ generates $E_2^{4, 0} \isom H^4(\CP^n; \Z)$.
 	Similarly, $d_2(ex^2)$ generates $E_2^{6, 0}$ and
 	\begin{equation*}
 		d_2(ex^2) = \underbrace{d_2(e)}_{= x} \cdot x^2 - e \cdot \underbrace{d_2(x^2)}_{0} = x^3
 	\end{equation*}
-	We obtain an isomorphism $H^*(\CP^n; \Z) \isom \Z[x] / (x^{n + 1})$ and in the limit $H^*(\CP^\infty; \Z) \isom \Z[x]$.
+	Continuing this process, we arrive at the following picture:
+	\begin{center}
+		\pgfsetlayers{background,main}
+		\tikzsetnextfilename{specseq_cpn_cohom_final}
+		\begin{tikzpicture}
+			\matrix[
+				spectral sequence/page,
+				name = m, 
+				column sep = {2.5em, between origins},
+				row 3/.style = {font = \scriptsize}] {
+					1 &[-1.6em]\Z e 	& 0 	& \Z e x	& 0		& \cdots	  	& \Z e x^n \\
+					0 & \Z 			& 0 	& \Z x 	& 0		& \cdots	 	& \Z x^n \\
+					& 0 			& 1 	& 2 	& 3 	& \cdots 	 	& 2n \\
+			};
+
+			\coordinate (Origin) at (m-1-2.west |- m-2-2.south);
+
+			\draw[spectral sequence/axis] (Origin) -- (m-1-2.north west) -- ++(0, 1) node[left] (q) {$q$};
+			\draw[spectral sequence/axis] (Origin) -- (m-2-7.south east) -- ++(1, 0) node[below] (p) {$p$};
+
+			\coordinate (Top Right) at (p |- q);
+
+			\coordinate (Slightly Left of p) at ($(p) - (0.12, 0)$);
+			\coordinate (Slightly Below q) at ($(q) - (0, 0.14)$);
+
+			\begin{pgfonlayer}{background}
+				\draw[spectral sequence/zero region] (Origin) rectangle (Slightly Left of p |- Slightly Below q); 
+				\fill[white] (Origin) rectangle (m-1-7.north east);
+			\end{pgfonlayer}
+
+			\draw[spectral sequence/differential] (m-1-2) -- node[commutative diagrams/every label, inner sep = 1pt, fill = white, sloped] {$e \mapsto x$} (m-2-4);
+			\draw[spectral sequence/differential] (m-1-4) -- node[commutative diagrams/every label, inner sep = 1pt, fill = white, sloped] {$ex \mapsto x^2$} (m-2-6);
+
+			\node[spectral sequence/page label] at ($(Top Right) - (0.3, 0.3)$) {$E_2^{p, q}$};
+		\end{tikzpicture}
+	\end{center}
+	and obtain that $H^*(\CP^n; \Z) \isom \Z[x] / (x^{n + 1})$ as well as $H^*(\CP^\infty; \Z) \isom \Z[x]$ in the limit.
 \end{example}
 \begin{example}
-	Next we compute the ring structure on $H^*(\Omega S^3; \Z)$.
+	Next we compute the ring structure on $H^*(\Omega S^3; \Z)$ via the fibre sequence
+	\begin{equation*}
+		\Omega S^3 \to * \to S^3
+	\end{equation*}
+	from example \ref{expl:homology_loops_s_3}.
 	Dual to before, we obtain the following $E_2$-page:
+	\begin{center}
+		\pgfsetlayers{background,main}
+		\tikzsetnextfilename{specseq_loop_s_3_cohom}
+		\begin{tikzpicture}
+			\matrix[
+				spectral sequence/page,
+				name = m, 
+				column sep = {2.8ex, between origins},
+				row 6/.style = {font = \scriptsize}] {
+					\vdotswithin{1} &[-.7ex] \vdotswithin{\Z}  & & & \vdotswithin{\Z} \\
+					3 & 0  & & & 0 \\
+					2 & \Z x  & & & \Z e x\\
+					1 & 0  & & & 0 \\
+					0 & \Z & & & \Z e \\ 
+					& 0 & 1 & 2 & 3 \\
+			};
+
+			\coordinate (Origin) at (m-3-2.west |- m-5-2.south);
+
+			\draw[spectral sequence/axis] (Origin) -- (Origin |- m-1-2.north) -- ++(0, 1) node[left] (q) {$q$};
+			\draw[spectral sequence/axis] (Origin) -- (m-5-5.south east) -- ++(1.5, 0) node[below] (p) {$p$};
+
+			\coordinate (Top Right) at (p |- q);
+
+			\coordinate (Slightly Left of p) at ($(p) - (0.14, 0)$);
+			\coordinate (Slightly Below q) at ($(q) - (0, 0.14)$);
+
+			\begin{pgfonlayer}{background}
+				\draw[spectral sequence/zero region] (Origin) rectangle (Slightly Left of p |- Slightly Below q); 
+				\fill[white] (Origin) rectangle (m-1-2.north -| m-3-2.east);
+				\fill[white] (m-3-5.west |- m-5-5.south) rectangle (m-3-5.east |- m-1-5.north);
+			\end{pgfonlayer}
+
+			\node[spectral sequence/page label] at ($(Top Right) - (0.3, 0.3)$) {$E_2^{p, q}$};
+
+			\draw[spectral sequence/differential] (m-3-2) -- node[commutative diagrams/every label, inner sep = 1pt, fill = white] {$\isom$} (m-5-5);
+			\draw[spectral sequence/differential] (m-1-2) -- node[commutative diagrams/every label, inner sep = 1pt, fill = white] {$\isom$} (m-3-5);
+		\end{tikzpicture} \\
+		$E_2^{p, q} = H^p(S^3; H^q(\Omega S^3; \Z))$ 
+	\end{center}
 	Let $x \in H^2(\Omega S^3; \Z) \isom E_3^{0, 2}$ be a generator.
 	Then $e \coloneq d_3(x)$ generates $E_3^{3, 0}$ and $ex$ generates $E_3^{3, 2}$.
 	We have 
@@ -725,13 +1260,13 @@ It follows that the associated graded group $\bigdsum_p F_p / F_{p + 1}$ of a fi
 	Hence $x^2$ is twice a generator of $H^4(\Omega S^3; \Z)$, which we denote by \enquote{$x^2 / 2$}.
 	Similarly, we find that
 	\begin{equation*}
-		d_3(x^3) = d_3(x) \cdot x^2 + x d_3(x^2) = ex^2 + 2ex^2 = 3ex^2 = 6 \underbrace{6 e (x^2 / 2)}_{\substack{\text{generator} \\ \text{of } E_3^{3, 4}}}
+		d_3(x^3) = d_3(x) \cdot x^2 + x d_3(x^2) = ex^2 + 2ex^2 = 3ex^2 = 6 \underbrace{e (x^2 / 2)}_{\substack{\text{generator} \\ \text{of } E_3^{3, 4}}}
 	\end{equation*}
 	Inductively, we get that $x^n$ is $n!$ times a generator of $H^{2n}(\Omega S^3; \Z)$.
-	We get an isomorphism
+	Thus, there is an isomorphism
 	\begin{align*}
 		H^*(\Omega S^3; \Z) &\isom \Z\bigg[x, \frac{x^2}{2!}, \frac{x^3}{3!}, \ldots\bigg] \subseteq \Q[x] \\
-							&\isom \Z[x_1, x_2, \ldots] / \big\langle {\textstyle\binom{n + m}{n}} x_{m + n} = x_m x_n \big\rangle \\
+							&\isom \Z\big[x_1, x_2, \ldots\big] \big/ \big\langle {\textstyle\binom{n + m}{n}} x_{m + n} = x_m x_n \big\rangle \\
 							&\eqcolon \Gamma(x)
 	\end{align*}
 	We call $\Gamma(x)$ a \strong{divided power algebra}\index{divided power algebra} on one generator.
@@ -748,10 +1283,12 @@ It follows that the associated graded group $\bigdsum_p F_p / F_{p + 1}$ of a fi
 \end{remark}
 \begin{remark}
 	Let us compare $\Omega S^3$ and $\CP^\infty$:
-	Both spaces have isomorphic homology groups and a CW-structure with exactly one cell in each dimension.
-	However, they have very different homotopy groups: $\pi_n \CP^\infty = 0$ for $n > 2$ whereas $\pi_n \Omega S^3 \isom \pi_{n + 1} S^3 \neq 0$ for all $n \geq 2$ (although this is a rather difficult theorem).
-	They also have non-isomorphic cohomology rings as we just showed: $H^*(\CP^\infty; \Z) \isom \Z[x]$ whereas $H^*(\Omega S^3; \Z) \isom \Gamma(x)$.
-	Comparing the attaching maps $S^3 \to S^2$ of the 4-cell, we know that for $\CP^\infty$ it is a generator of $\pi_3 S^2$ while for $\Omega S^3$ it is twice a generator (this follows from the fact that $x^2 \in H^4(\Omega S^3; \Z)$ is twice a generator (via the Hopf invariant)).
+	Both spaces have isomorphic homology groups and a CW-structure with exactly one cell in every even dimension.
+	However, they have very different homotopy groups: $\pi_n(\CP^\infty) = 0$ for $n > 2$ whereas $\pi_n(\Omega S^3) \isom \pi_{n + 1}(S^3) \neq 0$ for all $n \geq 2$ (although this is a rather difficult theorem).
+
+	They also have non-isomorphic cohomology rings: $H^*(\CP^\infty; \Z) \isom \Z[x]$ whereas $H^*(\Omega S^3; \Z) \isom \Gamma(x)$ as we just saw.
+	Comparing the attaching maps $S^3 \to S^2$ of the 4-cell, we know that for $\CP^\infty$ it is a generator of $\pi_3(S^2)$ while for $\Omega S^3$ it is twice a generator (this follows from the fact that $x^2 \in H^4(\Omega S^3; \Z)$ is twice a generator (via the Hopf invariant)).
+
 	Finally, both are loopspaces (as $\CP^\infty \htpyeqv \Omega K(\Z, 3)$) but $H_*(\Omega S^3; \Z)$ is polynomial while $H_*(\CP^\infty; \Z)$ is a divided power algebra.
 \end{remark}
 \begin{example}
@@ -765,13 +1302,57 @@ It follows that the associated graded group $\bigdsum_p F_p / F_{p + 1}$ of a fi
 		X \to S^3 \to K(\Z, 3)
 	\end{equation*}
 	is a fibre sequence.
-	By the long exact sequence in homotopy, $X$ is 3-connected and $\pi_n X \xto{\isom} \pi_3 S^3$ for $n \geq 4$. 
+	By the long exact sequence in homotopy groups, $X$ is 3-connected and $\pi_n(X) \isom \pi_n(S^3)$ for $n \geq 4$. 
+
 	We want to understand the (co)homology of $X$.
 	As we do not know $H_*(K(\Z, 3); \Z)$ yet, we take a second homotopy fibre yielding a fibre sequence
 	\begin{equation*}
 		\underbrace{\Omega K(\Z, 3)}_{\htpyeqv \CP^\infty} \to X \to S^3
 	\end{equation*}
-	We obtain the following Serre spectral sequence:
+	from which we obtain a Serre spectral sequence with $E_2$-page as follows:
+	\begin{center}
+		\pgfsetlayers{background,main}
+		\tikzsetnextfilename{specseq_postnikov_section_s_3_e_2}
+		\begin{tikzpicture}
+			\matrix[
+				spectral sequence/page,
+				name = m, 
+				column sep = {3ex, between origins},
+				row 8/.style = {font = \scriptsize}] {
+					\vdotswithin{1} &[-.3ex] \vdotswithin{\Z}  & & & \vdotswithin{\Z} \\
+					5 & 0  & & & 0 \\
+					4 & \Z x^2  & & & \Z \\
+					3 & 0  & & & 0 \\
+					2 & \Z x  & & & \Z \\
+					1 & 0  & & & 0 \\
+					0 & \Z & & & \Z \\ 
+					& 0 & 1 & 2 & 3 \\
+			};
+
+			\coordinate (Origin) at (m-3-2.west |- m-7-2.south);
+
+			\draw[spectral sequence/axis] (Origin) -- (Origin |- m-1-2.north) -- ++(0, 1) node[left] (q) {$q$};
+			\draw[spectral sequence/axis] (Origin) -- (m-7-5.south east) -- ++(1.3, 0) node[below] (p) {$p$};
+
+			\coordinate (Top Right) at (p |- q);
+
+			\coordinate (Slightly Left of p) at ($(p) - (0.14, 0)$);
+			\coordinate (Slightly Below q) at ($(q) - (0, 0.14)$);
+
+			\begin{pgfonlayer}{background}
+				\draw[spectral sequence/zero region] (Origin) rectangle (Slightly Left of p |- Slightly Below q); 
+				\fill[white] (Origin) rectangle (m-1-2.north -| m-3-2.east);
+				\fill[white] (m-7-5.south west) rectangle (m-3-5.east |- m-1-5.north);
+			\end{pgfonlayer}
+
+			\node[spectral sequence/page label] at ($(Top Right) - (0.3, 0.3)$) {$E_2^{p, q}$};
+
+			\draw[spectral sequence/differential] (m-5-2) -- node[commutative diagrams/every label, inner sep = 1pt, fill = white] {$d_3$} (m-7-5);
+			\draw[spectral sequence/differential] (m-3-2) -- node[commutative diagrams/every label, inner sep = 1pt, fill = white] {$d_3$} (m-5-5);
+			\draw[spectral sequence/differential] (m-1-2) -- node[commutative diagrams/every label, inner sep = 1pt, fill = white] {$d_3$} (m-3-5);
+		\end{tikzpicture} \\
+		$E_2^{p, q} = H^p(S^3; H^q(\CP^\infty; \Z)) \isom H^p(S^3; \Z) \tensor H^q(\CP^\infty; \Z)$
+	\end{center}
 	Since $X$ is 3-connected, $d_3\colon E_3^{0, 2} \to E_3^{3, 0}$ must be an isomorphism.
 	Let $x \in E_2^{0, 2}$ be a generator.
 	By the product rule,
@@ -779,7 +1360,47 @@ It follows that the associated graded group $\bigdsum_p F_p / F_{p + 1}$ of a fi
 		d_3(x^2) = d_3(x) x + x d_3(x) = 2 d_3(x)x
 	\end{equation*}
 	is twice a generator.
-	Inductively, $d_3(x^n)$ is $n$ times a generator of $E_2^{3, 2n - 2}$ and hence
+	Inductively, $d_3(x^n)$ is $n$ times a generator of $E_2^{3, 2n - 2}$.
+	We therefore obtain the following $E_\infty$-page:
+	\begin{center}
+		\pgfsetlayers{background,main}
+		\tikzsetnextfilename{specseq_postnikov_section_s_3_e_infty}
+		\begin{tikzpicture}
+			\matrix[
+				spectral sequence/page,
+				name = m, 
+				column sep = {3.3ex, between origins},
+				row 8/.style = {font = \scriptsize}] {
+					\vdotswithin{1} &[-1.3ex] & & & \vdotswithin{\Z} \\
+					5 &  & & & 0 \\
+					4 &  & & & \Zn{3} \\
+					3 &  & & & 0 \\
+					2 &  & & & \Zn{2} \\
+					1 &  & & & 0 \\
+					0 & \Z & & & 0 \\ 
+					& 0 & 1 & 2 & 3 \\
+			};
+
+			\coordinate (Origin) at (m-7-2.south west);
+
+			\draw[spectral sequence/axis] (Origin) -- (Origin |- m-1-2.north) -- ++(0, 1.2) node[left] (q) {$q$};
+			\draw[spectral sequence/axis] (Origin) -- (m-7-5.south east) -- ++(1.5, 0) node[below] (p) {$p$};
+
+			\coordinate (Top Right) at (p |- q);
+
+			\coordinate (Slightly Left of p) at ($(p) - (0.14, 0)$);
+			\coordinate (Slightly Below q) at ($(q) - (0, 0.14)$);
+
+			\begin{pgfonlayer}{background}
+				\draw[spectral sequence/zero region] (Origin) rectangle (Slightly Left of p |- Slightly Below q); 
+				\fill[white] (Origin) rectangle (m-7-2.north east);
+				\fill[white] (m-7-5.south -| m-3-5.west) rectangle (m-3-5.east |- m-1-5.north);
+			\end{pgfonlayer}
+
+			\node[spectral sequence/page label] at ($(Top Right) - (0.3, 0.3)$) {$E_\infty^{p, q}$};
+		\end{tikzpicture}
+	\end{center}
+	and hence read off that
 	\begin{equation*}
 		\tilde{H}^n(X; \Z) \isom \begin{cases}
 			\Zn{k}  & n = 2k + 1 \\
@@ -787,7 +1408,7 @@ It follows that the associated graded group $\bigdsum_p F_p / F_{p + 1}$ of a fi
 		\end{cases}
 	\end{equation*}
 	with trivial cup product.
-	By the universal coefficient theorem, we get
+	By the universal coefficient theorem, we then get
 	\begin{equation*}
 		\tilde{H}_n(X; \Z) \isom \begin{cases}
 			\Zn{k} 	& n = 2k \\
@@ -796,13 +1417,12 @@ It follows that the associated graded group $\bigdsum_p F_p / F_{p + 1}$ of a fi
 	\end{equation*}
 \end{example}
 \begin{corollary}
-	We have $\pi_4 S^3 \isom \Zn{2}$ and $\pi_4 S^2 \isom \Zn{2}$ as well.
+	We have $\pi_4(S^3) \isom \isom \pi_4(S^2) \isom \Zn{2}$.
 \end{corollary}
 \begin{proof}
-	$X$ is 3-connected and $H_4(X; \Z) \isom \Zn{2}$.
-	The Hurewicz theorem then says that $\pi_4 X \isom \Zn{2}$.
-	Furthermore we saw that $\pi_n X \xto{\isom} S^3$ for $n \geq 4$.
-	Finally, by the Hopf fibration $S^1 \to S^3 \to S^2$, we have that $\pi_n S^3 \isom \pi_n S^2$ for $n \geq 3$, hence $\pi_4 S^2 \isom \Zn{2}$.
+	$X$ is 3-connected and $H_4(X; \Z) \isom \Zn{2}$, so the Hurewicz theorem says that $\pi_4(X) \isom \Zn{2}$.
+	Furthermore we saw that $\pi_n(X) \isom \pi_n(S^3)$ for $n \geq 4$.
+	Finally, by the Hopf fibration $S^1 \to S^3 \to S^2$, we have that $\pi_n(S^3) \isom \pi_n(S^2)$ for $n \geq 3$, hence $\pi_4(S^2) \isom \Zn{2}$ as well.
 \end{proof}
 
 \lecture{27.10.23}
