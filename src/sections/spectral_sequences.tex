@@ -1417,7 +1417,7 @@ It follows that the associated graded group $\bigdsum_p F_p / F_{p + 1}$ of a fi
 	\end{equation*}
 \end{example}
 \begin{corollary}
-	We have $\pi_4(S^3) \isom \isom \pi_4(S^2) \isom \Zn{2}$.
+	We have $\pi_4(S^3) \isom \pi_4(S^2) \isom \Zn{2}$.
 \end{corollary}
 \begin{proof}
 	$X$ is 3-connected and $H_4(X; \Z) \isom \Zn{2}$, so the Hurewicz theorem says that $\pi_4(X) \isom \Zn{2}$.
@@ -1559,7 +1559,7 @@ If $e$ \enquote{survives} in every step, it is called a \strong{permanent cycle}
 We note:
 If $e \in E_r^s$, then $d_r([e])$ is represented by some element of $E_r^{s + r}$, i.e. $d_r$ raises the filtration degree by $r$.
 \begin{definition}
-	A \strong{filtered cochain complex}\index{filtered cochain complex} is a cochain complex $C^*$ together witha sequence of subcomplexes
+	A \strong{filtered cochain complex}\index{filtered cochain complex} is a cochain complex $C^*$ together with a sequence of subcomplexes
 	\begin{equation*}
 		\cdots \subseteq F^2 C^* \subseteq F^1 C^* \subseteq F^0 C^* = C^*
 	\end{equation*}
@@ -2365,25 +2365,79 @@ As a warmup, we reprove the Hurewicz theorem using only the case $\pi_1(X, *)^\a
 \begin{proof}
 	We proceed by induction on $n$.
 	Assume the theorem holds up to $n - 1$.
-	The loop space $\Omega X$ is $(n - 2)$-connected and satisfies $\pi_k(X, *) \xto{\isom} \pi_{k - 1}(\Omega X, *)$, so by the induction hypothesis $H_k(\Omega X; \Z) = 0$ for $0 < k < n - 1$ and we have an isomorphism
+	The loop space $\Omega X$ is $(n - 2)$-connected and satisfies $\pi_k(X, *) \xto{\isom} \pi_{k - 1}(\Omega X, *)$ for all $k$, so by the induction hypothesis $H_k(\Omega X; \Z) = 0$ for $0 < k < n - 1$ and we have an isomorphism
 	\begin{equation*}
 		\pi_n(X, *) \isom \pi_{n - 1}(\Omega X, *) \isom H_{n - 1}(\Omega X; \Z)
 	\end{equation*}
-	% TODO spectral sequence diagram
-	Applying the Serre spectral sequence for the fibre sequence $\Omega X \to * \to X$, the $E^\infty$-page must be 0 away from $(0, 0)$, hence we see directly that $H_k(X; \Z) = 0$ for $0 < k < n$.
+	Applying the Serre spectral sequence for the fibre sequence $\Omega X \to * \to X$ (see figure \ref{fig:loopshurspecseq}), the $E^\infty$-page must be 0 away from $(0, 0)$, hence we see directly that $H_k(X; \Z) = 0$ for $0 < k < n$.
+	\begin{figure}[ht]
+		\centering
+		\pgfsetlayers{background,main}
+		\tikzsetnextfilename{specseq_loops_generic_hurewicz}
+		\begin{tikzpicture}
+			\matrix[
+				spectral sequence/page,
+				name = m, 
+				column sep = {
+					4.5em, 
+					between origins
+				},
+				row sep = {
+					6ex, 
+					between origins
+				},
+				column 1/.append style = {
+					anchor = center
+				},
+				row 5/.style = {
+					font = \scriptsize
+				}] {
+					\vdotswithin{n - 1} &[-.2ex] \vdotswithin{H_{n - 1}(\Omega X; \Z)} & & \vdotswithin{\adots} & \phantom{0} \\ 
+					n - 1 & H_{n - 1}(\Omega X; \Z) & & \adots & \cdots \\
+					\vdotswithin{0} & \phantom{0} \\
+					0 	& \Z 	& 			& H_n(X; \Z) 	& \cdots \\[-3ex]
+						& 0 	& \cdots 	& n 		& \cdots \\
+			};
+
+			\coordinate (Origin) at (m-4-4.south -| m-2-2.west);
+
+			\draw[spectral sequence/axis] (Origin) -- (Origin |- m-1-2.north) -- ++(0, .5) node[left] (q) {$q$};
+			\draw[spectral sequence/axis] (Origin) -- (m-4-5.east |- Origin.south) -- ++(.8, 0) node[below] (p) {$p$};
+
+			\coordinate (Top Right) at (p |- q);
+
+			\coordinate (Slightly Left of p) at ($(p) - (0.14, 0)$);
+			\coordinate (Slightly Below q) at ($(q) - (0, 0.14)$);
+
+			\begin{pgfonlayer}{background}
+				\draw[spectral sequence/zero region] (Origin) rectangle (Slightly Left of p |- Slightly Below q); 
+				\fill[white] (Origin) rectangle (m-4-2.north -| m-2-2.east);
+				\fill[white] (m-2-2.south west) rectangle (m-2-2.east |- Top Right);
+				\fill[white] (m-4-4.south west) rectangle (m-4-4.north -| Top Right);
+				\fill[white] (m-2-2.south -| m-4-4.west) rectangle (Top Right);
+			\end{pgfonlayer}
+
+			\node[spectral sequence/page label] at ($(Top Right) - (0.3, 0.3)$) {$E^2_{p, q}$};
+
+			\draw[spectral sequence/differential] (m-4-4) -- node[commutative diagrams/every label, inner sep = 1pt, fill = white, swap] {$d^n$} (m-2-2);
+		\end{tikzpicture} \\
+		$E^2_{p, q} = H_p(X; H_q(\Omega X; \Z))$
+		\caption{$E^2$-page of the Serre spectral sequence associated to $\Omega X \to * \to X$.}
+		\label{fig:loopshurspecseq}
+	\end{figure}
 	Moreover, $d^n\colon H_n(X; \Z) \to H_{n - 1}(\Omega X; \Z)$ must be an isomorphism.
 
 	We therefore obtain an isomorphism
 	\begin{equation*}
 		\begin{tikzcd}
 			\pi_n(X, *)
-					\ar[r, "\isom"]
+					\ar[r, "\isom"']
 					\ar[rrr, bend right = 12, swap, "\eqcolon c_X"]
 				& \pi_{n - 1}(\Omega X, *)
-					\ar[r, "\Hur"', "\isom"]
+					\ar[r, "\Hur", "\isom"']
 				& H_{n - 1}(\Omega X; \Z)
 				& H_n(X; \Z)
-					\ar[l, swap, "\isom"]
+					\ar[l, swap, "d^n", "\isom"']
 		\end{tikzcd}
 	\end{equation*}
 	where $\Hur\colon \pi_{n - 1}(\Omega X, *) \to H_{n - 1}(\Omega X; \Z)$ is the Hurewicz map.
@@ -2446,12 +2500,12 @@ As a warmup, we reprove the Hurewicz theorem using only the case $\pi_1(X, *)^\a
 		c_X(x) &= H_n(f)(c_{S^n}([\id])) \\
 			   &= H_n(f)(\pm \Hur_{S^n}([\id])) \\
 			   &= \pm \Hur([f]) \\
-			   &= \pm \Hur([x])
+			   &= \pm \Hur(x)
 	\end{align*}
-	and the sign is the same for all $(n - 1)$-connected $X$ and $x \in \pi_n(X, *)$.
+	and the sign is the same for all $(n - 1)$-connected spaces $X$ and $x \in \pi_n(X, *)$.
 \end{proof}
 
-\subsection{Serre classes}
+\subsubsection{Serre classes}
 \begin{definition}
 	Let $\catfont{C} \subseteq \Ab$ be a non-empty full subcategory.
 	$\catfont{C}$ is called a \strong{Serre class}\index{Serre class} if it is closed under extensions, subgroups, quotient groups, and isomorphisms, i.e. such that given a short exact sequence 
@@ -2574,12 +2628,12 @@ Furthermore we have:
 
 	As every finitely generated abelian group is a finite direct sum of $\Zn{m}$'s and $\Z$'s, the claim then follows by induction using the Künneth short exact sequences
 	\begin{equation*}
-		\begin{tikzcd}
+		\begin{tikzcd}[column sep = smallish]
 			0
 					\ar[r]
-				& H_*(K(A, 1)) \tensor H_*(K(B, 1))
+				& H_*(K(A, 1)) \tensor H_*(K(B, 1); \Z)
 					\ar[r, hook]
-				& H_*(K(A \times B, 1))
+				& H_*(K(A \times B, 1); \Z)
 					\ar[dl, rounded corners, two heads, to path = {
 						-- ([xshift = 1em] \tikztostart.east)
 						|- ($(\tikzcdmatrixname-1-2)!0.5!(\tikzcdmatrixname-2-2)$) \tikztonodes
@@ -2587,7 +2641,7 @@ Furthermore we have:
 						--(\tikztotarget)
 					}]	
 			\\
-				& {[-1]\Tor(H_*(K(A, 1)), H_*(K(B, 1)))}
+				& {[-1]\Tor(H_*(K(A, 1); \Z), H_*(K(B, 1); \Z))}
 					\ar[r]
 				& 0
 		\end{tikzcd}
@@ -2606,6 +2660,8 @@ Our next goal is to show the following:
 \end{theorem}
 Recall that a space $X$ is \strong{simple}\index{simple space} if it is path-connected and $\pi_1(X, *)$ abelian acting trivially on $\pi_n(X, *)$ for all $n > 1$.
 In particular, every H-space is simple.
+
+This theorem immediately has important consequences:
 \begin{corollary}\label{crl:htpygrpsofspheresfg}
 	$\pi_k(S^n, *)$ is finitely generated for all $k, n$.
 \end{corollary}
@@ -2616,7 +2672,6 @@ In particular, every H-space is simple.
 	Theorem \ref{thm:protohurmodc} holds more generally for \strong{nilpotent spaces}\index{nilpotent space}.
 
 	On the other hand, $X = S^1 \vee S^2$ shows that the theorem does not hold for all spaces, since $\pi_2(X, *) \isom H_2(\tilde{X}; \Z) \isom \bigdsum_{\Z} \Z$ where $\tilde{X}$ is the universal covering of $X$.
-	% TODO: picture?
 \end{remark}
 \begin{lemma}\label{lmm:twointhreeserreclass}
 	Let $\catfont{C}$ be a Serre class satisfying the tensor axiom, $F \to Y \to X$ a fibre sequence of path-connected spaces with $\pi_1(X, *)$ acting trivially on $H_*(F; \Z)$ (so that the local system $H_*(F_{-}; \Z))$ is isomorphic to the trivial one).
@@ -2638,7 +2693,7 @@ In particular, every H-space is simple.
 			We now show that $H_n(X) \in \catfont{C}$ by induction over $n$.
 			% TODO picture?
 			For $n = 1$ we have $H_1(X) \isom E^2_{1, 0} \isom E^\infty_{1, 0} \in \catfont{C}$.
-			We now choose $n \geq 1$ and assume $H_k(X) \in \catfont{C}$ for $k = 1, \ldots, n - 1$.
+			Let now $n \geq 1$ and assume $H_k(X) \in \catfont{C}$ for $k = 1, \ldots, n - 1$.
 			Then $E^r_{p, q} \in \catfont{C}$ for $p < n$, $(p, q) \neq (0, 0)$ and all $r$.
 			We have a filtration $H_n(X) \supseteq E^3_{n, 0} \supseteq E^4_{n, 0} \supseteq \cdots \supseteq E^{n + 1}_{n, 0} = E_{n, 0}^\infty$ and short exact sequences
 			\begin{equation*}
@@ -2664,7 +2719,7 @@ In particular, every H-space is simple.
 \end{proof}
 \begin{corollary}\label{crl:maclanespaceserreclass}
 	Let $\catfont{C}$ be a Serre class satisfying the tensor and group homology axioms.
-	Then if $A \in \catfont{C}$, we have $H_k(K(A, n)) \in \catfont{C}$ for all $k > 0, n \geq 1$.
+	Then if $A \in \catfont{C}$, we have $H_k(K(A, n); \Z) \in \catfont{C}$ for all $k > 0, n \geq 1$.
 \end{corollary}
 \begin{proof}
 	By induction on $n$ starting with the group homology axiom for $n = 1$ and using the fibre sequences
@@ -2697,9 +2752,9 @@ The map $X \to \holim_n \tau_{\leq n} X$ is then a weak homotopy equivalence.
 For simplicity's sake, we assume $X$ to be path-connected.
 Then each $\tau_{\leq n} X$ is also path-connected and there is a fibre sequence
 \begin{equation*}
-	K(\pi_n X, n) \to \tau_{\leq n} X \to \tau_{\leq n - 1} X
+	K(\pi_n(X), n) \to \tau_{\leq n} X \to \tau_{\leq n - 1} X
 \end{equation*}
-(this follows from the long exact sequence of homotopy groups).
+obtained by taking the homotopy fibre and studying the resulting long exact sequence of homotopy groups.
 The key point is that if $X$ is simple, the action of $\pi_1(\tau_{\leq n} X) \isom \pi_1(X)$ on $H_*(K(\pi_n X, n))$ is trivial.
 This follows from the following two facts:
 \begin{enumerate}
@@ -2733,24 +2788,20 @@ We can now prove theorem \ref{thm:protohurmodc}, or in fact a more general versi
 \begin{proof}
 	We first assume $\pi_k(X) \in \catfont{C}$ for $0 < k < n$.
 	Consider the Postnikov tower of $X \isom \holim_n \tau_{\leq n} X$.
-	Since $H_k(X) \isom H_k(\tau_{\leq k} X)$\footnote{(from me) This holds since we can construct a model of $\tau_{\leq k} X$ from (a CW-approximation of) $X$ by attaching cells of dimension $\geq k + 2$ to kill off higher homotopy groups so that the map $X \to \tau_{\leq k} X$ induces an isomorphism on (cellular) homology in degrees $\leq k + 1$.} it suffices to show that $H_m(\tau_{\leq k} X) \in \catfont{C}$ for all $k < n$ and all $m > 0$.
+	Since $H_k(X) \isom H_k(\tau_{\leq k} X)$\footnote{(from me) This holds since we can construct a model of $\tau_{\leq k} X$ from (a CW-approximation of) $X$ by attaching cells of dimension $\geq k + 2$ to kill off higher homotopy groups so that the map $X \to \tau_{\leq k} X$ induces an isomorphism on (cellular) homology in degrees $\leq k$.} it suffices to show that $H_m(\tau_{\leq k} X) \in \catfont{C}$ for all $k < n$ and all $m > 0$.
 	This follows by induction from the fibre sequences
 	\begin{equation*}
-		K(\pi_k X, k) \to \tau_{\leq k} X \to \tau_{\leq k - 1} X
+		K(\pi_k(X), k) \to \tau_{\leq k} X \to \tau_{\leq k - 1} X
 	\end{equation*}
 	via lemma \ref{lmm:twointhreeserreclass} and corollary \ref{crl:maclanespaceserreclass}.
 
-	Next we show by induction on $n$ that if $H_k(X) \in \catfont{C}$ for all $0 < k < n$, then $\pi_n(X) \to H_n(X)$ is an isomorphism modulo $\catfont{C}$.
-	This proves the general statement by applying it inductively for smaller $n$:
-	The Hurewicz map $\pi_n(X) \to H_n(X)$ is equivalent to the map $\pi_n(X) \isom \pi_n(K(\pi_n X, n)) \xto{\isom} H_n K(\pi_n X, n) \xto{\isom} H_n(\tau_{\leq n} X) \isom H_n(X)$.
-	The induction hypothesis implies that $\pi_k(X) \in \catfont{C}$ for $k < n$.
-	By the first part of the proof we know that $H_k(\tau_{\leq n - 1} X) \in \catfont{C}$ for all $k > 0$.
-	We analyze the Serre spectral sequence for the fibre sequence
+	Next we show by induction on $n$ that if $H_k(X) \in \catfont{C}$ for all $0 < k < n$, then $\pi_n(X) \to H_n(X)$ is an isomorphism modulo $\catfont{C}$, which proves the general statement by applying it inductively for smaller $n$:
+	The Hurewicz map $\pi_n(X) \to H_n(X)$ is equivalent to the map $\pi_n(X) \isom \pi_n(K(\pi_n(X), n)) \xto{\isom} H_n K(\pi_n(X), n) \xto{\isom} H_n(\tau_{\leq n} X) \isom H_n(X)$; the induction hypothesis implies that $\pi_k(X) \in \catfont{C}$ for $k < n$ and by the first part of the proof we know that $H_k(\tau_{\leq n - 1} X) \in \catfont{C}$ for all $k > 0$.
+	We now analyze the Serre spectral sequence for the fibre sequence
 	\begin{equation*}
-		K(\pi_n X, n) \to \tau_{\leq n} X \to \tau_{\leq n - 1} X
+		K(\pi_n(X), n) \to \tau_{\leq n} X \to \tau_{\leq n - 1} X
 	\end{equation*}
-	% TODO picture
-	The first interesting differential from the 0th row is $d^{n + 1}\colon H_{n + 1}(\tau_{\leq n - 1} X) \to H_n(K(\pi_n X, n))$ with cokernel $E^\infty_{0, n}$ which sits in a short exact sequence
+	The first interesting differential from the 0th row is $d^{n + 1}\colon H_{n + 1}(\tau_{\leq n - 1} X) \to H_n(K(\pi_n(X), n))$ with cokernel $E^\infty_{0, n}$ which sits in a short exact sequence
 	\begin{equation*}
 		\begin{tikzcd}
 			0
@@ -2770,7 +2821,7 @@ We can now prove theorem \ref{thm:protohurmodc}, or in fact a more general versi
 		\begin{tikzcd}[column sep = small]
 			H_{n + 1}(\tau_{\leq n - 1} X)
 					\ar[r, "d^{n + 1}"]
-				&[1.2em] H_n K(\pi_n X, n) 
+				&[1.1em] H_n(K(\pi_n(X), n))
 					\ar[r]
 				& H_n(\tau_{\leq n})
 					\ar[r]
@@ -2781,6 +2832,53 @@ We can now prove theorem \ref{thm:protohurmodc}, or in fact a more general versi
 	\end{equation*}
 	As the first and last term are in $\catfont{C}$, this finishes the proof.
 \end{proof}
+\begin{figure}[ht]
+	\centering
+	\tikzsetnextfilename{specseq_hur_mod_c_prf}
+	\begin{tikzpicture}
+		\matrix[
+			spectral sequence/page,
+			name = m, 
+			column sep = {
+				4.5em, 
+				between origins
+			},
+			row sep = {
+				5.2ex, 
+				between origins
+			},
+			column 1/.append style = {
+				anchor = center
+			},
+			row 5/.style = {
+				font = \scriptsize
+			}] {
+				\vdotswithin{n} &[.2ex] \vdotswithin{H_n(K(\pi_n(X), n))} & \phantom{0} \\
+				n & H_n(K(\pi_n(X), n)) & \cdots \\
+				\vdotswithin{0} & \phantom{0} \\
+				0 & \Z & \cdots & H_{n + 1}(\tau_{\leq n - 1} X) & \cdots \\[-2.5ex]
+				& 0  & \cdots & n + 1 & \cdots \\
+		};
+
+		\coordinate (Origin) at (m-4-4.south -| m-2-2.west);
+
+		\draw[spectral sequence/axis] (Origin) -- (Origin |- m-1-2.north) -- ++(0, .5) node[left] (q) {$q$};
+		\draw[spectral sequence/axis] (Origin) -- (m-4-5.east |- Origin.south) -- ++(.8, 0) node[below] (p) {$p$};
+
+		\coordinate (Top Right) at (p |- q);
+
+		\coordinate (Slightly Left of p) at ($(p) - (0.14, 0)$);
+		\coordinate (Slightly Below q) at ($(q) - (0, 0.14)$);
+
+		\draw[spectral sequence/zero region] (m-4-2.north -| m-2-2.west) rectangle (m-2-2.south -| Slightly Left of p); 
+
+		\node[spectral sequence/page label] at ($(Top Right) - (0.3, 0.3)$) {$E^2_{p, q}$};
+
+		\draw[spectral sequence/differential] (m-4-4) -- node[commutative diagrams/every label, inner sep = 1pt, fill = white, swap] {$d^{n + 1}$} (m-2-2);
+	\end{tikzpicture} \\
+	$E^2_{p, q} = H_p(\tau_{\leq n - 1} X; H_q(K(\pi_n(X), n)))$
+	\caption{$E^2$-page of the Serre spectral sequence for the fibre sequence $K(\pi_n(X), n) \to \tau_{\leq n} X \to \tau_{\leq n - 1} X$.}
+\end{figure}
 \begin{corollary}
 	Let $p$ be a prime.
 	Then the first $p$-power torsion in $\pi_*(S^3)$ is a copy of $\Zn{p}$ in degree $2p$.
@@ -2789,7 +2887,7 @@ We can now prove theorem \ref{thm:protohurmodc}, or in fact a more general versi
 	Recall that we computed the homology of the homotopy fibre of $S^3 \to K(\Z, 3) = \tau_{\leq 3} S^3$ as
 	\begin{equation*}
 		H_k(F) \isom \begin{cases}
-			\Z / n 	& k = 2n\; (n > 1) \\
+			\Z / n 	& k = 2n \\
 			0 		& k \text{ odd}
 		\end{cases}
 	\end{equation*}
@@ -2820,13 +2918,59 @@ Next, we want to prove the Whitehead theorem modulo $\catfont{C}$ which requires
 	\end{enumerate}
 \end{theorem}
 \begin{proof}
-	We consider the fibre sequence $F \to X \xto{f} Y$ where $F$ is the homotopy fibre of $f$.
-	By the long exact sequence on $\pi_*$ reduced modulo $\catfont{C}$, the first condition is equivalent to saying that $F$ is $(n - 1)$-connected modulo $\catfont{C}$, i.e. that $\pi_k(F) \in \catfont{C}$ for $0 < k \leq n - 1$.
+	We consider the fibre sequence $F \coloneq \hofib(f) \to X \xto{f} Y$.
+	By the long exact sequence on homotopy groups reduced modulo $\catfont{C}$, the first condition is equivalent to saying that $F$ is $(n - 1)$-connected modulo $\catfont{C}$, i. e. that $\pi_k(F) \in \catfont{C}$ for $0 < k \leq n - 1$.
 	By the Hurewicz theorem modulo $\catfont{C}$, this is equivalent to saying that $H_k(F) \in \catfont{C}$ for $0 < k < n$.
 	We claim that $H_p(Y; H_q(F)) \in \catfont{C}$ for $0 < q \leq n - 1$, or in fact that $H_p(Y; A)$ for any $A \in \catfont{C}$.
 	This follows from the ideal property of $\catfont{C}$ which implies that $C_m(Y; A) \in \catfont{C}$ for all $m$ and hence so is its homology.
 	Thus, the region $0 < q \leq n - 1$ of the Serre spectral sequence $E^2$-page lies in $\catfont{C}$ and likewise for the $E^\infty$-page.
-	% TODO picture
+	\begin{figure}[ht]
+		\centering	
+		\tikzsetnextfilename{specseq_whitehead_mod_c_prf}
+		\begin{tikzpicture}
+			\matrix[
+				spectral sequence/page,
+				name = m, 
+				column sep = {
+					1.7em, 
+					between origins
+				},
+				row sep = {
+					8ex, 
+					between origins
+				},
+				column 1/.append style = {
+					anchor = center
+				},
+				row 4/.style = {
+					font = \scriptsize
+				}] {
+					n - 1 & \phantom{\Z} \\
+					\vdotswithin{n - 1} \\
+					0 & \Z \\[-5.8ex]
+					& 0 & \cdots \\
+			};
+
+			\coordinate (Origin) at (m-3-2.south west);
+
+			\draw[spectral sequence/axis] (Origin) -- ++(0, 4) node[left] (q) {$q$};
+			\draw[spectral sequence/axis] (Origin) -- ++(6, 0) node[below] (p) {$p$};
+
+			\coordinate (Top Right) at (p |- q);
+
+			\coordinate (Slightly Left of p) at ($(p) - (0.14, 0)$);
+			\coordinate (Slightly Below q) at ($(q) - (0, 0.14)$);
+
+			\coordinate (Alignment Helper) at (m-1-2.west |- m-1-1.center);
+
+			\draw[draw = none, pattern = {Dots[distance = 2pt, radius = .4pt]}] (m-3-2.north west) rectangle (Alignment Helper -| Slightly Left of p); 
+
+			\node[draw = none, fill = white, inner sep = 1pt] at ($(Top Right)!.5!(Origin)$) {$\in \mathcal{C}$};
+			\node[spectral sequence/page label] at ($(Top Right) - (0.3, 0.3)$) {$E^2_{p, q}$};
+		\end{tikzpicture} \\
+		$E^2_{p, q} = H_p(Y; H_q(F))$
+		\caption{$E^2$-page of the Serre spectral sequence for the fibre sequence $F \to X \to Y$.}
+	\end{figure}
 	Hence, $H_k(X)$ admits a filtration $0 \subseteq F_0 \subseteq F_1 \subseteq \cdots \subseteq F_k = H_k(X)$ with $F_i / F_{i - 1} \in \catfont{C}$ whenever $i \geq k - n + 1$ and $i < k$.
 	Moreover, the last quotient $F_k / F_{k - 1}$ is isomorphic to $H_k(Y) \isom E^2_{k, 0}$ modulo $\catfont{C}$ for $k \leq n$.
 	This implies the result for $0 < k < n$ via the edge homomorphism (all terms on the $k$th antidiagonal except for $(k, 0)$ lie in $\catfont{C}$).
@@ -3330,7 +3474,7 @@ We now turn to operations on cohomology with $\F_2$-coefficients.
 	\end{itemize}
 	Moreover, these operations are stable, $\Sq^1$ is the Bockstein homomorphism associated to the short exact sequence $0 \to \F_2 \to \Zn{4} \to \F_2 \to 0$, and they satisfy the \strong{Adem relations}\index{Adem relations}
 	\begin{equation*}
-		\Sq^i \Sq^j = \sum_{n = 0}^{\lceil i / 2\rceil} \binom{j - n - 1}{i - 2n} \Sq^{i + j - n} \Sq^n
+		\Sq^i \Sq^j = \sum_{n = 0}^{\lfloor i / 2\rfloor} \binom{j - n - 1}{i - 2n} \Sq^{i + j - n} \Sq^n
 	\end{equation*}
 	for all $0 < i < 2j$ (the product $\Sq^i \Sq^j$ here is given by composition).
 \end{theorem}
@@ -3415,11 +3559,11 @@ for homogeneous $x_i, y_i \in \symcal{A}$ of positive degree.
 	Let $i$ be the smallest power of 2 which does not appear in the binary expansion of $m - 1$.
 	We consider the Adem relation
 	\begin{equation*}
-		\Sq^i \Sq^{m - i} = \sum_{n = 0}^{\lceil i / 2\rceil} \binom{m - i - n - 1}{i - 2n} \Sq^{m - n} \Sq^n
+		\Sq^i \Sq^{m - i} = \sum_{n = 0}^{\lfloor i / 2\rfloor} \binom{m - i - n - 1}{i - 2n} \Sq^{m - n} \Sq^n
 	\end{equation*}
 	The coefficient of $\Sq^m$, i.e. the case $n = 0$ is given by $\binom{m - i -1}{i}$.
 	This number is odd since $i$ appears in the binary expansion of $m - i - 1$ (cf. Lucas' theorem). % TODO cite reference
-	Hence, $\Sq^m = \Sq^i \Sq^{m - i} + \sum_{n = 1}^{\lceil i / 2\rceil} \binom{m - i - n - 1}{i - 2n} \Sq^{m - n} \Sq^n$ is decomposable.
+	Hence, $\Sq^m = \Sq^i \Sq^{m - i} + \sum_{n = 1}^{\lfloor i / 2\rfloor} \binom{m - i - n - 1}{i - 2n} \Sq^{m - n} \Sq^n$ is decomposable.
 
 	Now let $m = 2^k$.
 	It suffices to give a graded $\symcal{A}$-module $V$ and a homogeneous element $v \in V$ such thath $\Sq^{2^k}(v) \neq 0$ and $\Sq^i(v) = 0$ for all $i = 1, \ldots, 2^k - 1$.
@@ -3429,8 +3573,8 @@ for homogeneous $x_i, y_i \in \symcal{A}$ of positive degree.
 	We then have
 	\begin{align*}
 		\Sq^0(u^{2^{k - 1}}) &= u^{2^{k - 1}} \\
-		\Sq^{2^{k - 1}}(u^{2^{k - 1}}) &= (u^{2^{k - 1}})^2 = u^{2^k} \\
-		\Sq^i(u^{2^{k - 1}}) = 0 \qquad\text{for all } i = 1, \ldots, 2^{k - 1} - 1
+		\Sq^{2^{k - 1}}(u^{2^{k - 1}}) &= (u^{2^{k - 1}})^2 = u^{2^k} \qquad\qquad\\
+		\Sq^i(u^{2^{k - 1}}) &= 0 \mathrlap{\qquad\qquad\qquad\quad\text{for all } i = 1, \ldots, 2^{k - 1} - 1}
 	\end{align*}
 	For $l = 1, \ldots, 2^k - 1$ we now have
 	\begin{equation*}
@@ -3554,7 +3698,7 @@ Now we turn to the computation of $H^*(K(\F_2, n); \F_2)$ for all $n$.
 	We further write $\big|I\big| \coloneq i_n + \ldots + i_0 = \big|\Sq^I\big|$ for the total degree.
 	The \strong{excess}\index{Steenrod squares!admissible sequence of!excess of} $e(I)$ of an admissible sequence is 
 	\begin{equation*}
-		e(I) \coloneq (i_n - 2 i_{n - 1}) + \ldots + (i_1 - 2 i_0) = i_0 = 2 i_n - \big|I\big|
+		e(I) \coloneq (i_n - 2 i_{n - 1}) + \ldots + (i_1 - 2 i_0) + i_0 = 2 i_n - \big|I\big|
 	\end{equation*}
 \end{definition}
 \begin{theorem}[Cartan-Serre]\index{Cartan-Serre theorem}\label{thm:cartanserre}
@@ -3579,7 +3723,7 @@ Now we turn to the computation of $H^*(K(\F_2, n); \F_2)$ for all $n$.
 For some motivation, consider the fibre sequence $K(\F_2, n) \to * \to K(\F_2, n + 1)$.
 % TODO picture
 
-Let $F \to E \xto[p] B$ be a fibre sequence where $F$ is path-connected, $B$ 1-connected, and $b_0 \in B$ a basepoint.
+Let $F \to E \xto{p} B$ be a fibre sequence where $F$ is path-connected, $B$ 1-connected, and $b_0 \in B$ a basepoint.
 The differentials $d_r\colon E_r^{0, r - 1} \to E_r^{r, 0}$ are each defined on a subgroup of $E_2^{0, r - 1} \isom H^{r - 1}(F; A)$ and take values in a quotient of $H^n(B; A)$ ($A$ any abelian group).
 \begin{definition}
 	We call these differentials the \strong{transgressions}\index{transgression} and $x \in H^{r - 1}(F; A)$ \strong{transgressive}\index{transgressive element} if it lies in $E_r^{0, r - 1}$ so that its transgression is defined.
