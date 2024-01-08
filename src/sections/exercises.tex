@@ -1529,3 +1529,107 @@
 	Being a finite sum of continuous functions at each point, $\mu_E$ is continuous, so the only thing left to show is that it is positive-definite (fibrewise).
 	But this is immediate: each $\mu_j$ is positive-definite (fibrewise), and this certainly does not change after taking a non-negatively weighted sum of them.
 \end{solution}
+
+\begin{exercise}
+	\leavevmode
+	\begin{enumerate}
+		\item As defined in the lecture, let $\eta_\R^{1, n + 1}$ denote the tautological bundle over $\RP^n$.
+			Prove that the Thom space $\Th(\eta_\R^{1, n + 1})$ is homeomorphic to $\RP^{n + 1}$.
+			Show this also in the limit case $n = \infty$, i.e. show that the Thom space of the universal line bundle $\eta_\R^1$ is again homeomorphic to $\RP^\infty$.
+		\item Use the Thom isomorphism and the previous part to give an alternative proof that the ring $H^*(\RP^\infty; \F_2)$ is polynomial on a class in degree 1.
+	\end{enumerate}
+\end{exercise}
+\begin{solution}
+	\leavevmode
+	\begin{enumerate}
+		\item Let $D^{n + 1}_0 \coloneq D^{n + 1} \setminus \{0\}$ be the punctured disk and $\varphi\colon D^{n + 1}_0 \to S^n \times [0, 1)$ be the map $\varphi(x) \coloneq (x / |x|, 1 - |x|)$ with $|x|$ the standard euclidean norm.
+			Clearly $\varphi$ is continuous and has a continuous inverse $S^n \times [0, 1) \to D^{n + 1}_0$ given by $(y, t) \mapsto (1 - t) y$, so it is a homeomorphism.
+			Next, note that $E\big(\eta_\R^{1, n + 1}\big) \isom S^n \times_{C_2} \R \isom S^n \times_{C_2} (-1, 1)$ where $C_2$ acts on $S^n$ antipodally and on $\R$ and $(-1, 1)$ by sign, which follows from the construction of the map $\{\text{2-sheeted coverings } p\colon X \to \RP^n\} \to \Vect_\R^1(\RP^n)$ in exercise 9.1 together with the observation that $\eta_\R^{1, n + 1}$ corresponds to the unique connected 2-sheeted covering $S^n \to \RP^n$ since it is non-trivial and metrizable.
+			We therefore obtain a map 
+			\begin{equation*}
+				\tilde{\rho}\colon D^{n + 1}_0 \xto[\isom]{\varphi} S^n \times [0, 1) \incl S^n \times (-1, 1) \surj S^n \times_{C_2} (-1, 1)
+			\end{equation*}
+			which is proper since all its constituent maps are proper (noting in particular that the quotient projection $S^n \times (-1, 1) \to S^n \times_{C_2} (-1, 1)$ is proper since it is closed and has compact fibres, and $S^n \times_{C_2} (-1, 1)$ is locally compact and Hausdorff), so we further obtain a map 
+			\begin{equation*}
+				\rho\colon D^{n + 1} \isom (D^{n + 1}_0)^+ \xto{\tilde{\rho}^+} (S^n \times_{C_2} (-1, 1))^+ \isom E\big(\eta_\R^{1, n + 1}\big)^+ \isom \Th\big(\eta_\R^{1, n + 1}\big)
+			\end{equation*}
+			using exercise 2 below.
+
+			This allows us to form a pushout diagram
+			\begin{equation*}
+				\begin{tikzcd}
+					S^n
+							\ar[r, "p"]
+							\ar[d]
+						& \RP^n
+							\ar[d]
+							\ar[ddr, bend left = 20, "\bar{s}_0"]
+					\\
+					D^{n + 1}
+							\ar[r]
+							\ar[drr, bend right = 20, swap, "\rho"]
+						& \RP^{n + 1}
+							\ar[ul, phantom, "\ulcorner" {pos = -.1}]
+							\ar[dr, dashed, swap, "\kappa", "\exists"']
+					\\[-1em]
+						& &[-1.5em] \Th\big(\eta_\R^{1, n + 1}\big)
+				\end{tikzcd}
+			\end{equation*}
+			where $p$ is the covering map and $\bar{s}_0$ is the zero section $s_0$ of $\eta_\R^{1, n + 1}$ composed with the inclusion into $\mathring{D}\big(E\big(\eta_\R^{1, n + 1}\big)\big) \subset \Th\big(\eta_\R^{1, n + 1}\big)$.
+			Since $\rho|_{S^n}$ is the inclusion of $S^n / C_2 \isom \RP^n$ into the Thom space via $\bar{s}_0$, the diagram commutes and the indicated map $\kappa$ exists.
+			Moreover, it is bijective: 
+			By commutativity of the diagram, it agrees with $\bar{s}_0$ on $\RP^n \subset \RP^{n + 1}$ which is injective, and any point in $(S^n \times_{C_2} (-1, 1))^+ \isom \Th\big(\eta_\R^{1, n + 1}\big)$ not in the image of $\bar{s}_0$ has a unique preimage under $\rho$ by construction\footnote{Festive spirits prevent me from delving into details here :)} of $\tilde{\rho}$.
+			But since all spaces involved are compact, $\kappa$ must be a homeomorphism, concluding the finite case of the exercise.
+
+			To pass to the infinite case, note that there are inclusions $E\big(\eta_\R^{1, n + 1}\big) \incl E\big(\eta_\R^{1, n + 2}\big)$ induced by the inclusion $\RP^n \incl \RP^{n + 1}$ (under the observation that the lines constituting $\RP^n \subset \RP^{n + 1}$ all lie in an $(n + 1)$-dimensional hyperplane of $\R^{n + 2}$ under the standard embedding).
+			Taking colimits, we see that $E\big(\eta_\R^1\big) \isom \colim_{k > 0} E\big(\eta_\R^{1, n + 1}\big)$, so since $\RP^\infty \isom \colim_{k > 0} \RP^k$, the result follows by noting naturality of the Thom space (e.g. via the naturality of the one-point compactification with regards to proper maps).
+		\item The Thom isomorphism in this case says (after squinting slightly) that the map $H^*(\RP^n; \F_2) \xto{u \smile {{-}}} \tilde{H}^{* + 1}(\RP^{n + 1}; \F_2)$ is an isomorphism where $u \in H^1(\RP^{n + 1}; \F_2)$ is the unique nonzero class, using that $\RP^{n + 1} \isom E\big(\eta_\R^{1, n + 1}\big)$ by the previous part.
+			Assuming by induction that $H^*(\RP^n; \F_2) \isom \F_2[u] / (u^{n + 1})$ where we identify the classes $u \in H^1(\RP^k; \F_2)$ by the Thom isomorphism $u \smile 1 = u$, and noting that the case $n = 1$ is clear since $\RP^1 \isom S^1$, we find that $H^*(\RP^{n + 1}; \F_2) \isom \F_2[u] / (u^{n + 2})$ since the Thom isomorphism preserves the multiplicative relations between the generators in different degrees\footnote{With the identifications it / we make, it is basically impossible to write this down in a meaningful formula because this statement is essentially just saying that $u \smile u^{k - 1} = u^k$ for all $k$ with all the heavy lifting behind the scenes.}, raising the total degree by 1, and $H^0(\RP^{n + 1}; \F_2) \isom \F_2$ since $\RP^{n + 1}$ is path-connected.
+
+			Passing to the limit, we obtain that $H^*(\RP^\infty; \F_2) \isom \F_2[u]$ as claimed.
+			\qedhere
+	\end{enumerate}
+\end{solution}
+
+\begin{exercise}
+	Let $\xi$ be a vector bundle over a compact base space $B$ (recall that for us \enquote{compact} in particular means that $B$ is a Hausdorff space).
+	\begin{enumerate}
+		\item Show that the total space $E = E(\xi)$ is locally compact and Hausdorff and hence its one-point compactification $E^+$ is defined.
+		\item Prove that the Thom space $\Th(\xi)$ is homeomorphic to $E^+$.
+	\end{enumerate}
+\end{exercise}
+\begin{solution}
+	\leavevmode
+	\begin{enumerate}
+		\item Both $\R$ and $B$ are locally compact and Hausdorff, and since these properties are both inherited by open subspaces and local in nature, we conclude that $U \times \R^n$ is so as well for all $U \subseteq B$ open, and therefore that $E$ has these properties since it is locally of this form.
+			Any non-compact locally compact Hausdorff space has a one-point compactification, so we see that $E$ has one after making the remaining observation that it is noncompact:
+			
+			Find a trivialization covering $\{U_i \subseteq B\}_{i \in I}$ such that there exists a point $b$ contained in only a single $U_i$ (e.g. by choosing one $U_i$ containing the point and replacing all other $U_j$ by $U_j \cap (B \setminus \{b\})$, for any trivialization covering).
+			Now cover $E$ via pulling back $\{U_j\} \times \symcal{U}_{\R^n}$ along some trivialization over $U_j$ for all $j$ where $\symcal{U}_{\R^n}$ is any open cover of $\R^n$.
+			If the cover so defined has a finite subcover, then in particular it contains only a finite subset of $\{U_i\} \times \symcal{U}_{\R^n}$ (in a trivialization over $U_i$), and by construction restricting to the fibre over $b$ yields a finite subcover of $\symcal{U}_{\R^n}$ of $\R^n$.
+			But as the choice of $\symcal{U}_{\R^n}$ was arbitrary, this implies that $\R^n$ is compact which is absurd.
+		\item $B$ is in particular paracompact, so let $\lVert\plhold\rVert$ be a choice of euclidean metric for $\xi$ (with respect to which we implicitly work).
+			We abbreviate $D \coloneq D(E)$, $S \coloneq S(E)$ such that $\Th(\xi) = D / S$ and define $\mathring{D} \coloneq D \setminus S$.
+
+			Before we begin, let us prove the following short-but-useful lemma:
+			\begin{lemma}
+				Let $X$ be a compact space and $\symcal{C} \coloneq \{C_i \subseteq X\}_{i \in I}$ be a descending family of closed sets where $I$ is totally ordered.
+				If $U \subseteq X$ is an open neighborhood of $\bigcap_{i \in I} C_i$, then there exists $i_0 \in I$ such that $C_i \subseteq U$ for all $i > i_0$.
+			\end{lemma}
+			\begin{smallproof}
+				The family $\{X \setminus C_i \mid i \in I\} \cup \{U\}$ is an open cover of $X$, so we find a finite subcover $\{X \setminus C_{i_1}, \ldots, X \setminus C_{i_n}, U\}$, and since $\symcal{C}$ is descending, this implies that $C_i \subseteq U$ for all $i > i_0 \coloneq \max\{i_1, \ldots, i_n\}$.
+			\end{smallproof}
+			This implies that $D$ and $S$ are compact:
+			The collection $\symcal{C} = \{C_i \subseteq B\}_{i \in I}$ of closed neighborhoods contained in a trivialization neighborhood $U$ has the property that the interiors $\mathring{C}_i$ cover $B$ since every point is the intersection of all closed neighborhoods containing it, which after finding a descending subsequence together with the lemma implies that each point has a closed neighborhood contained in a trivialization neighborhood.
+			By compactness, this implies that there are finitely many $C_{i_1}, \ldots, C_{i_n}$ which together cover $B$, and since each of them is contained in a trivialization neighborhood we find that $D = \bigcup_{j = 1}^n C_{i_j} \times D(\R^n)$ up to composing with trivialization homeomorphisms in each summand, so $D$ is a finite union of compact subsets and therefore compact, and similarly for $S$.
+
+			Let now $\mathring{D}^+ = \mathring{D} \cup \{\infty\}$ be the one-point compactification and define a bijection $\varphi\colon \Th(\xi) \to \mathring{D}^+$ by $\varphi(d) \coloneq d$ for all $d \in D$ and $\varphi(\zeta) \coloneq \infty$ where $\zeta \in D / S$ is the image of $S$ under the quotient map.
+			The restriction $\varphi|_{\mathring{D}}\colon \mathring{D} \xto{\id} \mathring{D}$ is continuous since the inclusion $\mathring{D} \incl \mathring{D}^+$ is an embedding, and by definition of $\mathring{D}^+$ all open neighborhoods of $\infty$ are of the form $(\mathring{D} \setminus C) \cup \{\infty\}$ where $C \subseteq \mathring{D}$ is compact.
+			But this implies that $\varphi$ is continuous at $\zeta$ as well since $\varphi^{-1}((\mathring{D} \setminus C) \cup \{\infty\}) = \mathring{D} \setminus C \cup \{\zeta\}$ which is open in $\Th(\xi)$ as $q^{-1}((\mathring{D} \setminus C) \cup \{\zeta\}) = D \setminus C$ is open where $q\colon D \surj \Th(\xi)$ is the quotient projection.
+
+			In other words, $\varphi$ is a continuous bijection, so by the compact-Hausdorff lemma it is a homeomorphism.
+
+			Finally, we note that there is a homeomorphism $\psi\colon E \to \mathring{D}$ given by $\psi(e) \coloneq \frac{e}{1 + \lVert e\rVert}$ with inverse $\psi^{-1}(d) = \frac{d}{1 - \lVert d\rVert}$, both of which are obviously continuous, so that we obtain a homeomorphism $\Th(\xi) \xto{\varphi} \mathring{D}^+ \xto{\psi^+} E^+$ using functoriality of ${{-}}^+$ in topological spaces with proper continuous maps.
+			\qedhere
+	\end{enumerate}
+\end{solution}
