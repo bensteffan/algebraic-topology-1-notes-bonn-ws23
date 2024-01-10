@@ -21,7 +21,7 @@ In case you want to compile these notes yourself, you need to...
  Here's the commands to copy:
 ```sh
  git clone git@github.com:bensteffan/algebraic-topology-1-notes-bonn-ws23.git
- cd algebraic_topology_1_lecture_notes/
+ cd algebraic-topology-1-notes-bonn-ws23/
  git submodule update --init
  cd src/
  latexmk

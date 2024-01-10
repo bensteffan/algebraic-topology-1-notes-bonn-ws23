@@ -1,4 +1,7 @@
 ensure_path('TEXINPUTS', '../latex-packages///');
+# We need to do this manually for some ordering reason, otherwise latex will choke
+system("mkdir", "-p", "figures");
+
 $pdf_mode = 4;
 $postscript_mode = $dvi_mode = 0;
 
