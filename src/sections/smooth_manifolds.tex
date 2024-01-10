@@ -1,0 +1,172 @@
+\section[Applications to Smooth Manifolds]{Applications to Smooth Manifolds: Non-Immersions and Cobordism}\lecture{08.01.24}
+We will now discuss some applications of the preceding material in geometric topology.
+In particular, we will see that smooth manifolds come with canonical vector bundles so that the Stiefel-Whitney classes become invariants of the manifold, and that the homotopy groups of $\Th(\gamma_\R^n)$ have geometric interpretations in terms of cobordism classes of smooth manifolds.
+
+To start out, we recall (or learn anew) the following notions:
+\begin{definition}
+	Let $U \subseteq \R^m$ be open.
+	A function $f\colon U \to Y \subseteq \R^n$ is \strong{smooth}\index{smooth function}\index{smooth map|see {smooth function}} if it is arbitrarily often differentiable.
+
+	If $X \subseteq \R^m$ is any subset, then a function $f\colon X \to Y \subseteq \R^n$ is called \strong{smooth}\index{smooth function} if for every $x \in X$ there exists an open $x \in U \subseteq \R^m$ and a \strong{smooth extension}\index{smooth extension} of $f$ to $U$, i.e. a smooth function (in the previous sense) $\tilde{f}\colon U \to \R^n$ such that $\tilde{f}|_{U \cap X} = f|_{U \cap X}$.
+\end{definition}
+\begin{lemma}
+	The composite of smooth maps is smooth.
+\end{lemma}
+\begin{proof}
+	Omitted.
+\end{proof}
+\begin{definition}
+	A function $f\colon X \to Y$ with $X \subseteq \R^m$, $Y \subseteq \R^n$ is a \strong{diffeomorphism}\index{diffeomorphism} if it is a smooth bijection with smooth inverse. 
+	
+	A subset $M \subseteq \R^m$ is a \strong{smooth manifold}\index{smooth manifold} of dimension $n$ if for all $x \in M$ there exists an open neighborhood $x \in U \subseteq M$ which is diffeomorphic to an open subset of $\R^n$.
+\end{definition}
+\begin{example}
+	\leavevmode
+	\begin{itemize}
+		\item Any open subset of $\R^n$ is a smooth manifold.
+		\item $S^n \subseteq \R^{n + 1}$ is a smooth manifold:
+			For each $i = 1, \ldots, n + 1$ the open subsets 
+			\begin{align*}
+				U^+_i &\coloneq \{(x_1, \ldots, x_{n + 1}) \in S^n \mid x_i > 0 \} \\
+				U^-_i &\coloneq \{(x_1, \ldots, x_{n + 1}) \in S^n \mid x_i < 0 \} 
+			\end{align*}
+			are diffeomorphic to the open disk $\mathring{D}^n$ via the projections
+			\begin{align*}
+				U^\pm_i &\to \mathring{D}^n \\
+				(x_1, \ldots, x_{n + 1}) &\mapsto (x_1, \ldots, x_{i - 1}, x_{i + 1}, \ldots, x_{n + 1})
+			\end{align*}
+	\end{itemize}
+\end{example}
+\begin{remark}
+	One can also define \enquote{abstract} smooth manifolds as second countable paracompact spaces $M$ equipped with addtional data in a variety of ways, for instance via equivalence classes of smooth atlases (cf. \cite[Ch. 1]{lee_introduction_2012}).
+	One way is to specify for every open subset $U$ of $M$ a subset $F(U) \subseteq C^0(U, \R)$ of the ring of continuous functions on $U$ sucht that 
+	\begin{enumerate}
+		\item $F$ is a \emph{sheaf}\index{sheaf}, meaning that
+			\begin{itemize}
+				\item if $V \subseteq U$ is open and $f \in F(U)$, then $f|_V \in F(V)$, and 
+				\item for every $x \in M$ there exists an open $U \ni x$ such that $(U, F|_U)$ is isomorphic to the sheaf $(\R^n, C^\infty({{-}}, \R))$ of smooth functions on $\R^n$.
+			\end{itemize}
+			A function $f\colon M \to N$ is then \strong{smooth}\index{smooth function} if $g \circ f \in F_M(f^{-1}(U))$ for all $U \subseteq N$ open and $g \in F_N(U)$.
+	\end{enumerate}
+\end{remark}
+If $M \subseteq \R^m$ is a smooth submanifold, then (tautologically) defining $F(U) \coloneq \{f\colon U \to \R \text{ smooth}\}$ for all open $U \subseteq M$ defines a smooth structure on $M$ in this abstract sense.
+Moreover, a map between submanifolds $f\colon M \to N$ is smooth if and only if it is smooth in the abstract sense. 
+Hence, submanifolds of euclidean space form a full subcategory of abstract manifolds.
+In fact, the categories are equivalent by the following result:
+\begin{theorem}[Whitney embedding theorem]\footnote{(from me) A weaker lower bound of $\R^{2n + 1}$ can relatively easily be obtained from Sard's theorem, see e.g. \cite[Theorem 6.15]{lee_introduction_2012} (once one has established the equivalence of the definition via sheaves of smooth functions and via smooth atlases of smooth manifolds briefly mentioned above, which is not difficult). The proof of the stronger bound uses transversality and the Whitney trick, see for instance \cite{whitney_self-intersections_1944}.}\index{Whitney embedding theorem}
+	Every abstract $n$-dimensional smooth manifold is diffeomorphic to a submanifold of $\R^{2n}$.
+\end{theorem}
+Let $M \subseteq \R^m$ be an $n$-dimensional manifold and $x \in M$ a point.
+We define the \strong{tangent space}\index{tangent space}
+\begin{equation*}
+	\Tang_x M \coloneq D f_0(\R^n) \subseteq \R^m
+\end{equation*}
+where $f\colon V \xto{\isom} U \ni x$, $V \subseteq \R^n$ open is a choice of local parametrization such that $f(0) = x$ and $D f_0\colon \R^n \to \R^m$ is the derivative at $0 \in V$.
+\begin{lemma}
+	$\Tang_x M$ is independent of the choice of local parametrization.
+\end{lemma}
+\begin{proof}
+	Omitted, see \cite[Section 1]{milnor_characteristic_1974}.
+\end{proof}
+\begin{definition}
+	Let $M \subseteq \R^m$ be a smooth $n$-manifold.
+	We define the \strong{tangent bundle}\index{tangent bundle} $\tau_M$ with total space $\Tang M \coloneq \{(x, v) \in M \subseteq \R^m \mid v \in \Tang_x M\}$ to be the projection $\tau_M(x, v) \coloneq x$.
+\end{definition}
+\begin{lemma}
+	\leavevmode
+	\begin{enumerate}
+		\item This defines an $n$-dimensional $\R$-vector bundle over $M$ where we make each fibre carry the vector space structure on $\Tang_x M$.
+		\item Moreover, every smooth map $f\colon M \to N$ between manifolds induces a bundle map defined via $d f_x(v) \coloneq \Tang f(x, v) \coloneq (f(x), D \tilde{f}_x(v))$ called its \strong{derivative}\index{derivative} or its \strong{differential}\index{differential|see {derivative}} where $\tilde{f}$ is a local extension of $f$ around $x$ to a smooth map on an open subset of $\R^m$.
+	\end{enumerate}
+\end{lemma}
+\begin{proof}
+	\leavevmode
+	\begin{enumerate}
+		\item Let $\varphi\colon V \xto{\isom} U$ be a local parametrization.
+			Then
+			\begin{align*}
+				U \times \R^n &\to \Tang M|_U \\
+				(y, v) &\mapsto \big(y, D_{\varphi^{-1}(y)}(v)\big)
+			\end{align*}
+			is an isomorphism.
+		\item We omit the proof that this is independent of the extension $\tilde{f}$.
+			\qedhere
+	\end{enumerate}
+\end{proof}
+\begin{definition}
+	Let $M \subseteq \R^m$ be an $n$-dimensional smooth manifold.
+	Its \strong{normal bundle}\index{normal bundle} $\nu_{M, \R^m}$ is defined as the orthogonal complement of the tangent bundle $\tau_M$ viewed as a subbundle of the trivial bundle $M \times \R^m$, i.e. its total space is given by 
+	\begin{equation*}
+		\Nu_{M, \R^m} \coloneq \{(x, v) \in M \times \R^m \mid v \in (\Tang_x M)^\perp\}
+	\end{equation*}
+
+	More generally, let $i\colon M \to N \subseteq \R^m$ be an \strong{immersion}\index{immersion}, i.e. a smooth map such that the derivative $d i_x\colon \Tang_x M \to \Tang_{i(x)} N$ is injective for all $x \in M$.
+	Then the normal bundle $\nu_i$ has total space
+	\begin{equation*}
+		\Nu_i \coloneq \big\{(x, v) \in M \times \R^m \mid v \in T_{i(x)} N,\ v \perp d i_x(\Tang_x M)\big\}
+	\end{equation*}
+	with $\nu_i((x, v)) = x$ the projection so that $i^* \tau_N \isom \tau_M \dsum \nu_i$, i.e. $\nu_i$ is the orthogonal complement of $\tau_M$ inside $i^* \tau_N$.
+\end{definition}
+Note that immersions are local but not necessarily global embeddings:
+For instance, the map 
+% TODO picture
+is an immersion.
+Also, $\RP^2$ and the Klein bottle can be immersed into $\R^3$ but not embedded.
+\begin{example}
+	We have $\Tang_x S^n = \{v \in \R^n \mid v \perp x\} = \langle x \rangle^\perp$.
+
+	It suffices to show this for $x = (0, \ldots, 0, 1)$ since for any other $x' \in S^n$ there exists an isometry $A \in \Ort(n + 1)$ such that $A x = x'$ which sends $\langle x \rangle^\perp$ to $\langle x' \rangle^\perp$ whilst mapping $\Tang_x S^n$ isomorphically onto $\Tang_{x'} S^n$ since it is an orthogonal transformation.
+
+	For the north pole $x = (0, \ldots, 0, 1)$ we use the parametrization
+	\begin{align*}
+		f\colon \mathring{D}^n &\to U \coloneq U^+_{n + 1} = \{(y_1, \ldots, y_{n + 1}) \in S^n \mid y_{n + 1} > 0\} \\
+		(y_1, \ldots, y_n) &\mapsto \big(y_1, \ldots, y_n, \sqrt{1 - |y|^2}\big)
+	\end{align*}
+	with derivative
+	\begin{equation*}
+		\pgfset{nicematrix/cell-node/.append style = {outer sep = -4pt}}
+		D f_y = {\renewcommand{\arraystretch}{1.6}\begin{pmatrix}
+			I_n \\
+			\frac{y}{\sqrt{1 - |y|^2}}
+		\end{pmatrix}} =
+		\begin{pNiceMatrix}[columns-width = auto]
+			1   &       & \Block{2-3}<\Large>{0} \\
+			&   1   &        &      &       \\
+			&       &   1    &      &       \\
+			\Block{2-3}<\Large>{0} &       &       & \Ddots    &   \\
+			&       &       &      &   1   \\
+			\frac{y_1}{\sqrt{1 - |y|^2}} & \Cdots & & & \frac{y_n}{\sqrt{1 - |y|^2}}
+		\end{pNiceMatrix}
+	\end{equation*}
+	Hence, $D f_0(\R^n) = \R^n \times \{0\} = \langle x \rangle^\perp$.
+	The normal bundle is thus given by $\Nu_{S^n, \R^{n + 1}} = \{(x, v) \in S^n \times \R^{n + 1} \mid v \in \langle x \rangle\}$ and is therefore isomorphic to the trivial line bundle via
+	\begin{align*}
+		S^n \times \R &\xto{\isom} \Nu_{S^n, \R^{n + 1}} \\
+		(x, \lambda) &\mapsto (x, \lambda x)
+	\end{align*}
+	so $\tau_{S^n} \dsum \nu_{S^n, \R^{n + 1}} \isom \tau_{S^n} \dsum \epsilon \isom \epsilon^{n + 1}$ and $\omega(\tau_{S^n}) = \omega(\tau_{S^n} \dsum \epsilon) = \omega(\epsilon^{n + 1}) = 1$ for the total Stiefel-Whitney class.
+	Nevertheless, one can show that $\tau_{S^n}$ is trivializable if and only if $n = 1$, 3, or 7.
+	This is closely related to the Hopf invariant 1 problem.
+\end{example}
+
+We now want to discuss $\RP^n$, which first we have to turn into a smooth manifold.
+This we can do in two ways:
+\begin{enumerate}
+	\item Declare a function $f\colon U \to \R$ defined on a open subset $U \subseteq \RP^n$ to be smooth if the composite $p^{-1}(U) \xto{p} U \xto{f} \R$ where $p\colon S^n \to \RP^n$ is the 2-fold covering map is smooth; or
+	\item Identify $\RP^n$ with a subspace of $\R^{(n + 1) \times (n + 1)} \isom M_{n + 1}(\R)$ via the map $A_{-}\colon L = \langle x \rangle \mapsto A_L \coloneq \frac{1}{|x|^2}(x_i x_j)_{i, j}$, or, in words, the map that sends a line in $\R^{n + 1}$ to the orthogonal projection onto that line.
+		This map is clearly injective, and the composite
+		\begin{equation*}
+			\begin{tikzcd}[row sep = -.3ex, /tikz/column 1/.append style = {anchor = base east}]
+				\tilde{g}\colon S^n
+						\ar[r, "p"]
+					& \RP^n
+						\ar[r, "A_{-}"]
+					& M_{n + 1}(\R)
+				\\
+				x
+						\ar[rr, mapsto]
+					& & (x_i x_j)_{i, j}
+			\end{tikzcd}
+		\end{equation*}
+		is smooth with smooth inverse:
+\end{enumerate}
