@@ -109,7 +109,16 @@ where $f\colon V \xto{\isom} U \ni x$, $V \subseteq \R^n$ open is a choice of lo
 \end{definition}
 Note that immersions are local but not necessarily global embeddings:
 For instance, the map 
-% TODO picture
+\begin{center}
+	\tikzsetnextfilename{smthmflds_circle_immersion}
+	\begin{tikzpicture}[thick]
+		\draw (0, 0) circle[radius = 1.7];
+		\begin{scope}[yscale = .75, xscale = 1.2, xshift = 4cm]
+			\draw plot[smooth cycle, tension = 1, xshift = 6] coordinates {(-1, 2) (1, 2) (-.7, 0) (1, -2) (-1, -2) (.7, 0)};
+		\end{scope}
+		\draw[commutative diagrams/every arrow] (2.2, 0) -- +(1.5, 0);
+	\end{tikzpicture}
+\end{center}
 is an immersion.
 Also, $\RP^2$ and the Klein bottle can be immersed into $\R^3$ but not embedded.
 \begin{example}
@@ -169,4 +178,26 @@ This we can do in two ways:
 			\end{tikzcd}
 		\end{equation*}
 		is smooth with smooth inverse:
+		For any line $L$, pick a unit vector $e_i$ not contained in $L^\perp$.
+		Then the map $A_{L'} \mapsto A_{L'}(e_i) / |A_L(e_i)|$ is a local smooth inverse to $A_{-}$ around $L$.
+		Hence, the image of $A_{-}$ is a smooth manifold and $p\colon S^n \to \RP^n \isom \img(A_{-})$ is a local diffeomorphism.
+		In particular, $d p_x\colon \Tang_x S^n = \langle x \rangle^\perp \to \Tang_{\langle x \rangle} \RP^n$ is an isomorphism for all $x \in S^n$.
+		Since any line $L \in \RP^n$ has exactly two preimages in $S^n$, which are of the form $x$, $-x$, and these satisfy $\Tang_x S^n = \langle x \rangle^\perp = \langle -x \rangle^\perp = \Tang_{-x} S^n$, this identifies $\Tang_L \RP^n$ with $L^\perp$.
+		But this is misleading:
+		The two isomorphisms
+		\begin{align*}
+			d p_x\colon \langle x \rangle^\perp &\xto{\isom} \Tang_{\langle x \rangle} \RP^n \\
+			d p_{-x}\colon \langle -x \rangle^\perp &\xto{\isom} \Tang_{\langle -x \rangle} \RP^n
+		\end{align*}
+		satisfy $d p_x = -d p_{-x}$ since the antipode $\alpha\colon S^n \to S^n$ sends $x \to -x$, has derivative $d \alpha = -I_n$, and satisfies $p \circ \alpha = p$.
+		To encode this, we instead identify $\Tang \RP^n$ with the set of all pairs
+		\begin{equation*}
+			\{(x, v), (-x, -v) \mid v \perp x\} \subseteq S^n \times \R^n
+		\end{equation*}
+		which is by construction independent of the choice of generator $x \in L$ under the antipodal map.
+		The fibre over a line $L$ identifies with the set of homomorphisms $\gamma\colon L \to L^\perp$ via $\gamma \mapsto \{(x_1, \gamma(x_1)), (x_2, \gamma(x_2))\}$ where $x_1$, $x_2$ are the two unit length generators of $L$.
+		We therefore obtain:
 \end{enumerate}
+\begin{corollary}
+	The tangent bundle $\Tang \RP^n$ is isomorphic to the \emph{hom-bundle}\index{hom-bundle} $\Hom\big(\gamma_\R^{1, n}, (\gamma_\R^{1, 2})^\perp\big)$.
+\end{corollary}
