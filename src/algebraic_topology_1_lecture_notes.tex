@@ -71,16 +71,31 @@
 		line cap = round,
 		font = \footnotesize,
 	},
+	% this style is meant to be applied to edges
 	differential/.style = {
 		commutative diagrams/every arrow,
 		thick,
-		% things look better if the gaps are ever so slightly less
 		shorten <= -.5pt,
 		shorten >= -.5pt,
 		preaction = {
 			draw = white,
 			arrows = -, 
 			line width = 0.5ex,
+		},
+		every edge quotes/.append style = {
+			% automatic math mode
+			execute at begin node = $,
+			execute at end node = $,
+			commutative diagrams/every label,
+			inner sep = 1pt,
+			fill = white,
+		},
+	},
+	% this style is meant to be applied to the parent path of the edges, see usage examples.
+	% this scheme is not ideal, but the next better option is to install a \differential macro, and then you should also go and implement proper macros for all the other icky spectral sequence things and I am but a TikZ magic apprentice and lack the chops (and time) to do that :)
+	differentials/.style = {
+		every edge/.append style = {
+			spectral sequence/differential,
 		},
 	},
 	page label/.style = {

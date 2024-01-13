@@ -1113,7 +1113,7 @@ It follows that the associated graded group $\bigdsum_p F_p / F_{p + 1}$ of a fi
 	\end{smallproof}
 	This finishes the proof.
 \end{proof}
-\begin{example}
+\begin{example}\label{expl:cohomology_cp_n}
 	We revisit the fibre sequence
 	\begin{equation*}
 		S^1 \to S^{2n + 1} \to \CP^n
@@ -1291,7 +1291,7 @@ It follows that the associated graded group $\bigdsum_p F_p / F_{p + 1}$ of a fi
 
 	Finally, both are loopspaces (as $\CP^\infty \htpyeqv \Omega K(\Z, 3)$) but $H_*(\Omega S^3; \Z)$ is polynomial while $H_*(\CP^\infty; \Z)$ is a divided power algebra.
 \end{remark}
-\begin{example}
+\begin{example}\label{expl:postnikov_section_s_3}
 	We consider the map
 	\begin{equation*}
 		S^3 \to K(\Z, 3)
@@ -3004,20 +3004,21 @@ Note that the modulo $\catfont{C}$ Whitehead theorem fails in general for Serre 
 	is not an isomorphism modulo $\Cfg$ since $H_2(X)$ is not finitely generated.
 \end{example}
 
-\subsection{Rational homotopy groups}
-Our next goal is to study the rational homotopy groups of spheres (i.e. $\pi_k(S^n) \tensor \Q$).
+\subsubsection{Rational homotopy groups}
+Our next goal is to study the rational homotopy groups $\pi_k(S^n) \tensor \Q$ of spheres. 
 For a start, we have already seen that $\pi_k(S^3)$ is finite for $k > 3$ and therefore
-\begin{equation*}\index{rational homotopy groups!of $S^3$}
+\begin{equation*}
 	\pi_k(S^3) \tensor \Q \isom \begin{cases}
 		\Q 	& k = 3 \\
 		0 	& \text{else}
 	\end{cases}
 \end{equation*}
-In particular, the 3rd Postnikov section $S^3 \to K(\Z, 3)$ is an isomorphism on $\pi_*({{-}}) \tensor \Q$ (or equivalently an isomorphism on $\pi_*({{-}})$ modulo $\Ctor$).
+In particular, the 3rd Postnikov section $S^3 \to K(\Z, 3)$ is an isomorphism on $\pi_*({{-}}) \tensor \Q$ (since its homotopy fibre is a $\tau_{\geq 4} S^3$; or equivalently an isomorphism on $\pi_*({{-}})$ modulo $\Ctor$).
 By the modulo $\Ctor$ Whitehead theorem, $S^3 \to K(\Z, 3)$ also induces an isomorphism on $H_*({{-}}; \Q)$.
 In particular, $H^*(K(\Z, 3); \Q) \isom H^*(S^3; \Q) \isom \Lambda(x)$ with $x \in H^3(S^3; \Q)$ a generator.
+
 We now turn this around and study $H^*(K(\Z, n); \Q)$ to compute $\pi_*(S^n) \tensor \Q$.
-\begin{lemma}
+\begin{proposition}\label{prop:rationalKZncohom}
 	We have
 	\begin{equation*}
 		H^*(K(\Z, n); \Q) \isom \begin{cases}
@@ -3025,28 +3026,83 @@ We now turn this around and study $H^*(K(\Z, n); \Q)$ to compute $\pi_*(S^n) \te
 			\Q[x] 		& n \text{ even}
 		\end{cases}
 	\end{equation*}
-	for $x \in H^n(K(\Z, n); \Q)$ the image of the tautological class in $H^n(K(\Z, n); \Z)$ under 
+	for $x \in H^n(K(\Z, n); \Q)$ the image of the tautological class in $H^n(K(\Z, n); \Z)$ under the coefficient map
 	\begin{equation*}
 		H^n(K(\Z, n); \Z) \to H^n(K(\Z, n); \Q)
 	\end{equation*}
-\end{lemma}
+\end{proposition}
 \begin{proof}
 	We do an induction on $n$, using the fibre sequence
 	\begin{equation*}
-		K(\Z, n - 1) \htpyeqv \Omega K(\Z, n) \to * \to K(\Z, n)
+		K(\Z, n - 1) \isom \Omega K(\Z, n) \to * \to K(\Z, n)
 	\end{equation*}
-	The cases $n = 1, 2$ are clear. 
-	% TODO ref?
-	The step $n - 1$ odd to $n$ even is entirely analogous to the previously stated $S^1 \to * \CP^\infty$.
-	For the step $n - 1$ even to $n$ odd, let $y \in H^n(K(\Z, n); \Q)$ be the fundamental class and set $x = d_{n + 1}(y)$.
-	By the product rule, $d_{n + 1}(y^m) = m (x y^{m - 1})$ which is a generator $E_n^{n + 1, (m - 1) n}$ as $y^m$ generates $H^{m n}(K(\Z, n); \Q)$ by assumption.
-	If there was a non-trivial $H^k(K(\Z, n + 1); \Q)$ with $k > n + 1$, the corresponding class in $E_2^{2, 0}$ could not be in the image of a differential, contradicting that $E_\infty^{p, q} = 0$ for all $(p, q) \neq (0, 0)$.
+	The cases $n = 1, 2$ are clear since $S^1$ is a $K(\Z, 1)$ and $\CP^\infty$ a $K(\Z, 2)$. 
+	The step $n - 1$ odd to $n$ even is entirely analogous to the previously studied fibre sequence $S^1 \to * \to \CP^\infty$, see example \ref{expl:cohomology_cp_n}.
+
+	For the step $n$ even to $n + 1$ odd, let $y \in H^n(K(\Z, n); \Q)$ be the fundamental class and set $x = d_{n + 1}(y)$.
+	By the product rule, $d_{n + 1}(y^m) = m (x y^{m - 1})$ which is a generator of $E_n^{n + 1, (m - 1) n}$ as $y^m$ generates $H^{m n}(K(\Z, n); \Q)$ by assumption.
+	If the group $H^k(K(\Z, n + 1); \Q)$ was non-trivial for some $k > n + 1$, the corresponding class in $E_2^{2, 0}$ could not be in the image of a differential, contradicting that $E_\infty^{p, q} = 0$ for all $(p, q) \neq (0, 0)$.
 \end{proof}
+\begin{figure}[ht]
+	\centering
+	\pgfsetlayers{background,main}
+	\tikzsetnextfilename{specseq_rational_cohomology_K_Z_n}
+	\begin{tikzpicture}
+		\matrix[
+			spectral sequence/page,
+			name = m, 
+			column sep = {4em, between origins},
+			row sep = 2.5ex, 
+			column 1/.append style = {anchor = base},
+			row 7/.style = {font = \scriptsize}] {
+				\vdotswithin{1} &[-2.1em] \vdotswithin{\Z}  & & \vdotswithin{\Z} \\
+				n^2 & \Q y^2 & & \Q x y^2\\
+				\vdotswithin{0} \\
+				n & \Q y  & & \Q x y\\
+				\vdotswithin{0} \\
+				0 & \Q & & \Q x \\[-2ex]
+				& 0 & \cdots & n + 1 \\
+		};
+
+		\coordinate (Origin) at (m-2-2.west |- m-6-2.south);
+
+		\draw[spectral sequence/axis] (Origin) -- (Origin |- m-1-2.north) -- ++(0, .5) node[left] (q) {$q$};
+		\draw[spectral sequence/axis] (Origin) -- (m-6-4.south east) -- ++(1.8, 0) node[below] (p) {$p$};
+
+		\coordinate (Top Right) at (p |- q);
+
+		\coordinate (Slightly Left of p) at ($(p) - (0.14, 0)$);
+		\coordinate (Slightly Below q) at ($(q) - (0, 0.14)$);
+
+		\begin{pgfonlayer}{background}
+			\draw[spectral sequence/zero region] (Origin) rectangle (Slightly Left of p |- Slightly Below q); 
+			\fill[white] (Origin) rectangle (m-6-2.north -| m-2-2.east);
+			\fill[white] (Origin |- m-4-2.south) rectangle (m-4-2.north -| m-2-2.east);
+			\fill[white] (m-2-2.south west) rectangle (m-2-2.north east);
+			\fill[white] (Origin |- m-1-2.south) rectangle (Slightly Below q -| m-2-2.east);
+
+			\fill[white] (m-6-4.south -| m-2-4.west) rectangle (m-6-4.north -| m-2-4.east);
+			\fill[white] (m-4-4.south -| m-2-4.west) rectangle (m-4-4.north -| m-2-4.east);
+			\fill[white] (m-2-4.south west) rectangle (m-2-4.north east);
+			\fill[white] (m-1-4.south -| m-2-4.west) rectangle (Slightly Below q -| m-2-4.east);
+		\end{pgfonlayer}
+
+		\node[spectral sequence/page label] at ($(Top Right) - (0.3, 0.3)$) {$E_2^{p, q}$};
+
+		\path[spectral sequence/differentials]
+			(m-4-2) edge["d_{n + 1}", "\isom"'] (m-6-4)
+			(m-2-2) edge["d_{n + 1}", "\isom"'] (m-4-4);
+	\end{tikzpicture} 
+	\begin{align*}
+		E_2^{p, q} &= H^p(K(\Z, n + 1); H^q(K(\Z, n); \Q)) \\ 
+				   &\isom H^p(K(\Z, n + 1); \Q) \tensor H^q(K(\Z, n); \Q)
+	\end{align*}
+	\caption{$E_2$-page of the Serre spectral sequence for the fibre sequence $K(\Z, n) \to * \to K(\Z, n + 1)$ with rational coefficients discussed in the proof of proposition \ref{prop:rationalKZncohom}.}
+\end{figure}
 \begin{remark}
 	Note that $K(\Z, n) \to K(\Q, n)$ is a rational $\pi_*$-isomorphism, hence by the modulo $\Ctor$ Whitehead theorem it also induces an isomorphism on $H_*({{-}}; \Q)$ and hence $H^*({{-}}; \Q)$ (for $n > 1$).
 	This is also true for $n = 1$, which one can see by noting that a model for $K(\Q, 1)$ is given by the mapping telescope $\tel\big(S^1 \xto{({{-}})^2} S^1 \xto{({{-}})^3} S^1 \xto{({{-}})^4} \cdots \big)$.
 	Each $({{-}})^n$ induces an isomorphism on $H_*({{-}}; \Q)$ and $H^*({{-}}; \Q)$.
-	% TODO picture
 \end{remark}
 \begin{theorem}[Rational homotopy groups of spheres]\label{thm:rationalhomotopyofspheres}\index{rational homotopy groups!of spheres}
 	We have
@@ -3063,7 +3119,7 @@ We now turn this around and study $H^*(K(\Z, n); \Q)$ to compute $\pi_*(S^n) \te
 	The $n$th Postnikov section $S^n \to K(\Z, n)$ induces an isomorphism on $H^*({{-}}; \Q)$, hence by duality also on homology and by the modulo $\Ctor$ Whitehead theorem also on $\pi_*({{-}}) \tensor \Q$.
 	Hence,
 	\begin{equation*}
-		\pi_k(S^n) \tensor \Q \isom \pi_k(K(\Z, n); \Q) \isom \begin{cases}
+		\pi_k(S^n) \tensor \Q \isom \pi_k(K(\Z, n)) \tensor \Q \isom \begin{cases}
 			\Q 	& k = n \\
 			0 	& \text{else}
 		\end{cases}
@@ -3071,11 +3127,19 @@ We now turn this around and study $H^*(K(\Z, n); \Q)$ to compute $\pi_*(S^n) \te
 
 	For even $n$, the map $S^n \to K(\Z, n)$ is not an isomorphism on $H^*({{-}}; \Q)$ since $H^*(K(\Z, n); \Q)$ is polynomial while $H^*(S^n; \Q)$ is exterior.
 	We try to build a space out of $K(\Z, m)$'s whose rational cohomology is exterior as follows:
+
 	Let $K(\Z, n) \to K(\Z, 2n)$ classify the cup square of the fundamental class, using that $[K(\Z, n), K(\Z, 2n)]_* \isom H^{2n}(K(\Z, n); \Z)$.
-	We obtain a fibre sequence $F \to K(\Z, n) \to K(\Z, 2n)$ by taking the homotopy fibre and a map $S^n \xto{f} F$ since the composite $S^n \to K(\Z, n) \to K(\Z, 2n)$ is nullhomotopic (as $\pi_n(K(\Z, 2n)) = 0$).
+	We obtain a fibre sequence $F \to K(\Z, n) \to K(\Z, 2n)$ by taking the homotopy fibre and a map $S^n \xto{f} F$ since the composite $S^n \to K(\Z, n) \to K(\Z, 2n)$ is nullhomotopic (as $\pi_n(K(\Z, 2n)) = 0$) and note that
+	\begin{equation*}
+		\pi_k(F) \isom \begin{cases}
+			\Z 	& k = n, 2n - 1 \\
+			0 	& \text{else}
+		\end{cases}
+	\end{equation*}
+	from the long exact sequence of homotopy groups.
+
 	We claim that $f$ induces an isomorphism on $H^*({{-}}; \Q)$:
 	Consider the Serre spectral sequence for the fibre sequence $K(\Z, 2n - 1) \to F \to K(\Z, n)$.
-	% TODO picture
 	The differential $d_{2n}\colon H^{2n - 1}(K(\Z, 2n - 1); \Q) \to H^{2n}(K(\Z, n); \Q)$ must be surjective since we know by construction that the squaring map $H^n(F; \Q) \xto{({{-}})^2} H^{2n}(F; \Q)$ is zero.
 	By the product rule, each $d_{2n}\colon E_{2n}^{kn, 2n - 1} \to E_{2n}^{(k + 2)n, 0}$ with $k \geq 0$ is an isomorphism.
 	Hence, $H^*(F; \Q) \isom \Lambda(x_n)$ and $S^n \to F$ induces an isomorphism on $H^*({{-}}; \Q)$ and therefore on $\pi_*({{-}}) \tensor \Q$.
@@ -3088,6 +3152,56 @@ We now turn this around and study $H^*(K(\Z, n); \Q)$ to compute $\pi_*(S^n) \te
 	\end{equation*}
 	if $n$ is even, as claimed.
 \end{proof}
+\begin{figure}[ht]
+	\centering
+	\pgfsetlayers{background,main}
+	\tikzsetnextfilename{specseq_rational_htpy_grps_auxiliary}
+	\begin{tikzpicture}
+		\matrix[
+			spectral sequence/page,
+			name = m, 
+			column sep = {2em, between origins},
+			row sep = 2.5ex, 
+			column 1/.append style = {anchor = base},
+			row 4/.style = {font = \scriptsize}] {
+				2n - 1 & \Q  & & \Q & & \Q & & \Q & \cdots \\
+				\vdotswithin{0} \\
+				0 & \Q & & \Q & & \Q & & \Q & \cdots \\[-2ex]
+				& 0 & \cdots & n & \cdots & 2n & \cdots & 3n & \cdots \\
+		};
+
+		\coordinate (Origin) at (m-3-2.south west);
+
+		\draw[spectral sequence/axis] (Origin) -- (Origin |- m-1-2.north) -- ++(0, 1) node[left] (q) {$q$};
+		\draw[spectral sequence/axis] (Origin) -- (m-3-9.east |- m-3-8.south) -- ++(.8, 0) node[below] (p) {$p$};
+
+		\coordinate (Top Right) at (p |- q);
+
+		\coordinate (Slightly Left of p) at ($(p) - (0.14, 0)$);
+		\coordinate (Slightly Below q) at ($(q) - (0, 0.14)$);
+
+		\begin{pgfonlayer}{background}
+			\draw[spectral sequence/zero region] (Origin) rectangle (Slightly Left of p |- Slightly Below q); 
+			\foreach \x in {2, 4, ..., 8}
+				\foreach \y in {1, 3} 
+					\fill[white] (m-\y-\x.south west) rectangle (m-\y-\x.north east);
+			\foreach \y in {1, 3} 
+				\fill[white] (m-\y-9.west |- m-\y-8.south) rectangle (m-\y-8.north -| Slightly Left of p);
+		\end{pgfonlayer}
+
+		\node[spectral sequence/page label] at ($(Top Right) - (0.3, 0.3)$) {$E_2^{p, q}$};
+
+		\path[spectral sequence/differentials]
+			(m-1-2) edge["d_{2n}", "\isom"'] (m-3-4)
+			(m-1-4) edge["d_{2n}", "\isom"'] (m-3-6)
+			(m-1-6) edge["d_{2n}", "\isom"'] (m-3-8);
+	\end{tikzpicture}
+	\begin{align*}
+		E_2^{p, q} &= H^p(K(\Z, n); H^q(K(\Z, 2n - 1); \Q)) \\
+				&\isom H^p(K(\Z, n); \Q) \tensor H^q(K(\Z, 2n - 1); \Q)
+	\end{align*}
+	\caption{$E_2$-page of the Serre spectral sequence for the fibre sequence $K(\Z, 2n - 1) \to F \to K(\Z, n)$ with rational coefficients discussed in the proof of theorem \ref{thm:rationalhomotopyofspheres}.}
+\end{figure}
 \begin{corollary}
 	The homotopy groups of the spheres satisfy
 	\begin{equation*}
@@ -3120,7 +3234,7 @@ and
 	H^{2n}(S^{2n}; \Z) &\xto{\isom} H^{2n}(C(f); \Z) \\
 	b &\mapsto \tilde{b}
 \end{align*}
-(induced by $C(f) \mapsto \Sigma S^{2n - 1} \isom S^{2n}$).
+(induced by $C(f) \to \Sigma S^{2n - 1} \isom S^{2n}$).
 Then $\tilde{a} \smile \tilde{a} = h(f) \tilde{b}$ for a unique $h(f) \in \Z$.
 \begin{definition}
 	This $h(f)$ is called the \strong{Hopf invariant}\index{Hopf invariant} of $f$.
@@ -3128,9 +3242,9 @@ Then $\tilde{a} \smile \tilde{a} = h(f) \tilde{b}$ for a unique $h(f) \in \Z$.
 \begin{lemma}
 	\leavevmode	
 	\begin{itemize}
-		\item $h({{-}})$ defines a group homomorphism
+		\item The Hopf invariant defines a group homomorphism
 			\begin{equation*}
-				\pi_{2n - 1}(S^n) \to \Z
+				h\colon \pi_{2n - 1}(S^n) \to \Z
 			\end{equation*}
 		\item $h(f) = 0$ if $n$ is odd.
 		\item If $n$ is even, $h([\iota_n, \iota_n]) = \pm 2$ where $[\iota_n, \iota_n]$ is the composite
@@ -3141,31 +3255,212 @@ Then $\tilde{a} \smile \tilde{a} = h(f) \tilde{b}$ for a unique $h(f) \in \Z$.
 	\end{itemize}
 \end{lemma}
 \begin{proof}
-	% TODO: link exercise 7.1
-	This is exercise TODO.
+	This is exercise \ref{ex:hopfinvariant}.
 \end{proof}
 \begin{corollary}
-	For even $n$, the map $h({{-}})\colon \underbrace{\pi_{2n - 1}(S^n) / \text{torsion}}_{\isom \Z} \to \Z$ is injective.
+	For even $n$, the map $h\colon \underbrace{\pi_{2n - 1}(S^n) / \text{torsion}}_{\isom \Z} \to \Z$ is injective.
 	As a special case, we have that $h(\eta\colon S^3 \to S^2) = \pm 1$ since $C(\eta) \isom \CP^2$ and $H^*(\CP^2; \Z) \isom \Z[x] / x^3$ as well as $h(S^7 \to S^4) = h(S^{15} \to S^8) = \pm 1$ by noting similarly that $S^7 \isom S(\fieldfont{H}^2)$, $S^4 \isom \HP^1$, $S^{15} \isom S(\fieldfont{O}^2)$, and that $S^8 \isom \fieldfont{O}\mathrm{P}^1$ with the given maps being the attaching maps of the respective cells in the projective spaces one dimension higher.
 \end{corollary}
 \begin{theorem}[Adams 1960, Hopf invariant 1 problem]\index{Hopf invariant 1 problem}
 	$n = 2, 4$ and 8 are the only dimensions with elements of Hopf invariant 1.
 \end{theorem}
-Note that $\pi_{2n - 1}(S^n)$ is the last \enquote{unstable} homotopy group of codimension $n - 1$ (in the sense of the Freudenthal suspension theorem) and therefore surjectes on the stable, finite group $\pi_{2n}(S^{n + 1})$.
+Note that $\pi_{2n - 1}(S^n)$ is the last \enquote{unstable} homotopy group of codimension $n - 1$ (in the sense of the Freudenthal suspension theorem) and therefore surjects onto the stable, finite group $\pi_{2n}(S^{n + 1})$.
 Hence, $\pi_{2n - 1}(S^n) \xto{\Sigma} \pi_{2n}(S^{n + 1})$ must have a nontrivial kernel.
 In fact, $\Sigma [\iota_n, \iota_n] = 0$ (consider e.g. $\Z \isom \pi_3(S^2) \surj \pi_4(S^3) \isom \Zn{2}$, $\Z \dsum \Zn{12} \isom \pi_7(S^4) \surj \pi_8(S^5) \isom \Zn{24}$).
 
 Using our computation of $H^*(K(\Z, n); \Q)$, we can deduce a rationl Hurewicz theorem which is stronger than the general modulo $\catfont{C}$ one:
-\begin{theorem}
+\begin{theorem}[Rational Hurewicz theorem]\index{rational Hurewicz theorem}
 	Let $X$ be simply-connected and $\pi_i(X) \tensor \Q \isom 0$ for $i \leq n - 1$.
 	Then the Hurewicz map $\pi_i(X) \tensor \Q \to H_i(X; \Q)$ is an isomorphism for $1 \leq i \leq 2n - 2$ and a surjection for $i = 2n - 1$.
 \end{theorem}
 \begin{proof}
-	% TODO: next lecture	
+	Let $\tau_{\geq i} X$ be the $(i - 1)$-connected cover of $X$, i.e. the fibre of $X \to \tau_{\leq i - 1} X$.
+	We consider the diagram
+	\begin{equation*}
+		\begin{tikzcd}
+			\pi_i(\tau_{\geq i} X) \tensor \Q
+					\ar[r, "\isom"]
+					\ar[d, "\isom"]
+				& H_i(\tau_{\geq i} X; \Q)
+					\ar[d]
+			\\
+			\pi_i(X) \tensor \Q
+					\ar[r]
+				& H_i(X; \Q)
+		\end{tikzcd}
+	\end{equation*}
+	where the top row horizontal isomorphism stems from the Hurewicz theorem.
+	Hence, $\pi_i(X) \tensor \Q \to H_i(X; \Q)$ is an isomorphism (surjective, respectively) if and only if $H_i(\tau_{\geq i} X; \Q) \to H_i(X; \Q)$ is.
+	\begin{lemma}\label{lmm:rationalhurewiczhelper}
+		If $X$ is 1-connected and rationally $(n - 1)$-connected, then
+		\begin{equation*}
+			H_i(\tau_{\geq n + 1} X; \Q) \to H_i(X; \Q)
+		\end{equation*}
+		is an isomorphism for $n < i \leq 2n - 2$ and surjective for $i = 2n - 1$.
+	\end{lemma}
+	\begin{smallproof}[Proof of lemma]
+		Let $A$ be an abelian group.
+		% TODO give an argument as to why this is true!
+		Then $H_*(K(A, n); \Q)$ is concentrated in degrees a multiple of $n$ and $H_n(K(A, n); \Q) \isom A \tensor \Q$.
+		We consider the fibre sequence $\tau_{\geq n + 1} X \to X \to \tau_{\leq n} X$ and its rotation $\Omega \tau_{\leq n} X \to \tau_{\geq n + 1} X \to X$.
+		There is a diagram of fibre sequences
+		\begin{equation*}
+			\begin{tikzcd}
+				\Omega \tau_{\leq n} X 
+						\ar[r]
+						\ar[d, equal]
+					& \tau_{\geq n + 1} X
+						\ar[r]
+						\ar[d]
+					& X
+						\ar[d]
+				\\
+				\Omega \tau_{\leq n} X
+						\ar[r]
+					& *
+						\ar[r]
+					& \tau_{\leq n} X
+				\\
+				K(\pi_n(X), n - 1)
+						\ar[r]
+						\ar[u, "f"]
+					& *
+						\ar[r]
+						\ar[u, equal]
+					& K(\pi_n(X), n)
+						\ar[u, "g"]
+			\end{tikzcd}
+		\end{equation*}
+		where $f$ induces an isomorphism on $H_*({{-}}; \Q)$ and $g$ induces an isomorphism on $\pi_*({{-}}) \tensor \Q$ and by the Hurewicz theorem therefore also on $H_*({{-}}; \Q)$.
+		Up to total degree $2n - 1$, the rational Serre spectral sequence for the top row has potentially non-trivial entries only in degrees $(0, 0)$, $(i, 0)$ for $i \geq n$, $(0, n - 1)$, $(n, n - 1)$, and $(0, 2n - 2)$.
+		By naturality, the differential $d_n\colon H_n(X; \Q) \to H_{n - 1}(\Omega \tau_{\leq n} X; \Q)$ must also be an isomorphism since the corresponding differential in the Serre spectral sequence of the middle sequence is, and $d_n\colon E^n_{n, n - 1} \to E^n_{0, 2n - 1}$ is surjective.
+		Hence, in this range the $(n + 1)$st page has entries at most in the positions $(0, 0)$, $(i, 0)$ for $i > n$, and $(n, n - 1)$.
+		For degree reasons there are no further differentials.
+		By the edge homomorphism, the claim follows.
+	\end{smallproof}
+	Iterated application of this lemma then yields the result.
+	% TODO? picture
 \end{proof}
+\begin{figure}[ht]
+	\centering
+	\pgfsetlayers{background,main}
+	\tikzsetnextfilename{specseq_rational_hurthm_specseq_comp}
+	\begin{tikzpicture}
+		% these values should be the same for both matrices below, so we define some macros.
+		% we could also set up a style but hey
+		\def\colsep{2.5em}
+		\def\rowsep{1ex}
+		\def\colsepcorr{-.6ex}
+		\def\rowsepcorr{-1.3ex}
+		\begin{scope}[local bounding box = box 1, xshift = -4cm]
+			\matrix[
+				spectral sequence/page,
+				name = m, 
+				every node/.append style = {inner sep = 5pt},
+				column sep = {\colsep, between origins},
+				row sep = \rowsep, 
+				column 1/.append style = {anchor = base},
+				row 7/.style = {font = \scriptsize}] {
+					\vdotswithin{2n - 2} &[\colsepcorr] \vdotswithin{\bullet} & & \vdotswithin{\bullet} & \adots \\
+					2n - 2 & \bullet & & \bullet & \cdots \\
+					\vdotswithin{n - 1} & \phantom{0} \\	
+					n - 1 & \bullet & & \bullet & \cdots \\
+					\vdotswithin{0} & \phantom{0} \\	
+					0 & \bullet & & \bullet & \cdots \\[\rowsepcorr]
+					& 0 & \cdots & n & \cdots \\
+			};
+
+			\coordinate (Origin) at (m-6-2.south west);
+
+			\draw[spectral sequence/axis] (Origin) -- (Origin |- m-1-2.north) -- ++(0, .8) node[left] (q) {$q$};
+			\draw[spectral sequence/axis] (Origin) -- (m-6-5.south east) -- ++(1, 0) node[below] (p) {$p$};
+
+			\coordinate (Top Right) at (p |- q);
+
+			\coordinate (Slightly Left of p) at ($(p) - (0.14, 0)$);
+			\coordinate (Slightly Below q) at ($(q) - (0, 0.14)$);
+
+			\begin{pgfonlayer}{background}
+				\draw[spectral sequence/zero region] (Origin) rectangle (Slightly Left of p |- Slightly Below q); 
+
+				\fill[white] 
+					(m-6-2.south west) rectangle (m-6-2.north east)
+					(m-4-2.south west) rectangle (m-4-2.north east)
+					(m-2-2.south west) rectangle (m-2-2.east |- Slightly Below q)
+					(m-6-4.south west) rectangle (m-6-4.north -| Slightly Left of p)
+					(m-4-4.south west) rectangle (m-4-4.north -| Slightly Left of p)
+					(m-2-4.south west) rectangle (Top Right);
+			\end{pgfonlayer}
+
+			\node[spectral sequence/page label] at ($(Top Right) - (0.3, 0.3)$) {$E^2_{p, q}$};
+
+			\path[spectral sequence/differentials]
+				(m-6-4) edge[highlightcol, swap, "d_n"] (m-4-2)
+				(m-4-4) edge[swap, "d_n"] (m-2-2);
+		\end{scope}
+		\begin{scope}[local bounding box = box 2, xshift = 4cm]
+			\matrix[
+				spectral sequence/page,
+				name = n, 
+				every node/.append style = {inner sep = 5pt},
+				column sep = {\colsep, between origins},
+				row sep = \rowsep, 
+				column 1/.append style = {anchor = base},
+				row 7/.style = {font = \scriptsize}] {
+					\vdotswithin{2n - 2} &[\colsepcorr] \vdotswithin{\bullet} & & \vdotswithin{\bullet} \\
+					2n - 2 & \bullet & & \bullet \\
+					\vdotswithin{n - 1} & \phantom{0} \\	
+					n - 1 & \bullet & & \bullet \\
+					\vdotswithin{0} & \phantom{0} \\	
+					0 & \bullet & & \bullet & \phantom{\cdots} \\[\rowsepcorr]
+					& 0 & \cdots & n & \cdots \\
+			};
+
+			\coordinate (Origin) at (n-6-2.south west);
+
+			\draw[spectral sequence/axis] (Origin) -- (Origin |- n-1-2.north) -- ++(0, .8) node[left] (q) {$q$};
+			\draw[spectral sequence/axis] (Origin) -- (n-6-5.south east) -- ++(1, 0) node[below] (p) {$p$};
+
+			\coordinate (Top Right) at (p |- q);
+
+			\coordinate (Slightly Left of p) at ($(p) - (0.14, 0)$);
+			\coordinate (Slightly Below q) at ($(q) - (0, 0.14)$);
+
+			\begin{pgfonlayer}{background}
+				\draw[spectral sequence/zero region] (Origin) rectangle (Slightly Left of p |- Slightly Below q); 
+
+				\fill[white] 
+					(n-6-2.south west) rectangle (n-6-2.north east)
+					(n-4-2.south west) rectangle (n-4-2.north east)
+					(n-2-2.south west) rectangle (n-2-2.east |- Slightly Below q)
+					(n-6-4.south west) rectangle (n-6-4.north east)
+					(n-4-4.south west) rectangle (n-4-4.north east)
+					(n-2-4.south west) rectangle (n-2-4.east |- Slightly Below q);
+			\end{pgfonlayer}
+
+			\node[spectral sequence/page label] at ($(Top Right) - (0.3, 0.3)$) {$E^2_{p, q}$};
+
+			\path[spectral sequence/differentials]
+				(n-6-4) edge[highlightcol, swap, "d_n", "\isom"'] (n-4-2)
+				(n-4-4) edge[swap, "d_n"] (n-2-2);
+		\end{scope}
+
+		\path[commutative diagrams/every arrow, line width = 1pt, shorten < = 1ex, shorten > = 1ex] (box 1.east) -- (box 2.west);
+		
+		\node[below = 3.5ex of m-6-4] {$\begin{aligned}
+				E^2_{p, q} &= H_p(X; H_q(\Omega \tau_{\leq n} X; \Q)) \\
+						&\Rightarrow H_{p + q}(\tau_{\geq n + 1} X; \Q)
+			\end{aligned}$};
+		\node[below = 3.5ex of n-6-4] {$\begin{aligned}
+				E^2_{p, q} &= H_p(\tau_{\leq n} X; H_q(\Omega \tau_{\leq n} X; \Q)) \\
+						&\Rightarrow H_{p + q}(*; \Q)
+			\end{aligned}$};
+	\end{tikzpicture}
+	\caption{The map of spectral sequences considered in the proof of lemma \ref{lmm:rationalhurewiczhelper} above. The differential in question is highlight in \textcolor{highlightcol}{red}.}
+\end{figure}
 \begin{corollary}
 	Let $X$ be a pointed space.
-	For $k \in \N$ consider the colimit $\pi_k^\text{st}(X) \times \Q = \colim_{n} \pi_{k + n}(\Sigma^n X) \times \Q$ along the suspension maps.
+	For $k \in \N$ consider the colimit $\pi_k^\text{st}(X) \tensor \Q = \colim_{n} \pi_{k + n}(\Sigma^n X) \tensor \Q$ along the suspension maps.
 	We obtain a Hurewicz map
 	\begin{equation*}
 		\pi_k^\text{st}(X) \tensor \Q \to H_k(X; \Q)
@@ -3193,87 +3488,14 @@ Using our computation of $H^*(K(\Z, n); \Q)$, we can deduce a rationl Hurewicz t
 \end{corollary}
 \begin{proof}
 	By the rational Hurewicz theorem, $\pi_{k + n}(\Sigma^n X) \tensor \Q \to H_{k + n}(\Sigma^n X; \Q)$ is an isomorphism up to degree $k + n \leq 2n - 2$ since $\Sigma^n X$ is $(n - 1)$-connected.
-	Hence, for fixed $k$ and $n - 2 \geq k$, the maps in the constant system are isomorphisms.
+	Hence, for fixed $k$ and $n - 2 \geq k$, the maps in the directed system are isomorphisms.
 \end{proof}
 In particular, $\pi^\text{st}_*({{-}}) \tensor \Q$ is a homology theory, i.e. it has long exact sequences for cofiber sequences even though the unstable $\pi_*$ do not.
 We will see in an exercise that in fact $\pi^\text{st}_*({{-}})$ is already a homology theory called \emph{stable homotopy}\index{stable homotopy}.
 Its coefficients are the stable homotopy groups of spheres.
-\lecture{17.11.23}
-\begin{theorem}
-	Let $X$ be 1-connected, $\pi_i(X) \tensor \Q = 0$ for $i = 1, \ldots, n - 1$.
-	Then the Hurewicz map $\pi_i(X) \tensor \Q \to H_i(X; \Q)$ is an isomorphism for $0 \leq i \leq 2n - 2$ and surjective for $i = 2n - 1$.
-\end{theorem}
-\begin{proof}
-	Let $\tau_{\geq i} X$ be the $(i - 1)$-connected cover of $X$, i.e. the fibre of $X \mapsto \tau_{\leq i - 1} X$.
-	We consider the diagram
-	\begin{equation*}
-		\begin{tikzcd}
-			\pi_i(\tau_{\geq i} X) \tensor \Q
-					\ar[r, "\isom"]
-					\ar[d, "\isom"]
-				& H_i(\tau_{\geq i} X; \Q)
-					\ar[d]
-			\\
-			\pi_i(X) \tensor \Q
-					\ar[r]
-				& H_i(X; \Q)
-		\end{tikzcd}
-	\end{equation*}
-	where the top row horizontal isomorphism stems from the Hurewicz theorem.
-	Hence, $\pi_i(X) \tensor \Q \to H_i(X; \Q)$ is an isomorphism (surjective, respectively) if and only if $H_i(\tau_{\geq i} X; \Q) \to H_i(X; \Q)$ is.
-\begin{lemma}
-	If $X$ is 1-connected and rationally $(n - 1)$-connected, then
-	\begin{equation*}
-		H_i(\tau_{\geq n + 1} X; \Q) \to H_i(X; \Q)
-	\end{equation*}
-	is an isomorphism for $n < i \leq 2n - 2$ and surjective for $i = 2n - 1$.
-\end{lemma}
-Iterated application of this lemma then yields the result.
-% TODO picture
-\begin{smallproof}[Proof of lemma]
-	Let $A$ be an abelian group.
-	Then $H_*(K(A, n); \Q)$ is concentrated in degrees a multiple of $n$ and $H_n(K(A, n); \Q) \isom A \tensor \Q$.
-	We consider the fibre sequence $\tau_{\geq n + 1} X \to X \to \tau_{\leq n} X$ and its rotation $\Omega \tau_{\leq n} \to \tau_{\geq n + 1} X \to X$.
-	There is a diagram of fibre sequences
-	\begin{equation*}
-		\begin{tikzcd}
-			\Omega \tau_{\leq n} X 
-					\ar[r]
-					\ar[d, equal]
-				& \tau_{\geq n + 1} X
-					\ar[r]
-					\ar[d]
-				& X
-					\ar[d]
-			\\
-			\Omega \tau_{\leq n} X
-					\ar[r]
-				& *
-					\ar[r]
-				& \tau_{\leq n} X
-			\\
-			K(\pi_n X, n - 1)
-					\ar[r]
-					\ar[u, "f"]
-				& *
-					\ar[r]
-					\ar[u, equal]
-				& K(\pi_n X, n)
-					\ar[u, "g"]
-		\end{tikzcd}
-	\end{equation*}
-	where $f$ induces an isomorphism on $H_*({{-}}; \Q)$ and $g$ induces an isomorphism on $\pi_*({{-}}) \tensor \Q$ and by the Hurewicz theorem therefore also on $H_*({{-}}; \Q)$.
-	Up to total degree $2n - 1$, the rational Serre spectral sequence for the top row has potentially non-trivial entries only in degrees $(0, 0)$, $(i, 0)$ for $n \leq i$, $(0, n - 1)$, $(n, n - 1)$, and $(0, 2n - 2)$.
-	% TODO picture
-	By naturality, the differential $d_n\colon H_n(X; \Q) \to H_{n - 1}(\Omega \tau_{\leq n} X; \Q)$ must also be an isomorphism and $d_n\colon E^n_{n, n - 1} \to E^n_{0, 2n - 1}$ is surjective.
-	Hence, in this range the $(n + 1)$st page has entries at most in the positions $(0, 0)$, $(i, 0)$ for $i > n$, and $(n, n - 1)$.
-	% TODO picture
-	For degree reasons there are no further differentials.
-	By the edge homomorphism, the claim follows.
-\end{smallproof}
-\end{proof}
 
 \subsection{Cohomology operations and the cohomology of \texorpdfstring{$K(\F_2, n)$}{K(F2, n)}}
+\lecture{17.11.23}
 \begin{definition}
 	A \strong{cohomology operation}\index{cohomology operation} is a natural transformation 
 	\begin{equation*}
