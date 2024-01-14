@@ -201,3 +201,195 @@ This we can do in two ways:
 \begin{corollary}
 	The tangent bundle $\Tang \RP^n$ is isomorphic to the \emph{hom-bundle}\index{hom-bundle} $\Hom\big(\gamma_\R^{1, n}, (\gamma_\R^{1, 2})^\perp\big)$.
 \end{corollary}
+\lecture{12.01.24}
+\begin{remark}
+	If $M$ is a smooth $n$-manifold and $i\colon M \to \RP^m$ an immersion, then there is a continuous map
+	\begin{align*}
+		M &\to \Gr_n(\R^m) \\
+		x &\mapsto d i_x(\Tang_x M)
+	\end{align*}
+	which is covered by the bundle map (known as the \strong{Gauss map}\index{Gauss map})
+	\begin{align*}
+		\Tang M &\to E\big(\gamma_\R^{n, m}\big) \\
+		(x, v) &\mapsto (d i_x(\Tang_x M), d i_x(v))
+	\end{align*}
+	Hence, the composite $M \to \Gr_n(\R^m) \incl \Gr_n^\R$ classifies the tangent bundle $\tau_M$ under the bijection
+	\begin{equation*}
+		\Vect_\R^n(M) \isom \big[M, \Gr_n^\R\big]
+	\end{equation*}
+	The same construction works for the normal bundle $\nu_i$ of $i$, which is classified by the map
+	\begin{align*}
+		M &\to \Gr_{m - n}(\R^m)\;\big(\incl \Gr_{m - n}^\R\big) \\
+		x &\mapsto d i_x(\Tang_x M)^\perp
+	\end{align*}
+\end{remark}
+
+Now let $i\colon M \to \R^m$ be an immersion of a smooth $n$-manifold $M$ into euclidean space.
+We can consider the total Stiefel-Whitney class of the tangent bundle
+\begin{equation*}
+	\omega(\tau_M) = 1 + \omega_1(\tau_M) + \ldots \in H^\pi(M; \F_2)
+\end{equation*}
+Let $1 + \overline{\omega_1}(\tau_M) + \ldots \eqcolon \overline{\omega}(\tau_M) \coloneq \omega(\tau_M)^{-1} \in H^\pi(M; \F_2)$ be its inverse.
+\begin{proposition}\label{prop:vanishingomegainverse}
+	We have $\overline{\omega}_j(\tau_M) = 0$ for $j > m - n$.
+\end{proposition}
+\begin{proof}
+	Let $\nu_i$ be the normal bundle for the immersion $i$.
+	Then $\tau_M \dsum \nu_i = \epsilon^n$ and hence $\omega(\nu_i) = \omega(\tau_M)^{-1} = \overline{\omega}(\tau_M)$.
+	Since $\nu_i$ is $(m - n)$-dimensional, the claim follows from the dimensionality axiom of the Stiefel-Whitney classes.
+\end{proof}
+
+We now want to study immersions of projective spaces, for which we need to understand $\overline{\omega}(\tau_{\RP^n})$.
+\begin{theorem}
+	There is an isomorphism
+	\begin{equation*}
+		\tau_{\RP^n} \dsum \epsilon \isom \bigdsum^{n + 1} \gamma_\R^{1, n + 1}
+	\end{equation*}
+	Hence,
+	\begin{equation*}
+		\omega(\tau_{\RP^n}) = \omega(\tau_{\RP^n} \dsum \epsilon) = (1 + u)^{n + 1} = \sum_{j = 0}^n \binom{n + 1}{j} u^j
+	\end{equation*}
+	since $u^{n + 1} = 0 \in H^*(\RP^n; \F_2)$.
+\end{theorem}
+\begin{proof}
+	The line bundle $\Hom(\gamma_\R^{1, n + 1}, \gamma_\R^{1, n + 1})$ over $\RP^n$ is trivializable since the identity map gives a canonical non-zero element in each fibre.
+	Hence, we compute
+	\begin{align*}
+		\Hom(\gamma_\R^{1, n + 1}, (\gamma_\R^{1, n + 1})^\perp) \dsum \epsilon &\isom \Hom(\gamma_\R^{1, n + 1}, (\gamma_\R^{1, n + 1})^\perp) \dsum \Hom(\gamma_\R^{1, n + 1}, \gamma_\R^{1, n + 1}) \\
+																				&\isom \Hom(\gamma_\R^{1, n + 1}, \underbrace{(\gamma_\R^{1, n + 1})^\perp \dsum \gamma_\R^{1, n + 1}}_{\isom \epsilon^{n + 1}}) \\
+																				&\isom \Hom(\gamma_\R^{1, n + 1}, \epsilon^{n + 1}) \\
+																				&\isom \bigdsum^{n + 1} \Hom(\gamma_\R^{1, n + 1}, \epsilon)
+	\end{align*}
+	Finally, we have $\Hom(\gamma_\R^{1, n + 1}, \epsilon) \isom \gamma_\R^{1, n + 1}$ since $\gamma_\R^{1, n + 1}$ admits a euclidean metric that allows us to canonically identify each fibre with its dual.
+\end{proof}
+\begin{corollary}
+	If $\tau_{\RP^n}$ is trivializable, then $n + 1$ must be a power of 2.
+\end{corollary}
+\begin{proof}
+	If $n + 1 = 2^r m$ with $m > 1$ odd, then
+	\begin{align*}
+		\omega(\tau_{\RP^n}) &= (1 + u)^{2^r m} \\
+							 &= (1 + u^{2^r})^m \\
+							 &= 1 + \underbrace{m u^{2^r}}_{= u^{2^r} \neq 0} + \text{ higher order terms}
+	\end{align*}
+	contradicting triviality of the Stiefel-Whitney classes of a trivial bundle.
+\end{proof}
+Regarding non-immersions of $\RP^n$, we focus on the case $n = 2^k$ where the results are sharpest.
+In this case, we have $\omega(\tau_{\RP^n}) = (1 + u)^{2^k + 1} = (1 + u)(1 + u^{2k}) = 1 + u + u^{2^k}$ and hence $\overline{\omega}(\tau_{\RP^n}) = 1 + u + u^2 + \cdots + u^{2^k - 1}$ since
+\begin{align*}
+	(1 + u + u^{2^k})(1 + u + u^2 + \cdots + u^{2^k - 1}) &= (1 + u)(1 + u + u^2 + \cdots + u^{2^k - 1} + u^{2^k}) \\
+														  &= 1 + u^{2^k} + u^{2^k} \\
+														  &= 1
+\end{align*}
+\begin{corollary}
+	If $\RP^{2^k}$ immerses into $\R^m$, then $m \geq 2^k + (2^k - 1)$.
+\end{corollary}
+\begin{proof}
+	This follows from the preceding computation and proposition \ref{prop:vanishingomegainverse}.
+\end{proof}
+Generally, we have
+\begin{theorem}[Whitney]\index{Whitney immersion theorem}
+	Every smooth $n$-manifold ($n \geq 1$) immerses into $\R^{2n - 1}$.
+\end{theorem}
+Hence our bound for $\RP^{2^k}$ is optimal, but in general the bounds for immersions of $\RP^m$ into euclidean space obtained by this method are not.
+In fact, the lowest possible dimensions are generally not know to this date.
+Better bounds can nevertheless be obtained via characteristic classes of generalized cohomology theories.
+
+For general $m$, let $\alpha(m)$ be the number of set bits in its binary expansion, so that $m = \sum_{i = 1}^{\alpha(m)} 2^{n_i}$ with $n_1 < \ldots < n_{\alpha(m)}$.
+Let $M = \RP^{2^{n_1}} \times \cdots \times \RP^{2^{n_{\alpha(m)}}}$.
+Then $\overline{\omega}(\tau_M) = \overline{\omega}\big(\tau_{\RP^{n_1}}\big) \times \cdots \times \overline{\omega}\big(\tau_{\RP^{n_{\alpha(m)}}}\big)$ with highest non-trivial term $u^{2^{n_1} - 1} \times \cdots \times u^{2^{n_{\alpha(m)}} - 1}$ in degree $m - \alpha(m)$.
+The \emph{immersion conjecure}\index{immersion conjecture} states that if $N$ is any $m$-manifold, then $N$ immerses into $\R^{2m - \alpha(m)}$.
+A proof of this was claimed by Ralph L. Cohen in his 1985 paper \cite{cohen_immersion_1985}, but its correctness is controversial.
+
+We now turn to the final topic of the course:
+\subsection{Bordism}
+We write $\H^n$ for the \strong{uppper half-plane}\index{upper half-plane} of $\R^n$, i.e. the subspace $\H^n \coloneq \{(x_1, \ldots, x_n) \mid x_1 > 0\} \subset \R^n$.
+\begin{definition}
+	A subset $X \subset \R^n$ is a \strong{smooth $n$-manifold with boundary}\index{manifold!with boundary} if for each $x \in X$ there is a neighborhood $U \subseteq X$ which is diffeomorphic to an open subset of $\H^n$.
+	Given such an $X$, we say that $x \in X$ is an \strong{interior point}\index{interior point} of $X$ if it has a neighborhood diffeomorphic to an open subset of $\R^n$ (which is true if and only if $H_n(X, X \setminus \{x\}; \Z) \isom \Z$).
+
+	The interior points $\mathring{X}$ form an open subset of $X$ which is an $n$-dimensional smooth manifold (without boundary), whereas the \strong{boundary}\index{boundary!of a manifold} $\del X$ of $X$, i.e. the space of all non-interior points, forms a smooth $(n - 1)$-manifold (again without boundary).
+\end{definition}
+
+We can then define two variants of bordism, one internal and one external:
+\begin{definition}\index{cobordant manifolds}\index{bordism}
+	\leavevmode
+	\begin{itemize}
+		\item Two smooth, compact $n$-dimensional manifolds $M$, $M'$ in $\R^m$ are called \strong{cobordant in $\R^m$} if there exists a $(n + 1)$-dimensional smooth, compact manifold with boundary $N \subseteq \R^m \times [0, 1]$ such that
+			\begin{enumerate}
+				\item there exists an $\epsilon > 0$ such that $N \cap (\R^m \times [0, \epsilon)) = M \times [0, \epsilon)$ and $N \cap (\R^m \times (1 - \epsilon, 1]) = M' \times (1 - \epsilon, 1]$, and
+				\item the boundary of $N$ is $\del N = N \cap (\R^m \times \{0, 1\}) = M \times \{0\} \sqcup M' \times \{1\}$.
+					% TODO picture
+			\end{enumerate}
+		\item Two smooth compact $M$, $M'$ (in possibly different-dimensional euclidean spaces) are called \strong{cobordant} if there exists a smooth compact $(n + 1)$-dimensional manifold with boundary $N$ such that $\del N$ is diffeomorphic to $M \sqcup M'$.
+	\end{itemize}
+\end{definition}
+
+Note that there is no collar assumption in the abstract definition since differential topology provides us with the following theorem:
+\begin{theorem}[Collar neighborhood theorem]\index{collar neighborhood theorem}
+	If $N$ is a smooth manifold with boundary, then there exists an open neighborhood of $\del N$ in $N$ which is diffeomorphic to $\del N \times [0, 1)$.
+\end{theorem}
+For a proof see \cite[Theorem 9.25]{lee_introduction_2012}.
+\begin{lemma}
+	Both bordism in $\R^m$ and abstract bordism are equivalence relations.
+\end{lemma}
+\begin{proof}
+	We only treat bordism in $\R^m$; the abstract case is also not hard.
+	\begin{itemize}
+		\item \strong{Reflexivity:} $N = M \times [0, 1] \subseteq \R^m \times [0, 1]$ is a bordism from $M$ to itself.
+		\item \strong{Symmetry:} If $N \subseteq \R^m \times [0, 1]$ is a bordism from $M$ to $M'$, then $\overline{N} \coloneq \{(x, t) \mid (x, 1 - t) \in N\}$ is a bordism from $M'$ to $M$.
+		\item \strong{Transitivity:} If $N \subseteq \R^m \times [0, 1]$ is a bordism from $M$ to $M'$ and $N' \subseteq \R^m \times [1, 2]$ is a bordism from $M'$ to $M''$, then $N'' \coloneq N \cup N' \subseteq \R^m \times [0, 2]$ is a bordism from $M$ to $M''$:
+			Indeed, by the collar assumption, $N''$ agrees with $M' \times (1 - \epsilon, 1 + \epsilon)$ around $\R^m \times \{1\}$ and hence forms a smooth manifold with boundary.
+			% TODO picture
+			\qedhere
+	\end{itemize}
+\end{proof}
+We write 
+\begin{equation*}
+	\Bord_n^{(m)} \coloneq \{M \mid M \text{ compact } n \text{-dimensional manifold in } \R^m\} / \text{ bordism in } \R^m
+\end{equation*}
+and 
+\begin{equation*}
+	\Bord_n \coloneq \{M \mid M \text{ compact } n \text{-dimensional manifold}\} / \text{ bordism}
+\end{equation*}
+for the sets of equivalence classes.
+
+We have stabilization maps $\Bord_n^{(m)} \to \Bord_n^{(m + 1)}$ and maps $\Bord_n^{(m)} \to \Bord_n$ that forget the embedding in euclidean space.
+The Whitney embedding theorem for manifolds with boundary\index{Whitney embedding theorem!for manifolds with boundary} implies that the map $\colim_{m \in \N} \Bord_n^{(m)} \to \Bord_n$ is a bijection, i.e. bordism in infinite-dimensional euclidean space $\R^\infty$ is equivalent to abstract cobordism.
+
+We next note that $\Bord_n^{(m)}$ and $\Bord_n$ both come with additional structure:
+Let $M, M' \subseteq \R^m$ be compact $n$-dimensional smooth manifolds.
+Then, by replacing $M'$ with cobordant manifold if necessary, we can assume that $M$ and $M'$ are disjoint. For instance, the translate $(M' + v)$ for any $v \in \R^m$ is cobordant to $M'$ via $N = \{(m' + \alpha(t)v, t) \mid m' \in M', t \in [0, 1]\}$ where $\alpha\colon [0, 1] \to \R$ is a smooth function satisfying 
+\begin{equation*}
+	\alpha(t) = \begin{cases}
+		0 & t < 1 / 4 \\
+		1 & t > 3 / 4
+	\end{cases}
+\end{equation*}
+Then the disjoint union is a again a smooth compact $n$-manifold.
+\begin{lemma}
+	The bordism class of $M \sqcup M'$ only depends on the bordism classes of $M$ and $M'$.
+	The operation
+	\begin{align*}
+		\Bord_n^{(m)} \times \Bord_n^{(m)} &\to \Bord_n^{(m)} \\
+		([M], [M']) &\mapsto [M \sqcup M']
+	\end{align*}
+	turns $\Bord_n^{(m)}$ into a 2-torsion abelian group with neutral element $[\emptyset]$\footnote{(from me) It is customary to consider the empty set as a compact manifold without boundary of every dimension in this context.}.
+\end{lemma}
+\begin{proof}
+	Clear.
+\end{proof}
+Similarly $\Bord_n$ becomes a 2-torsion abelian group via disjoint union.
+Moreover, we have
+\begin{lemma}
+	Given $[M] \in \Bord_n$, $[M'] \in \Bord_{n'}$, the product
+	\begin{equation*}
+		[M] \times [M'] \coloneq [M \times M'] \in \Bord_{n + n'}
+	\end{equation*}
+	is well-defined, associative and commutative.
+	Thus, $\Bord_* \coloneq \bigdsum_{n \in \N} \Bord_n$ forms a graded, commutative $\F_2$-algebra.
+\end{lemma}
+\begin{proof}
+	If $N$ is a bordism from $M_1$ to $M_2$, then $N \times M'$ is a bordism from $M_1 \times M'$ to $M_2 \times M'$ and likewise in the other variable.
+	Associativity and commutativity follow directly from the respective properties of the product of spaces.
+\end{proof}
