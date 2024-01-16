@@ -303,31 +303,35 @@ A proof of this was claimed by Ralph L. Cohen in his 1985 paper \cite{cohen_imme
 
 We now turn to the final topic of the course:
 \subsection{Bordism}
-We write $\H^n$ for the \strong{uppper half-plane}\index{upper half-plane} of $\R^n$, i.e. the subspace $\H^n \coloneq \{(x_1, \ldots, x_n) \mid x_1 > 0\} \subset \R^n$.
+\begin{note}
+	In this section, all manifolds will be assumed smooth.
+\end{note}
+We write $\H^n$ for the \strong{upper half-plane}\index{upper half-plane} $\H^n \coloneq \{(x_1, \ldots, x_n) \mid x_1 > 0\} \subset \R^n$ of $\R^n$.
 \begin{definition}
-	A subset $X \subset \R^n$ is a \strong{smooth $n$-manifold with boundary}\index{manifold!with boundary} if for each $x \in X$ there is a neighborhood $U \subseteq X$ which is diffeomorphic to an open subset of $\H^n$.
+	A subset $X \subset \R^n$ is a \strong{$n$-manifold with boundary}\index{manifold!with boundary} if for each $x \in X$ there is a neighborhood $U \subseteq X$ which is diffeomorphic to an open subset of $\H^n$.
 	Given such an $X$, we say that $x \in X$ is an \strong{interior point}\index{interior point} of $X$ if it has a neighborhood diffeomorphic to an open subset of $\R^n$ (which is true if and only if $H_n(X, X \setminus \{x\}; \Z) \isom \Z$).
 
-	The interior points $\mathring{X}$ form an open subset of $X$ which is an $n$-dimensional smooth manifold (without boundary), whereas the \strong{boundary}\index{boundary!of a manifold} $\del X$ of $X$, i.e. the space of all non-interior points, forms a smooth $(n - 1)$-manifold (again without boundary).
+	The interior points $\mathring{X}$ form an open subset of $X$ which is an $n$-dimensional (non-compact) manifold (without boundary), whereas the \strong{boundary}\index{boundary!of a manifold} $\del X$ of $X$, i.e. the space of all non-interior points, forms a $(n - 1)$-manifold (again without boundary).
 \end{definition}
+For brevity's sake, we will take \enquote{compact manifold} to mean \enquote{compact manifold with or without boundary} and \enquote{\strong{closed}\index{closed manifold} manifold} to mean \enquote{compact manifold without boundary.}
 
 We can then define two variants of bordism, one internal and one external:
 \begin{definition}\index{cobordant manifolds}\index{bordism}
 	\leavevmode
 	\begin{itemize}
-		\item Two smooth, compact $n$-dimensional manifolds $M$, $M'$ in $\R^m$ are called \strong{cobordant in $\R^m$} if there exists a $(n + 1)$-dimensional smooth, compact manifold with boundary $N \subseteq \R^m \times [0, 1]$ such that
+		\item Two closed $n$-manifolds $M$, $M'$ in $\R^m$ are called \strong{cobordant in $\R^m$} if there exists a $(n + 1)$-dimensional compact manifold with boundary $N \subseteq \R^m \times [0, 1]$ such that
 			\begin{enumerate}
 				\item there exists an $\epsilon > 0$ such that $N \cap (\R^m \times [0, \epsilon)) = M \times [0, \epsilon)$ and $N \cap (\R^m \times (1 - \epsilon, 1]) = M' \times (1 - \epsilon, 1]$, and
 				\item the boundary of $N$ is $\del N = N \cap (\R^m \times \{0, 1\}) = M \times \{0\} \sqcup M' \times \{1\}$.
 					% TODO picture
 			\end{enumerate}
-		\item Two smooth compact $M$, $M'$ (in possibly different-dimensional euclidean spaces) are called \strong{cobordant} if there exists a smooth compact $(n + 1)$-dimensional manifold with boundary $N$ such that $\del N$ is diffeomorphic to $M \sqcup M'$.
+		\item Two closed $n$-manifolds $M$, $M'$ (in possibly different-dimensional euclidean spaces) are called \strong{cobordant} if there exists a compact $(n + 1)$-dimensional manifold with boundary $N$ such that $\del N$ is diffeomorphic to $M \sqcup M'$.
 	\end{itemize}
 \end{definition}
 
 Note that there is no collar assumption in the abstract definition since differential topology provides us with the following theorem:
-\begin{theorem}[Collar neighborhood theorem]\index{collar neighborhood theorem}
-	If $N$ is a smooth manifold with boundary, then there exists an open neighborhood of $\del N$ in $N$ which is diffeomorphic to $\del N \times [0, 1)$.
+\begin{theorem}[Collar neighborhood theorem]\index{collar neighborhood theorem}\label{thm:collarnbhd}
+	If $N$ is a manifold with boundary, then there exists an open neighborhood of $\del N$ in $N$ which is diffeomorphic to $\del N \times [0, 1)$.
 \end{theorem}
 For a proof see \cite[Theorem 9.25]{lee_introduction_2012}.
 \begin{lemma}
@@ -346,11 +350,11 @@ For a proof see \cite[Theorem 9.25]{lee_introduction_2012}.
 \end{proof}
 We write 
 \begin{equation*}
-	\Bord_n^{(m)} \coloneq \{M \mid M \text{ compact } n \text{-dimensional manifold in } \R^m\} / \text{ bordism in } \R^m
+	\Bord_n^{(m)} \coloneq \{M \mid M \text{ closed } n \text{-manifold in } \R^m\} /\,\text{bordism in } \R^m
 \end{equation*}
 and 
 \begin{equation*}
-	\Bord_n \coloneq \{M \mid M \text{ compact } n \text{-dimensional manifold}\} / \text{ bordism}
+	\Bord_n \coloneq \{M \mid M \text{ closed } n \text{-manifold}\} /\,\text{bordism}
 \end{equation*}
 for the sets of equivalence classes.
 
@@ -358,7 +362,7 @@ We have stabilization maps $\Bord_n^{(m)} \to \Bord_n^{(m + 1)}$ and maps $\Bord
 The Whitney embedding theorem for manifolds with boundary\index{Whitney embedding theorem!for manifolds with boundary} implies that the map $\colim_{m \in \N} \Bord_n^{(m)} \to \Bord_n$ is a bijection, i.e. bordism in infinite-dimensional euclidean space $\R^\infty$ is equivalent to abstract cobordism.
 
 We next note that $\Bord_n^{(m)}$ and $\Bord_n$ both come with additional structure:
-Let $M, M' \subseteq \R^m$ be compact $n$-dimensional smooth manifolds.
+Let $M, M' \subseteq \R^m$ be closed $n$-manifolds.
 Then, by replacing $M'$ with cobordant manifold if necessary, we can assume that $M$ and $M'$ are disjoint. For instance, the translate $(M' + v)$ for any $v \in \R^m$ is cobordant to $M'$ via $N = \{(m' + \alpha(t)v, t) \mid m' \in M', t \in [0, 1]\}$ where $\alpha\colon [0, 1] \to \R$ is a smooth function satisfying 
 \begin{equation*}
 	\alpha(t) = \begin{cases}
@@ -366,7 +370,7 @@ Then, by replacing $M'$ with cobordant manifold if necessary, we can assume that
 		1 & t > 3 / 4
 	\end{cases}
 \end{equation*}
-Then the disjoint union is a again a smooth compact $n$-manifold.
+The disjoint union is then again a closed $n$-manifold.
 \begin{lemma}
 	The bordism class of $M \sqcup M'$ only depends on the bordism classes of $M$ and $M'$.
 	The operation
@@ -393,3 +397,223 @@ Moreover, we have
 	If $N$ is a bordism from $M_1$ to $M_2$, then $N \times M'$ is a bordism from $M_1 \times M'$ to $M_2 \times M'$ and likewise in the other variable.
 	Associativity and commutativity follow directly from the respective properties of the product of spaces.
 \end{proof}
+\lecture{15.01.24}
+Our main goal here is to understand $\Bord_*$.
+We study this ring via the so-called \emph{Stiefel-Whitney numbers}\index{Stiefel-Whitney numbers} defined as follows:
+
+Let $M$ be a closed $n$-manifold.
+There is then a fundamental class $\mu_M \in H_n(M; \F_2)$ and we obtain a homomorphism
+\begin{equation*}
+		\begin{tikzcd}[row sep = -.2ex]
+		H^n(M; \F_2)
+				\ar[r, "\isom"]
+			& \Hom(H_n(M; \F_2), \F_2)
+				\ar[r, "\ev_{\mu_M}"]
+			& \F_2
+		\\
+		x 
+				\ar[rr, mapsto]
+			& & \langle x, \mu_M \rangle
+	\end{tikzcd}
+\end{equation*}
+Further, let $r_1, \ldots, r_n \in \N$ be such that $r_1 + 2 r_2 + \ldots + n r_n = n$.
+Then the product $\omega_1(\tau_M)^{r_1} \cdots \omega_n(\tau_M)^{r_n}$ lies in $H^n(M; \F_2)$ and we obtain a number
+\begin{equation*}
+	\big\langle \omega_1(\tau_M)^{r_1} \cdots \omega_n(\tau_M)^{r_n}, \mu_M \big\rangle \in \F_2
+\end{equation*}
+called the \strong{Stiefel-Whitney number}\index{Stiefel-Whitney numbers} of $M$ associated to the sequence $(r_1, \ldots, r_n)$ and denoted $\omega_1^{r_1} \cdots \omega_n^{r_n}[M] \in \F_2$.
+\begin{example}
+	Let $M = \RP^n$.
+	We distinguish two cases:
+	\begin{enumerate}
+		\item $n$ is even.
+			Then $\omega_n\big(\tau_{\RP^n}\big) = (n + 1) u^n \neq 0$ so $\omega_n[\RP^n] \neq 0$.
+			Generally speaking, the Stiefel-Whitney numbers in this case are products of binomial coefficients which again turn out to be particularly simple if $n = 2^k$ for some $k \geq 1$:
+			We have
+			\begin{equation*}
+				\omega\big(\tau_{\RP^{2^k}}\big) = 1 + u + u^{2^k}
+			\end{equation*}
+			hence $\omega_1^{2^k}\big[\RP^{2^k}\big] \neq 0$, but $\omega_1^{r_1} \cdots \omega_n^{r_n}\big[\RP^{2^k}\big] = 0$ for all monomials except $\omega_1^{2^k}$ and $\omega_{2^k}$.
+		\item $n = 2k - 1$ is odd.
+			Then $\omega\big(\tau_{\RP^n}\big) = (1 + u)^{2k} = (1 + u^2)^k$ and hence $\omega_i\big(\tau_{\RP^n}\big) = 0$ if $i$ is odd.
+			If $r_1 + 2 r_2 + \ldots + n r_n = 2k - 1$, then at least one $r_i$ with $i$ odd has to be non-zero, hence $\omega_1^{r_1} \cdots \omega_n^{r_n}[\RP^n] = 0$ for all such sequence $(r_1, \ldots, r_n)$.
+	\end{enumerate}
+\end{example}
+
+The Stiefel-Whitney numbers are bordism invariants:
+\begin{theorem}
+	If a closed $n$-manifold $M$ is the boundary of a compact $(n + 1)$-manifold, then all Stiefel-Whitney numbers of $M$ are zero.
+\end{theorem}
+\begin{proof}
+	There is a relative fundamental class $\mu_N \in H_{n + 1}(N, M; \F_2)$ which maps to $\mu_M$ under the boundary map $\del\colon H_{n + 1}(N, M; \F_2) \to H_n(M; \F_2)$.
+	For any $x \in H^n(M; \F_2)$ we then have
+	\begin{equation*}
+		\big\langle x, \mu_M \big\rangle = \big\langle x, \del \mu_M \big\rangle = \big\langle \delta x, \mu_N \big\rangle
+	\end{equation*}
+	where $\delta\colon H^n(M; \F_2) \to H^{n + 1}(N, M; \F_2)$ is the coboundary map by the compatibility of the evaluation pairing $\langle {{-}}, {{-}} \rangle$ with (co)boundary operators.
+	From the collar neighborhood theorem (\ref{thm:collarnbhd}), it follows that a neighborhood of $M$ in $N$ is diffeomorphic to $M \times [0, \epsilon)$.
+	Hence, we get to consider a \enquote{shifted} copy of $M$ as sitting inside the interior of $N$ with trivial normal line bundle\footnote{One can alternatively work with the tangent space of the boundary directly without using collar neighborhoods, but this requires some more work to set up.}.
+	It follows that $(\tau_N)|_M \isom \tau_M \dsum \epsilon$ and hence $i^*(\omega(\tau_{\mathring{N}})) = \omega(\tau_M)$ where $i\colon M \incl N$ is the inclusion.
+	Hence, each $\omega_i(\tau_M)$ lies in the image of $i^*\colon H^i(N; \F_2) \to H^i(M; \F_2)$ and therefore so does every monomial $\omega_1^{r_1}(\tau_M) \cdots \omega_n^{r_n}(\tau_M) \in H^n(M; \F_2)$.
+	By exactness, every such monomial thus maps to zero under $\delta\colon H^n(M; \F_2) \to H^{n + 1}(N, M; \F_2)$ and we obtain
+	\begin{align*}
+		\omega_1^{r_1} \cdots \omega_n^{r_n}[M] &= \big\langle \omega_1^{r_1}(\tau_M) \cdots \omega_n^{r_n}(\tau_M), \mu_M \big\rangle \\ 
+												&= \big\langle \underbrace{\delta(\omega_1^{r_1}(\tau_M) \cdots \omega_n^{r_n}(\tau_M))}_{= 0}, \mu_N \big\rangle \\
+												&= 0 
+												\qedhere
+	\end{align*}
+\end{proof}
+\begin{corollary}
+	If $n$ is even, then $\RP^n$ is not the boundary of a compact $(n + 1)$-manifold.
+\end{corollary}
+\begin{corollary}
+	If $M$ is cobordant to $M'$, then
+	\begin{equation*}
+		\omega_1^{r_1} \cdots \omega_n^{r_n}[M] = \omega_1^{r_1} \cdots \omega_n^{r_n}[M']
+	\end{equation*}
+	for all sequences $(r_1, \ldots, r_n)$ with $r_1 + 2 r_2 + \ldots + n r_n = n$.
+\end{corollary}
+\begin{proof}
+	Since $M$ is cobordant to $M'$, the disjoint union $M \sqcup M'$ is the boundary of a compact $(n + 1)$-manifold, so all Stiefel-Whitney numbers of $M \sqcup M'$ are zero.
+	We thus have
+	\begin{equation*}
+		0 = \omega_1^{r_1} \cdots \omega_n^{r_n}[M \sqcup M'] = \omega_1^{r_1} \cdots \omega_n^{r_n}[M] + \omega_1^{r_1} \cdots \omega_n^{r_n}[M']
+	\end{equation*}
+	since $\mu_{M \sqcup M'} = \mu_M + \mu_{M'} \in H^n(M; \F_2) \dsum H^n(M'; \F_2) \isom H^n(M \sqcup M'; \F_2)$ and the Stiefel-Whitney classes are computed component-wise, so we conclude that both summands must be equal for all monomials.
+\end{proof}
+\begin{example}
+	We have
+	\begin{align*}
+		\omega\big(\tau_{\RP^2 \times \RP^2}\big) &= \omega\big(\tau_{\RP^2}\big) \times \omega\big(\tau_{\RP^2}\big) \\
+												  &= (1 + u_1 + u_1^2) \times (1 + u_2 + u_2^2) \\
+												  &= 1 + \underbrace{u_1 \times 1 + 1 \times u_2}_{= \omega_1} + \underbrace{u_1 \times u_2 + u_1^2 \times 1 + 1 \times u_2^2}_{= \omega_2} \\ 
+												  &\qquad\quad + \underbrace{u_1 \times u_2^2 + u_1^2 \times u_2}_{= \omega_3} + \underbrace{u_1^2 \times u_2^2}_{= \omega_4}
+	\end{align*}
+	where $u_1$ and $u_2$ are the generators of $H^*(\RP^2; \F_2)$ in the respective factors.
+	There are Stiefel-Whitney numbers associated to the following sequences:
+	\begin{itemize}
+		\item $(4, 0, 0 ,0)$: $\omega_1^4 = 0$.
+		\item $(2, 1, 0 ,0)$: $\omega_1^2 \omega_2 = u_1^2 \times u_2^2 + u_1^2 \times u_2^2 = 0 $.
+		\item $(1, 0, 1 ,0)$: $\omega_1 \omega_3 = u_1^2 \times u_2^2 + u_1^2 \times u_2^2 = 0 $.
+		\item $(0, 2, 0 ,0)$: $\omega_2^2 = u_1^2 \times u_2^2 \neq 0 $.
+		\item $(0, 0, 0 ,1)$: $\omega_4 = u_1^2 \times u_2^2 \neq 0 $.
+	\end{itemize}
+	so
+	\begin{align*}
+		\omega_1^4[\RP^2 \times \RP^2] &= 0 \\
+		\omega_1^2 \omega_2[\RP^2 \times \RP^2] &= 0 \\
+		\omega_1 \omega_3[\RP^2 \times \RP^2] &= 0 \\
+		\omega_2^2[\RP^2 \times \RP^2] &= 1 \\
+		\omega_4[\RP^2 \times \RP^2] &= 1
+	\end{align*}
+	We have already seen that the only non-zero Stiefel-Whitney numbers of $\RP^4$ are $\omega_1^4[\RP^4]$ and $\omega_4[\RP^4]$.
+	It follows that $\RP^4$, $\RP^2 \times \RP^2$, and $\RP^4 \sqcup \RP^2 \times \RP^2$ represent pairwise different, non-trivial cobordism classes and $\Bord_4$ is at least 2-dimensional as an $\F_2$-vector space.
+\end{example}
+We can also consider the 4-manifold $\CP^2$ which can be equipped with a smooth structure in an analogous manner to real projective space, and by the same computation satisfies $\tau_{\CP^2} \isom \Hom_\C(\gamma_\C^{1, 3}, (\gamma_\C^{1, 3})^\perp)$, or more precisely, the real bundle underlying this complex bundle.
+Using the same argument as in the real case, we can compute its Chern-classes via
+\begin{align*}
+	c\big(\Hom_\C(\gamma_\C^{1, 3}, \big(\gamma_\C^{1, 3}\big)^\perp)\big) &= c\big(\Hom_\C\big(\gamma_\C^{1, 3}, \epsilon_\C^3\big)\big) \\
+														   				   &= c\big(\Hom_\C\big(\gamma_\C^{1, 3}, \epsilon_\C\big)\big)^3
+\end{align*}
+As $\Hom_\C\big(\gamma_\C^{1, 3}, \epsilon_\C\big)$ is the tensor inverse of $\gamma_\C^{1, 3}$, we find that
+\begin{equation*}
+	c_1\big(\Hom_\C\big(\gamma_\C^{1, 3}, \epsilon\big)\big) = -c_1\big(\gamma_\C^{1, 3}\big) = -u \in \Z[u] / u^3 \isom H^*(\CP^2; \Z)
+\end{equation*}
+Hence, $c\big(\Hom_\C\big(\gamma_\C^{1, 3}, \big(\gamma_\C^{1, 3}\big)^\perp\big)\big) = (1 - u)^3 = 1 - 3u + 3u^2$.
+To understand the Stiefel-Whitney classes of the underlying real bundle, we have the following lemma:
+\begin{lemma}
+	Let $\xi$ be a complex vector bundle over a paracompact base $B$ and $\xi_\R$ its underlying real bundle.
+	Then:
+	\begin{enumerate}
+		\item\label{lma:swofcomplexbundle:1} $\omega_i(\xi_\R) = 0$ if $i$ is odd.
+		\item\label{lma:swofcomplexbundle:2} $\omega_{2i}(\xi_\R)$ is the modulo 2 reduction of $c_i \in H^{2i}(B; \Z)$.
+	\end{enumerate}
+\end{lemma}
+In other words, the modulo 2 reduction of $c(\xi_\R)$ equals $\omega(\xi_\R)$.
+\begin{proof}
+	It suffices to show this for the universal case $\xi = \gamma_\C^n$, $n > 0$.
+	Since $H^*\big(\Gr_n^\C; \F_2\big) \isom \F_2[\bar{c}_1, \ldots, \bar{c}_n]$ with $\bar{c}_i$ the modulo 2 reduction of $c_i$ is concentrated in even degrees, property \ref{lma:swofcomplexbundle:1} follows.
+
+	For property \ref{lma:swofcomplexbundle:2}, the claim follows by induction on $n$ for all $i < n$ by the commutative square
+	\begin{equation*}
+		\tikzsetnextfilename{smthmdflds_commsquare}
+		\begin{tikzpicture}[
+			% setup some helpers to declutter the matrix head below
+			gray column/.style args = {#1}{
+				column #1/.append style = {
+					knowngray
+				},
+			},
+			column separators/.style args = {#1/#2}{
+				column #1/.append style = {
+					column sep = #2,
+				},
+			},
+			row separators/.style args = {#1/#2}{
+				row #1/.append style = {
+					row sep = #2,
+				},
+			},
+			commutative diagrams/.cd, 
+			every diagram, 
+			sep = large]
+			\matrix[
+				matrix of math nodes, 
+				name = m, 
+				commutative diagrams/every matrix,
+				commutative diagrams/every cell,
+				gray column/.list = {2, 3},
+				% not the ideal way to to this but whatevs
+				column separators/.list = {1/-2.2em, 2/5.7em, 3/-2.5em},
+				row separators/.list = {1/-.6ex, 2/3.7ex, 3/-.6ex}] {
+					H^{2i}\big(\Gr_n^\C; \Z\big) 	& & & H^{2i}\big(\Gr_{n - 1}^\C; \Z\big) 	\\
+						& c_i 	& c_i 			\\
+						& 		& \omega_{2i} 	\\
+					H^{2i}\big(\Gr_n^\C; \F_2\big) 	& & & H^{2i}\big(\Gr_{n - 1}^\C; \F_2\big) 	\\
+			};
+			\draw[commutative diagrams/.cd, every arrow, every label]
+				(m-1-1) edge["$\isom$"] (m-1-4)
+						edge (m-4-1)
+				(m-1-4) edge (m-4-4)
+				(m-4-1) edge["$\isom$"] (m-4-4);
+			\draw[commutative diagrams/.cd, every arrow, every label, mapsto, knowngray]
+				(m-2-2) edge (m-2-3)
+				(m-2-3) edge (m-3-3);
+		\end{tikzpicture}
+	\end{equation*}
+	The remaining class $c_n \in H^{2n}\big(\Gr_n^\C; \Z\big)$ is defined as the Euler class for the sphere bundle $S(\gamma_\C^n) \to \Gr_n^\C$ (recall theorem \ref{thm:cohomology_gr_C}).
+	Since the orientation class reduces to the unique $\F_2$-orientation class, it follows that the reduction of the integral Euler class is the $\F_2$-Euler class.
+	As we saw that the Euler class for the $\F_2$-orientation gives the top Stiefel-Whitney class $\omega_{2n}$, this completes the proof.
+\end{proof}
+We conclude that $\omega\big(\tau_{\CP^2}\big) = 1 + u + u^2 = 1 + \omega_2 + \omega_4 \in H^*(\CP^2; \F_2) \isom \F_2[u] / u^3$.
+Any Stiefel-Whitney numbers associated to a sequence containing an odd number must hence be trivial.
+The remaining sequences are:
+\begin{itemize}
+	\item $(0, 2, 0, 0)$: $\omega_2^2 = u^2 \neq 0$, so $\omega_2^2[\CP^2] \neq 0$.
+	\item $(0, 0, 0, 1)$: $\omega_4 = u^2 \neq 0$, so $\omega_4[\CP^2] \neq 0$.
+\end{itemize}
+Thus, the Stiefel-Whitney numbers of $\CP^2$ and $\RP^2 \times \RP^2$ agree, and in fact one can show that the two manifolds are cobordant.
+Much more generally, René Thom proved the following: 
+\edef\thomcitestring{Corollaire \uppercase\expandafter{\romannumeral 4\relax}.11 \& Théorème \uppercase\expandafter{\romannumeral 4\relax}.12}
+\begin{theorem}[{\cite[\thomcitestring]{thom_quelques_1954}}]
+	\leavevmode
+	\begin{enumerate}
+		\item Any two closed $n$-manifolds $M$ and $M'$ with identical Stiefel-Whitney numbers are cobordant.
+		\item The cobordism ring $\Bord_*$ is isomorphic to a polynomial ring of the form $\F_2[x_i \mid i + 1 \text{ not a power of } 2]$ with $x_i$ of degree $i$.
+	\end{enumerate}
+\end{theorem}
+\begin{remark}
+	In particular we have:
+	\begin{itemize}
+		\item $\Bord_1 = 0$: Every closed 1-manifold is a boundary\footnote{(from me) Of course, the only such manifolds are finite disjoint unions of copies of $S^1$ by the classification of 1-manifolds, so this could easily be deduced by elementary means as well.}.
+		\item $\Bord_2 \isom \F_2\{x_2\}$ is 1-dimensiona over $\F_2$.
+			Since we saw that $[\RP^2]$ is non-trivial, we must have $x_2 = [\RP^2]$.
+		\item $\Bord_3 = 0$: Every closed 3-manifold is a boundary.
+		\item $\Bord_4 \isom \F_2\{x_2^2, x_4\}$ is 2-dimensional over $\F_2$.
+			We already saw that $[\RP^2 \times \RP^2]$ and $[\RP^4]$ are linearly independent, so they must form a basis and $x_4$ can be taken to be either $[\RP^4]$ or $[\RP^2 \times \RP^2]$.
+	\end{itemize}
+\end{remark}
+\begin{remark}
+	In general, $x_{2i}$ can be taken to be $[\RP^{2i}]$.
+	Possible choices for the $x_n$ where $n$ is odd were first given by Albrecht Dold in \cite{dold_erzeugende_1956}; these are now called \enquote{Dold-manifolds.}
+\end{remark}
