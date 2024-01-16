@@ -57,6 +57,13 @@
 
 \renewcommand*{\Zn}[1]{\Z / #1}
 
+% for quick questions & answers
+\mdtheorem[style = notethms-basestyle, linecolor = exercisecol]{questions}{Questions}
+
+\newenvironment{answers}
+	{\proof[\underline{Answers}]}
+    {\endproof}
+
 \tikzset{
 	spectral sequence/.is family,
 	spectral sequence/.cd,
