@@ -2597,7 +2597,7 @@ We sometimes require stronger axioms:
 		\item the \strong{group homology axiom}\index{Serre class!group homology axiom} if $H_n(K(A, 1); \Z) \in \catfont{C}$ for all $n \geq 1$ whenever $A \in \catfont{C}$.
 	\end{enumerate}
 \end{definition}
-Recall that $\Tor(A, B)$ computes the kernel of $P_1 \tensor B \surj P_0 \tensor B$ where $0 \to P_1 \to P_2 \to A \to 0$ is a free resolution of $A$ while $A \tensor B$ is the cokernel of this map.
+Recall that $\Tor(A, B)$ computes the kernel of $P_1 \tensor B \surj P_0 \tensor B$ where $0 \to P_1 \to P_0 \to A \to 0$ is a free resolution of $A$ while $A \tensor B$ is the cokernel of this map.
 Hence the tensor axiom is automatic if
 \begin{itemize}
 	\item $\catfont{C}$ is closed under infinite direct sums (this holds for $\Ctor$, for instance), or
@@ -3915,7 +3915,7 @@ for homogeneous $x_i, y_i \in \symcal{A}$ of positive degree.
 \end{example}
 
 Now we turn to the computation of $H^*(K(\F_2, n); \F_2)$ for all $n$.
-\subsection{Cohomology of Eilenberg-Mac Lane Spaces over \texorpdfstring{$\F_2$}{F2}}
+\subsubsection{Cohomology of Eilenberg-Mac Lane Spaces over \texorpdfstring{$\F_2$}{F2}}
 \begin{definition}
 	For $I = (i_n, i_{n - 1}, \ldots, i_0)$ an $(n + 1)$-tuple of natural numbers, we denote by $\Sq^I \in \symcal{A}$ the composite $\Sq^{i_n} \Sq^{i_{n - 1}} \cdots \Sq^{i_0}$.
 	We call $I$ \strong{admissible}\index{Steenrod squares!admissible sequence of} if $i_k \geq 2 i_{k - 1}$ for all $k$ and $i_0 \geq 1$.
@@ -3926,27 +3926,26 @@ Now we turn to the computation of $H^*(K(\F_2, n); \F_2)$ for all $n$.
 		e(I) \coloneq (i_n - 2 i_{n - 1}) + \ldots + (i_1 - 2 i_0) + i_0 = 2 i_n - \big|I\big|
 	\end{equation*}
 \end{definition}
+Our goal in this section will be to prove:
 \begin{theorem}[Cartan-Serre]\index{Cartan-Serre theorem}\label{thm:cartanserre}
 	For $n \geq 1$ we have 
 	\begin{equation*}
-		H^*(K(\F_2, n); \F_2) \isom \F_2\big[\big\{\Sq^I \iota_n \mid I \text{ admissible}, e(I) < n\big\}\big]
+		H^*(K(\F_2, n); \F_2) \isom \F_2\big[\big\{\Sq^I \iota_n \mid I \text{ admissible},\ e(I) < n\big\}\big]
 	\end{equation*}
 	where $\iota_n \in H^n(K(\F_2, n); \F_2)$ denotes the fundamental class and the expression on the right hand side denotes the polynomial over $\F_2$ on the given set (with $\Sq^I \iota_n$ sitting in degree $n + \big|I\big|$).
 	Moreover, for $n \geq 2$, we have 
 	\begin{equation*}
-		H^*(K(\Z, n); \F_2) \isom \F_2\big[\big\{\Sq^I \iota_n \mid I \text{ admissible}, i_0 \geq 2, e(I) \leq n\big\}\big]
+		H^*(K(\Z, n); \F_2) \isom \F_2\big[\big\{\Sq^I \iota_n \mid I \text{ admissible},\ i_0 \geq 2,\ e(I) \leq n\big\}\big]
 	\end{equation*}
 \end{theorem}
 \begin{example}
 	\leavevmode
 	\begin{itemize}
 		\item $H^*(K(\F_2, 1); \F_2) \isom \F_2[\iota_1]$ since every non-empty admissible sequence $I$ has $e(I) \geq 1$.
-		\item $H^*(K(\F_2, 2); \F_2) \isom \F_2[\{\Sq^{2^n} \Sq^{2^{n - 1}} \cdots \Sq^1 \iota_2 \mid n \geq -1\}]$.
-		\item $H^*(K(\Z, 2); \F_2) \isom \F_2[\iota_2]$ since every non-empty, admissible sequence $I$ with $i_0 \geq 2$ has $e(I) \geq 2$.
+		\item $H^*(K(\F_2, 2); \F_2) \isom \F_2\big[\big\{\Sq^{2^n} \Sq^{2^{n - 1}} \cdots \Sq^1 \iota_2 \mid n \geq -1\big\}\big]$.
+		\item $H^*(K(\Z, 2); \F_2) \isom \F_2[\iota_2]$ since every non-empty admissible sequence $I$ with $i_0 \geq 2$ has $e(I) \geq 2$.
 	\end{itemize}
 \end{example}
-For some motivation, consider the fibre sequence $K(\F_2, n) \to * \to K(\F_2, n + 1)$.
-% TODO picture
 
 Let $F \to E \xto{p} B$ be a fibre sequence where $F$ is path-connected, $B$ 1-connected, and $b_0 \in B$ a basepoint.
 The differentials $d_r\colon E_r^{0, r - 1} \to E_r^{r, 0}$ are each defined on a subgroup of $E_2^{0, r - 1} \isom H^{r - 1}(F; A)$ and take values in a quotient of $H^n(B; A)$ ($A$ any abelian group).
@@ -3960,12 +3959,12 @@ The differentials $d_r\colon E_r^{0, r - 1} \to E_r^{r, 0}$ are each defined on 
 		\begin{tikzcd}
 			H^{r - 1}(F; A)
 					\ar[r, "\delta"]
-				& H^n(E, F; A)
-				& H^n(B, b_0; A)
+				& H^r(E, F; A)
+				& H^r(B, b_0; A)
 					\ar[l, swap, "p^*"]
 		\end{tikzcd}
 	\end{equation*}
-	where $\delta$ is the coboundary map $x \in H^{r - 1}(F; A)$ is transgressive if and only if $\delta(x) \in \img p^*$.
+	where $\delta$ is the coboundary map an element $x \in H^{r - 1}(F; A)$ is transgressive if and only if $\delta(x) \in \img p^*$.
 	Moreover, the kernel of $H^r(B; A) \isom H^r(B, b_0; A) \to E_r^{r, 0}$ agrees with the kernel of $p^*$ and the transgression can be identified with
 	\begin{equation*}
 		\begin{tikzcd}[column sep = small, row sep = tiny]
@@ -3992,13 +3991,13 @@ The differentials $d_r\colon E_r^{0, r - 1} \to E_r^{r, 0}$ are each defined on 
 	\begin{equation*}
 		C_{\bullet, \bullet}(p; \Z) / C_{\bullet, \bullet}(F \to \{b_0\}; \Z)
 	\end{equation*}
-	gives rise to a reduced version $\{\tilde{E}_r\}$ of the cohomological Serre spectral sequence of the form
+	gives rise to a reduced version $\{\tilde{E}_r\}_{r \geq 2}$ of the cohomological Serre spectral sequence of the form
 	\begin{equation*}
 		\tilde{E}_2^{p, q} = H^p(B, b_0; H^q(F; A)) \Rightarrow H^{p + q}(E, F; A)
 	\end{equation*}
 	We obtain a map of spectral sequences
 	\begin{equation*}
-		\{\tilde{E}_r\} \to \{E_r\}
+		\{\tilde{E}_r\}_{r \geq 2} \to \{E_r\}_{r \geq 2}
 	\end{equation*}
 	Note that $\tilde{E}_2^{0, q} = 0$ and $\tilde{E}_2^{p, q} \to E_2^{p, q}$ is an isomorphism for all $p > 0$, so the second pages only differ in the first column.
 	Applying our characterization of the edge homomorphism to the reduced spectral sequence, we conclude that
@@ -4022,9 +4021,9 @@ The differentials $d_r\colon E_r^{0, r - 1} \to E_r^{r, 0}$ are each defined on 
 	agrees with $p^*$.
 	Let $\delta\colon H^{r - 1}(F; A) \to H^r(E, F; A)$ be the coboundary map and let $\alpha \in H^{r - 1}(F; A)$.
 	Then the first non-zero differential on $\alpha$ in the absolute spectral sequence determines which filtration entry detects $\delta \alpha \in H^r(E, F; A)$ in the relative spectral sequence.
-	Hence $\alpha$ is transgressive if and only if $\delta \alpha$ is of filtration degree $n$ which is isomorphic to the image of $p^*$ and its transgression is the coset $(p^*)^{-1}(\delta \alpha)$.
+	Hence $\alpha$ is transgressive if and only if $\delta \alpha$ is of filtration degree $r$ which is isomorphic to the image of $p^*$ and its transgression is the coset $(p^*)^{-1}(\delta \alpha)$.
 \end{proof}
-\begin{theorem}[Transgression theorem]\index{transgression!theorem}
+\begin{theorem}[Transgression theorem]\index{transgression!theorem}\label{thm:transgressionthm}
 	The subset of transgressive classes in $H^*(F; \F_2)$ is closed under the application of each $\Sq^i$.
 	If $x \in H^{n - 1}(F; \F_2)$ transgresses to $y \in H^n(B; \F_2)$, then $\Sq^i x$ transgresses to $\Sq^i y$.
 \end{theorem}
@@ -4057,7 +4056,7 @@ The differentials $d_r\colon E_r^{0, r - 1} \to E_r^{r, 0}$ are each defined on 
 			\begin{equation*}
 				\big|\Sq^{i_{k - 1}} \cdots \Sq^{i_0} x\big| = |x| + i_{k - 1} + \ldots + i_0 = |x| + i_k - e(I) = n - \underbrace{e(I)}_{> n} + i_k < i_k
 			\end{equation*}
-			hence $\Sq^I x = \Sq^{i_k}\big(\Sq^{i_{k - 1}} \cdots \Sq^{i_0} x\big) = 0$.\footnote{since it is one of the axioms of the squares that $\Sq^l x = 0$ for all $l > |x|$ (from me)}
+			hence $\Sq^I x = \Sq^{i_k}\big(\Sq^{i_{k - 1}} \cdots \Sq^{i_0} x\big) = 0$ by the dimensionality axiom the the $\Sq^i$.
 		\item Similarly, if $e(I) = n$, then $\big|\Sq^{i_{k - 1}} \cdots \Sq^{i_0} x\big| = i_k$, hence 
 			\begin{equation*}
 				\Sq^I x = \Sq^{i_k}\big(\Sq^{i_{k - 1}} \cdots \Sq^{i_0} x\big) = \big(\Sq^{i_{k - 1}} \cdots \Sq^{i_0} x\big)^2
@@ -4074,18 +4073,18 @@ The differentials $d_r\colon E_r^{0, r - 1} \to E_r^{r, 0}$ are each defined on 
 	Then $H^*(B; \F_2)$ is a polynomial ring on the classes $y_i$.
 \end{theorem}
 \begin{remark}
-	(from me) This theorem holds more generally for coefficients in an arbitrary field $K$, under the added assumption that $|x_i|$ be odd if $\chr K \neq 2$, see \cite[Thm. 5.34]{hatcher_chapter_nodate}.
+	(from me) This theorem holds more generally for coefficients in an arbitrary field $K$, under the added assumption that $|x_i|$ be odd if $\chr K \neq 2$, see \cite[Theorem 5.34]{hatcher_chapter_nodate}.
 \end{remark}
 \begin{proof}
-	We define a spectral sequence $\{\bar{E}_r^{p, q}\}_{r \geq 2}$ as follows:
+	We define a spectral sequence $\big\{\bar{E}_r^{p, q}\big\}_{r \geq 2}$ as follows:
 	The groups $\bar{E}_r^{p, q}$ shall be given by
 	\begin{equation*}
 		\bar{E}_r^{p, q} \coloneq \bigdsum_{x_{i_1} \cdots x_{i_k} \in S^p_r} x_{i_1} \cdots x_{i_k} \cdot \F_2[\{y_j \mid |y_j| \geq r\}]_q
 	\end{equation*}
-	where $S^p_r \coloneq \big\{x_{i_1} \cdots x_{i_k} \mid k \in \N,\ |x_{i_j}| \geq r - 1 \text{ for all } j = 1, \ldots, k,\ |x_{i_1} \cdots x_{i_k}| = p\big\}$ is the set of square free monomials in the $x_i$ of degree $\geq r - 1$ of total degree $p$, the subscript $q$ on the right denotes degree $q$ of the internal grading of the polynomial ring, and the whole expression is graded by extending the degree of the $y_i$ in the obvious way.
+	where $S^p_r \coloneq \big\{x_{i_1} \cdots x_{i_k} \mid k \in \N,\ \big|x_{i_j}\big| \geq r - 1 \text{ for all } j = 1, \ldots, k,\ |x_{i_1} \cdots x_{i_k}| = p\big\}$ is the set of square free monomials in the $x_i$ of degree $\geq r - 1$ of total degree $p$, the subscript $q$ on the right denotes degree $q$ of the internal grading of the polynomial ring, and the whole expression is graded by extending the degree of the $y_i$ in the obvious way.
 	As for the differentials, we put
 	\begin{equation*}
-		d_r(x_{i_1} \cdots x_{i_k} \cdot P) \coloneq \sum_{j = 1}^k d_r(x_{i_j}) \cdot \prod_{l \neq j} x_{i_l} \cdot P
+		d_r(x_{i_1} \cdots x_{i_k} \cdot P) \coloneq \sum_{j = 1}^k d_r\big(x_{i_j}\big) \cdot \prod_{l \neq j} x_{i_l} \cdot P
 	\end{equation*}
 	for $P \in \F_2[\{y_j \mid |y_j| \geq r\}]$ where
 	\begin{equation*}
@@ -4101,18 +4100,19 @@ The differentials $d_r\colon E_r^{0, r - 1} \to E_r^{r, 0}$ are each defined on 
 		\item $\img d_r$ is contained in the subgroup generated by expressions of the form $x_{i_1} \cdots x_{i_k} \cdot Q$ where $Q$ is a monomial containing at least one $y_i$ with $|y_i| = r$.
 		\item If $x_{i_1} \cdots x_{i_k} \cdot Q$ is such a monomial and $d_r(x_{i_1} \cdots x_{i_k} \cdot Q) = 0$, then $x_{i_1} \cdots x_{i_k} \cdot Q \in \img d_r$.
 			\begin{smallproof}
-				By the above we must have $|x_{i_l}| \geq r$ for all $l$.
+				By the above we must have $\big|x_{i_l}\big| \geq r$ for all $l$.
 				We can write $Q = Q' \cdot y_i$ with $|y_i| = r$.
 				Then $i_l \neq i$ for all $l = 1, \ldots, k$, so $x_{i_1} \cdots x_{i_l} x_i$ is square-free, and
 				\begin{equation*}
-					d_r(x_{i_1} \cdots x_{i_l} x_i \cdot Q) = x_{i_1} \cdots x_{i_l} y_i \cdot Q' = x_{i_1} \cdots x_{i_l} Q
+					d_r(x_{i_1} \cdots x_{i_l} x_i \cdot Q) = x_{i_1} \cdots x_{i_l} y_i \cdot Q' = x_{i_1} \cdots x_{i_l} \cdot Q
+					\qedhere
 				\end{equation*}
 			\end{smallproof}
 		\item $d_r^2 = 0$: We calculate
 			\begin{equation*}
 				d_r^2(x_{i_1} \cdots x_{i_k} \cdot P) = \sum_{\substack{j \neq l \\ \mathclap{|x_{i_j}| = |x_{i_l}| = r - 1}}} y_{i_j} \cdot y_{i_l} \cdot \prod_{s \neq j, l} x_{i_s} \cdot P = 0
 			\end{equation*}
-			since every summand applies twice.
+			since every summand appears twice.
 	\end{enumerate}
 	\lecture{27.11.23}
 	Items 1--3 show that the inclusions $\bar{E}_{r + 1} \to \bar{E}_r$ land in the kernel of $d_r$ and induce isomorphisms
@@ -4137,9 +4137,10 @@ The differentials $d_r\colon E_r^{0, r - 1} \to E_r^{r, 0}$ are each defined on 
 	Again, we can write $[\alpha] = d_i(\beta)$ for some $i$ and $\beta \in \bar{E}_i^{n - i, i - 1}$.
 	Then $d_i(\phi(\beta)) = \phi(d_i(\beta)) = \phi(\alpha) = 0$.
 	Hence $\phi(\beta) \in E_2^{n - i, i - 1}$ is a permanent cycle as $d_i$ is the last possible non-trivial differential at that point.
-	But $\phi(\beta)$ is not in the image of $d_i$ since $\beta \in \bar{E}_i^{n - i, i - 1}$ is not (as $d_i(\beta) = [\alpha] \neq 0$) and all differentials landing in $E_i^{n - i, i - 1}$ are determined by these up into $\bar{E}_i^{n - i, i - 1}$ by the induction assumption.
+	But $\phi(\beta)$ is not in the image of $d_i$ since $\beta \in \bar{E}_i^{n - i, i - 1}$ is not (as $d_i(\beta) = [\alpha] \neq 0$) and all differentials landing in $E_i^{n - i, i - 1}$ are determined by these up into $\bar{E}_i^{n - i, i - 1}$ by the induction hypothesis.
 	This finishes the proof.
 \end{proof}
+Now we can finally tackle the Cartan-Serre theorem:
 \begin{proof}[Proof of theorem \ref{thm:cartanserre}]
 	For $K(\F_2, n)$ we start the induction with $K(\F_2, 1) \isom \RP^\infty$ for which we know the statement to hold.
 	For $K(\Z, n)$ we analogously start with $K(\Z, 2) \isom \CP^\infty$.
@@ -4148,13 +4149,90 @@ The differentials $d_r\colon E_r^{0, r - 1} \to E_r^{r, 0}$ are each defined on 
 	For the integral case we only consider those $I$ with $i_0 \geq 2$.
 
 	Note that $\iota_n$ transgresses to $\iota_{n + 1}$ since the $(n + 1)$-differential on $\iota_n$ is the only possibly nontrivial one.
-	% TODO is this really the correct lemma to cite here?
-	By lemma \ref{lmm:admissiblesquarestructure}, $\Sq^I \iota_n$ hence transgresses to $\Sq^I \iota_{n + 1}$ and $\big(\Sq^I \iota_n\big)^2$ transgresses to $\Sq^{2^{k - 1}(|I| + n)} \cdots \Sq^{|I| + n}\big(\Sq^I \iota_{n + 1}\big) = \Sq^J \iota_{n + 1}$ for $J = \big(2^{k - 1}(|I| + n), 2^{k - 2}(|I| + n), \ldots, |I| + n, I\big)$ if $k > 0$.
+	By lemma \ref{thm:transgressionthm}, $\Sq^I \iota_n$ hence transgresses to $\Sq^I \iota_{n + 1}$ and $\big(\Sq^I \iota_n\big)^2$ transgresses to $\Sq^{2^{k - 1}(|I| + n)} \cdots \Sq^{|I| + n}\big(\Sq^I \iota_{n + 1}\big) = \Sq^J \iota_{n + 1}$ for $J = \big(2^{k - 1}(|I| + n), 2^{k - 2}(|I| + n), \ldots, |I| + n, I\big)$ if $k > 0$.
 	As we saw, every $J$ with $e(I) = n$ arises in this way from an admissible sequence of smaller excess; this finishes the proof.
 \end{proof}
 \begin{example}
 	Consider the fibre sequence $\RP^\infty \to * \to K(\F_2, 2)$.
-	% TODO picture
+	We obtain the following picture:
+	\begin{center}
+		\tikzsetnextfilename{specseq_rp_infty_transgression_demo}
+		\begin{tikzpicture}[
+				dot/.style = {
+					circle,
+					fill,
+					inner sep = .8pt,
+					outer sep = 5pt,
+				},
+				label node/.style = {
+					font = \scriptsize,
+				}
+			]
+			% apparently if you put nodes directly then automatic labeling doesn't work, so we put all the labels manually.
+			% it's ugly but it works for this one-off job.
+			% ...also I messed up the ordering of indices and the counting here and there, so tread with care if you're going to reuse any of this
+			\matrix[
+				row sep = {2em, between origins},
+				column sep = {2em, between origins},
+				column 1/.append style = {column sep = .12em},
+				row 10/.append style = {row sep = .12em},
+				] {
+
+					\node[label node] (m-0-1) {$\vdots$}; & \node (m-1-1) {$\vdots$}; \\
+					\node[label node] (m-0-2) {$\iota_1^8$}; & \node[dot] (m-1-2) {}; \\
+					\node[label node] (m-0-3) {$\iota_1^7$}; & \node[dot] (m-1-3) {}; \\
+					\node[label node] (m-0-4) {$\iota_1^6$}; & \node[dot] (m-1-4) {}; & & \node[dot] (m-2-4) {}; \\
+					\node[label node] (m-0-5) {$\iota_1^5$}; & \node[dot] (m-1-5) {}; \\
+					\node[label node] (m-0-6) {$\iota_1^4$}; & \node[dot] (m-1-6) {}; & & \node[dot] (m-2-6) {}; & \node[dot] (m-3-6) {}; \\
+					\node[label node] (m-0-7) {$\iota_1^3$}; & \node[dot] (m-1-7) {}; \\
+					\node[label node] (m-0-8) {$\iota_1^2$}; & \node[dot] (m-1-8) {}; & & \node[dot] (m-2-8) {}; \\
+					\node[label node] (m-0-9) {$\iota_1$}; 	 & \node[dot] (m-1-9) {}; \\
+															& & & \node[dot] (m-3-10) {}; & \node[dot] (m-4-10) {}; & & \node[dot] (m-6-10) {}; & & & & \node[dot] (m-10-10) {}; & & \node (m-11-10) {$\cdots$}; \\
+															& & & \node[label node] (m-3-11) {$\iota_2$}; & \node[label node] (m-4-11) {$\Sq^1 \iota_2$}; & & \node[label node] (m-6-11) {$\Sq^2 \Sq^1 \iota_2$}; & & & & \node[label node] (m-10-11) {$\Sq^4 \Sq^2 \Sq^1 \iota_2$}; & & \node (m-11-11) {$\cdots$}; \\
+			};
+
+			\coordinate (Origin) at (m-1-1.west |- m-3-10.south);
+
+			\draw[spectral sequence/axis] (Origin) -- (Origin |- m-1-1.north) -- ++(0, 1) node[left] (q) {$q$};
+			\draw[spectral sequence/axis] (Origin) -- (Origin -| m-11-10.east) -- ++(1, 0) node[below] (p) {$p$};
+
+			\coordinate (Top Right) at (p |- q);
+			\coordinate (Slightly Left of p) at ($(p) - (0.14, 0)$);
+			\coordinate (Slightly Below q) at ($(q) - (0, 0.14)$);
+
+			\node[spectral sequence/page label] at ($(Top Right) - (.5, .5)$) {$E_2^{p, q}$};
+
+			% "stray" differentials first, so we can draw over some intrusive label corners
+			\path[spectral sequence/differentials]
+				(m-1-7) edge["d_2"] (m-2-8)
+				(m-1-5) edge["d_2"] (m-2-6)
+				(m-1-4) edge["d_3"] (m-3-6)
+				(m-1-3) edge["d_2"'] (m-2-4);
+			% ...then the transgressions
+			\path[spectral sequence/differentials, highlightcol] 
+				(m-1-9) edge["d_2"] (m-3-10)
+				(m-1-8) edge["d_3"] (m-4-10)
+				(m-1-6) edge["d_5"] (m-6-10)
+				(m-1-2) edge["d_9"] (m-10-10);
+
+			\path[every edge/.append style = {
+					commutative diagrams/every arrow,
+					thick,
+					bend left = 30,
+					every edge quotes/.append style = {
+						execute at begin node = $,
+						execute at end node = $,
+						commutative diagrams/every label,
+						inner sep = 1pt,
+						fill = white,
+					},
+					highlightcol,
+				}]
+					(m-0-9.west) edge["\Sq^1"] (m-0-8.west)
+					(m-0-8.west) edge["\Sq^2"] (m-0-6.west)
+					(m-0-6.west) edge["\Sq^4"] (m-0-2.west);
+		\end{tikzpicture}
+	\end{center}
 \end{example}
 \begin{corollary}
 	The map 
@@ -4172,13 +4250,12 @@ The differentials $d_r\colon E_r^{0, r - 1} \to E_r^{r, 0}$ are each defined on 
 	Moreover, every product of the form $\Sq^I \iota_n \cdots \Sq^J \iota_n$ lies in degree $\geq 2n$ inside $H^*(K(\F_2, n); \F_2)$.
 	It follows that up to degree $2n - 1$, $H^*(K(\F_2, n); \F_2)$ has a basis consisting of all the $\Sq^I \iota_n$ with $I$ admissible and $|I| < n$.
 	Hence, in the limit, the ring of stable operations has a basis given by all $\Sq^I$ with $I$ admissible since the element $(\iota_1, \iota_2, \iota_3, \ldots)$ is the image of $1 \in \symcal{A}$.
-	All $\Sq^I$ up to a given degree, all products, and all $\Sq^I \iota_n$ with $e(I) \geq n$ lie outside the stable range.
 	In particular, $\psi$ is surjective.
-	For injectivity, it suffices to show that every element in $\symcal{A}$ can be written as a sum of elements of the form $\Sq^I$ for $I$ an admissible sequence since $\psi$ is injective on their span given that their images are linearly independent.
+
+	For injectivity, it suffices to show that every element in $\symcal{A}$ can be written as a sum of elements of the form $\Sq^I$ for $I$ an admissible sequence since $\psi$ is injective on their span, given that their images are linearly independent.
 	This can be achieved inductively using the Adem relations:
-	Consider $\Sq^I = \Sq^{i_1} \cdots \Sq^{i_r}$ not necessarily admissible.
-	We define $m(I) \coloneq \sum_{s = 1}^r s \cdot i_s$.
-	If $I$ is not admissible, there exists some $j \in \{2, \ldots, r\}$ with $i_j < 2_{i_j} + 1$.
+	Consider $\Sq^I = \Sq^{i_1} \cdots \Sq^{i_r}$ not necessarily admissible and put $m(I) \coloneq \sum_{s = 1}^r s \cdot i_s$.
+	If $I$ is not admissible, there exists some $j \in \{2, \ldots, r\}$ with $i_j < 2 i_{j + 1}$.
 	We can then use the Adem relation
 	\begin{equation*}
 		\Sq^{i_1}\Sq^{i_{j + 1}} = \sum_{n = 0}^{\lfloor i_j / 2\rfloor} \binom{i_{j + 1} - n - 1}{i_j - 2n} \Sq^{i_j + i_{j + 1} - n}\Sq^n
@@ -4196,7 +4273,7 @@ The differentials $d_r\colon E_r^{0, r - 1} \to E_r^{r, 0}$ are each defined on 
 	since $n \leq i_j / 2$ and $i_j < 2_{i_{j + 1}}$.
 	Since $m({{-}})$ cannot decrease beyond 0, this process must terminate.
 \end{proof}
-The following rather long exercise is not relevant for the exam but highly recommended:
+The following rather long exercise is highly recommended:
 \begin{exercise}
 	Use our computation of $H^*(K(\F_2, n); \F_2)$ and $H^*(K(\Z, n); \F_2)$ and our understanding of transgressions to compute $\pi_6(S^3, *)$ as follows:
 	\begin{enumerate}
