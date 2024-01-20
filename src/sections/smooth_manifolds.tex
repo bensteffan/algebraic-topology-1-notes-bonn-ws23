@@ -613,7 +613,204 @@ Much more generally, René Thom proved the following:
 			We already saw that $[\RP^2 \times \RP^2]$ and $[\RP^4]$ are linearly independent, so they must form a basis and $x_4$ can be taken to be either $[\RP^4]$ or $[\RP^2 \times \RP^2]$.
 	\end{itemize}
 \end{remark}
+\lecture{19.01.24}
 \begin{remark}
 	In general, $x_{2i}$ can be taken to be $[\RP^{2i}]$.
-	Possible choices for the $x_n$ where $n$ is odd were first given by Albrecht Dold in \cite{dold_erzeugende_1956}; these are now called \enquote{Dold-manifolds.}
+	The following possible choices for the $x_n$ where $n$ is odd were first given by Albrecht Dold in \cite{dold_erzeugende_1956}:
+	Let $m, n \geq 0$ and set
+	\begin{equation*}
+		P(m, n) \coloneq (S^m \times \CP^n) / C_2
+	\end{equation*}
+	where $C_2$ acts on $P(m, n)$ by the antipode in the first coordinate and complex conjugation in the second, i.e. via $(x, y) \mapsto (-x, \bar{y})$.
+	For example, we directly see that $P(m, 0) = \RP^m$ and $P(0, n) = \CP^n$.
+
+	Since the $C_2$ action is free and smooth (and proper as $C_2$ is compact), $P(m, n)$ inherits the structure of a smooth manifold from $S^m \times \CP^n$ by the \emph{quotient manifold theorem}\index{quotient manifold theorem}, see for example \cite[Theorem 21.10]{lee_introduction_2012}.
+	Dold shows that:
+	\begin{enumerate}
+		\item $H^*(P(m, n); \F_2) \isom \F_2[c, d] / (c^{m + 1}, d^{n + 1})$ with $|c| = 1$, $|d| = 2$.
+			In fact, the Serre spectral sequence for the fibre sequence
+			\begin{align*}
+				\CP^n \to P(m, n) &\to \RP^m \\
+				[(x, y)] &\mapsto [x]
+			\end{align*}
+			collapses on the $E_2$-page.
+		\item $\Sq^1(d) = cd$.
+		\item $\omega(\tau_{P(m, n)}) = (1 + c)^m (1 + c + d)^{n + 1}$.
+		\item In Thom's theorem, one can take
+			\begin{equation*}
+				x_i = \begin{cases}
+					[P(i, 0)] = [\RP^i] & i \text{ even} \\
+					[P(2^r - 1, s 2^r)] & i \text{ odd}
+				\end{cases}
+			\end{equation*}
+			where $i + 1 = 2^r (2s + 1)$.
+	\end{enumerate}
 \end{remark}
+
+For the remainder of the course we will discuss the proof of Thom's theorem.
+The first step is to interpret the groups $\Bord_n^{(m)}$ and $\Bord_n$ homotopy-theoretically using the \strong{Thom-Pontryagin construction}\index{Thom-Pontryagin construction}.
+
+We will need to make use of the following concept from differential topology:
+\begin{definition}
+	Let $M \subseteq \R^n$ be a manifold with normal bundle $\nu_{M, \R^n}$.
+	A \strong{tubular neighborhood}\index{tubular neighborhood} of $M$ is a smooth embedding of $E(\nu_{M, \R^n}) \incl \R^n$ such that:
+	\begin{enumerate}
+		\item $f|_M = \id_M$ where $M$ is identified with the image of the zero-section of $\nu_{M, \R^n}$.
+		\item $f(E(\nu_{M, \R^n}))$ is an open neighborhood of $M$ in $\R^n$.
+	\end{enumerate}
+\end{definition}
+\begin{example}\label{ex:tubbynbdhsn}
+	The map
+	\begin{align*}
+		f\colon E(\nu_{S^n, \R^{n + 1}}) &\to \R^{n + 1} \\
+		(x, v) &\mapsto x + \frac{v}{3(1 + \lVert v \rVert)}
+	\end{align*}
+	is a tubular neighborhood of $S^n \subset \R^{n + 1}$.
+\end{example}
+\begin{figure}[ht]
+	\centering
+	\tikzsetnextfilename{smthmdflds_tubbynbhd_s_1}
+	\begin{tikzpicture}[scale = .9, thick, every node/.style = {fill = white}]
+		\draw[very thin, lightgray] (-5.5, -5.5) grid (5.5, 5.5);
+
+		\draw[->] (-5.5, 0) -- (5.5, 0);
+		\draw[->] (0, -5.5) -- (0, 5.5);
+
+		\node[font = \large] at (4.5, 4.5) {$\R^2$};
+
+		\draw[very thick] (0, 0) circle[radius = 3cm];
+		\draw[dashed] 
+			(0, 0) circle[radius = 2cm] 
+			(0, 0) circle[radius = 4cm];
+
+		\begin{scope}[rotate = -45]
+			\draw[->] (0, 3) -- (0, 3.8);
+			\draw[->] (0, 3) -- (0, 2.2);
+			\node[inner sep = 0pt] at (.73, 3.6) {$\nu_{S^1, \R^2}$};
+		\end{scope}
+
+
+		\node[inner sep = 0pt] at (-45:3.6cm) {$S^1$};
+	\end{tikzpicture}
+	\caption{The tubular neighborhood from example \ref{ex:tubbynbdhsn} illustrated in the case $n = 1$.}
+\end{figure}
+\begin{theorem}[Tubular neighborhood theorem]\index{tubular neighborhood theorem}\label{thm:tubbynbhds}
+	Every compact\footnote{(from me) This theorem holds more generally even for non-compact manifolds, cf. \cite[Theorem 6.24]{lee_introduction_2012}.} manifold $M \subseteq \R^n$ admits a tubular neighborhood.
+\end{theorem}
+\begin{proof}[Sketch of proof]
+	As in example \ref{ex:tubbynbdhsn}, we define a map
+	\begin{align*}
+		f_\lambda\colon E(\nu_{M, \R^n}) &\to \R^n \\
+		(x, v) &\mapsto x + \frac{v}{\lambda(1 + \lVert v\rVert)}
+	\end{align*}
+	The implicit function theorem implies that each $f_\lambda$ is an immersion on an open neighborhood of $M \subseteq E(\nu_{M, \R^n})$.
+	The fact that $f_\lambda|_M = \id_M$ and compactness of $M$ then imply that for $\lambda \gg 0$ the map $f|_\lambda$ is an embedding.
+\end{proof}
+We now view $S^n = \R^n \cup \{\infty\}$ as pointed with basepoint $\infty$, and for a euclidean bundle $\xi\colon E \to B$ we equip $\Th(\xi) = D(\xi) / S(\xi)$ with the basepoint $[S(\xi)]$, the collapsed boundary of the disk bundle.
+
+Let $M \subseteq \R^n$ be a closed $k$-dimensional submanifold with tubular neighborhood as constructed in the proof of theorem \ref{thm:tubbynbhds}.
+Then we can define a continuous, pointed map
+\begin{equation*}
+	\Phi_M\colon S^n \to \Th(\gamma_\R^{n - k})
+\end{equation*}
+via the composite
+\begin{equation*}
+	\begin{tikzcd}[row sep = large]
+		S^n 
+				\ar[r, two heads]
+			& S^n \big/ f\big(\mathring{D}(\nu_{M, \R^n})\big)^{\mathrm{C}}
+			& f\big(D(\nu_{M, \R^n})\big) \big / f\big(S(\nu_{M, \R^n})\big)
+				\ar[l, swap, "\isom"]
+				\ar[from = 2-1, rounded corners, to path = {[pos = 1.1]
+					-- ([xshift = -2ex] \tikztostart.west)
+					|- ($(\tikzcdmatrixname-1-2)!0.5!(\tikzcdmatrixname-2-2)$) \tikztonodes
+					-| ([xshift = 1em] \tikztotarget.east)
+					-- (\tikztotarget)
+				}, "f", "\isom"']
+		\\
+			\Th(\nu_{M, \R^n})
+				\ar[r, "\Th(g)"]
+			& \Th(\gamma_\R^{n - k, n})
+				\ar[r, "(\RP^n \incl \RP^\infty)_*"]
+			& \Th(\gamma_\R^{n - k})
+	\end{tikzcd}
+\end{equation*}
+where $g\colon N_{M, \R^n} \to E(\gamma_\R^{n - k, n})$ is the Gauss map of the normal bundle of $M$.
+\begin{proposition}\label{prop:pontryaginthom}
+	\leavevmode
+	\begin{enumerate}
+		\item If $M, M' \subseteq \R^m$ are cobordant, then $\Phi_M$ is based-homotopic to $\Phi_{M'}$.
+		\item Let $n > 1$ and $M_1, M_2 \subseteq \R^n$ be two closed manifolds.
+			Assume that $M_1 \subseteq \mathring{D}_1$, $M_2 \subseteq \mathring{D}_2$ with $D_1 \cap D_2 = \emptyset$ two disjoint closed disks.
+			Then $\Phi_{M_1 \sqcup M_2}$ represents the sum of $[\Phi_{M_1}]$ and $[\Phi_{M_2}]$ in $\pi_n(\Th(\gamma_\R^{n - k}))$.
+	\end{enumerate}
+\end{proposition}
+\begin{corollary}
+	The map
+	\begin{align*}
+		\Phi\colon \Bord_k^{(n)} &\to \pi_n(\Th(\gamma_\R^{n - k})) \\
+		[M] &\mapsto [\Phi_M]
+	\end{align*}
+	is a group homomorphism.
+\end{corollary}
+\begin{proof}[Proof of proposition \ref{prop:pontryaginthom}]
+	Let $N \subseteq \R^n \times [0, 1]$ be a cobordism from $M$ to $M'$.
+	We can extend $N$ slightly to include $M \times \{0\}$ and $M' \times \{1\}$ in its interior by adding on $M \times (-\delta, 0]$ and $M' \times [1, 1 + \delta)$ for some small $\delta > 0$.
+	We can then consider the tubular neighborhood $f^{\mathring{N}}$ of $\mathring{N}$.
+	By construction, the normal space at each $x \in M$ equals $(N_{M, \R^n})_x \times \{0\}$ and likewise for $x \in M'$.
+	% TODO picture
+	Moreover, $f^{\mathring{N}}$ agrees with $f^M$ and $f^{M'}$, the tubular neighborhoods of $M$ and $M'$, respectively.
+	Hence the composite
+	\begin{equation*}
+		\begin{tikzcd}[row sep = large]
+			S^n \times [0, 1]
+					\ar[r, two heads]
+				& S^n \times [0, 1] \big / f^{\mathring{N}}\big(\mathring{D}(\nu_{N, \R^n \times \R})\big)^{\mathrm{C}}
+				& \Th(\nu_{N, \R^n \times \R})
+					\ar[l, swap, "\isom"]
+					\ar[dll, rounded corners, to path = {[pos = 1]
+						-- ([xshift = 1em] \tikztostart.east)
+						|- ($(\tikzcdmatrixname-1-2)!0.5!(\tikzcdmatrixname-2-2)$) \tikztonodes
+						-| ([xshift = -2ex] \tikztotarget.west)
+						-- (\tikztotarget)
+					}, swap, "\Th(g)"]
+			\\
+			\Th(\gamma_\R^{n - k, n + 1})
+					\ar[r, "(\RP^{n + 1} \incl \RP^\infty)_*"]
+				& \Th(\gamma_\R^{n - k})
+		\end{tikzcd}
+	\end{equation*}
+	where $g$ is the Gauss map is a homotopy from $\Phi_M$ to $\Phi_{M'}$.
+
+	For the second part, choose tubular neighborhoods $f^{M_1}$, $f^{M_2}$ of $M_1$ and $M_2$ (respectively) small enough such that $\img\big(f^{M_i}\big) \subseteq \mathring{D}_i$ ($i = 1, 2$).
+	Then $f^{M_1} \sqcup f^{M_2} = f^{M_1 \sqcup M_2}$ is a tubular neighborhood for $M_1 \sqcup M_2$ and
+	\begin{equation*}
+		S^n \big/ f^{M_1 \sqcup M_2}\big(\mathring{D}(\nu_{M_1 \sqcup M_2, \R^n})\big)^{\mathrm{C}}
+	\end{equation*}
+	decomposes as 
+	\begin{equation*}
+		S^n \big/ f^{M_1}\big(\mathring{D}(\nu_{M_1, \R^n})\big)^{\mathrm{C}} \vee S^n \big/ f^{M_2}\big(\mathring{D}(\nu_{M_2, \R^n})\big)^{\mathrm{C}}
+	\end{equation*}
+	so that the projection $S^n \to S^n \big/ f^{M_1 \sqcup M_2}\big(\mathring{D}(\nu_{M_1 \sqcup M_2, \R^n})\big)^{\mathrm{C}}$ is the pinch sum of the respective projections for $M_1$ and $M_2$.
+	The claim follows.
+	% TODO picture
+\end{proof}
+\begin{theorem}[Thom \cite{thom_quelques_1954}]	
+	The map $\Phi\colon \Bord_k^{(n)} \to \pi_n(\Th(\gamma_\R^{n - k}))$ is an isomorphism.
+\end{theorem}
+\begin{proof}
+	We first aim to show surjectivity.
+	For this, note that we can get back $M$ from $\Phi_M$ by taking the preimage of the zero-section in $\Th(\gamma_\R^{n - k})$.
+	We now argue that for a general based map $g\colon S^n \to \Th(\gamma_\R^{n - k})$ we can always replace $g$ by a map $\tilde{g}$ homotopic to it such that the preimage of the zero-section under $\tilde{g}$ is a $k$-dimensional closed manifold in $\R^n \subseteq S^n$.
+	This relies on a number of results from differential topology:
+	\begin{proposition}
+		\leavevmode
+		\begin{enumerate}
+			\item Every continuous map $\alpha\colon M \to N$ between manifolds can be approximated arbitrarily closely by a smooth one which is homotopic to it.
+				If $\alpha$ is already smooth on a closed submanifold of $M$, the homotopy can be chosen to be constant on that submanifold.
+			\item Given a smooth map $\alpha\colon M \to N$ between manifolds and a submanifold $N' \subseteq N$ such that $\dim M + \dim N' \geq N$, then there exists an arbitrarily close smooth function $\tilde{\alpha}$ homotopic to $\alpha$ which is \strong{transverse}\index{transversality} to $N'$.
+				This means that if $n \in N'$ is a point and $m \in M$ such that $\tilde{\alpha}(m) = n$, then $\Tang_n N' + D \tilde{\alpha}_m (\Tang_m M) = \Tang_n N$.
+			\item If $\alpha\colon M \to N$ is smooth and transverse to $N' \subseteq N$, then $\alpha^{-1}(N') \subseteq M$ is a smooth submanifold of dimension $\dim N' + \dim M - \dim N$.
+		\end{enumerate}
+	\end{proposition}
+\end{proof}
