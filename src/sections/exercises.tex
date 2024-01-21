@@ -1,9 +1,9 @@
 \section{Exercises}
-This section contains all of the weekly exercises, plus solutions, for the course.
-The solutions presented in this section are my own.
-Most of them have been checked by a set of skilled eyes, but not all, so tread with care.
+This section contains all of the weekly exercises and solutions for the course.
+The solutions presented here are my own, unless explicitly stated otherwise.
+Most of them have been checked by a pair of skilled eyes but by no means all, so tread with appropriate care.
 
-At the end of this section (page \pageref{sect:quickquest} and following) you will find both sets of quick questions together with their (justified, again by me) answers.
+At the end of the section (page \pageref{sect:quickquest} and following) you will find both sets of quick questions together with their (justified, again by me) answers.
 
 \begin{exercise}\label{ex:serrefib}
 	The goal of the first problem is to recall the notion of a Serre fibration and its homotopical properties.
@@ -958,7 +958,7 @@ At the end of this section (page \pageref{sect:quickquest} and following) you wi
 \begin{exercise}
 	Prove the following, making use of the Serre spectral sequence:
 	\begin{theorem}[Leray-Hirsch]
-		Let $F \xto{i} E \xto{i} B$ be a fibration, with $B$ path-connected.
+		Let $F \xto{i} E \xto{p} B$ be a fibration, with $B$ path-connected.
 		Assume that there exists a set of classes $\{c_j\} \in H^*(E; \Z)$, of which only finitely many lie in a given degree, such that their restrictions $\{i^*(c_j)\}$ form a $\Z$-basis for the cohomology $H^*(F; \Z)$ of the fibre $F$.
 		Then the set $\{c_j\}$ is a basis of $H^*(E; \Z)$ as a module over the ring $H^*(B; \Z)$.
 	\end{theorem}
@@ -1862,6 +1862,85 @@ This section contains two sets of 20 questions each designed to be answered from
 						   &\isom \F_2
 			\end{align*}
 			while $H^2(K(\F_2, 2); \Z) = 0$ by the universal coefficient theorem. 
+			\qedhere
+	\end{enumerate}
+\end{answers}
+
+\begin{questions*}
+	Decide whether the following statements are true or false, or answer the question, respectively:
+	\begin{enumerate}
+		\item Let $\pi\colon S^\infty \to \RP^\infty$ be the familiar covering map.
+			Then the map $E(\pi)\colon \R \times_{C_2} S^\infty \to \RP^\infty$ applying $\pi$ to the $S^\infty$-component of a representative is the universal line bundle over paracompact spaces.
+		\item Spot the error in this argument:
+			Let $\iota \in H^1(\RP^\infty; \F_2)$, $\iota_n \in H^1(\RP^n; \F_2)$ be the respective nontrivial elements.
+			The total Stiefel-Whitney classes are $\omega(\gamma_\R^1) = 1 + \iota$ and $\omega(\gamma_\R^{1, n + 1}) = 1 + \iota_n$, the inverse power series being given by $1 + \iota + \iota^2 + \cdots \in H^\pi(\RP^\infty; \F_2)$ in the case of $\RP^\infty$, and analogously for $\RP^n$.
+			From this we conclude that $\gamma_\R^1$ and $\gamma_\R^{1, n + 1}$ are not embeddable into trivial bundles.
+		\item Recall the proof that $\RP^{2^j}$ cannot be immersed into $\R^{2^{j + 1} - 2}$. 
+			Where do you use the immersion property?
+		\item The tangent bundle $\tau_{S^n}$ of $S^n$ is trivial for $n \geq 1$.
+		\item Two real vector bundles over a paracompact base are isomorphic iff their Stiefel-Whitney classes agree.
+		\item Let $\gamma_\R^{1, n + 1}$ denote the tautological bundle over $\RP^n$.
+			Compute $\omega(\gamma_\R^{1, n + 1})$ for $n$ a power of 2.
+		\item The Grassmannian $\Gr_n^\R$ can be given the structure of a smooth manifold.
+		\item Let $\gamma_\C^n$ denote the tautological $n$-dimensional complex vector bundle over the infinite Grassmannian $\Gr_n^\C$ equipped with a euclidean metric.
+			Then the associated sphere bundle $S(\gamma_\C^n) \to \Gr_n^\C$ induces a surjection on cohomology $H^*({{-}}; A)$ for every coefficient group $A$.
+		\item Let $M$ be a smooth submanifold of $\R^n$. 
+			Then the tangent bundle $\tau_M$ of $M$ is trivializable iff the normal bundle $\nu_{M, \R^n}$ is trivializable.
+		\item The smooth manifold $\RP^4$ does not allow an immersion into $\R^6$.
+		\item Let $(r_1, \ldots, r_6)$ be a sequence of non-negative numbers such that $r_1 + 2 r_2 + \ldots + 6 r_6 = 6$.
+			Then the Stiefel-Whitney number $\omega_1^{r_1} \cdots \omega_6^{r_6}[\RP^6]$ is non-zero.
+		\item If all the Stiefel-Whitney numbers of a compact smooth manifold $M$ are zero, then the total Stiefel-Whitney class of the tangent bundle $\tau_M$ is equal to 1.
+		\item $\RP^3 \times \RP^3$ is cobordant to $\RP^6$.
+		\item Euler characteristic modulo 2 is a bordism invariant.
+		\item Let $I = (i_1, i_2, \cdots, i_n)$ be a sequence with associated element $\Sq^I = \Sq^{i_1} \cdots \Sq^{i_n}$ in the Steenrod algebra.
+			Then if $I$ is not admissible, we have $\Sq^I = 0$.
+		\item The integral homology of the homotopy fibre $F$ of the inclusion $\CP^1 \incl \CP^\infty$ is zero in odd degrees and isomorphic to $\Zn{n}$ in degree $2n$, for all $n \in \N$.
+		\item Let $X$ be a simply-connected space.
+			If there exists $n > 1$ such that $\pi_n(X, *)$ is infinite, then there also exists an $m > 1$ such that $H_m(X; \Z)$ is infinite.
+		\item The tangent and normal bundle of the 2-torus $S^1 \times S^1$ viewed as a submanifold of $\R^2 \times \R^2$ are both trivializable.
+		\item Assume that $\xi$ is a real vector bundle with paracompact base space $X$ satisfying $\omega_3(\xi) \neq 0$ and $H^2(X; \F_2) = 0$.
+			Then $\xi$ does not have a 1-dimensional subbundle.
+		\item Let $(F \to Y \to X, h)$ be a fibre sequence such that two of $F$, $Y$ and $X$ are compact.
+			Then so is the third.
+	\end{enumerate}
+\end{questions*}
+\begin{answers}
+	\leavevmode
+	\begin{enumerate}
+		\item \strong{True:} Pulling back along the inclusion $S^1 = \RP^1 \incl \RP^\infty$ gives the bundle $E\big(\pi|_{\RP^1}\big)\colon \R \times_{C_2} S^1 \to \RP^1$ which is the Möbius bundle and therefore not trivial.
+			Thus $E(\pi)$ cannot be the trivial bundle, and since $H^1(\RP^\infty; \F_2) \isom \F_2$ it must be the unique non-trivial bundle $\gamma_\R^1$ over $\Gr_1^\R = \RP^\infty$.
+		\item $H^\pi(\RP^n; \F_2) \isom \F_2[\iota_n] / \iota_n^{n + 1}$ is a polynomial ring, so the inverse of $\omega\big(\gamma_\R^{1, n + 1}\big)$ is $1 + \iota_n^2 + \ldots + \iota^n$ which can well be the total Stiefel-Whitney class of an $n$-dimensional bundle over $\RP^n$ (in fact, since $\RP^n$ is compact, we know that $\gamma_\R^{1, n + 1}$ is invertible).
+		\item The proof relies on the fact that $\omega\big(\RP^{2^j}\big) = 1 + u + u^{2^j}$ so that $\bar{\omega}\big(\RP^{2^j}\big) = 1 + u + \cdots + u^{2^j - 1}$.
+			By the immersion property we have $\dim\big(\tau_{\RP^{2^j}}\big) + \dim(\nu_i) = n$ where the codomain of $i$ is $\R^n$, so the dimensionality axiom of the Stiefel-Whitney classes gives the required lower bound on $n$.
+		\item \strong{False:} Parallelizability of $\tau_{S^n}$ is closely linked to the Hopf invariant 1 problem; one can show that $\tau_{S^n}$ is trivial iff there is an element of Hopf invariant one one dimension higher.
+
+			For a concrete counterexample, it is a well-known fact (usually proved in Topology 1) that $\tau_{S^2}$ does not admit a nowhere non-vanishing vector field and can therefore not be trivial.
+		\item \strong{False:} Use the previous question together with our computation of $\omega(\tau_{S^n}) = 1$ for a counterexample.
+		\item We have seen that $\omega(\gamma_\R^{1, n + 1}) = 1 + u$ independent of $n$.
+		\item \strong{False:} $H^*(\Gr_n^\R; \F_2) \isom \F_2[\omega_1, \ldots, \omega_n]$ is a polynomial ring and therefore nontrivial in infinitely many (in fact, all) degrees, but any manifold $M$ of dimension $n$ has $H^k(M; \F_2) = 0$ for $k > n$.
+		\item \strong{True:} We have shown that $S(\gamma_\C^n) \htpyeqv \Gr^\C_{n - 1}$ and that the associated projection $\Gr_{n - 1}^\C \to \Gr_n^\C$ induces the map
+			\begin{equation*}
+				H^*(\Gr_n^\C; \Z) \isom \Z[c_1, \ldots, c_n] \xto[c_i \mapsto c_i\; (i < n)]{c_n \mapsto 0} \Z[c_1, \ldots, c_{n - 1}] \isom H^*(\Gr_{n - 1}^\C; \Z) 
+			\end{equation*}
+			which is clearly surjective.
+		\item \strong{False:} $S^n \subseteq \R^{n + 1}$ has trivial normal line bundle, but we argued earlier that in almost all cases its tangent bundle is not trivializable.
+		\item \strong{True:} If it did, then $\tau_{\RP^4}$ would have an inverse of dimension at most 2, but $\omega(\tau_{\RP^4}) = (1 + u)^5 = 1 + u + u^4$ which is obviously neither annihilated by $1 + u$, $1 + u^2$, nor $1 + u + u^2$.
+		\item \strong{True:} Recall that $\omega(\tau_{\RP^6}) = 1 + u + u^2 + \cdots + u^6$, so $\omega_1^{r_1}(\tau_{\RP^6}) \cdots \omega_6^{r_6}(\tau_{\RP^6}) = u^6 \neq 0$ for all such sequences.
+		\item \strong{False:} We have seen that all Stiefel-Whitney numbers of $\RP^{2n - 1}$ are zero, but for $n = 3$ we compute $\omega\big(\tau_{\RP^5}\big) = (1 + u)^6 = 1 + u^2 + u^4 \neq 1$.
+		\item \strong{False:} $\omega(\RP^3 \times \RP^3) = \omega(\RP^3) \times \omega(\RP^3) = 1 \times 1 = 1$, so all Stiefel-Whitney numbers vanish whereas we have just seen that \emph{no} Stiefel-Whitney numbers of $\RP^6$ vanish.
+		\item \strong{True:} It is known that $\chi(\del M)$ is even for $M$ any compact manifold with boundary, so if $M \sqcup M'$ is the boundary of a bordism $N$, then $\chi(M \sqcup M') = \chi(M) + \chi(M') \equiv 0 \pmod 2$ and $\chi(M)$ and $\chi(M')$ must have the same parity.
+		\item \strong{False:} We know for instance that $\Sq^3 = \Sq^1 \Sq^2$ which is not admissible, but $\Sq^3 \iota^3 = \iota^6 \neq 0$ for $\iota \in H^1(\RP^\infty; \F_2)$ the fundamental class.
+		\item \strong{False:} Let $F$ be the homotopy fibre in question.
+			From the long exact sequence of homotopy groups and the fact that $S^2 \isom \CP^1 \incl \CP^\infty$ induces an isomorphism on $\pi_2$ we see that $F$ is 2-connected and satisfies $\pi_3(F) \isom \pi_3(S^2) \isom \Z$ since $\CP^\infty$ is a $K(\Z, 2)$.
+			Applying the Hurewicz theorem, this yields that $H_3(F; \Z) \isom \pi_3(F) \isom \Z$, contradicting the statement\footnote{Alternatively, one can also easily derive the same information from the associated Serre spectral sequence, or (even simpler) note that since the the cohomology of the base is concentrated in even degrees and free and of finite type, together with the fact that it does not agree with the convergence in almost all degrees, some (in fact infinitely many) cohomology groups of the fibre have to sit in odd degrees.}.
+		\item \strong{True:} By Serre class theory applied to the good Serre class of finite abelian groups, we have that $\pi_n(X, *)$ is finite for all $n$ if and only if $H_n(X; \Z)$ is (using that $X$ is simply connected and therefore simple).
+			The claim follows.
+		\item \strong{True:} The tangent and normal bundles of a product are the product of the tangent and normal bundles of the factors (relative to the product embedding), so since $\tau_{S^1} \isom \nu_{S^1, \R^2} \isom \epsilon$ are trivial the answer follows.
+		\item \strong{False:} Assume $\xi$ is a bundle with the prescribed properties.
+			Then $\xi \dsum \epsilon$ still fulfills the demands (since $\omega$ is a stable invariant), but this bundle now obviously has a trivial subbundle.
+			The question is then whether any bundles with $\omega_3(\xi) \neq 0$ and $H^2(X; \F_2) = 0$ exist in the first place. TODO it is not clear to me that such a bundle exists :)
+		\item \strong{False:} Given any fibre sequence $(F \to Y \to X, h)$ with $Y$ and $X$ compact, we can replace $F$ up to homotopy with any space we want, say $F \times \R$, by precomposing $h$ with a deformation retraction onto $F$.
+			This space is non-compact independent of whether $F$ was to start with.
 			\qedhere
 	\end{enumerate}
 \end{answers}
