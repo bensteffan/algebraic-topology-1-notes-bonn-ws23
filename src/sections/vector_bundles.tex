@@ -1,6 +1,6 @@
 \lecture{01.12.23}
 \section{Vector bundles and characteristic classes}
-For the whole section, let $\F$ be either $\R$ or $\C$.
+For the whole section, let $\F$ denote either $\R$ or $\C$.
 \begin{definition}
 	An $n$-dimensional \strong{$\F$-vector bundle}\index{vector bundle} $\xi$ over a base space $B$ consists of a map $p\colon E(\xi) = E \to B$ together with an $n$-dimensional $\F$-vector space structure on $E_b = p^{-1}(b)$ for each $b \in B$ satisfying the \emph{local triviality condition}:
 	For every $b \in B$ there exists an open neighborhood $U \subseteq B$ of $b$ and a homeomorphism
@@ -30,7 +30,8 @@ For the whole section, let $\F$ be either $\R$ or $\C$.
 \begin{example}
 	Let $B = \RP^1$ be 1-dimensional real projective space and $E = \{(L, v) \mid L \in \RP^1, v \in L\} \subseteq \RP^1 \times \R^2$ with projection $E \xto{p} \RP^1$, $(L, v) \mapsto L$ (we understand $\RP^1$ here as the space of lines in $\R^2$).
 	Then $E_L = p^{-1}(\{L\}) = \{L\} \times L \isom L$ gives $E_L$ an $\R$-vector space structure.
-	To see that this definies a 1-dimensional vector bundle over $\RP^1 \isom S^1$, we need to show that it is locally trivial.
+	To see that this defines a 1-dimensional vector bundle over $\RP^1 \isom S^1$, we need to show that it is locally trivial:
+
 	Let $\pi_1, \pi_2\colon \R^2 \to \R$ be the projections and let $U_i \subseteq \RP^1$ be the set of lines $L$ such that $\pi_i|_L\colon L \to \R$ is an isomorphism.
 	Then each $U_i$ is open (in fact its complement consists of a single point), $\RP^1 = U_1 \cup U_2$, and
 	% TODO picture
@@ -40,7 +41,8 @@ For the whole section, let $\F$ be either $\R$ or $\C$.
 	\end{align*}
 	defines a homeomorphism.
 	Each $\pi_i$ is linear, so $h$ is linear on each fibre as required.
-	This is known as the \strong{Möbius bundle}\index{Möbius bundle}.
+
+	This bundle known as the \strong{Möbius bundle}\index{Möbius bundle}.
 	% TODO picture
 \end{example}
 This example generalizes:
@@ -53,23 +55,23 @@ This example generalizes:
 		q\colon \Fr_n(\F^N) &\to \Gr_n(\F^N) \\
 		(v_1, \ldots, v_n) &\mapsto \langle v_1, \ldots, v_n\rangle_{\F}
 	\end{align*}
-	where $\langle \ldots\rangle_{\F}$ denotes the $\F$-span.
-	We give $\Gr_n(\F^N)$ the quotient topology for $q$.
+	where $\langle \ldots\rangle_{\F}$ denotes the $\F$-span and give $\Gr_n(\F^N)$ the quotient topology for $q$.
 
-	Let $\gamma_{\F}^{n, N} \coloneq \{(V, v) \in \Gr_n(\F^N) \times \F^N \mid v \in V\}$ and $p\coloneq \gamma_{\F}^{n, N} \to \Gr_n(\F^N)$ be the projection $(V, v) \mapsto V$.
-	The fibre $p^{-1}(V)$ identifies with $\{V\} \times V \isom V$ and hence form a vector space.
+	Let $\gamma_{\F}^{n, N} \coloneq \big\{(V, v) \in \Gr_n(\F^N) \times \F^N \mid v \in V\big\}$ and $p\colon \gamma_{\F}^{n, N} \to \Gr_n(\F^N)$ be the projection $(V, v) \mapsto V$.
+	The fibre $p^{-1}(V)$ then identifies with $\{V\} \times V \isom V$ and hence form a vector space.
+
 	This is locally trivial:
 	For $V \in \Gr_n(\F^N)$ consider the orthogonal projections $\pi_V\colon \F^N \to V$.
-	The set $U \coloneq \{W \in \Gr_n(\F^N) \mid \pi_V|_W\colon W \to V \text{ is an isomorphism}\}$ is open since 
+	The set $U \coloneq \big\{W \in \Gr_n(\F^N) \mid \pi_V|_W\colon W \to V \text{ is an isomorphism}\big\}$ is open since 
 	\begin{equation*}
-		q^{-1}(U) = \{(v_1, \ldots, v_n) \in (\F^N)^n \mid \pi_V(v_1), \ldots, \pi_V(v_n) \text{ linearly independent}\}
+		q^{-1}(U) = \big\{(v_1, \ldots, v_n) \in (\F^N)^n \mid \pi_V(v_1), \ldots, \pi_V(v_n) \text{ linearly independent}\big\}
 	\end{equation*}
 	is open in $(\F^N)^n$.
 	Again the map $p^{-1}(U) \to U \times V$, $(W, v) \mapsto (W, \pi_V(v))$ is a homeomorphism, yielding a local trivialization.
 
 	The vector bundle $\gamma_{\F}^{n, N}$ is called the \strong{tautological bundle}\index{vector bundle!tautological}\index{tautological vector bundle|see {vector bundle!tautological}} on $\Gr_n(\F^N)$.
 \end{example}
-For instance, $\Gr_1(\F^N)$ is by definition just $\FP^n$ and $\gamma_{\R}^{1, 2}$ is the Möbius bundle from the previous example.
+As an example, $\Gr_1(\F^N)$ is by definition just $\FP^n$ and $\gamma_{\R}^{1, 2}$ is the Möbius bundle from the previous example.
 
 \subsection{Operations on vector bundles}
 \begin{definition}
@@ -93,13 +95,13 @@ For instance, $\Gr_1(\F^N)$ is by definition just $\FP^n$ and $\gamma_{\R}^{1, 2
 			\end{equation*}
 			such that for each $b \in B$ the restriction $\varphi|_{(E_1)_b}\colon (E_1)_b \to (E_2)_b$ is $\F$-linear.
 			Two vector bundles are \strong{isomorphic}\index{vector bundle!isomorphism of} if there exist mutually inverse morphisms $f\colon E_1 \to E_2$ and $g\colon E_2 \to E_1$ between them.
-		\item If $p\colon E \to B$ is a vector bundle and $f\colon X \to B$ a continuous map, we define the \strong{pullback bundle}\index{vector bundle!pullback}\index{pullback vector bundle|see {vector bundle!pullback}} $f^* E \coloneq X \times_B E = \{(x, e) \in X \times E \mid f(x) = p(e)\}$ with projection $f^* p\colon E \to X$.
+		\item If $p\colon E \to B$ is a vector bundle and $f\colon X \to B$ a continuous map, we define the \strong{pullback bundle}\index{vector bundle!pullback}\index{pullback vector bundle|see {vector bundle!pullback}} $f^* E \coloneq X \times_B E = \{(x, e) \in X \times E \mid f(x) = p(e)\}$ with projection $f^* p\colon f^* E \to X$.
 			In other words, we have a pullback square
 			\begin{equation*}
 				\begin{tikzcd}
 					f^* E
 							\ar[r]
-							\ar[d, "f^* p"]
+							\ar[d, swap, "f^* p"]
 							\ar[dr, phantom, "\lrcorner" very near start]
 						& E
 							\ar[d, "p"]
@@ -112,8 +114,8 @@ For instance, $\Gr_1(\F^N)$ is by definition just $\FP^n$ and $\gamma_{\R}^{1, 2
 			Then $(f^* E)_x \isom E_{f(x)}$ via $(x, e) \mapsto e$ which we use to give $(f^* E)_x$ the structure of an $\F$-vector space.
 			If $\varphi_U\colon U \times \F^N \xto{\isom} p^{-1}(U)$ is a local trivialization of $p$, then setting $V \coloneq f^{-1}(U)$ we obtain a local trivialization of $f^* p$ via
 			\begin{align*}
-				V \times \F^n &\xto{\isom} (f^* E)^{-1}(V) \\
-				(x, v) &\mapsto (x, \varphi_V(f(x), e))
+				V \times \F^n &\xto{\isom} (f^* p)^{-1}(V) \\
+				(x, v) &\mapsto (x, \varphi_U(f(x), e))
 			\end{align*}
 			so $f^* p$ does indeed define a vector bundle.
 	\end{enumerate}
@@ -121,38 +123,37 @@ For instance, $\Gr_1(\F^N)$ is by definition just $\FP^n$ and $\gamma_{\R}^{1, 2
 	We focus on the following examples:
 	\begin{enumerate}[resume]
 		\item \strong{Sum of vector bundles}\footnote{This operation is also commonly called the \strong{Whitney sum}\index{Whitney sum|see {vector bundle!sum of}}.}\index{vector bundle!sum of}:
-			If $p\colon E \to B$ is an $n$-dimensional and $p'\colon E' \to B$ is n $n'$-dimensional $\F$-vector bundle, then there is an $(n + n')$-dimensional $\F$-vector bundle $p \dsum p'\colon E \dsum E' \to B$ with $E \dsum E' \coloneq E \times_B E' = \{(e, e') \in E \times E' \mid p(e) = p(e')\}$ the fibrewise direct sum with projection $(p \dsum p')(e, e') \coloneq p(e) = p'(e')$.
+			If $p\colon E \to B$ is an $n$-dimensional and $p'\colon E' \to B$ is n $n'$-dimensional $\F$-vector bundle, then there is an $(n + n')$-dimensional $\F$-vector bundle $p \dsum p'\colon E \dsum E' \to B$ with $E \dsum E' \coloneq E \times_B E' = \{(e, e') \in E \times E' \mid p(e) = p'(e')\}$ the fibrewise direct sum with projection $(p \dsum p')(e, e') \coloneq p(e) = p'(e')$.
 			We have $(E \dsum E')_b = E_b \times E'_b = E_b \dsum E'_b$ which inherits an $(n + n')$-dimensional $\F$-vector bundle structure.
-			We omit the proof of local triviality.
+			The proof of local triviality is left to the reader.
 		\item \strong{Realification}\index{vector bundle!realification of}\index{realification|see {vector bundle!realification of}} and \strong{complexification}\index{vector bundle!complexification of}\index{complexification|see {vector bundle!complexification of}}:
 			If $p\colon E \to B$ is an $n$-dimensional complex vector bundle, we can also consider it as a $2n$-dimensional real vector bundle by neglecting structure fibrewise.
-			We write $E_{\R}$ to emphasize the real vector bundle structure.
+			We then write $E_{\R}$ to emphasize the real vector bundle structure.
+
 			Conversely, if $p\colon E \to B$ is an $n$-dimensional real vector bundle, we can use the natural identifications
 			\begin{align*}
 				\C \tensor_{\R} V &\isom V \tensor V \\
 				(1, v) &\mapsto (v, 0) \\
 				(i, v) &\mapsto (0, v)
 			\end{align*}
-			to enhance the $2n$-dimensional $\R$-vector bundle $E \dsum E$ to an $n$-dimensional $\C$-vector bundle.
-			We write $E \tensor_{\R} \C$ for this complex bundle.
+			to enhance the $2n$-dimensional $\R$-vector bundle $E \dsum E$ to an $n$-dimensional $\C$-vector bundle which we denote by  $E \tensor_{\R} \C$.
 		\item \strong{Euclidean bundles}\index{vector bundle!euclidean}\index{euclidean vector bundle|see {vector bundle!euclidean}}.
-			Recall that a euclidean vector space is a finite-dimensional real vector space equipped with a positive definite quadratic form $\mu\colon V \to \R$, i.e. $\mu(v) > 0$ for all $v \neq 0$ and $v \cdot w \coloneq 1 / 2 (\mu(v + w) - \mu(v) - \mu(w))$ is bilinear.
-			An euclidean vector bundle is then a real vector bundle $p\colon E \to B$ together with a continuous function $\mu\colon E \to \R$ which restricts to a positive definite quadratic form on each fibre.
-			$\mu$ is called a \strong{euclidean metric}\index{euclidean metric} on $E$.
+			Recall from linear algebra that a \emph{euclidean vector space} is a finite-dimensional real vector space equipped with a positive definite quadratic form $\mu\colon V \to \R$, i.e. $\mu(v) > 0$ for all $v \neq 0$ and $v \cdot w \coloneq 1 / 2 (\mu(v + w) - \mu(v) - \mu(w))$ is bilinear.
+			A \strong{euclidean vector bundle}\index{euclidean vector bundle} is then a real vector bundle $p\colon E \to B$ together with a continuous function $\mu\colon E \to \R$ which restricts to a positive definite quadratic form on each fibre.
+			Such a $\mu$ is called a \strong{euclidean metric}\index{euclidean metric} on $E$.
 			\begin{example}
 				The trivial bundle $B \times \R^n \to B$ carries the euclidean metric $\mu(b, x) = x_1^2 + \ldots + x_n^2$.
 				One can show that
 				\begin{itemize}
-					% TODO link exercise
-					\item if $B$ is \emph{paracompact}\index{paracompactness} (i.e. every open cover admits a locally finite refinement), then every vector bundle over $B$ can be given a euclidean metric (this is exercise TODO); and 
-					% TODO properly cite Milnor-Stasheff
-					\item if $\mu$ and $\mu'$ are euclidean metrics on the same bundle $p\colon E \to B$, then there exists a bundle automorphism $\varphi$ of $p$ such that $\mu' = \mu \circ \varphi$ (see exercises 2-C, 2-E in Milnor-Stasheff).
+					\item if $B$ is \emph{paracompact}\index{paracompactness} (i.e. every open cover admits a locally finite refinement), then every vector bundle over $B$ can be given a euclidean metric (this is exercise \ref{ex:euclideanmetric}); and 
+					\item if $\mu$ and $\mu'$ are euclidean metrics on the same bundle $p\colon E \to B$, then there exists a bundle automorphism $\varphi$ of $p$ such that $\mu' = \mu \circ \varphi$ (see \cite[Exercise 2-E]{milnor_characteristic_1974}).
 				\end{itemize}
 			\end{example}
 			Similarly one defines \strong{hermitian metrics}\index{hermitian metric} on $\C$-vector bundles.
 		\item \strong{Orthogonal complement bundles}\index{vector bundle!orthogonal complement}\index{orthogonal complement of a vector subbundle|see {vector bundle!orthogonal complement}}:
 			Let $p\colon E \to B$ be a real euclidean vector bundle with given subbundle $p|_{\hat{E}}\colon \hat{E} \to B$, $\hat{E} \subseteq E$.
-			Then the \emph{orthogonal complement bundle} $\hat{E}^\perp$ is defined to be the subspace $E \supseteq \hat{E}^\perp \coloneq \{e \in E \mid e \in (\hat{E}_{p(e)})^\perp\}$ using the scalar product induced by the metric.
+			Then the \emph{orthogonal complement bundle} $\hat{E}^\perp$ is defined to be the subspace $E \supseteq \hat{E}^\perp \coloneq \big\{e \in E \mid e \in (\hat{E}_{p(e)})^\perp\big\}$ using the scalar product induced by the metric.
+
 			This is locally trivial:
 			Let $h\colon U \times \R^n \to p^{-1}(U)$ be a local trivialization of $p$. 
 			Transporting the metric $\mu$ on $E \supseteq p^{-1}(U)$ over along $h$, we obtain a euclidean metric on $U \times \R^n$.
@@ -182,20 +183,19 @@ For instance, $\Gr_1(\F^N)$ is by definition just $\FP^n$ and $\gamma_{\R}^{1, 2
 	\end{enumerate}
 \end{definition}
 \lecture{04.12.23}
-% TODO check this example
 \begin{example}
 	Consider the Möbius bundle $\gamma_{\R}^{1, 2} \to \RP^1 \isom S^1$ as a subbundle of the trivial bundle $\RP^1 \times \R^2 \to \RP^1$.
 	The orthogonal complement bundle $\big(\gamma_{\R}^{1, 2}\big)^\perp$ is isomorphic to $\gamma_{\R}^{1, 2}$ itself via $\gamma_{\R}^{1, 2} \to \big(\gamma_{\R}^{1, 2}\big)^\perp$, $(L, v) \mapsto (L, Av)$ where $A\colon \R^2 \to \R^2$ is rotation by $\pi / 2$.
-	We will soon see that $\gamma_{\R}^{1, 2}$ is non-trivial.
-	However, it becomes trivial after pulling back along the degree-2 map $f\colon S^1 \to \RP^1 \isom S^1$, $x \mapsto [x]$:
-	$f^* \gamma_{\R}^{1, 2}$ is given by the space of pairs $\{(x, v) \mid v \in [x]\} \subseteq S^1 \times \R^2$.
-	The map $S^1 \times \R^2 \to f^* \gamma_{\R}^{1, 2}$, $(x, \lambda) \mapsto (x, \lambda x)$ is then a bundle isomorphism.
+
+	We will soon see that $\gamma_{\R}^{1, 2}$ is non-trivial; however, it becomes trivial after pulling back along the degree-2 map $f\colon S^1 \to \RP^1 \isom S^1$, $x \mapsto [x]$:
+	The total space $f^* \gamma_{\R}^{1, 2}$ is given by the space of pairs $\{(x, v) \mid v \in [x]\} \subseteq S^1 \times \R^2$, so the map $S^1 \times \R \to f^* \gamma_{\R}^{1, 2}$, $(x, \lambda) \mapsto (x, \lambda x)$ is a bundle isomorphism.
 \end{example}
 \begin{definition}
 	Let $X$ be a topological space and $n \in \N$ a natural number.
-	We denote by $\Vect_{\F}^n(X)$ the set of equivalence classes of $n$-dimensional $\F$-vector bundles on $X$.
+	We denote by $\Vect_{\F}^n(X)$ the set of isomorphism classes of $n$-dimensional $\F$-vector bundles on $X$.
 	Via the pullback of bundles this becomes a contravariant functor in $X$.
 \end{definition}
+% TODO continue here
 We want to study this functor.
 We start with the following:
 \begin{proposition}\label{prp:vecbundlehtpyinvariance}
