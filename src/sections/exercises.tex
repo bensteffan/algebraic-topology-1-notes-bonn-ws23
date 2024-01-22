@@ -1898,7 +1898,7 @@ This section contains two sets of 20 questions each designed to be answered from
 		\item Let $X$ be a simply-connected space.
 			If there exists $n > 1$ such that $\pi_n(X, *)$ is infinite, then there also exists an $m > 1$ such that $H_m(X; \Z)$ is infinite.
 		\item The tangent and normal bundle of the 2-torus $S^1 \times S^1$ viewed as a submanifold of $\R^2 \times \R^2$ are both trivializable.
-		\item Assume that $\xi$ is a real vector bundle with paracompact base space $X$ satisfying $\omega_3(\xi) \neq 0$ and $H^2(X; \F_2) = 0$.
+		\item Assume that $\xi$ is a real, 3-dimensional vector bundle with paracompact base space $X$ satisfying $\omega_3(\xi) \neq 0$ and $H^2(X; \F_2) = 0$.
 			Then $\xi$ does not have a 1-dimensional subbundle.
 		\item Let $(F \to Y \to X, h)$ be a fibre sequence such that two of $F$, $Y$ and $X$ are compact.
 			Then so is the third.
@@ -1936,9 +1936,11 @@ This section contains two sets of 20 questions each designed to be answered from
 		\item \strong{True:} By Serre class theory applied to the good Serre class of finite abelian groups, we have that $\pi_n(X, *)$ is finite for all $n$ if and only if $H_n(X; \Z)$ is (using that $X$ is simply connected and therefore simple).
 			The claim follows.
 		\item \strong{True:} The tangent and normal bundles of a product are the product of the tangent and normal bundles of the factors (relative to the product embedding), so since $\tau_{S^1} \isom \nu_{S^1, \R^2} \isom \epsilon$ are trivial the answer follows.
-		\item \strong{False:} Assume $\xi$ is a bundle with the prescribed properties.
-			Then $\xi \dsum \epsilon$ still fulfills the demands (since $\omega$ is a stable invariant), but this bundle now obviously has a trivial subbundle.
-			The question is then whether any bundles with $\omega_3(\xi) \neq 0$ and $H^2(X; \F_2) = 0$ exist in the first place. TODO it is not clear to me that such a bundle exists :)
+		\item \strong{True:} If $\xi$ splits as $\xi \isom \bar{\xi} \dsum \gamma$ with $\dim \gamma = 1$, then the Whitney product formula together with the dimensionality axiom implies that 
+			\begin{equation*}
+				0 \neq \omega_3(\xi) = \underbrace{\omega_2(\bar{\xi})}_{\substack{\in H^2(X; \F_2) \\ = 0}} \smile \omega_1(\gamma) = 0
+			\end{equation*}
+			which is absurd.
 		\item \strong{False:} Given any fibre sequence $(F \to Y \to X, h)$ with $Y$ and $X$ compact, we can replace $F$ up to homotopy with any space we want, say $F \times \R$, by precomposing $h$ with a deformation retraction onto $F$.
 			This space is non-compact independent of whether $F$ was to start with.
 			\qedhere
