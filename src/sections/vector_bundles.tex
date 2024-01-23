@@ -46,7 +46,7 @@ For the whole section, let $\F$ denote either $\R$ or $\C$.
 	% TODO picture
 \end{example}
 This example generalizes:
-\begin{example}
+\begin{example}\label{ex:defgrassmannian}
 	Let $N, n \geq 1$.
 	The \strong{Grassmannian}\index{Grassmannian} $\Gr_n(\F^N)$ is the set of $n$-dimensional subspaces of $\F^N$.
 	Let $\Fr_n(\F^N) \subseteq (\F^N)^n$ be the subspace of linearly independent sequences $(v_1, \ldots, v_n)$.
@@ -273,7 +273,7 @@ Next we aim to show that there exist universal bundles, at least over paracompac
 \begin{proof}
 	Similar to the finite-dimensional case, using that $\Gr_n^{\F} \times \F^\infty$ comes with the weak topology.
 \end{proof}
-\begin{theorem}
+\begin{theorem}\label{thm:vecbunrepresentability}
 	If $X$ is paracompact, then the natural map
 	\begin{equation*}
 		\big[X, \Gr_n^{\F}\big] \to \Vect_{\F}^n(X), \qquad \big[f\colon X \to \Gr^{F}_n\big] \mapsto [f^* \gamma_{\F}^n]
@@ -613,7 +613,7 @@ where the domain is the polynomial ring in the $\omega_i$ situated in the approp
 	Let $\F = \R$ or $\C$.
 	Again we give $\gamma_\F^n$ a euclidean metric from its embedding in $\Gr_n^\F \times \F^\infty$.
 	Hence we can consider the sphere bundle $S(\gamma_\F^n)$ by restricting to vectors of length 1 in each fibre.
-	\begin{proposition}
+	\begin{proposition}\label{prop:spherebdlhtpygrassmannian}
 		Let $\F = \R$ or $\C$.
 		There is a homotopy equivalence $S(\gamma_\F^n) \htpyeqv \Gr^\F_{n - 1}$ for every $n \geq 1$.
 	\end{proposition}

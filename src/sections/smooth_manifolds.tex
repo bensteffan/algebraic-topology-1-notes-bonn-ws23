@@ -731,15 +731,15 @@ via the composite
 			\Th(\nu_{M, \R^n})
 				\ar[r, "\Th(g)"]
 			& \Th(\gamma_\R^{n - k, n})
-				\ar[r, "(\RP^n \incl \RP^\infty)_*"]
+				\ar[r, "(\R^n \incl \R^\infty)_*"]
 			& \Th(\gamma_\R^{n - k})
 	\end{tikzcd}
 \end{equation*}
-where $g\colon N_{M, \R^n} \to E(\gamma_\R^{n - k, n})$ is the Gauss map of the normal bundle of $M$.
+where $g\colon E(\nu_{M, \R^n}) \to E(\gamma_\R^{n - k, n})$ is the Gauss map of the normal bundle of $M$.
 \begin{proposition}\label{prop:pontryaginthom}
 	\leavevmode
 	\begin{enumerate}
-		\item If $M, M' \subseteq \R^m$ are cobordant, then $\Phi_M$ is based-homotopic to $\Phi_{M'}$.
+		\item If $M, M' \subseteq \R^n$ are cobordant, then $\Phi_M$ is based-homotopic to $\Phi_{M'}$.
 		\item Let $n > 1$ and $M_1, M_2 \subseteq \R^n$ be two closed manifolds.
 			Assume that $M_1 \subseteq \mathring{D}_1$, $M_2 \subseteq \mathring{D}_2$ with $D_1 \cap D_2 = \emptyset$ two disjoint closed disks.
 			Then $\Phi_{M_1 \sqcup M_2}$ represents the sum of $[\Phi_{M_1}]$ and $[\Phi_{M_2}]$ in $\pi_n(\Th(\gamma_\R^{n - k}))$.
@@ -756,16 +756,16 @@ where $g\colon N_{M, \R^n} \to E(\gamma_\R^{n - k, n})$ is the Gauss map of the 
 \begin{proof}[Proof of proposition \ref{prop:pontryaginthom}]
 	Let $N \subseteq \R^n \times [0, 1]$ be a cobordism from $M$ to $M'$.
 	We can extend $N$ slightly to include $M \times \{0\}$ and $M' \times \{1\}$ in its interior by adding on $M \times (-\delta, 0]$ and $M' \times [1, 1 + \delta)$ for some small $\delta > 0$.
-	We can then consider the tubular neighborhood $f^{\mathring{N}}$ of $\mathring{N}$.
-	By construction, the normal space at each $x \in M$ equals $(N_{M, \R^n})_x \times \{0\}$ and likewise for $x \in M'$.
+	
+	Let $f\colon E(\nu_{N, \R^n}) \to \R^n$ be a tubular neighborhood for $N$. 
+	Noting that by construction we have $E(\nu_{N, \R^n})_x = E(\nu_{M, \R^n})_x \times \{0\}$ for all $x \in M$ and likewise for $M'$, the restrictions $f^{\mathring{N}}$, $f^M$, and $f^{M'}$ of $f$ to $E(\nu_{\mathring{N}, \R^n})$, $E(\nu_{M, \R^n})$, and $E(\nu_{M', \R^n})$, respectively, are again tubular neighborhoods.
 	% TODO picture
-	Moreover, $f^{\mathring{N}}$ agrees with $f^M$ and $f^{M'}$, the tubular neighborhoods of $M$ and $M'$, respectively.
 	Hence the composite
 	\begin{equation*}
 		\begin{tikzcd}[row sep = large]
 			S^n \times [0, 1]
 					\ar[r, two heads]
-				& S^n \times [0, 1] \big / f^{\mathring{N}}\big(\mathring{D}(\nu_{N, \R^n \times \R})\big)^{\mathrm{C}}
+				& S^n \times [0, 1] \big / f^{\mathring{N}}\big(\mathring{D}(\nu_{\mathring{N}, \R^n \times \R})\big)^{\mathrm{C}}
 				& \Th(\nu_{N, \R^n \times \R})
 					\ar[l, swap, "\isom"]
 					\ar[dll, rounded corners, to path = {[pos = 1]
@@ -776,7 +776,7 @@ where $g\colon N_{M, \R^n} \to E(\gamma_\R^{n - k, n})$ is the Gauss map of the 
 					}, swap, "\Th(g)"]
 			\\
 			\Th(\gamma_\R^{n - k, n + 1})
-					\ar[r, "(\RP^{n + 1} \incl \RP^\infty)_*"]
+					\ar[r, "(\R^{n + 1} \incl \R^\infty)_*"]
 				& \Th(\gamma_\R^{n - k})
 		\end{tikzcd}
 	\end{equation*}
@@ -798,19 +798,220 @@ where $g\colon N_{M, \R^n} \to E(\gamma_\R^{n - k, n})$ is the Gauss map of the 
 \begin{theorem}[Thom \cite{thom_quelques_1954}]	
 	The map $\Phi\colon \Bord_k^{(n)} \to \pi_n(\Th(\gamma_\R^{n - k}))$ is an isomorphism.
 \end{theorem}
+We first aim to show surjectivity.
+For this, note that we can get back $M$ from $\Phi_M$ by taking the preimage of the zero-section in $\Th(\gamma_\R^{n - k})$.
+We now argue that for a general based map $g\colon S^n \to \Th(\gamma_\R^{n - k})$ we can always replace $g$ by a map $\tilde{g}$ homotopic to it such that the preimage of the zero-section under $\tilde{g}$ is a $k$-dimensional closed manifold in $\R^n \subseteq S^n$.
+This relies on a number of results from differential topology:
+\begin{proposition}\label{prop:smoothapprox}
+	\leavevmode
+	\begin{enumerate}
+		\item Every continuous map $\alpha\colon M \to N$ between manifolds can be approximated arbitrarily closely by a smooth one which is homotopic to it.
+			If $\alpha$ is already smooth on a closed submanifold of $M$, the homotopy can be chosen to be constant on that submanifold.
+		\item Given a smooth map $\alpha\colon M \to N$ between manifolds and a submanifold $N' \subseteq N$ such that $\dim M + \dim N' \geq N$, then there exists an arbitrarily close smooth function $\tilde{\alpha}$ homotopic to $\alpha$ which is \strong{transverse}\index{transversality} to $N'$.
+			This means that if $n \in N'$ is a point and $m \in M$ such that $\tilde{\alpha}(m) = n$, then $\Tang_n N' + D \tilde{\alpha}_m (\Tang_m M) = \Tang_n N$.
+		\item If $\alpha\colon M \to N$ is smooth and transverse to $N' \subseteq N$, then $\alpha^{-1}(N') \subseteq M$ is a smooth submanifold of dimension $\dim N' + \dim M - \dim N$.
+	\end{enumerate}
+\end{proposition}
+
+\lecture{22.01.24}
+Next, we discuss smooth structures on $\Gr_n(\R^m)$ and $E(\gamma_\R^{n, m})$.
+Recall the map 
+\begin{align*}
+	\Fr_n(\R^m) = \{(v_1, \ldots, v_n) \mid \dim \langle v_1, \ldots, v_n \rangle = n\} &\xto{q} \Gr_n(\R^m) \\
+	(v_1, \ldots, v_n) &\mapsto \langle v_1, \ldots, v_n \rangle
+\end{align*}
+from example \ref{ex:defgrassmannian} which is covered by a bundle map
+\begin{align*}
+	E(q^* \gamma_\R^{n, m}) &\xto{E(q)} E(\gamma_\R^{n, m}) \\
+	((v_1, \ldots, v_n), w \in \langle v_1, \ldots, v_n \rangle) &\mapsto (\langle v_1, \ldots, v_n \rangle, w)
+\end{align*}
+Note that $q^* \gamma_\R^{m, m}$ is trivialized by the isomorphism
+\begin{align*}
+	\Fr_n(\R^m) \times \R^n &\to E(q^* \gamma_\R^{n, m}) \\
+	((v_1, \ldots, v_n), (x_1, \ldots, x_n)) &\mapsto \bigg((v_1, \ldots, v_n), \sum_{i = 1}^n x_i v_i \bigg)
+\end{align*}
+This shows that $E(q^* \gamma_\R^{n, m}) \subseteq (\R^m)^n \times \R^m$ is a smooth submanifold.
+
+We now define a smooth structure on $\Gr_n(\R^m)$ by declaring a function $f\colon U \to \R$ defined on a open subset $U \subseteq \Gr_n(\R^m)$ smooth if the composite
+\begin{equation*}
+	\underbrace{q^{-1}(U)}_{\subseteq \Fr_n(\R^m)} \xto{q} U \xto{f} \R
+\end{equation*}
+is smooth.
+Likewise, we use the map $E(q)\colon E(q^* \gamma_\R^{n, m}) \to E(\gamma_\R^{n, m})$ to define a smooth structure on $E(\gamma_\R^{n, m})$.
+Then the map $E(\gamma_\R^{n, m}) \to \Gr_n(\R^m)$ is smooth and the zero-section $\Gr_n(\R^m) \to E(\gamma_\R^{n, m})$ is a smooth embedding.
+
+Alternatively, similary to $\RP^n$, on can realize each $\Gr_n(\R^m)$ as as submanifold of $\R^{m \times m}$ by sending a subspace $V \subseteq \R^m$ to the matrix of the orthogonal projection onto that subspace (see \cite[Problems 5-A -- 5-C]{milnor_characteristic_1974}).
+
+Now let $g\colon S^n \to \Th(\gamma_\R^{n - k})$ be continuous and pointed.
+By compactness, $g$ factors through a map $g_1\colon S^n \to \Th(\gamma_\R^{n - k, m})$ for some $m > 0$.
+Up to homotopy, we can further assume that $g_1^{-1}(*)$ contains a neighborhood of $\infty \in S^n$ so that $g_1^{-1}(\mathring{D}(\gamma_\R^{n - k, m}))$ is a bounded subspace of $\R^n$; $g_1|_{\R^n}$ is then a compactly supported continuous map to $\Th(\gamma_\R^{n - k, m})$.
+Noting that $\mathring{D}(\gamma_\R^{n - k, m}) \isom \Th(\gamma_\R^{n - k, m}) \setminus \{*\}$ is a smooth manifold, we can replace $g_1|_{\R^n}$ by a map $g_2\colon \R^n \to \Th(\gamma_\R^{n - k, m})$ homotopic to it which is compactly supported and both smooth on $g_2^{-1}(\mathring{D}(\gamma_\R^{n - k, m}))$ as well as transverse to the (image of the) zero-section by proposition \ref{prop:smoothapprox} above.
+Then $M \coloneq g_2^{-1}(\Gr_{n - k}(\R^m)) \subseteq \R^n$ is a smooth compact submanifold of dimension $n - (n - k) = k$ and the derivative gives a bundle map 
+\begin{equation*}
+	(D g_2)_M\colon \Nu_{M, \R^m} \to \Nu_{\Gr_{n - k}(\R^m), E(\gamma_\R^{n - k, m})} \isom \gamma_\R^{n - k, m}
+\end{equation*}
+which is an isomorphism on fibres (by transversality).
+\begin{lemma}
+	The map $g_2$ is homotopic to the composite
+	\begin{equation*}
+		S^n \to \Th(\nu_{M, \R^m}) \xto{\Th((D g_2)_M)} \Th(\gamma_\R^{n - k, m})
+	\end{equation*}
+	where the first map is the collapse map.
+\end{lemma}
+\begin{proof}[Proof idea]
+	Approximate $f$ by its derivative around $M$ and push $\mathring{D}(\nu_{M, \R^m})^{\mathrm{C}}$ off to infinity.
+\end{proof}
+
+Recall that we showed in the proof of theorem \ref{thm:vecbunrepresentability} that for every $(n - k)$-dimensional bundle $\xi$ over a paracompact base all bundle maps $E(\xi) \to E(\gamma_\R^{n - k})$ are homotopic to each other.
+We conclude that
+\begin{equation*}
+	i \circ (D g_2)_M\colon \Nu_{M, \R^n} \to E(\gamma_\R^{n - k, m}) \to E(\gamma_\R^{n - k})
+\end{equation*}
+is homotopic through bundle maps to the Gauss map for the normal bundle.
+Therefore, the composite
+\begin{equation*}
+	S^n \to \Th(\nu_{M, \R^m}) \xto{\Th((D g_2)_M)} \Th(\gamma_\R^{n - k, m}) \to E(\gamma_\R^{n - k})
+\end{equation*}
+and hence also $g$ are homotopic to
+\begin{equation*}
+	S^n \to \Th(\nu_{M, \R^m}) \xto{\Th(\rho)} \Th(\gamma_\R^{n - k, m}) \to E(\gamma_\R^{n - k})
+\end{equation*}
+where $\rho\colon \nu_{M, \R^m} \to \gamma_\R^{n - k, m}$ is the Gauss map, or in other words $\Phi_M$.
+This shows surjectivity.
+
+For injectivity, let $M, M' \subseteq \R^n$ be two closed submanifolds and assume that $\Phi_M$ and $\Phi_{M'}$ are homotopic.
+There then exists some $m \in \N$ such that
+\begin{equation*}
+	\tilde{\Phi}_M\colon S^n \to \Th(\nu_{M, \R^n}) \to \Th(\gamma_\R^{n - k, m})
+\end{equation*}
+and
+\begin{equation*}
+	\tilde{\Phi}_{M'}\colon S^n \to \Th(\nu_{M', \R^n}) \to \Th(\gamma_\R^{n - k, m})
+\end{equation*}
+are homotopic.
+We can choose a smooth homotopy
+\begin{equation*}
+	H\colon S^n \times [0, 1] \to \Th(\gamma_\R^{n - k, m})
+\end{equation*}
+which without loss of generality is transverse to $\Gr_{n - k}(\R^m)$ and constant on a neighborhood of $S^n \times \{0\}$ and $S^n \times \{1\}$.
+Then $N = H^{-1}(\Gr_{n - k}(\R^m))$ is a smooth $(k + 1)$-dimensional submanifold such that 
+\begin{equation*}
+	N \cap (\R^n \times [0, \epsilon)) = M \times [0, \epsilon)
+\end{equation*}
+and
+\begin{equation*}
+	N \cap (\R^n \times (1 - \epsilon, 1]) = M' \times (1 - \epsilon, 1]
+\end{equation*}
+for $\epsilon$ small enough.
+Thus $N$ is a bordism from $M$ to $M'$, showing injectivity.
+
+As we saw in the proof of proposition \ref{prop:spherebdlhtpygrassmannian}, the map
+\begin{align*}
+	\Gr_n(\R^\infty) &\to \Gr_{n + 1}(\R^{\infty + 1}) \\
+	V &\mapsto V \dsum \R
+\end{align*}
+is covered by a bundle map
+\begin{equation*}
+	\gamma_\R^n \dsum \epsilon \to \gamma_\R^{n + 1}
+\end{equation*}
+which is an isomorphism on fibres.
+Hence we obtain an induced map
+\begin{equation*}
+	\sigma_n\colon \underbrace{\Th(\gamma_\R^n \dsum \epsilon)}_{\Th(\gamma_\R^n) \wedge S^1} \to \Th(\gamma_\R^{n + 1})
+\end{equation*}
+(more generally, it holds true that $\Th(\xi \dsum \xi') \isom \Th(\xi) \wedge \Th(\xi')$ for arbitrary bundles $\xi, \xi'$).
+\begin{lemma}
+	The following diagram commutes:
+	\begin{equation*}
+		\begin{tikzcd}
+			\Bord_k^{(n)}
+					\ar[r]
+					\ar[d, swap, "\Phi", "\isom"']
+				& \Bord_k^{(n + 1)}
+					\ar[r, "\Phi", "\isom"']
+				& \pi_{n + 1}(\Th(\gamma_\R^{n + 1 - k}))
+			\\
+			\pi_n(\Th(\gamma_\R^{n - k})) 
+					\ar[rr, "\Sigma"]
+				& & \pi_{n + 1}(\Th(\gamma_\R^{n - k} \wedge S^1))
+					\ar[u, "\sigma_n"]
+		\end{tikzcd}
+	\end{equation*}
+\end{lemma}
 \begin{proof}
-	We first aim to show surjectivity.
-	For this, note that we can get back $M$ from $\Phi_M$ by taking the preimage of the zero-section in $\Th(\gamma_\R^{n - k})$.
-	We now argue that for a general based map $g\colon S^n \to \Th(\gamma_\R^{n - k})$ we can always replace $g$ by a map $\tilde{g}$ homotopic to it such that the preimage of the zero-section under $\tilde{g}$ is a $k$-dimensional closed manifold in $\R^n \subseteq S^n$.
-	This relies on a number of results from differential topology:
-	\begin{proposition}
-		\leavevmode
-		\begin{enumerate}
-			\item Every continuous map $\alpha\colon M \to N$ between manifolds can be approximated arbitrarily closely by a smooth one which is homotopic to it.
-				If $\alpha$ is already smooth on a closed submanifold of $M$, the homotopy can be chosen to be constant on that submanifold.
-			\item Given a smooth map $\alpha\colon M \to N$ between manifolds and a submanifold $N' \subseteq N$ such that $\dim M + \dim N' \geq N$, then there exists an arbitrarily close smooth function $\tilde{\alpha}$ homotopic to $\alpha$ which is \strong{transverse}\index{transversality} to $N'$.
-				This means that if $n \in N'$ is a point and $m \in M$ such that $\tilde{\alpha}(m) = n$, then $\Tang_n N' + D \tilde{\alpha}_m (\Tang_m M) = \Tang_n N$.
-			\item If $\alpha\colon M \to N$ is smooth and transverse to $N' \subseteq N$, then $\alpha^{-1}(N') \subseteq M$ is a smooth submanifold of dimension $\dim N' + \dim M - \dim N$.
-		\end{enumerate}
-	\end{proposition}
+	If $M \subseteq \R^n$ is a closed $k$-dimensional submanifold with tubular neighborhood $f\colon \Nu_{M, \R^n} \to \R^n$, then $\nu_{M, \R^{n + 1}} \isom \nu_{M, \R^n} \dsum \epsilon$ and
+	\begin{equation*}
+		(x, v, w) \mapsto f(x, v) + \frac{w}{1 + \lVert w \rVert}
+	\end{equation*}
+	is a tubular neighborhood of $M$ in $\R^{n + 1}$.
+	It follows that the collapse map
+	\begin{equation*}
+		S^n \wedge S^1 \isom S^{n + 1} \to \Th(\nu_{M, \R^{n + 1}}) \isom \Th(\nu_{M, \R^n}) \wedge S^1
+	\end{equation*}
+	is the suspension of the collapse map for $M \subseteq \R^n$.
+	We obtain a commutative diagram
+	\begin{equation*}
+		\begin{tikzcd}
+			S^{n + 1}
+					\ar[r]
+					\ar[d, "\isom"]
+				& \Th(\nu_{M, \R^n} \dsum \epsilon)
+					\ar[r]
+					\ar[d, "\isom"]
+				& \Th(\gamma_\R^{n - k + 1, n + 1})
+					\ar[r]
+				& \Th(\gamma_\R^{n - k + 1})
+			\\
+			S^n \wedge S^1 
+					\ar[r]
+				& \Th(\nu_{M, \R^n}) \wedge S^1
+					\ar[r]
+				& \Th(\gamma_\R^{n - k}) \wedge S^1
+					\ar[r]
+					\ar[u]
+				& \Th(\gamma_\R^{n - k})
+					\ar[u, "\sigma_n"]
+		\end{tikzcd}
+	\end{equation*}
+	This implies the claim.
+\end{proof}
+\begin{corollary}
+	We have
+	\begin{equation*}
+		\Bord_k \isom \colim_n \Bord_k^{(n)} \xto[\isom]{\Phi} \colim_n \pi_n(\Th(\gamma_\R^{n - k}))
+	\end{equation*}
+	where the colimit is taken along the maps
+	\begin{equation*}
+		\pi_n(\Th(\gamma_\R^{n - k})) \xto{\Sigma} \pi_{n + 1}(\Th(\gamma_\R^{n - k} \wedge S^1)) \xto{(\sigma_n)_*} \pi_{n + 1}(\Th(\gamma_\R^{n + 1- k}))
+	\end{equation*}
+\end{corollary}
+We saw that the map $\Gr_{n - k}(\R^\infty) \to \Gr_{n + 1 - k}(\RP^\infty)$ has homotopy fibre equivalent to $S^{n - k}$ and is hence $(n - k - 1)$-connected.
+Generally, we have
+\begin{lemma}
+	Let $f\colon \xi \to \xi'$ be a bundle map of $n$-dimensional euclidean bundles which is an isomorphism on fibres, and assume the map of base spaces $B \to B'$ is $m$-connected.
+	Then the map $\Th(\xi) \to \Th(\xi')$ is $(n + m)$-connected.
+\end{lemma}
+\begin{proof}
+	The can be shown using CW-structures:
+	If $B$ is a CW-complex, then $\Th(\xi)$ has a CW-structure with one 0-cell (given by the collapsed boundary $[S(\xi)]$) and one $(k + n)$-cell for every $k$-cell $\chi\colon D^k \to B$ of $B$ given by the pullback
+	\begin{equation*}
+		\begin{tikzcd}
+			D(\chi^* \xi)
+					\ar[r]
+					\ar[d]
+					\ar[dr, phantom, "\lrcorner" very near start]
+				& D(\xi)
+					\ar[r, two heads]
+					\ar[d]
+				& \Th(\xi)
+			\\
+			D^k
+					\ar[r, swap, "\chi"]
+				& B
+		\end{tikzcd}
+	\end{equation*}
+	using that $\chi^* \xi$ is trivializable as $D^k$ is contractible and therefore $D(\chi^* \xi) \isom D^k \times D^n \isom D^{n + k}$.
+	Now if $B \to B'$ is $m$-connected, then up to weak homotopy equivalence we can assume that $B'$ is a CW-complex with subcomplex $B$ and all relative cells in dimension $> m$.
+	Then $\Th(\xi')$ is a CW-complex with subcomplex $\Th(\xi)$ and relative cells in dimension $> n + m$.
+	The claim follows.
 \end{proof}
