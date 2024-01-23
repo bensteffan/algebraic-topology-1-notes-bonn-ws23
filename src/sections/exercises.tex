@@ -1693,6 +1693,104 @@ At the end of the section (page \pageref{sect:quickquest} and following) you wil
 	\end{enumerate}
 \end{solution}
 
+\begin{exercise}
+	Let $X$ be an $n$-dimensional CW-complex.
+	Show that the map
+	\begin{align*}
+		\Vect_\R^m(X) &\to \Vect_\R^{m + 1}(X) \\
+		\xi &\mapsto \xi \dsum \epsilon
+	\end{align*}
+	is a bijection for $m > n$ and a surjection for $m = n$.
+\end{exercise}
+There are two ways to tackle this problem, the first via obstruction theory and the other (more elementary) via colimits\footnote{The idea for the second solution is due to Lucas Piessevaux.}:
+\begin{proof}[Solution 1]
+	We note for completeness' sake that $X$ is paracompact.
+	Recall that $\Gr_{m - 1}^\R \htpyeqv S(\gamma_\R^m)$ from the proof of proposition \ref{prop:spherebdlhtpygrassmannian} with the bundle projection map $\rho\colon S(\gamma_\R^m) \to \Gr_m^\R$ classifying the bundle $\gamma_{m - 1}^\R \dsum \epsilon$.
+	We now recall the following theorem\footnote{Compare \cite[Theorem 7.37]{davis_lecture_2001}.}:
+	\begin{theorem}
+		Let $X$ be a CW-complex, $p\colon E \to B$ a fibration with fibre $F$.
+		Let $f\colon X \to B$ be a map.
+
+		If $\pi_k(F) = 0$ for all $k \leq n - 1$, then $f$ can be uniquely (up to homotopy) lifted to a map $X^n \to E$ and further extended over $X^{n + 1}$ if and only if the obstruction class
+		\begin{equation*}
+			\theta^{n + 1}(f) \in H^{n + 1}(X; \pi_n(F)_{-})
+		\end{equation*}
+		vanishes, where $\pi_n(F)_{-}$ denotes the pullback of the local coefficient system $\pi_1 B \to \Aut(\pi_n(F))$ to $X$.
+	\end{theorem}
+	If $\xi$ is an $(n + 1)$-dimensional bundle over $X$ classified by a map $\varphi_{\xi}\colon X \to \Gr_{n + 1}^\R$, the theorem yields that a unique lift $\varphi_\xi^{n - 1}\coloneq X^{n - 1} \to \Gr_{n - 1}^\R$ exists, and further that this lift extends over $X^n = X$ iff a certain element of $H^{n + 1}(X; \pi_n(S^n)_{-})$ vanishes; but this group is zero.
+	Thus the map in question is surjective, and for $m > n$ the vanishing of $\pi_k(S^m)$ for all $k < m$ implies that a homotopy-unique lift exists, i.e. that the map is a bijection.
+\end{proof}
+\begin{proof}[Solution 2]
+	As in the preceding solution, we consider the fibre sequence $S^m \to \Gr^\R_m \xto{\rho} \Gr^\R_{m + 1}$.
+	This time, we make use of the fact that $\Vect_m^\R\colon \op{\CW} \to \Ab$ is representable and therefore takes homotopy colimits to limits.
+
+	As we can write $X \htpyeqv \colim_i S^{k_i}$, this yields that $\Vect^\R_m(X) \isom \lim_i \Vect_m^\R(S^{k_i})$.
+	This allows us to argue by applying $\pi_k({{-}}) = [S^k, {{-}}]$ to the fibre sequence $S^m \to \Gr_m^\R \xto{\rho} \Gr_{m + 1}^\R$ to obtain a long exact sequence
+	\begin{equation*}
+		\begin{tikzcd}[column sep = smallish]
+			\cdots
+					\ar[r]
+				& \pi_k(S^m)
+					\ar[r]
+				& \pi_k(\Gr_m)
+					\ar[r]
+				& \pi_k(\Gr_{m + 1})
+					\ar[r]
+				& \pi_{k - 1}(S^m)
+					\ar[r]
+				& \cdots
+		\end{tikzcd}
+	\end{equation*}
+	If $k \leq n < m$, then the two outer groups are trivial, so the middle map is an isomorphism; otherwise, in the case $k \leq n = m$, only the group at the right vanishes so the middle map is surjective.
+	Invoking that $X \htpyeqv \colim_i S^{k_i}$ is without loss of generality filtered and that filtered colimits are exact, the claim follows.
+\end{proof}
+
+\begin{exercise}
+	A smooth manifold $M$ is said to admit a \emph{field of tangent $k$-planes} if its tangent bundle admits a subbundle of dimension $k$.
+	Show that $\RP^n$ admits a field of tangent 1-planes if and only if $n$ is odd.
+	Show that $\RP^4$ and $\RP^6$ do not admit fields of tangent 2-planes.
+	\begin{hint}
+		If $n = 2k - 1$ is odd, the 1-dimensional subbundle can be chosen to be trivial.
+		Use the smooth covering $S^{2k - 1} \to \RP^{2k - 1}$ and the complex structure on $\R^{2k} \isom \C^k$ to construct this trivial subbundle.
+	\end{hint}
+\end{exercise}
+\begin{solution}
+	To construct a trivial tangent field of 1-planes on $\RP^{2n - 1}$ for all $n \geq 1$, consider $S^{2k - 1}$ as embedded in the standard way in $\C^n$ and let $e_1, \ldots, e_n$ be the standard basis vectors of the latter. 
+	We define a map 
+	\begin{align*}
+		\rho\colon S^{2n - 1} &\to \Tang S^{2n - 1} \\
+		x &\mapsto i x
+	\end{align*}
+	and claim that this defines a non-vanishing vector field on $S^{2n - 1}$, which is almost clear:
+	Multiplication with $i$ is bijective, so $i x \neq 0$ for all $x \in S^{2n - 1}$, and $ix \perp x$ (almost by definition: multiplication with $i$ in each $\C$-linear subspace is the same as rotation by 90 degrees) for all $x$, so $ix \in \Tang_x S^{2n - 1}$.
+
+	We obtain a map $\tilde{\rho}\colon S^{2n - 1} \to \Tang \RP^{2n - 1}$ as $\tilde{\rho} \coloneq D p \circ \rho$ whose image never vanishes since $p$ is a local diffeomorphism, so we can pass to the quotient and finally obtain a field of tangent 1-planes $\bar{\rho}\colon \RP^{2n - 1} \to \Tang \RP^{2n - 1}$.
+
+	On the other hand, if $n$ is even, then $\omega\big(\tau_{\RP^n}\big) = (1 + u)^{n + 1}$ where $u \in H^1(\RP^n; \F_2)$ is the fundamental class implies that $\omega_n\big(\tau_{\RP^n}\big) = \binom{n + 1}{n} u^n = u^n \neq 0$ since $\binom{n + 1}{n} = n + 1$ which is odd.
+	Therefore, if there is a splitting $\tau_{\RP^n} \isom \gamma \dsum \eta$ where $\dim \gamma = n - 1$ and $\dim \eta = 1$, the Whitney product formula says that
+	\begin{equation*}
+		\omega\big(\tau_{\RP^n}\big) = \omega(\gamma \dsum \eta) = \omega(\gamma) \omega(\eta)
+	\end{equation*}
+	so $u^n = \omega_n\big(\tau_{\RP^n}\big) = \omega_{n - 1}(\gamma) \omega_1(\eta)$ forces $\omega_{n - 1}(\gamma) = u^{n - 1}$ and $\omega(\eta) = 1 + u$ (using the usual dimensionality constraint that $\omega_k(\theta) = 0$ for any bundle $\theta$ and all $k > \dim \theta$).
+	Now $1 + u \in \F_2[u] / (u^{n + 1})$ is invertible, so we can cancel $\omega(\eta)$ from $\omega\big(\tau_{\RP^n}\big) = (1 + u)^{n + 1}$ to obtain $\omega(\gamma) = (1 + u)^n$ which implies $\omega_n(\gamma) = u^n$; this is absurd.
+	Thus no such splitting exists.
+
+	For the part about tangent 2-planes, we have that $\omega\big(\tau_{\RP^4}\big) = 1 + u + u^2$ by the formula above, so if the tangent bundle splits as $\tau_{\RP^4} \isom \gamma \dsum \eta$ with both summands of dimension 2, we know the following:
+	\begin{enumerate}
+		\item Exactly one of $\omega_1(\gamma)$ and $\omega_1(\eta)$ is nonzero (and therefore equal to $u$) since otherwise $\omega_1(\gamma \dsum \eta) = 0$.
+		\item We have $\omega_2(\gamma) = \omega_2(\eta) = u^2$ since this is the only way to achieve $\omega_4(\gamma \dsum \eta) = u^4$.
+	\end{enumerate}
+	But if this is the case, then $\omega_3(\gamma \dsum \eta) = u^3 \neq 0$, contradicting our calculation of $\omega\big(\tau_{\RP^4}\big)$ above.
+
+	Finally, for $\RP^6$, we compute $\omega\big(\tau_{\RP^6}\big) = 1 + u^1 + u^2 + u^3 + u^4 + u^5 + u^6$ again by the above formula, so if we have a splitting $\tau_{\RP^6} \isom \gamma \dsum \eta$ with $\dim \gamma = 4$, $\dim \eta = 2$, we see that:
+	\begin{enumerate}
+		\item $\omega_2(\eta) = u^2$ and $\omega_4(\gamma) = u^4$ since otherwise $\omega_6(\gamma \dsum \eta) = 0$,
+		\item $\omega_1(\eta) = u$ since similarly $\omega_5(\gamma \dsum \eta) = u^5$ is otherwise unachievable.
+	\end{enumerate}
+	But then $\omega_1(\gamma)$, $\omega_2(\gamma)$ must be trivial since otherwise the corresponding class of the sum vanishes, and the only way to obtain $\omega_3(\gamma \dsum \eta) = u^3$ is if $\omega_3(\gamma) = u^3$ which entails that $\omega_4(\gamma \dsum \eta) = \omega_4(\gamma) + \omega_3(\gamma) \omega_1(\eta) = u^4 + u^3 u^1 = 0$, contradiction.
+	Thus we conclude no such fields of tangent 2-planes on $\RP^4$ and $\RP^6$ exist.
+\end{solution}
+
 \subsection{Quick Questions}\label{sect:quickquest}
 This section contains two sets of 20 questions each designed to be answered from the top of your head, together with example solutions.
 
