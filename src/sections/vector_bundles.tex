@@ -12,11 +12,11 @@ For the whole section, let $\F$ denote either $\R$ or $\C$.
 	\begin{equation*}
 		\begin{tikzcd}[column sep = small]
 			U \times \F^n 
-					\ar[rr, "h"]
-					\ar[dr, swap, "\pr_U"]
+			\ar[rr, "h"]
+			\ar[dr, swap, "\pr_U"]
 				& & p^{-1}(U)
-					\ar[dl, "p"]
-			\\
+				\ar[dl, "p"]
+				\\
 				& U
 		\end{tikzcd}
 	\end{equation*}
@@ -85,11 +85,11 @@ As an example, $\Gr_1(\F^N)$ is by definition just $\FP^n$ and $\gamma_{\R}^{1, 
 			\begin{equation*}
 				\begin{tikzcd}[column sep = small]
 					E_1 
-							\ar[rr, "\varphi"]
-							\ar[dr, swap, "p_1"]
+					\ar[rr, "\varphi"]
+					\ar[dr, swap, "p_1"]
 						& & E_2
-							\ar[dl, "p_2"]
-					\\
+						\ar[dl, "p_2"]
+						\\
 						& B
 				\end{tikzcd}
 			\end{equation*}
@@ -100,14 +100,14 @@ As an example, $\Gr_1(\F^N)$ is by definition just $\FP^n$ and $\gamma_{\R}^{1, 
 			\begin{equation*}
 				\begin{tikzcd}
 					f^* E
-							\ar[r]
-							\ar[d, swap, "f^* p"]
-							\ar[dr, phantom, "\lrcorner" very near start]
+					\ar[r]
+					\ar[d, swap, "f^* p"]
+					\ar[dr, phantom, "\lrcorner" very near start]
 						& E
-							\ar[d, "p"]
-					\\
-					X
-							\ar[r, "f"]
+						\ar[d, "p"]
+						\\
+						X
+						\ar[r, "f"]
 						& B
 				\end{tikzcd}
 			\end{equation*}
@@ -195,7 +195,6 @@ As an example, $\Gr_1(\F^N)$ is by definition just $\FP^n$ and $\gamma_{\R}^{1, 
 	We denote by $\Vect_{\F}^n(X)$ the set of isomorphism classes of $n$-dimensional $\F$-vector bundles on $X$.
 	Via the pullback of bundles this becomes a contravariant functor in $X$.
 \end{definition}
-% TODO continue here
 We want to study this functor.
 We start with the following:
 \begin{proposition}\label{prp:vecbundlehtpyinvariance}
@@ -213,9 +212,9 @@ For this, we will need the following lemma:
 	\begin{equation*}
 		\begin{tikzcd}[column sep = smallish]
 			{h_3\colon p^{-1}(U \times [b, c])}
-					\ar[r, "h_2"]
+			\ar[r, "h_2"]
 				& {U \times [b, c] \times \F^n}
-					\ar[r, "{\id_{[b, c]} \times \varphi}"]
+				\ar[r, "{\id_{[b, c]} \times \varphi}"]
 				&[2.1em] {U \times [b, c] \times \F^n}
 		\end{tikzcd}
 	\end{equation*}
@@ -223,9 +222,9 @@ For this, we will need the following lemma:
 	\begin{equation*}
 		\begin{tikzcd}[column sep = smallish]
 			\varphi\colon U \times \F^n \isom U \times \{b\} \times \F^n
-					\ar[r, "h_2^{-1}"]
+			\ar[r, "h_2^{-1}"]
 				& p^{-1}(U \times \{b\})
-					\ar[r, "h_1"]
+				\ar[r, "h_1"]
 				& U \times \{b\} \times \F^n \isom U \times \F^n
 		\end{tikzcd}
 	\end{equation*}
@@ -239,15 +238,16 @@ For this, we will need the following lemma:
 	Let $\{U_j\}_j$ be an open cover of $X \times I$ as in the previous lemma.
 	Since $X$ is paracompact, there exists a countable cover $\{V_i\}_{i \in \N}$ of $X$ subordinate to $\{U_j\}_j$ (i.e. each $V_i$ is contained in some $U_j$) and a partition of unity $\{\varphi_i\colon X \to [0, 1]\}_{i \in \N}$ with $\supp(\varphi_i) \subseteq V_i$.
 	Hence $\xi$ is trivializable over each $V_i \times I$.
-	Let $\psi_i \coloneq \varphi_1 + \ldots + \varphi_i$ and let $p_i\colon E_i \to X$ be the pullback of $\xi$ along $X \times X \times I$, $x \mapsto (x, \psi_i(x))$ (example \ref{expl:smallcovervbhtpyinv} below may help with intuition).
+	Let $\psi_i \coloneq \varphi_1 + \ldots + \varphi_i$ and let $p_i\colon E_i \to X$ be the pullback of $\xi$ along $X \to X \times I$, $x \mapsto (x, \psi_i(x))$ (example \ref{expl:smallcovervbhtpyinv} below may help with intuition).
+
 	We define a homeomorphism $h_i\colon E_i \xto{\isom} E_{i - 1}$ as follows:
-	Outside $p^{-1}(V_i)$, set $h_i \coloneq \id$, choose a trivialization $\tilde{h}_i\colon p^{-1}(V_i \times I) \xto{\isom} V_i \times I \times \F^n$, and set $h_i(x, \psi_i(x), v) \coloneq (x, \psi_{i - 1}(x), v)$ where $(x, \psi_i(x), v) \in V_i \times I \times \F^n$.
-	Then the infinite composite $\cdots \circ h_2 \circ h_1$ is an isomorphism from the pullback $\iota_0^* \xi$ to the pullback $\iota_1^* \xi$ as desired.
+	Outside of $p^{-1}(V_i)$, set $h_i \coloneq \id$. 
+	Then choose a trivialization $\tilde{h}_i\colon p^{-1}(V_i \times I) \xto{\isom} V_i \times I \times \F^n$, and set $h_i(x, \psi_i(x), v) \coloneq (x, \psi_{i - 1}(x), v)$ where $(x, \psi_i(x), v) \in V_i \times I \times \F^n$.
+	The infinite composite $\cdots \circ h_2 \circ h_1$ (which we note is well-defined since the cover $\{V_i\}_{i \in \N}$ is locally finite) is then an isomorphism from the pullback $\iota_0^* \xi$ to the pullback $\iota_1^* \xi$ as desired.
 \end{proof}
 \begin{example}\label{expl:smallcovervbhtpyinv}
 	Let $X = V_1 \cup V_2$ be an open cover.
-	% TODO ???
-	Then a trivialization $\varphi$ on $V_1 \times I$ yields an isomorphism $\iota_0 \xi \isom (\id, \varphi_1)^* \xi$ that is constant outside $V_1$.
+	Then a trivialization $\varphi_1$ on $V_1 \times I$ yields an isomorphism $\iota_0^* \xi \isom (\id, \varphi_1)^* \xi$ that is constant outside $V_1$.
 \end{example}
 \begin{corollary}
 	If $X$ is paracompact, $f_1, f_2\colon X \to Y$ are two homotopic maps and $\xi$ is a vector bundle over $Y$, then $f_1^* \xi \isom f_2^* \xi$.
@@ -284,20 +284,19 @@ Next we aim to show that there exist universal bundles, at least over paracompac
 \begin{proof}
 	For surjectivity, let $p\colon E \to X$ be an $n$-dimensional $\F$-vector bundle.
 	Assume there exists continuous map $\tilde{f}\colon E \to \F^\infty$ which is linear and injective on each fibre.
-	Then $f\colon X \to \Gr_n^{\F}$, $x \mapsto \tilde{f}(E_x)$ is continuous (this can be checked after trivialization) and $E \mapsto f^* \gamma_{\F}^n \subseteq X \times \Gr_n^{\F} \times \F^\infty$, $e \mapsto (p(e), f(p(e)), \tilde{f}(e))$ defines a bundle isomorphism from $E$ to $f^* \gamma_{\F}^n$.
+	Then $f\colon X \to \Gr_n^{\F}$, $x \mapsto \tilde{f}(E_x)$ is continuous (this can be checked after trivialization) and $E \to f^* \gamma_{\F}^n \subseteq X \times \Gr_n^{\F} \times \F^\infty$, $e \mapsto (p(e), f(p(e)), \tilde{f}(e))$ defines a bundle isomorphism from $E$ to $f^* \gamma_{\F}^n$.
 
-	To construct $\tilde{f}$, we choose a trivializing cover $\{U_i\}_i$ as before and trivializations $h_i\colon p^{-1}(V_i) \to U_i \times \F^n$.
-	Then $\tilde{f}_i\colon p^{-1}(V_i) \xto{h_i} U_i \times \F^n \xto{\pr_{\F^n}} \F^n$ defines such a map for the restricted bundle over each $U_i$ with codomain $\F^n$ instead of $\F^\infty$.
+	To construct $\tilde{f}$, we choose a numerable trivializing cover $\{U_i\}_i$ as before and trivializations $h_i\colon p^{-1}(U_i) \to U_i \times \F^n$.
+	Then $\tilde{f}_i\colon p^{-1}(U_i) \xto{h_i} U_i \times \F^n \xto{\pr_{\F^n}} \F^n$ defines such a map for the restricted bundle over each $U_i$ with codomain $\F^n$ instead of $\F^\infty$.
 	We choose a partition of unity $\{\varphi_i\}_i$ subordinate to this cover and define
 	\begin{equation*}
 		\tilde{f} = \big(\varphi_1 \circ p \circ \tilde{f}_1, \varphi_2 \circ p \circ \tilde{f}_2, \ldots\big) \subseteq (\F^n)^\infty \isom \F^\infty
 	\end{equation*}
 	which has the desired properties.
 
-	For injectivity, let $f_1, f_2\colon X \to \Gr^{\F}_n$ be such that $f_1^* \gamma_{\F}^n \isom f_2^* \gamma_{\F}^n$.
-	Write $E_i$ for the total space of $f_i^* \gamma_{\F}^n$.
+	For injectivity, let $f_1, f_2\colon X \to \Gr^{\F}_n$ be such that $f_1^* \gamma_{\F}^n \isom f_2^* \gamma_{\F}^n$ and write $E_i$ for the total space of $f_i^* \gamma_{\F}^n$.
 	As in the first part, we obtain maps $\tilde{f}_i\colon E_i \to \F^\infty$.
-	We can precompose $\tilde{f}_2$ with the homeomorphism $E_1 \to E_2$ to get two maps $\tilde{f}_1, \tilde{g}\colon E_1 \to \F^\infty$, each linear and injective on fibres.
+	We can precompose $\tilde{f}_2$ with the a $E_1 \to E_2$ to get two maps $\tilde{f}_1, \tilde{g}\colon E_1 \to \F^\infty$, each linear and injective on fibres.
 
 	It suffices to show that $\tilde{f}_1$ and $\tilde{g}$ are homotopic through maps that are linear and injective on fibres, since this gives a homotopy $f_1 \Rightarrow f_2$.
 	To produce this homotopy, we first note that there is a linear injective homotopy $h_t\colon \F^\infty \to \F^\infty$ from $\id_{\F^\infty}$ to the map $\tau(x_1, x_2, \ldots) = (x_1, 0, x_2, 0, \ldots)$, for example the direct path.
@@ -330,7 +329,7 @@ Next we aim to show that there exist universal bundles, at least over paracompac
 	\end{equation*}
 	if $X$ is a CW-complex.
 	It follows that $\gamma_{\R}^1$ is the unique non-trivial line bundle on $\RP^\infty$ since $H^1(\RP^\infty; \F_2) \isom \F_2$.
-	Since $H^1(\RP^\infty; \F_2) \xto{\isom} H^1(\RP^m; \F_2)$ for all $m \geq 1$, we see that $\gamma_{\R}^{1, m + 1}$ is also non-trivial for all $m \geq 1$; in particular the Möbius bundle is non-trivial.
+	Moreover, since $H^1(\RP^\infty; \F_2) \xto{\isom} H^1(\RP^m; \F_2)$ for all $m \geq 1$, we see that $\gamma_{\R}^{1, m + 1}$ is also non-trivial for all $m \geq 1$; in particular the Möbius bundle is non-trivial.
 	Similarly, the line bundles $\gamma_{\C}^{1, m + 1}$ are generators of $\Vect_{\C}^1(\CP^m)$ for all $m \geq 1$.
 	In particular, $\Vect_{\R}^1(X)$ and $\Vect_{\C}^1(X)$ have natural abelian group structures.
 	One can show that this is given by the tensor product of line bundles.
