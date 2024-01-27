@@ -309,7 +309,7 @@ Next we aim to show that there exist universal bundles, at least over paracompac
 \begin{proof}
 	By compactness, the classifying map $X \to \Gr^{\F}_n$ factors through some finite stage in the filtration definining $\Gr^{\F}_n$, i.e. some $\Gr_n(\F^m)$, since $\Gr^{\F}_n$ carries the weak topology.
 \end{proof}
-\begin{corollary}
+\begin{corollary}\label{prop:swanslemma}
 	Let $X$ be compact and $p\colon E \to X$ an $n$-dimensional $\F$-vector bundle.
 	The there is an $\F$-vector bundle $p'\colon E' \to X$ such that $p \dsum p'\colon E \dsum E' \to X$ is isomorphic to a trivial bundle.
 \end{corollary}
@@ -352,7 +352,7 @@ Next we aim to show that there exist universal bundles, at least over paracompac
 	for $n, m \in \N$ and $A$ an abelian group.
 \end{definition}
 \begin{remark}
-	At least when we restrict to paracompact spaces, characteristic classes correspond to elements in $H^m\big(\Gr^{\F}_n; A\big)$.
+	At least when we restrict to paracompact spaces, characteristic classes correspond to elements in $H^m\big(\Gr^{\F}_n; A\big)$ (by representability and the Yoneda lemma).
 \end{remark}
 We will mainly focus on the case $\F = \R$ and $A = \F_2$.
 Our main goal is to show the following:
@@ -378,32 +378,64 @@ We first assume the theorem and record some elementary properties:
 \begin{itemize}
 	\item If $\epsilon$ is a trivial bundle, then $\omega_i(\epsilon) = 0$ for $i > 0$ since $\epsilon$ can be pulled back from a point and $H^i({{*}}; \F_2) = 0$ for $i > 0$.
 	\item We have $\omega_i(\xi \dsum \epsilon) = \omega_i(\xi)$ for all $i$ by the Whitney product formula and the previous item (this is to say that the $\omega_i$ are \emph{stable}).
-	\item We set $H^\pi(B; \F_2) \coloneq \prod_{n \in \N} H^n(B; \F_2)$ with ring structure given by extending the cup product, i.e.
+	\item If we set $H^\pi(B; \F_2) \coloneq \prod_{n \in \N} H^n(B; \F_2)$ with ring structure given by extending the cup product, i.e.
 		\begin{equation*}
 			(x_i)_{i \in \N} \cdot (y_j)_{j \in \N} \coloneq \bigg(\sum_{i = 0}^k x_i \smile y_{k - i}\bigg)_{k \in \N}
 		\end{equation*}
-		The \strong{total Stiefel-Whitney class}\index{Stiefel-Whitney class!total class} $\omega(\xi) \in H^\pi(B; \F_2)$ is defined as $\omega(\xi) \coloneq \omega_0(\xi) + \omega_1(\xi) + \omega_2(\xi) + \cdots$.
-		Then $\omega(\xi \dsum \eta) = \omega(\xi) \omega(\eta)$.
-		Hence, if $\xi \dsum \eta = \epsilon^m$ is a trivial bundle, we have $\omega(\xi) \omega(\eta) = \omega(\xi \dsum \eta) = \omega(\epsilon^m) = 1$ and hence $\omega(\xi) = \omega(\eta)^{-1}$.
-	\item We have $\Vect_{\R}^1 \isom H^1(\RP^1; \F_2) \isom \F_2$, hence axiom \ref{ax:stiefwhitnormalization} forces $\omega_1\big(\gamma_{\R}^{1, 2}\big)$ to be the unique non-trivial element of $H^1(\RP^n; \F_2)$.
-		Since $\gamma_{\R}^{1, 2}$ is the pullback of $\gamma_{\R}^1$ along $\RP^1 \incl \RP^\infty$ and $H^1(\RP^\infty; \F_2) \to H^1(\RP^1; \F_2)$ is an isomorphism, we have that $\omega_1(\gamma_{\R}^1) \in H^1(\RP^\infty; \F_2)$ is the non-trivial element $u$.
-		Hence, $\omega(\gamma_{\R}^1) = 1 + u \in H^\pi(\RP^\infty; \F_2)$.
-		Its inverse is given by $1 + u + u^2 + u^3 + \cdots \in H^\pi(\RP^\infty; \F_2)$, but this has infinitely many non-trivial terms and can thus not be equal to $\omega(\eta)$ for some vector bundle $\eta$ on $\RP^\infty$.
-		% TODO cite the right corollary once available
-		Hence, $\gamma_{\R}^1$ does not embed into a trivial bundle, in contrast to bundles over compact spaces (Cor. 6. 13).
-		Over $\RP^n$, we have $\omega\big(\gamma_{\R}^{1, n + 1}\big)^{-1} = 1 + u + u^2 + \cdots + u^n = \omega(\xi)$ where $\gamma_{\R}^{1, n + 1} \dsum \xi = \epsilon^{n + 1}$ (i.e. $\xi \isom \big(\gamma_{\R}^{1, n + 1}\big)^\perp$).
+		then the \strong{total Stiefel-Whitney class}\index{Stiefel-Whitney class!total class} $\omega(\xi) \in H^\pi(B; \F_2)$ is defined as $\omega(\xi) \coloneq \omega_0(\xi) + \omega_1(\xi) + \omega_2(\xi) + \cdots$.
+		The Whitney product formula implies that  $\omega(\xi \dsum \eta) = \omega(\xi) \omega(\eta)$.
+		Hence, if $\xi \dsum \eta = \epsilon^m$ is a trivial bundle, we have $\omega(\xi) \omega(\eta) = \omega(\xi \dsum \eta) = \omega(\epsilon^m) = 1$ and therefore $\omega(\xi) = \omega(\eta)^{-1}$.
+	\item We have $\Vect_{\R}^1(\RP^1) \isom H^1(\RP^1; \F_2) \isom \F_2$, hence axiom \ref{ax:stiefwhitnormalization} forces $\omega_1\big(\gamma_{\R}^{1, 2}\big)$ to be the unique non-trivial element of $H^1(\RP^n; \F_2)$.
+		Since $\gamma_{\R}^{1, 2}$ is the pullback of $\gamma_{\R}^1$ along $\RP^1 \incl \RP^\infty$ and the induced map $H^1(\RP^\infty; \F_2) \to H^1(\RP^1; \F_2)$ is an isomorphism, $\omega_1(\gamma_{\R}^1) \in H^1(\RP^\infty; \F_2)$ must be the non-trivial element $u$.
+		Thus, $\omega(\gamma_{\R}^1) = 1 + u \in H^\pi(\RP^\infty; \F_2)$ and its inverse is given by $1 + u + u^2 + u^3 + \cdots \in H^\pi(\RP^\infty; \F_2)$, but this has infinitely many non-trivial terms and therefore cannot be equal to $\omega(\eta)$ for some vector bundle $\eta$ on $\RP^\infty$.
+		Hence, $\gamma_{\R}^1$ does not embed into a trivial bundle, in contrast to bundles over compact spaces (cf. proposition \ref{prop:swanslemma}).
+
+		In contrast, over $\RP^n$ we have that $\omega\big(\gamma_{\R}^{1, n + 1}\big)^{-1} = 1 + u + u^2 + \cdots + u^n = \omega(\xi)$ where $\gamma_{\R}^{1, n + 1} \dsum \xi = \epsilon^{n + 1}$ (i.e. $\xi \isom \big(\gamma_{\R}^{1, n + 1}\big)^\perp$).
 \end{itemize}
 \subsubsection{Construction of the Stiefel-Whitney classes}
-Throughout this whole subsection, we implicitly assume $\F_2$-coefficients for (co)homology.
-
-We start our construction of the $\omega_i$ with \emph{Thom classes} and \emph{Thom isomorphisms}.
-Let $p\colon E \to B$ be a real vector bundle.
-We set $E_0 \subset E$ to be all elements which are not the 0-element in their respective fibre.
+\begin{note}
+	Throughout this whole subsection, we implicitly assume $\F_2$-coefficients for (co)homology.
+\end{note}
+We start our construction of the $\omega_i$ with a brief treatment of \emph{Thom classes} and \emph{Thom isomorphisms}.
+Let $p\colon E \to B$ be a real vector bundle and set $E_0 \subset E$ to be all elements which are not the 0-element in their respective fibre.
 Then $p|_{E_0}\colon E_0 \to B$ is a fibre bundle with fibres homeomorphic to $\R^n \setminus \{0\}$.
-We can apply the relative Serre spectral sequence of the form $H^p(B; H^q(\R^n, \R^n \setminus \{0\})) \Rightarrow H^{p + q}(E, E_0)$.
-Now $H^q(\R^n, \R^n \setminus \{0\}) \isom \F_2$ if $q = n$ and 0 else, and the local coefficient system is necessarily trivial since any automorphism of $\F_2$ is the identity.
-We therefore obtain the following picture:
-% TODO picture
+We can apply the relative Serre spectral sequence constructed in proposition \ref{prop:relserrespecseq} of the form $H^p(B; H^q(\R^n, \R^n \setminus \{0\})) \Rightarrow H^{p + q}(E, E_0)$.
+Now $H^q(\R^n, \R^n \setminus \{0\}) \isom \F_2$ if $q = n$ and 0 else, and the local coefficient system is necessarily trivial since any automorphism of $\F_2$ is the identity, so we obtain the following picture:
+\begin{center}
+	\pgfsetlayers{background,main}
+	\tikzsetnextfilename{vecbun_thom_iso_spec_seq}
+	\begin{tikzpicture}
+		\matrix[
+			spectral sequence/page,
+			name = m, 
+			column sep = {3.5em, between origins},
+			row sep = 3ex, 
+			column 1/.append style = {anchor = base},
+			row 4/.style = {font = \scriptsize}] {
+				n &[-1.4em] H^0(B) & H^1(B) & \cdots \\
+				\vdotswithin{0} & \phantom{0} \\
+				0 & \phantom{0} & \phantom{0} & \phantom{0} \\[-2ex]
+				& 0 & 1 & \cdots \\
+		};
+
+		\coordinate (Origin) at (m-1-2.west |- m-3-2.south);
+
+		\draw[spectral sequence/axis] (Origin) -- (Origin |- m-1-2.north) -- ++(0, 1) node[left] (q) {$q$};
+		\draw[spectral sequence/axis] (Origin) -- (m-3-4.south east) -- ++(1.5, 0) node[below] (p) {$p$};
+
+		\coordinate (Top Right) at (p |- q);
+
+		\coordinate (Slightly Left of p) at ($(p) - (0.14, 0)$);
+		\coordinate (Slightly Below q) at ($(q) - (0, 0.14)$);
+
+		\begin{pgfonlayer}{background}
+			\draw[spectral sequence/zero region] (Origin) rectangle (Slightly Left of p |- Slightly Below q); 
+			\fill[white] (m-1-2.south west) rectangle (m-1-3.north -| Slightly Left of p);
+		\end{pgfonlayer}
+
+		\node[spectral sequence/page label] at ($(Top Right) - (0.3, 0.3)$) {$E_2^{p, q}$};
+	\end{tikzpicture}
+\end{center}
 \begin{theorem}
 	There is a natural isomorphism 
 	\begin{equation*}
@@ -420,7 +452,7 @@ Note that $u$ is uniquely determined by the fact that it restricts to a generato
 \begin{remark}
 	\leavevmode
 	\begin{enumerate}
-		\item This crucially depends on $\F_2$-coefficients.
+		\item This construction crucially depends on $\F_2$-coefficients.
 			Over $\Z$, the local system $H^q\big(F_{({{-}})}, \big(F_{({{-}})}\big)_0; \Z\big)$ is trivial if and only if the bundle is \strong{orientable}\index{orientability!of vector bundles}, i.e. one can choose orientations on each fibre $F_b$ which are locally compatible in the sense that the local trivializations all send them to the same orientation of $\R^n$.
 			Since every complex vector space has a canonical real orientation, every complex vector bundle is orientable and hence has a Thom isomorphism with $\Z$-coefficients.
 		\item The Thom isomorphism is sometimes phrased differently:
@@ -446,12 +478,12 @@ Note that we have a commutative square
 		S(E)
 				\ar[r, hook]
 			& D(E)
-				\ar[u, swap, "\isom"]
+				\ar[u, swap, "\htpyeqv"]
 	\end{tikzcd}
 \end{equation*}
 Hence, $\Th(p)$ is homotopy equivalent to the mapping cone of the sphere bundle $S(E) \to B$.
-% TODO link exercise
-If $B$ is compact, then $\Th(p)$ is a homeomorphism to the one-point compactification of $E$ (showing this is exercise TODO).
+If $B$ is compact, then $\Th(p)$ is a homeomorphism to the one-point compactification of $E$ (showing this is exercise \ref{ex:thomspacecompactification}).
+% TODO "unreduced suspension" ???
 If $p = \epsilon^n$ is trivial, then $\Th(p) = S^n \wedge B_{+}$ is the unreduced suspension and the Thom isomorphism is the usual suspension isomorphism.
 In general, $\Th(p)$ is a twisted suspension of $B_{+}$.
 The Thom isomorphism says that this twist is invisible to $H^*({{-}})$, at least if considered as a functor to graded $\F_2$-vector spaces.
@@ -472,7 +504,7 @@ This leads to the slogan \enquote{Stiefel-Whitney classes measure the failure of
 	\begin{enumerate}
 		\item We have $\omega_0(\xi) = \Phi^{-1}\big(\Sq^0 u\big) = \Phi^{-1}(u) = 1 \in H^0(B)$.
 			Moreover, $u$ sits in degree $n = \dim \xi$, so $\Sq^i u = 0$ and therefore $\omega_i = 0$ for all $i > n$.
-		\item For naturality, if $f\colon B' \to B$ is a map, we obtain a canonical bundle map $g\colon f^* E \to E$ which induces a linear isomorphism on fibres $(f^* E)_{b'} \xto{\isom} E_{f(b')}$ for all $b' \in B'$.
+		\item For naturality, if $f\colon B' \to B$ is a map, we obtain a canonical bundle map $g\colon f^* E \to E$ which is a linear isomorphism on fibres $(f^* E)_{b'} \xto{\isom} E_{f(b')}$ for all $b' \in B'$.
 			It follows that $g^* u \in H^n\big(f^* E, (f^* E)_0\big)$ is the Thom class for $f^* E$ since its restriction to the fibres can be computed through the diagram
 			\begin{equation*}
 				\begin{tikzcd}
@@ -502,10 +534,8 @@ This leads to the slogan \enquote{Stiefel-Whitney classes measure the failure of
 			Local trivializations of this bundle are then given by products of local trivializations of the component bundles.
 			The previously defined \emph{internal} direct sum $p \dsum p'$ in the case where $B = B'$ is obtained as the pullback $p \dsum p' = \Delta^*(p \times p')$ along the diagonal $\Delta\colon B \to B \times B$.
 
-
-			We consider the cross-product $H^m(E, E_0) \times H^n(E', E'_0) \xto{\times} H^{m + n}(E \times E', E_0 \times E' \cup E \times E'_0)$.
-			Observing that $E_0 \times E' \cup E \times E'_0 = (E \times E')_0$ since $(V \times W) \setminus \{0\} = (V \setminus \{0\}) \times W \cup V \times (W \setminus \{0\})$ for all vector spaces $V, W$.
-			We claim that $u \times u'$ is a Thom class for $p \times p'$.
+			Consider the cross-product $H^m(E, E_0) \times H^n(E', E'_0) \xto{\times} H^{m + n}(E \times E', E_0 \times E' \cup E \times E'_0)$ and observe that $E_0 \times E' \cup E \times E'_0 = (E \times E')_0$ since $(V \times W) \setminus \{0\} = (V \setminus \{0\}) \times W \cup V \times (W \setminus \{0\})$ for all vector spaces $V, W$.
+			Hence, we claim that $u \times u'$ is a Thom class for $p \times p'$:
 			For this, it suffices to show that it restricts to a generator on each fibre.
 			By naturality of the cross product, this restriction is the cross product of the restriction of $u$ to $H^m(E_0, (E_b)_0)$ and $u'$ to $H^n(E'_{b'}, (E'_{b'})_0)$.
 			We know that this is a generator (for example, identify $H^m(\R^m, \R^m \setminus \{0\})$ with $H^m(D^m, S^{m - 1}) \isom \tilde{H}^m(S^m)$ and likewise for $H^n(\R^n, \R^n \setminus \{0\}) \isom \tilde{H}^n(S^n)$ and note that by the Künneth theorem $\tilde{H}^m(S^m) \tensor \tilde{H^n}(S^n) \xto{\isom} \tilde{H}^{m + n}(S^{m + n})$).
@@ -530,12 +560,11 @@ This leads to the slogan \enquote{Stiefel-Whitney classes measure the failure of
 			\end{align*}
 			since $\Delta^*(a \times b) = a \smile b$ by definition.
 		\item We consider the Möbius bundle $\gamma_\R^{1, 2}$ over $\RP^1$ equipped with the euclidean metric from its embedding into $\RP^1 \times \R^2$.
-			% TODO link exercise
 			Then the disc bundle $D\big(\gamma_\R^{1, 2}\big)$ is a closed Möbius strip and the sphere bundle $S\big(\gamma_\R^{1, 2}\big)$ is its boundary, so 
 			\begin{equation*}
 				H^*\big(\gamma_\R^{1, 2}, \big(\gamma_\R^{1, 2}\big)_0\big) \isom \tilde{H}^*\big(D\big(\gamma_\R^{1, 2}\big) / S\big(\gamma_\R^{1, 2}\big)\big) \isom \tilde{H}^*\big(\RP^2\big)
 			\end{equation*}
-			as $D\big(\gamma_\R^{1, 2}\big) / S\big(\gamma_\R^{1, 2}\big) \isom \RP^2$ (see exercise TODO).
+			as $D\big(\gamma_\R^{1, 2}\big) / S\big(\gamma_\R^{1, 2}\big) \isom \RP^2$ (see exercise \ref{ex:thomspacerpn}).
 			The Thom class $u \in \tilde{H}^1\big(\RP^2\big)$ must be the generator, so we have $\Sq^1 u = u^2 \neq 0$ in $\tilde{H}^2\big(\RP^2\big) \isom \F_2$ and therefore $\omega_1\big(\gamma_\R^{1, 2}\big) \neq 0$.
 			\qedhere
 	\end{enumerate}
@@ -553,332 +582,377 @@ We obtain a map
 \begin{equation*}
 	\F_2[\omega_1, \ldots, \omega_n] \xto{\alpha_n} H^*\big(\Gr_n^\R\big)
 \end{equation*}
-where the domain is the polynomial ring in the $\omega_i$ situated in the appropriate degees.
-\begin{theorem}
+where the domain is the polynomial ring in the $\omega_i$ situated in the appropriate degrees.
+\begin{theorem}\label{thm:cohomology_gr_R}
 	The map $\alpha_n$ is an isomorphism for all $n \in \N$.
 \end{theorem}
-\begin{proof}
-	Since $\omega_1\big(\gamma_\R^1\big) \in H^1(\RP^\infty)$ is the generator, we already know that $\alpha_1$ is an isomorphism.
-	We now first show that $\alpha_n$ is always injective.
-	To this end, consider the map
-	\begin{equation*}
-		\varphi_n\colon (\RP^\infty)^{\times n} \to \Gr_n^\R
-	\end{equation*}
-	corresponding under the bijection $\Vect_\R^n((\RP^\infty)^{\times n}) \isom \big[(\RP^\infty)^{\times n}, \Gr_n^\R\big]$ to the product bundle $\big(\gamma_\R^1\big)^{\times n}$.
-	We obtain a map 
-	\begin{equation*}
-		H^*\big(\Gr_\R^1\big) \xto{\varphi_n^*} H^*((\RP^\infty)^{\times n}) \isom H^*(\RP^\infty)^{\tensor n} \isom \F_2[u_1, \ldots, u_n]
-	\end{equation*}
-	using the Künneth isomorphism, where $u_i$ is the image of $u \in H^1(\RP^\infty)$ under $(\pr_i)^*\colon H^1(\RP^\infty) \to H^1((\RP^\infty)^{\times n})$.
-	We study the composite 
-	\begin{align*}
-		(\varphi_n)^* \circ \alpha_n\colon \F_2[\omega_1, \ldots, \omega_n] &\to \F_2[u_1, \ldots, u_n] \\
-		\omega_1 &\mapsto \omega_i\big(\big(\gamma_\R^1\big)^{\times n}\big)
-	\end{align*}
-	By the Whitney product formula, we have $\omega\big(\big(\gamma_\R^1\big)^{\times n}\big) = (1 + u_1) \cdot \ldots \cdot (1 + u_n)$.
-	Hence, 
-	\begin{equation*}
-		\omega_i((\gamma_\R^1)^{\times n}) = \smashoperator{\sum_{0 < j_1 < \ldots < j_i \leq n}} u_{j_1} \cdot \ldots \cdot u_{j_i} \eqcolon e_i(u_1, \ldots, u_n)
-	\end{equation*}
-	The polynomials $e_i(u_1, \ldots, u_n)$ are called the \strong{elementary symmetric polynomials}\index{symmetric polynomial!elementary} in $n$ variables.
-	For example, $e_1(u_1, \ldots, u_n) = u_1 + \ldots + u_n$ and $e_n(u_1, \ldots, u_n) = u_1 u_2 \cdots u_n$.
-	They are called \emph{symmetric} because they are invariant under the $\Sigma_n$-action on $\F_2[u_1, \ldots, u_n]$ permuting the $u_i$'s.
-	\begin{proposition}
-		The $e_i(u_1, \ldots, u_n)$ are algebraically independent, i.e. there are no polynomial relations among them, and $(\varphi_n)^* \circ \alpha_n$ is injective.
-	\end{proposition}
-	\lecture{15.12.23}
-	\begin{smallproof}
-		% TODO does this proof actually work???
-		We proceed by induction on $n$.
-		The case $n = 1$ is clear.
-		Assume now that we have proved the statement for the $e_i(u_1, \ldots, u_{n - 1})$ and assume that $0 \neq f \in \F_2[x_1, \ldots, x_n]$ is a polynomial with $f(e_1, \ldots, e_n) = 0$ of smallest degree when considered as an element of $\F_2[x_1, \ldots, x_{n - 1}][x_n]$.
-		Write $f = f_0 + f_1 \cdot x_1 + \ldots + f_d \cdot x_n^d$ with $f_i \in \F_2[x_1, \ldots, x_{n - 1}]$ and $d = \deg f$.
-		If $f_0 = 0$, then we can write $f = x_n \cdot \tilde{f}$ for some $f \in \F_2[x_1, \ldots, x_n]$ and hence $0 = f(e_1, \ldots, e_n) = e_n \cdot \tilde{f}(e_1, \ldots, e_n)$ implies that $\tilde{f}(e_1, \ldots, e_n) = 0$, contradicting minimality of $\deg f$.
-		Therefore, $f_0$ must be nontrivial.
+Since $\omega_1\big(\gamma_\R^1\big) \in H^1(\RP^\infty)$ is the generator, we already know that $\alpha_1$ is an isomorphism.
+We now first show that $\alpha_n$ is always injective.
+To this end, consider the map
+\begin{equation*}
+	\varphi_n\colon (\RP^\infty)^{\times n} \to \Gr_n^\R
+\end{equation*}
+corresponding under the bijection $\Vect_\R^n((\RP^\infty)^{\times n}) \isom \big[(\RP^\infty)^{\times n}, \Gr_n^\R\big]$ to the product bundle $\big(\gamma_\R^1\big)^{\times n}$.
+We obtain a map 
+\begin{equation*}
+	H^*\big(\Gr^\R_n\big) \xto{\varphi_n^*} H^*((\RP^\infty)^{\times n}) \isom H^*(\RP^\infty)^{\tensor n} \isom \F_2[u_1, \ldots, u_n]
+\end{equation*}
+using the Künneth isomorphism, where $u_i$ is the image of $u \in H^1(\RP^\infty)$ under $\pr_i^*\colon H^1(\RP^\infty) \to H^1((\RP^\infty)^{\times n})$.
+We study the composite 
+\begin{align*}
+	\varphi_n^* \circ \alpha_n\colon \F_2[\omega_1, \ldots, \omega_n] &\to \F_2[u_1, \ldots, u_n] \\
+	\omega_i &\mapsto \omega_i\big(\big(\gamma_\R^1\big)^{\times n}\big)
+\end{align*}
+By the Whitney product formula, we have $\omega\big(\big(\gamma_\R^1\big)^{\times n}\big) = (1 + u_1) \cdot \ldots \cdot (1 + u_n)$.
+Hence, 
+\begin{equation*}
+	\omega_i((\gamma_\R^1)^{\times n}) = \smashoperator{\sum_{0 < j_1 < \ldots < j_i \leq n}} u_{j_1} \cdot \ldots \cdot u_{j_i} \eqcolon e_i(u_1, \ldots, u_n)
+\end{equation*}
+The polynomials $e_i(u_1, \ldots, u_n)$ are called the \strong{elementary symmetric polynomials}\index{symmetric polynomial!elementary} in $n$ variables.
+For example, $e_1(u_1, \ldots, u_n) = u_1 + \ldots + u_n$ and $e_n(u_1, \ldots, u_n) = u_1 u_2 \cdots u_n$.
+They are called \emph{symmetric} because they are invariant under the $\Sigma_n$-action on $\F_2[u_1, \ldots, u_n]$ permuting the $u_i$'s.
+\begin{proposition}
+	The $e_i(u_1, \ldots, u_n)$ are algebraically independent, i.e. there are no polynomial relations among them, and $(\varphi_n)^* \circ \alpha_n$ is injective.
+\end{proposition}
+\lecture{15.12.23}
+\begin{smallproof}
+	We proceed by induction on $n$.
+	The case $n = 1$ is clear.
+	Assume now that we have proved the statement for the $e_i(u_1, \ldots, u_{n - 1})$ and assume that $0 \neq f \in \F_2[x_1, \ldots, x_n]$ is a polynomial with $f(e_1, \ldots, e_n) = 0$ of smallest degree when considered as an element of $\F_2[x_1, \ldots, x_{n - 1}][x_n]$.
+	Write $f = f_0 + f_1 \cdot x_1 + \ldots + f_d \cdot x_n^d$ with $f_i \in \F_2[x_1, \ldots, x_{n - 1}]$ and $d = \deg f$.
+	If $f_0 = 0$, then we can write $f = x_n \cdot \tilde{f}$ for some $f \in \F_2[x_1, \ldots, x_n]$ and hence $0 = f(e_1, \ldots, e_n) = e_n \cdot \tilde{f}(e_1, \ldots, e_n)$ implies that $\tilde{f}(e_1, \ldots, e_n) = 0$, contradicting minimality of $\deg f$.
+	Therefore, $f_0$ must be nontrivial.
 
-		We now apply the ring map $\F_2[u_1, \ldots, u_n] \to \F_2[u_1, \ldots, u_{n - 1}]$ which sends $u_n$ to 0.
-		This takes $e(u_1, \ldots, u_n)$ to $e_i(u_1, \ldots, u_{n - 1})$ if $i < n$ and $e_n(u_1, \ldots, u_n) = u_1 \cdots u_n$ to 0.
-		On the other hand, the same ring map $\F_2[x_1, \ldots, x_n] \to \F_2[x_1, \ldots, x_{n - 1}]$ considered on the $x_i$ instead of the $u_i$ takes $f$ to $f_0$, 
-		Hence we obtain $0 = f_0(e_1, \ldots, e_{n - 1}) \in \F_2[u_1, \ldots, u_{n - 1}]$, contradicting the induction assumption.
-	\end{smallproof}
-	Moreover, one can in fact show that the $e_i(u_1, \ldots, u_n)$ are in fact polynomial generators of the subring $\F_2[u_1, \ldots, u_n]^{\Sigma_2}$ of symmetric polynomials.
-	\begin{corollary}
-		The map $\alpha_n$ is injective for all $n$.
-	\end{corollary}
-	\begin{smallproof}
-		We just showed that $\varphi_n^* \circ \alpha_n$ is injective, hence so is $\alpha_n$.
-	\end{smallproof}
-	To show surjectivity, we use an inductive argument built on the following:
+	We now apply the ring map $\F_2[u_1, \ldots, u_n] \to \F_2[u_1, \ldots, u_{n - 1}]$ which sends $u_n$ to 0.
+	This takes $e(u_1, \ldots, u_n)$ to $e_i(u_1, \ldots, u_{n - 1})$ if $i < n$ and $e_n(u_1, \ldots, u_n) = u_1 \cdots u_n$ to 0.
+	On the other hand, the same ring map $\F_2[x_1, \ldots, x_n] \to \F_2[x_1, \ldots, x_{n - 1}]$ considered on the $x_i$ instead of the $u_i$ takes $f$ to $f_0$, 
+	Hence we obtain $0 = f_0(e_1, \ldots, e_{n - 1}) \in \F_2[u_1, \ldots, u_{n - 1}]$, contradicting the induction assumption.
+\end{smallproof}
+Moreover, one can in fact show that the $e_i(u_1, \ldots, u_n)$ are in fact polynomial generators of the subring $\F_2[u_1, \ldots, u_n]^{\Sigma_2}$ of symmetric polynomials.
+\begin{corollary}
+	The map $\alpha_n$ is injective for all $n$.
+\end{corollary}
+\begin{smallproof}
+	We just showed that $\varphi_n^* \circ \alpha_n$ is injective, hence so is $\alpha_n$.
+\end{smallproof}
+To show surjectivity, we use an inductive argument built on the following:
+Let $\F = \R$ or $\C$.
+Again we give $\gamma_\F^n$ a euclidean metric from its embedding in $\Gr_n^\F \times \F^\infty$.
+Hence we can consider the sphere bundle $S(\gamma_\F^n)$ by restricting to vectors of length 1 in each fibre.
+\begin{proposition}\label{prop:spherebdlhtpygrassmannian}
 	Let $\F = \R$ or $\C$.
-	Again we give $\gamma_\F^n$ a euclidean metric from its embedding in $\Gr_n^\F \times \F^\infty$.
-	Hence we can consider the sphere bundle $S(\gamma_\F^n)$ by restricting to vectors of length 1 in each fibre.
-	\begin{proposition}\label{prop:spherebdlhtpygrassmannian}
-		Let $\F = \R$ or $\C$.
-		There is a homotopy equivalence $S(\gamma_\F^n) \htpyeqv \Gr^\F_{n - 1}$ for every $n \geq 1$.
-	\end{proposition}
-	\begin{smallproof}
-		$S(\gamma_\F^n)$ consists of pairs $(V, v)$ of $n$-dimensional subspaces $V \subset \F^\infty$ and a unit vector $v \in V$.
-		We obtain a map
-		\begin{align*}
-			\phi\colon S(\gamma_\F^n) &\to \Gr^\F_{n - 1} \\
-			(V, v) &\mapsto \langle v\rangle^\perp = \{x \in V \mid x \perp V\}
-		\end{align*}
-		In the other directon, we define
-		\begin{align*}
-			\psi\colon \Gr^\F_{n - 1} &\to S(\gamma_\F^n) \\
-			W &\mapsto g_*(\F \dsum W, (1, 0))
-		\end{align*}
-		where $g$ is the linear isomorphism $\F \dsum \F^\infty \to \F^\infty$ that shifts coordinates by 1 to the right.
-		The composite $\phi \circ \psi$ sends $W \subseteq \F^\infty$ to $0 \dsum W \subseteq \F \dsum \F^\infty \xto[\isom]{g^*} \F^\infty$. 
-		The straight line homotopy from $\id_{\F \dsum \F^\infty}$ to $\F^\infty \F \dsum \F^\infty$ shows that this is homotopic to the identity on $\Gr^\F_{n - 1}$.
-		The composite $\psi \circ \phi$ sends $(V, v)$ to $(\F \dsum \langle v \rangle^\perp \subset \F \dsum \F^\infty \xto[\isom]{g^*}, (1, 0))$.
-		Using a composition of straight line homotopies to the odd/even parts again shows that this is homotopic to the identity on $S(\gamma_\F^n)$.
-	\end{smallproof}
-	Alternatively, one notes that $\phi$ is a fibre bundle with fibre over $W \in \Gr^\F_{n - 1}$ given by $S(W^\perp) = \{v \in \F^\infty \mid |v| = 1,\ w \perp v \text{ for all } w \in W\}$.
-	This is homeomorphic to $S^\infty$ and hence contractible.
+	There is a homotopy equivalence $S(\gamma_\F^n) \htpyeqv \Gr^\F_{n - 1}$ for every $n \geq 1$.
+\end{proposition}
+\begin{smallproof}
+	$S(\gamma_\F^n)$ consists of pairs $(V, v)$ of $n$-dimensional subspaces $V \subset \F^\infty$ and a unit vector $v \in V$.
+	We obtain a map
+	\begin{align*}
+		\phi\colon S(\gamma_\F^n) &\to \Gr^\F_{n - 1} \\
+		(V, v) &\mapsto \langle v\rangle^\perp = \{x \in V \mid x \perp V\}
+	\end{align*}
+	In the other direction, we define
+	\begin{align*}
+		\psi\colon \Gr^\F_{n - 1} &\to S(\gamma_\F^n) \\
+		W &\mapsto (g(\F \dsum W), g(1, 0))
+	\end{align*}
+	where $g$ is the linear isomorphism $\F \dsum \F^\infty \to \F^\infty$ that shifts coordinates by 1 to the right.
+	The composite $\phi \circ \psi$ sends $W \subseteq \F^\infty$ to $0 \dsum W \subseteq \F \dsum \F^\infty \xto[\isom]{g} \F^\infty$, with the straight line homotopy from $\id_{\F \dsum \F^\infty}$ to $\F^\infty \incl \F \dsum \F^\infty$ showing that this is homotopic to the identity on $\Gr^\F_{n - 1}$.
+	For the other composite, $\psi \circ \phi$ sends $(V, v)$ to $(\F \dsum \langle v \rangle^\perp \subset \F \dsum \F^\infty \xto[\isom]{g} \F^\infty, (1, 0))$, and a composition of straight line homotopies to the odd/even parts again shows that this is homotopic to the identity on $S(\gamma_\F^n)$.
+\end{smallproof}
+Alternatively, one notes that $\phi$ is a fibre bundle with fibre over $W \in \Gr^\F_{n - 1}$ given by $S(W^\perp) = \{v \in \F^\infty \mid |v| = 1,\ w \perp v \text{ for all } w \in W\}$.
+This is homeomorphic to $S^\infty$ and hence contractible.
 
-	We further note that the map
-	\begin{equation*}
-		f\colon \Gr^\F_{n - 1} \xto[\isom]{\psi} S(\gamma^\F_n) \to \Gr^\F_n
-	\end{equation*}
-	classifies the $n$-dimensional bundle $\gamma_\F^{n - 1} \dsum \F$ since the fibre of $f^* \gamma^\F_n$ over $W \in \Gr^\F_{n - 1}$ is given by $g(\F) \dsum g(W)$.
-	The summand $g(\F)$ is 1-dimensional and independent of $W$.
-	The second summand gives a bundle isomorphism to $\gamma^\F_{n - 1}$, again using that $g$ is homotopic to $\id_{\F^\infty}$.
+We further note that the map
+\begin{equation*}
+	f\colon \Gr^\F_{n - 1} \xto[\isom]{\psi} S(\gamma_\F^n) \to \Gr^\F_n
+\end{equation*}
+classifies the $n$-dimensional bundle $\gamma_\F^{n - 1} \dsum \F$ since the fibre of $f^* \gamma_\F^n$ over $W \in \Gr^\F_{n - 1}$ is given by $g(\F) \dsum g(W)$:
+The summand $g(\F)$ is 1-dimensional and independent of $W$ whereas $g(W)$ gives a bundle isomorphism to $\gamma^\F_{n - 1}$, again using that $g$ is homotopic to $\id_{\F^\infty}$.
 
-	In problem \ref{ex:gysinwang} we saw that for every fibre sequence $S^n \to E \to B$ with $n > 0$ and $B$ simply connected and any abelian group $A$ there is a long exact sequence of the form
+In problem \ref{ex:gysinwang} we saw that for every fibre sequence $S^n \to E \to B$ with $n > 0$ and $B$ simply connected and any abelian group $A$ there is a long exact sequence of the form
+\begin{equation*}
+	\begin{tikzcd}[column sep = small]
+		\cdots
+				\ar[r]
+			& H_{p - n}(B; A)
+				\ar[r]
+			& H_p(E; A)
+				\ar[r]
+			& H_p(B, A)
+				\ar[r]
+			& H_{p - n - 1}(B; A)
+				\ar[r]
+			& \cdots
+	\end{tikzcd}
+\end{equation*}
+called the \strong{Gysin sequence}\index{Gysin sequence} of the sphere bundle.
+We now discuss a cohomological version of this for more general $B$.
+
+Let $S^n \to Y \to X$ be a fibre sequence with $n > 0$ and $X$ path-connected.
+Let $R$ be a commutative ring and assume that the local system $H^n(F_{-}; R)$ on $X$ is isomorphic to the constant one.
+Then the cohomological Serre spectral sequence for the fibre sequence is of the form
+\begin{equation*}
+	\underbrace{H^p(X; H^q(F_{-}; R))}_{\isom H^p(X; H^q(S^n; R))} \Rightarrow H^{p + q}(Y; R)
+\end{equation*}
+After a choice of isomorphism $H^n(S^n; R) \xto{\isom} R$, we further obtain
+\begin{equation*}
+	H^p(X; H^q(S^n; R)) \isom \begin{cases}
+		H^p(X; R) 	& q = 0, n \\
+		0 			& \text{else}
+	\end{cases}
+\end{equation*}
+This makes use of the fact that the local system $H^0(F_{-}; R)$ is always constant since any continuous map of path-connected spaces induces the identity on $R \isom H^0({{-}}; R)$.
+We obtain the following picture:
+\begin{center}
+	\pgfsetlayers{background,main}
+	\tikzsetnextfilename{vecbun_gysin_spec_seq}
+	\begin{tikzpicture}
+		\matrix[
+			spectral sequence/page,
+			name = m, 
+			column sep = {3.8em, between origins},
+			row sep = 3ex, 
+			column 1/.append style = {anchor = base},
+			row 4/.style = {font = \scriptsize}] {
+				n &[-1.6em] H^0(X) & \cdots & H^{n + 1}(X) & \cdots \\
+				\vdotswithin{0} & \phantom{0} \\
+				0 & H^0(X) & \cdots & H^{n + 1}(X) & \cdots \\[-2ex]
+				& 0 & \cdots & n + 1 & \cdots \\
+		};
+
+		\node[inner sep = 1pt, fill = white, below = 1.5ex of m-1-2] (Generator) {$\langle y \rangle$};
+		\begin{scope}[
+				every edge/.append style = {
+					commutative diagrams/every arrow,
+					every edge quotes/.append style = {
+						execute at begin node = $,
+						execute at end node = $,
+						commutative diagrams/every label,
+						inner sep = 1pt,
+						fill = white,
+					},
+				},
+			]
+			\path (m-1-2) edge[draw = none, sloped, "\textstyle=" commutative diagrams/description] (Generator);
+		\end{scope}
+
+		\coordinate (Origin) at (m-1-2.west |- m-3-2.south);
+
+		\draw[spectral sequence/axis] (Origin) -- (Origin |- m-1-2.north) -- ++(0, 1) node[left] (q) {$q$};
+		\draw[spectral sequence/axis] (Origin) -- (m-3-5.east |- m-3-4.south) -- ++(1, 0) node[below] (p) {$p$};
+
+		\coordinate (Top Right) at (p |- q);
+
+		\coordinate (Slightly Left of p) at ($(p) - (0.14, 0)$);
+		\coordinate (Slightly Below q) at ($(q) - (0, 0.14)$);
+
+		\begin{pgfonlayer}{background}
+			\draw[spectral sequence/zero region] (Origin) rectangle (Slightly Left of p |- Slightly Below q); 
+			\fill[white] (m-1-2.south west) rectangle (m-1-4.north -| Slightly Left of p);
+			\fill[white] (m-3-2.south west) rectangle (m-3-4.north -| Slightly Left of p);
+		\end{pgfonlayer}
+
+		\node[spectral sequence/page label] at ($(Top Right) - (0.3, 0.3)$) {$E_2^{p, q}$};
+
+		\path[spectral sequence/differentials] (m-1-2) edge["d_{n + 1}"] (m-3-4);
+	\end{tikzpicture}
+\end{center}
+% TODO picture
+Let $e \in H^{n + 1}(X; R)$ be the image of the generator $y \in E_2^{0, n}$ corresponding to 1 under the chosen isomorphism $E_2^{0, 1} \isom R$ under the differential $d_{n + 1}$, i.e. $e = d_{n + 1}(y) \in H^{n + 1}(X; R)$.
+The class $e$ is called the \strong{Euler class}\index{Euler class!of a sphere bundle} of the spherical fibre sequence and depends on the chosen isomorphism $H^n(F_{-}; R) \isom \const(R)$, the constant $R$-valued system.
+Since $H^m(X; R) \to E_2^{m, n}$, $x \mapsto x \cdot y$ is an isomorphism, it follows that $d_{n + 1}$ is determined by the Leibniz rule $d_{n + 1}(y \cdot x) = d_{n + 1}(y) x = e \smile x$.
+By our description of the edge homeomorphism, it follows that
+\begin{equation*}
+	\ker(p^*\colon H^*(X; R) \to H^*(E; R)) = \img(e \smile {{-}}\colon H^{* - n + 1}(X; R) \to H^*(X; R))
+\end{equation*}
+Furthermore, the image of the map
+\begin{equation*}
+	\begin{tikzcd}
+		H^*(Y; R)
+				\ar[r, two heads]
+			& E_\infty^{* - n, n}
+				\ar[r, hook]
+			& E_2^{* - n, n} \isom H^{* - n}(X; R)
+	\end{tikzcd}
+\end{equation*}
+is given by the kernel of $e \smile {{-}}$.
+Hence we have
+\begin{corollary}
+	Let $S^n \to Y \xto{p} X$ be a fibre sequence with $n \neq 0$, $X$ path-connected and $R$ a commutative ring with a choice of trivialization $H^n(E; R) \isom R$.
+	Then there is an exact sequence of the form
 	\begin{equation*}
-		\begin{tikzcd}[column sep = small]
+		\begin{tikzcd}[column sep = 1em]
 			\cdots
 					\ar[r]
-				& H_{p - n}(B; A)
+				& H^m(Y; R)
 					\ar[r]
-				& H_p(E; A)
-					\ar[r]
-				& H_p(B, A)
-					\ar[r]
-				& H_{p - n - 1}(B; A)
+				& H^{m - n}(X; R)
+					\ar[r, "e \smile {{-}}"]
+				&[1.28em] H^{m + 1}(X; R)
+					\ar[r, "p^*"]
+				& H^{m + 1}(Y; R)
 					\ar[r]
 				& \cdots
 		\end{tikzcd}
 	\end{equation*}
-	called the \strong{Gysin sequence}\index{Gysin sequence} of the sphere bundle.
-	We now discuss a cohomological version of this for more general $B$.
-
-	Let $S^n \to Y \to X$ be a fibre sequence with $n > 0$ and $X$ path-connected.
-	Let $R$ be a commutative ring and assume that the local system $H^n(F_{-}; R)$ on $X$ is isomorphic to the constant one.
-	Then the cohomological Serre spectral sequence for the fibre sequence is of the form
-	\begin{equation*}
-		\underbrace{H^p(X; H^q(F_{-}; R))}_{\isom H^p(X; H^q(S^n; R))} \Rightarrow H^{p + q}(Y; R)
-	\end{equation*}
-	After a choice of isomorphism $H^n(S^n; R) \xto{\isom} R$, we further obtain
-	\begin{equation*}
-		H^p(X; H^q(S^n; R)) \isom \begin{cases}
-			H^p(X; R) 	& q = 0, n \\
-			0 			& \text{else}
-		\end{cases}
-	\end{equation*}
-	This makes use of the fact that the local system $H^0(F_{-}; R)$ is always constant since any continuous map of path-connected spaces induces the identity on $R \isom H^0({{-}}; R)$.
-	We obtain the following picture:
-	% TODO picture
-	Let $e \in H^{n + 1}(X; R)$ be the image of the generator $y \in E_2^{0, n}$ corresponding to 1 under the chosen isomorphism $E_2^{0, 1} \isom R$ under the differential $d_{n + 1}$, i.e. $e = d_{n + 1}(y) \in H^{n + 1}(X; R)$.
-	The class $e$ is called the \strong{Euler class}\index{Euler class!of a sphere bundle} of the spherical fibre sequence and depends on the chosen isomorphism $H^n(F_{-}; R) \isom \const(R)$, the constant $R$-valued system.
-	Since $H^m(X; R) \to E_2^{m, n}$, $x \mapsto x \cdot y$ is an isomorphism, it follows that $d_{n + 1}$ is determined by the Leibniz rule $d_{n + 1}(y \cdot x) = d_{n + 1}(y) x = e \smile x$.
-	By our description of the edge homeomorphism, it follows that
-	\begin{equation*}
-		\ker(p^*\colon H^*(X; R) \to H^*(E; R)) = \img(e \smile {{-}}\colon H^{* - n + 1}(X; R) \to H^*(X; R))
-	\end{equation*}
-	Furthermore, the image of the map
+	where $e \in H^{n + 1}(X; R)$ is the Euler class (depending on the choice of trivialization).
+\end{corollary}
+\begin{remark}
+	\leavevmode
+	\begin{enumerate}
+		\item A trivialization $H^n(E; R) \isom R$ is called an \strong{$R$-orientation}\index{orientation!of fibre sequences} of the spherical fibre sequence.
+		\item Every spherical fibre sequence has a unique $\F_2$-orientation since $\F_2$ has no non-trivial automorphisms.
+	\end{enumerate}
+\end{remark}
+We further have
+\begin{lemma}
+	If $p\colon E \to B$ is a $(n + 1)$-dimensional euclidean real vector bundle with $B$ paracompct and associated $n$-dimensional sphere bundle $S(E) \xto{q} B$, then $e = \omega_{n + 1}(p) \in H^{n + 1}(B; \F_2)$.
+\end{lemma}
+\begin{proof}
+	We first note that $\omega_{n + 1}(p) = f^* u \in H^{n + 1}(B; \F_2)$ where $f\colon (B, \emptyset) \to (E, E_0)$ is the zero section.
+	In other words, $f^*$ is the composite $H^*(E, E_0; \F_2) \xto{i^*} H^*(E; \F_2) \xleftarrow[\isom]{p^*} H^*(B; \F_2)$.
+	Indeed, we have $\Sq^{n + 1} u = u^2$ and $i^*(u) \smile u = u^2$ since
 	\begin{equation*}
 		\begin{tikzcd}
-			H^*(Y; R)
-					\ar[r, two heads]
-				& E_\infty^{* - n, n}
-					\ar[r, hook]
-				& E_2^{* - n, n} \isom H^{* - n}(X; R)
-		\end{tikzcd}
-	\end{equation*}
-	is given by the kernel of $e \smile {{-}}$.
-	Hence we have
-	\begin{corollary}
-		Let $S^n \to Y \xto{p} X$ be a fibre sequence with $n \neq 0$, $X$ path-connected and $R$ a commutative ring with a choice of trivialization $H^n(E; R) \isom R$.
-		Then there is an exact sequence of the form
-		\begin{equation*}
-			\begin{tikzcd}[column sep = 1em]
-				\cdots
-						\ar[r]
-					& H^m(Y; R)
-						\ar[r]
-					& H^{m - n}(X; R)
-						\ar[r, "e \smile {{-}}"]
-					&[1.28em] H^{m + 1}(X; R)
-						\ar[r, "p^*"]
-					& H^{m + 1}(Y; R)
-						\ar[r]
-					& \cdots
-			\end{tikzcd}
-		\end{equation*}
-		where $e \in H^{n + 1}(X; R)$ is the Euler class (depending on the choice of trivialization).
-	\end{corollary}
-	\begin{remark}
-		\leavevmode
-		\begin{enumerate}
-			\item A trivialization $H^n(E; R) \isom R$ is called an \strong{$R$-orientation}\index{orientation!of fibre sequences} of the spherical fibre sequence.
-			\item Every spherical fibre sequence has a unique $\F_2$-orientation since $\F_2$ has no non-trivial automorphisms.
-		\end{enumerate}
-	\end{remark}
-	We further have
-	\begin{lemma}
-		If $p\colon E \to B$ is a $(n + 1)$-dimensional euclidean real vector bundle with $B$ paracompct and associated $n$-dimensional sphere bundle $S(E) \xto{q} B$, then $e = \omega_{n + 1}(p) \in H^{n + 1}(B; \F_2)$.
-	\end{lemma}
-	\begin{proof}
-		We first note that $\omega_{n + 1}(p) f^* u \in H^{n + 1}(B; \F_2)$ where $f\colon (B, \emptyset) \to (E, E_0)$ is the zero section.
-		In other words, $f^*$ is the composite $H^*(E, E_0; \F_2) \xto{i^*} H^*(E; \F_2) \xleftarrow[\isom]{p^*} H^*(B; \F_2)$.
-		Indeed, we have $\Sq^{n + 1} u = u^2$ and $i^*(u) \smile u = u^2$ since
-		\begin{equation*}
-			\begin{tikzcd}
-				H^*(E, E_0; \F_2) \times H^*(E, E_0; \F_2)
-						\ar[r, "\smile"]
-						\ar[d, "i^* \times \id"]
-					& H^*(E, E_0; \F_2)
-						\ar[d, equal]
-				\\
-				H^*(E; \F_2) \times H^*(E, E_0; \F_2)
-						\ar[r, "\smile"]
-					& H^*(E, E_0; \F_2)
-			\end{tikzcd}
-		\end{equation*}
-		commutes by naturality of the relative cup products.
-		Now let $b \in B$.
-		We write $S(E_b)$ for the fibre $F_b$ over $b$.
-		The relevant differential $d_{n + 1}\colon H^n(S(E_b); \F_2) \to H^{n + 1}(B; \F_2)$ is a transgression, hence we know it can be computed via
-		\begin{equation*}
-			\begin{tikzcd}[row sep = 0.3ex]
-				H^n(S(E_b); \F_2)
-						\ar[r, "\del"]
-					& H^{n + 1}(S(E), S(E_b); \F_2) 
-					& H^{n + 1}(B; \F_2)
-						\ar[l, hook', swap, "q^*"]
-				\\
-				y
-						\ar[r, mapsto]
-					& \del y
-					& d_{n + 1} y
-						\ar[l, mapsto]
-			\end{tikzcd}
-		\end{equation*}
-		We now note that the diagram
-		\begin{equation*}
-			\begin{tikzcd}
-				H^n(S(E_b); \F_2)
-						\ar[r, "\del"]
-						\ar[d, swap, "\del", "\isom"']
-					& H^{n + 1}(S(E), S(E_b); \F_2)
-				\\
-				H^{n + 1}(D(E_b), S(E_b); \F_2)
-				\\
-				H^{n + 1}(D(E), S(E_b); \F_2)
-						\ar[u]
-						\ar[uur]
-					& H^{n + 1}(D(E), S(E); \F_2)
-						\ar[l]
-						\ar[uu, swap, "j^*"]
-			\end{tikzcd}
-		\end{equation*}
-		commutes, which implies that $\del y = j^* u$ where $j\colon (S(E), S(E_b)) \to (D(E), S(E))$ is the inclusion.
-		Furthermore, we have a commutative diagram
-		\begin{equation*}
-			\begin{tikzcd}
-				H^{n + 1}(S(E), S(E_b); \F_2)
-					& H^{n + 1}(B, *; \F_2)
-						\ar[l, hook', "p^*"]
-						\ar[d, hook, "p^*"]
-						\ar[r, "\isom"]
-					& H^{n + 1}(B; \F_2)
-						\ar[d, "p^*", "\isom"']
-				\\
-				H^{n + 1}(D(E), S(E); \F_2)
-						\ar[u, "j^*"]
-						\ar[r]
-						\ar[urr, "f^*" near end, to path = {
-							|- ($(\tikzcdmatrixname-2-3.south east) + (.22, -.45)$) \tikztonodes
-							|- (\tikztotarget) 
-						}]
-					& H^{n + 1}(D(E), S(E_b); \F_2)
-						\ar[ul]
-						\ar[r]
-					& H^{n + 1}(D(E); \F_2)
-			\end{tikzcd}
-		\end{equation*}
-		which implies that $p^*(f^* u) = j^* u = \del y$ and hence $f^* u = d_{n + 1} y = e$.
-	\end{proof}
-	\lecture{18.12.23}
-	We now show that $\alpha_n\colon \F_2[\omega_1, \ldots, \omega_n] \to H^*\big(\Gr_n^\R; \F_2\big)$ is an isomorphism for all $n$ by induction on $n$.
-	The case $n = 1$ is clear.
-	Assume thus that the statement holds up to some $n \geq 1$ and consider the case for $n + 1$:
-	% TODO cite correct lemma
-	By lemma TODO we know that $S\big(\gamma_\R^{n + 1}\big) \isom \Gr_n^\R$ and that there is a long exact sequence
-	\begin{equation*}
-		\begin{tikzcd}[column sep = small]
-			\cdots 
-					\ar[r]
-				& H^*\big(\Gr^\R_{n + 1}; \F_2\big) 
-					\ar[r, "\omega_{n + 1} \cdot"]
-				& H^{* + n + 1}\big(\Gr^\R_{n + 1}; \F_2\big)
-					\ar[r]
-				& H^{* + n + 1}\big(\Gr^\R_n; \F_2\big)
-					\ar[r]
-				& \cdots
-		\end{tikzcd}
-	\end{equation*}
-	By induction, we know that $H^*\big(\Gr^\R_n; \F_2\big)$ is generated by $\omega_1, \ldots, \omega_n$.
-	We know that each $\omega_i$ lifts to a class of $H^*\big(\Gr^\R_{n + 1}; \F_2\big)$ of the same name (this uses the stability property $\omega_i(\xi \dsum \epsilon) = \omega_i(\xi)$).
-	Since $H^*\big(\Gr^\R_{n + 1}; \F_2\big) \to H^*\big(\Gr^\R_n; \F_2\big)$ is a ring map, it must hence be surjective.
-	This implies that the Gysin sequence splits up into short exact sequences.
-	We get a comparison map
-	% TODO fugly
-	\begin{equation*}
-		\begin{tikzcd}[column sep = smallish]
-			0 
-					\ar[r]
-				& \F_2[\omega_1, \ldots, \omega_{n + 1}]_*
-					\ar[r, "\omega_{n + 1} \cdot"]
-					\ar[d, "\alpha_{n + 1}"]
-				&[.3em] \F_2[\omega_1, \ldots, \omega_{n + 1}]_{* + n + 1}
-					%\ar[r, "\omega_{n + 1} \mapsto 0"]
-					\ar[d, "\alpha_{n + 1}"]
-					\ar[dd, rounded corners = 10pt, swap, "\omega_{n + 1} \mapsto 0", to path = {[pos = 1]
-						-- ([xshift = 2em] \tikztostart.east)
-						|- ($(\tikzcdmatrixname-2-3)!0.67!(\tikzcdmatrixname-3-3)$) \tikztonodes
-						-| ([xshift = -1.5em] \tikztotarget.west)
-						-- (\tikztotarget)
-					}]
+			H^*(E, E_0; \F_2) \times H^*(E, E_0; \F_2)
+					\ar[r, "\smile"]
+					\ar[d, "i^* \times \id"]
+				& H^*(E, E_0; \F_2)
+					\ar[d, equal]
 			\\
-			0 
-					\ar[r]
-				& H^*\big(\Gr^\R_{n + 1}; \F_2\big)
-					\ar[r, "\omega_{n + 1} \cdot"]
-				& H^{* + n + 1}\big(\Gr^\R_{n + 1}; \F_2\big)
-					\ar[dd, rounded corners = 10pt, to path = {
-						-- ([xshift = 1.5em] \tikztostart.east)
-						|- ($(\tikzcdmatrixname-2-3)!0.33!(\tikzcdmatrixname-3-3)$) \tikztonodes
-						-| ([xshift = -3.5em] \tikztotarget.west)
-						-- (\tikztotarget)
-					}]
-			\\[4ex]
-				& & \F_2[\omega_1, \ldots, \omega_n]_{* + n + 1}
-					\ar[r]
-					\ar[d, "\alpha_n", "\isom"']
-				& 0
-			\\
-				& & H^{* + n + 1}\big(\Gr^\R_n; \F_2\big)
-					\ar[r]
-				& 0
+			H^*(E; \F_2) \times H^*(E, E_0; \F_2)
+					\ar[r, "\smile"]
+				& H^*(E, E_0; \F_2)
 		\end{tikzcd}
 	\end{equation*}
-	Since all graded rings in this diagram are concentrated in non-negative degrees, it follows by induction on the degree of $H^*\big(\Gr^\R_{n + 1}; \F_2\big)$ that $\alpha_{n + 1}$ must be an isomorphism (The diagram shows that if $\alpha_{n + 1}$ is an isomorphism in degree $k$, then by the 5-lemma it is also in degree $k + n + 1$).
-	This concludes the proof.
+	commutes by naturality of the relative cup products.
+	Now let $b \in B$ and write $S(E_b)$ for the fibre $F_b$ over $b$.
+	The relevant differential $d_{n + 1}\colon H^n(S(E_b); \F_2) \to H^{n + 1}(B; \F_2)$ is a transgression, hence we know it can be computed via
+	\begin{equation*}
+		\begin{tikzcd}[row sep = 0.3ex]
+			H^n(S(E_b); \F_2)
+					\ar[r, "\del"]
+				& H^{n + 1}(S(E), S(E_b); \F_2) 
+				& H^{n + 1}(B; \F_2)
+					\ar[l, hook', swap, "q^*"]
+			\\
+			y
+					\ar[r, mapsto]
+				& \del y
+				& d_{n + 1} y
+					\ar[l, mapsto]
+		\end{tikzcd}
+	\end{equation*}
+	We now note that the diagram
+	\begin{equation*}
+		\begin{tikzcd}
+			H^n(S(E_b); \F_2)
+					\ar[r, "\del"]
+					\ar[d, swap, "\del", "\isom"']
+				& H^{n + 1}(S(E), S(E_b); \F_2)
+			\\
+			H^{n + 1}(D(E_b), S(E_b); \F_2)
+			\\
+			H^{n + 1}(D(E), S(E_b); \F_2)
+					\ar[u]
+					\ar[uur]
+				& H^{n + 1}(D(E), S(E); \F_2)
+					\ar[l]
+					\ar[uu, swap, "j^*"]
+		\end{tikzcd}
+	\end{equation*}
+	commutes, which implies that $\del y = j^* u$ where $j\colon (S(E), S(E_b)) \to (D(E), S(E))$ is the inclusion.
+	Furthermore, we have a commutative diagram
+	\begin{equation*}
+		\begin{tikzcd}
+			H^{n + 1}(S(E), S(E_b); \F_2)
+				& H^{n + 1}(B, *; \F_2)
+					\ar[l, hook', "p^*"]
+					\ar[d, hook, "p^*"]
+					\ar[r, "\isom"]
+				& H^{n + 1}(B; \F_2)
+					\ar[d, "p^*", "\isom"']
+			\\
+			H^{n + 1}(D(E), S(E); \F_2)
+					\ar[u, "j^*"]
+					\ar[r]
+					\ar[urr, "f^*" near end, to path = {
+						|- ($(\tikzcdmatrixname-2-3.south east) + (.22, -.45)$) \tikztonodes
+						|- (\tikztotarget) 
+					}]
+				& H^{n + 1}(D(E), S(E_b); \F_2)
+					\ar[ul]
+					\ar[r]
+				& H^{n + 1}(D(E); \F_2)
+		\end{tikzcd}
+	\end{equation*}
+	which implies that $p^*(f^* u) = j^* u = \del y$ and hence $f^* u = d_{n + 1} y = e$.
 \end{proof}
-
+\lecture{18.12.23}
+We now show that $\alpha_n\colon \F_2[\omega_1, \ldots, \omega_n] \to H^*\big(\Gr_n^\R; \F_2\big)$ is an isomorphism for all $n$ by induction on $n$.
+The case $n = 1$ is clear.
+Assume thus that the statement holds up to some $n \geq 1$ and consider the case for $n + 1$:
+By proposition \ref{prop:spherebdlhtpygrassmannian} we know that $S\big(\gamma_\R^{n + 1}\big) \isom \Gr_n^\R$ and that there is a long exact sequence
+\begin{equation*}
+	\begin{tikzcd}[column sep = small]
+		\cdots 
+				\ar[r]
+			& H^*\big(\Gr^\R_{n + 1}; \F_2\big) 
+				\ar[r, "\omega_{n + 1} \cdot"]
+			&[1.4em] H^{* + n + 1}\big(\Gr^\R_{n + 1}; \F_2\big)
+				\ar[r]
+			& H^{* + n + 1}\big(\Gr^\R_n; \F_2\big)
+				\ar[r]
+			& \cdots
+	\end{tikzcd}
+\end{equation*}
+By induction, we know that $H^*\big(\Gr^\R_n; \F_2\big)$ is generated by $\omega_1, \ldots, \omega_n$.
+We know that each $\omega_i$ lifts to a class of $H^*\big(\Gr^\R_{n + 1}; \F_2\big)$ of the same name (this uses the stability property $\omega_i(\xi \dsum \epsilon) = \omega_i(\xi)$).
+Since $H^*\big(\Gr^\R_{n + 1}; \F_2\big) \to H^*\big(\Gr^\R_n; \F_2\big)$ is a ring map, it must hence be surjective.
+This implies that the Gysin sequence splits up into short exact sequences.
+We then get a comparison map
+% TODO fugly
+\begin{equation*}
+	\begin{tikzcd}[column sep = smallish]
+		0 
+				\ar[r]
+			& \F_2[\omega_1, \ldots, \omega_{n + 1}]_*
+				\ar[r, "\omega_{n + 1} \cdot"]
+				\ar[d, "\alpha_{n + 1}"]
+			&[.3em] \F_2[\omega_1, \ldots, \omega_{n + 1}]_{* + n + 1}
+				%\ar[r, "\omega_{n + 1} \mapsto 0"]
+				\ar[d, "\alpha_{n + 1}"]
+				\ar[dd, rounded corners = 10pt, swap, "\omega_{n + 1} \mapsto 0", to path = {[pos = 1]
+					-- ([xshift = 2em] \tikztostart.east)
+					|- ($(\tikzcdmatrixname-2-3)!0.67!(\tikzcdmatrixname-3-3)$) \tikztonodes
+					-| ([xshift = -1.5em] \tikztotarget.west)
+					-- (\tikztotarget)
+				}]
+		\\
+		0 
+				\ar[r]
+			& H^*\big(\Gr^\R_{n + 1}; \F_2\big)
+				\ar[r, "\omega_{n + 1} \cdot"]
+			& H^{* + n + 1}\big(\Gr^\R_{n + 1}; \F_2\big)
+				\ar[dd, rounded corners = 10pt, to path = {
+					-- ([xshift = 1.5em] \tikztostart.east)
+					|- ($(\tikzcdmatrixname-2-3)!0.33!(\tikzcdmatrixname-3-3)$) \tikztonodes
+					-| ([xshift = -3.5em] \tikztotarget.west)
+					-- (\tikztotarget)
+				}]
+		\\[4ex]
+			& & \F_2[\omega_1, \ldots, \omega_n]_{* + n + 1}
+				\ar[r]
+				\ar[d, "\alpha_n", "\isom"']
+			& 0
+		\\
+			& & H^{* + n + 1}\big(\Gr^\R_n; \F_2\big)
+				\ar[r]
+			& 0
+	\end{tikzcd}
+\end{equation*}
+Since all graded rings in this diagram are concentrated in non-negative degrees, it follows by induction on the degree of $H^*\big(\Gr^\R_{n + 1}; \F_2\big)$ that $\alpha_{n + 1}$ must be an isomorphism (as the diagram shows that if $\alpha_{n + 1}$ is an isomorphism in degree $k$, then by the 5-lemma it is also in degree $k + n + 1$).
+This finally concludes the proof of theorem \ref{thm:cohomology_gr_R}.
 \begin{corollary}
 	The map 
 	\begin{equation*}
@@ -887,7 +961,7 @@ where the domain is the polynomial ring in the $\omega_i$ situated in the approp
 	is injective.
 \end{corollary}
 \begin{proof}
-	We already saw that $\varphi^*_n \circ \alpha_n$ is injective, and we know that $\alpha_n$ is an isomorphism.
+	We already saw that $\varphi^*_n \circ \alpha_n$ is injective, and we now know that $\alpha_n$ is an isomorphism.
 \end{proof}
 \begin{proposition}
 	If two characteristic classes $\beta_1, \beta_2\colon \Vect_\R^n({{-}}) \to H^m({{-}}; \F_2)$ over paracompact spaces agree on all bundles that decompose into sums of line bundles, then $\beta_1 = \beta_2$.
@@ -896,9 +970,9 @@ where the domain is the polynomial ring in the $\omega_i$ situated in the approp
 	The bundle $\varphi^*_n \gamma_\R^n$ over $(\RP^\infty)^{\times n}$ is by definition a sum of line bundles, namely $\varphi_n^* \gamma_R^n = \pi_1^* \gamma_\R^1 \dsum \cdots \dsum \pi_n^* \gamma_\R^1$ where $\pi_i\colon (\RP^\infty)^{\times n} \to \RP^\infty$ is the $i$th projection.
 	The assumption then guarantees that
 	\begin{equation*}
-		\varphi_n^* \beta_1(\gamma_\R^n) = \beta_1(\varphi_n^* \gamma_\R^n) = \beta_2(\varphi_n^* \gamma_\R^n) = \varphi_n^*(\gamma_\R^n)
+		\varphi_n^* \beta_1(\gamma_\R^n) = \beta_1(\varphi_n^* \gamma_\R^n) = \beta_2(\varphi_n^* \gamma_\R^n) = \varphi_n^* \beta_2(\gamma_\R^n)
 	\end{equation*}
-	since $\varphi_n^*$ is injective, it follows that $\beta_1(\gamma_\R^n) = \beta_2(\gamma_\R^2)$ and by universality that $\beta_1 = \beta_2$.
+	since $\varphi_n^*$ is injective, it follows that $\beta_1(\gamma_\R^n) = \beta_2(\gamma_\R^n)$ and by universality that $\beta_1 = \beta_2$.
 \end{proof}
 \begin{corollary}
 	The Stiefel-Whitney classes are uniquely determined by axioms \ref{ax:stiefwhittriviality}--\ref{ax:stiefwhitnormalization} of theorem \ref{thm:existenceofswclasses} over paracompact spaces.
@@ -906,12 +980,12 @@ where the domain is the polynomial ring in the $\omega_i$ situated in the approp
 \begin{proof}
 	Assume $\omega_i$ and $\omega'_i$ both satisfy the axioms and let $\omega$ and $\omega'$ be the associated total classes.
 	We have seen that $\omega(\gamma_\R^1) = 1 + u = \omega'(\gamma_\R^1) \in H^\pi(\RP^\infty; \F_2) \isom \F_2[[u]]$.
-	Hence, by universality and naturality, $\omega$ and $\omega'$ must agree for all line bundles over paracompact spaces.
+	Hence, by universality and naturality, $\omega$ and $\omega'$ must agree for all line bundles over paracompact spaces:
 	If $\xi = \xi_1 \dsum \cdots \dsum \xi_n$ and all $\xi_i$ are line bundles, the axiom \ref{ax:whitneyproduct} implies that
 	\begin{equation*}
 		\omega(\xi) = \prod_{i = 1}^n \omega(\xi_i) = \prod_{i = 1}^n \omega'(\xi_i) = \omega'(\xi)
 	\end{equation*}
-	by the preceding proposition, this implies $\omega = \omega'$.
+	By the preceding proposition, this implies $\omega = \omega'$.
 \end{proof}
 
 \subsection{The Complex Case}
