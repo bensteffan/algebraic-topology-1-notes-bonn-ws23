@@ -988,13 +988,13 @@ This finally concludes the proof of theorem \ref{thm:cohomology_gr_R}.
 	By the preceding proposition, this implies $\omega = \omega'$.
 \end{proof}
 
-\subsection{The Complex Case}
-We now want to compute characteristic classes over paracompact spaces of the $\Vect_\C^n({{-}}) \to H^m({{-}}; \Z)$, or in other words the cohomology $H^*\big(\Gr^\C_n; \Z\big)$.
-We want to use the same inductive process through the identification $S(\gamma_\C^n) \isom \Gr^\C_{n - 1}$ and the Gysin sequence.
-For this, we need to understand the local system $H^*(S(E_{-}); \Z)$ where $p\colon E \to B$ is complex vector bundle.
+\subsubsection{The Complex Case}
+Our goal is now to compute characteristic classes over paracompact spaces of the form $\Vect_\C^n({{-}}) \to H^m({{-}}; \Z)$, or in other words the cohomology ring $H^*\big(\Gr^\C_n; \Z\big)$.
+For this, we want to make use of the same inductive process as for the Stiefel-Whitney classes through the identification $S(\gamma_\C^n) \isom \Gr^\C_{n - 1}$ and the Gysin sequence.
+However, since we are no longer working with $\F_2$-coefficients where every local system is automatically trivial, we first need to briefly study the local system $H^*(S(E_{-}); \Z)$ where $p\colon E \to B$ is a complex vector bundle.
 
 Fix a generator $\beta \in H^2(D(\C), S(\C); \Z)$ throughout this section.
-Then the external relative cross-power $\beta_{\C^n} \coloneq \beta^{\times n}$ forms a generator of $H^{2n}(D(\C^n), S(\C^n); \Z)$.
+The external relative cross-power $\beta_{\C^n} \coloneq \beta^{\times n}$ then forms a generator of $H^{2n}(D(\C^n), S(\C^n); \Z)$.
 If $V$ is any hermitian vector space, we choose an isometry $\varphi\colon V \xto{\isom} \C^n$ and obtain a generator $\varphi^* \beta_{\C^n} \in H^{2n}(D(V), S(V); \Z)$.
 Given another choice $\psi\colon V \xto{\isom} \C^n$ of isometry, the composite of $\psi \circ \varphi^{-1}\colon \C^n \to \C^n$ is an element of $\Uni(n)$ and hence acts by a degree 1 map on $S(\C^n)$.
 It follows that $\psi^* \beta_{\C^n} = (\psi \circ \varphi^{-1} \circ \varphi)^* \beta_{\C^n} = \varphi^* (\psi \circ \varphi^{-1})^* \beta_{\C^n} = \varphi^* \beta_{\C^n}$.
@@ -1003,9 +1003,9 @@ Hence we obtain a canonical generator $\beta_V \in H^{2n}(D(V), S(V); \Z)$ indep
 Now let $p\colon E \to B$ be a hermitian $n$-dimensional vector bundle with sphere bundle $q\colon S(E) \to B$.
 For $b \in B$, we obtain an isomorphism
 \begin{equation*}
-	\begin{tikzcd}[row sep = 0.3ex]
+	\begin{tikzcd}[row sep = -.2ex]
 		\delta_b\colon H^{2n - 1}(S(E_b); \Z)
-				\ar[r, "\del", "\isom"']
+				\ar[r, "\delta", "\isom"']
 			& H^{2n}(D(E_b), S(E_b); \Z)
 				\ar[r, swap, "\isom"]
 			& \Z
@@ -1026,10 +1026,9 @@ For $b \in B$, we obtain an isomorphism
 				& H^{2n - 1}(S(\omega^* E); \Z)
 					\ar[l, swap, "\isom"]
 					\ar[r, "\isom"]
-				& H^{2n - 1}(S(E_b))
+				& H^{2n - 1}(S(E_{b'}))
 		\end{tikzcd}
 	\end{equation*}
-	% TODO ?
 	Now $\omega^* E$ is a vector bundle over $[0, 1]$, hence isomorphic to a trivial bundle, and for trivial bundles the statement is clear.
 \end{proof}
 We can now show:
@@ -1037,8 +1036,7 @@ We can now show:
 	$H^*\big(\Gr^\C_n; \Z\big)$ is a polynomial ring on classes $c_1, \ldots, c_n$ with $|c_i| = 2i$ uniquely determined by the following two properties:
 	\begin{enumerate}
 		\item $c_n$ equals the Euler class for $S(\gamma_\C^n)$ for the $\Z$-orientation just constructed.
-			% TODO which map?
-		\item For $i < n$, the map $H^*\big(\Gr^\C_n; \Z\big) \to H^*\big(\Gr^\C_{n - 1}; \Z\big)$ sends $c_i$ to $c_i$.
+		\item For $i < n$, the map $H^*\big(\Gr^\C_n; \Z\big) \to H^*\big(\Gr^\C_{n - 1}; \Z\big)$ induced by the projection $\Gr^\C_{n - 1} \htpyeqv S(\gamma_\C^n) \to \Gr^\C_n$ sends $c_i$ to $c_i$.
 	\end{enumerate}
 	The associated characteristic classes are called the \strong{Chern classes}\index{Chern class} for complex vector bundles.
 \end{theorem}
@@ -1053,7 +1051,7 @@ We can now show:
 					\ar[r]
 				& H^*\big(\Gr^\C_n; \Z\big)
 					\ar[r, "c_n \cdot"]
-				& H^{* + 2n}\big(\Gr^\C_{2n}; \Z\big)
+				& H^{* + 2n}\big(\Gr^\C_n; \Z\big)
 					\ar[r]
 				& H^{* + 2n}\big(\Gr^\C_{n - 1}; \Z\big)
 					\ar[r]
@@ -1061,14 +1059,14 @@ We can now show:
 		\end{tikzcd}
 	\end{equation*}
 	It follows that $H^j\big(\Gr^\C_n; \Z\big) \to H^j\big(\Gr^\C_{n - 1}; \Z\big)$ is an isomorphism for $j < 2n - 1$ since in this case $H^{j - 2n}\big(\Gr^\C_n; \Z\big) = H^{j - 2n + 1}\big(\Gr^\C_n; \Z\big) = 0$ as $j - 2n + 1 < 0$.
-	Thus, the elements $c_1, \ldots, c_{n - 1} \in H^*\big(\Gr^\C_{n - 1}; \Z\big)$ lift to unique elements $c_1, \ldots, c_{n - 1} \in H^*\big(\Gr^\C_n; \Z\big)$.
-	We have hence defined all the $c_i$.
+	Thus, the elements $c_1, \ldots, c_{n - 1} \in H^*\big(\Gr^\C_{n - 1}; \Z\big)$ lift to unique elements $c_1, \ldots, c_{n - 1} \in H^*\big(\Gr^\C_n; \Z\big)$ and we have hence defined all the $c_i$.
+
 	It remains to show $H^*\big(\Gr^\C_n; \Z\big) \isom \Z[c_1, \ldots, c_n]$, which is the same argument as in the real case:
 	Since we already know that $H^*\big(\Gr^\C_{n - 1}; \Z\big) \isom \Z[c_1, \ldots, c_{n - 1}]$ and we have lifted the $c_i$, the map $H^*\big(\Gr^\C_n; \Z\big) \to H^*\big(\Gr^\C_{n - 1}; \Z\big)$ must be surjective and the Gysin sequence collapses into short exact sequences.
 	By induction on the degree, one shows that these short exact sequences are together isomorphic to $0 \to \Z[c_1, \ldots, c_n] \xto{c_n \cdot} \Z[c_1, \ldots, c_n] \xto{c_n \mapsto 0} \Z[c_1, \ldots, c_{n - 1}] \to 0$.
 \end{proof}
 \begin{remark}\index{Chern class!axioms for}
-	Like the Stiefel-Whitney classes, the Chern classes $c_i(\xi)$ are uniquely characterized by the following four axioms, if we set $c_0(\xi) = 1$:
+	Like the Stiefel-Whitney classes, the Chern classes $c_i(\xi)$ are uniquely characterized by the following four axioms if we set $c_0(\xi) = 1$:
 	\begin{enumerate}
 		\item $c_0(\xi) = 1$ and $c_i(\xi) = 0$ if $i > \dim_\C(\xi)$.
 		\item \strong{Naturality}: $c_i(f^* \xi) = f^* c_i(\xi)$.
@@ -1076,10 +1074,9 @@ We can now show:
 		\item $c_1(\gamma_\C^{1, 2}) \in H^2(\CP^1; \Z)$ agrees with the Euler class for the sphere bundle $S(\gamma_\C^{1, 2})$ (which is the Hopf bundle $S^1 \to S^3 \xto{\eta} \CP^1$).
 	\end{enumerate}
 \end{remark}
-% TODO cite
-Seeing that the Chern classes we constructed satisfy these axioms is clear for axioms 1, 2, and 4, but more for is needed for 3, see Milnor-Stasheff section 14.4.
+Seeing that the Chern classes we constructed satisfy these axioms is easy for axioms 1, 2, and 4, but more work is needed for 3, cf. \cite[Section 14]{milnor_characteristic_1974}.
 Uniqueness is then the same argument as in the real case, using the map 
 \begin{equation*}
 	(\CP^\infty)^{\times n} \to \Gr^\C_n
 \end{equation*}
-classifying $\gamma_\C^1 \times \ldots \times \gamma_\C^1$.
+classifying the bundle $\gamma_\C^1 \times \ldots \times \gamma_\C^1$.
