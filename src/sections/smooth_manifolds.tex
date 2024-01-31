@@ -38,7 +38,7 @@ To start out, we recall (or learn anew) the following notions:
 	\end{itemize}
 \end{example}
 \begin{remark}
-	One can also define \enquote{abstract} smooth manifolds as second countable paracompact spaces $M$ equipped with addtional data in a variety of ways, for instance via equivalence classes of smooth atlases (cf. \cite[Ch. 1]{lee_introduction_2012}).
+	One can also define \enquote{abstract} smooth manifolds as second-countable Hausdorff spaces $M$ equipped with additional data in a variety of ways, for instance via equivalence classes of smooth atlases (cf. \cite[Ch. 1]{lee_introduction_2012}).
 	One way is to specify for every open subset $U$ of $M$ a subset $F(U) \subseteq C^0(U, \R)$ of the ring of continuous functions on $U$ sucht that 
 	\begin{enumerate}
 		\item $F$ is a \emph{sheaf}\index{sheaf}, meaning that
@@ -203,7 +203,7 @@ This we can do in two ways:
 \end{corollary}
 \lecture{12.01.24}
 \begin{remark}
-	If $M$ is a smooth $n$-manifold and $i\colon M \to \RP^m$ an immersion, then there is a continuous map
+	If $M$ is a smooth $n$-manifold and $i\colon M \to \R^m$ an immersion, then there is a continuous map
 	\begin{align*}
 		M &\to \Gr_n(\R^m) \\
 		x &\mapsto d i_x(\Tang_x M)
@@ -298,7 +298,7 @@ Better bounds can nevertheless be obtained via characteristic classes of general
 For general $m$, let $\alpha(m)$ be the number of set bits in its binary expansion, so that $m = \sum_{i = 1}^{\alpha(m)} 2^{n_i}$ with $n_1 < \ldots < n_{\alpha(m)}$.
 Let $M = \RP^{2^{n_1}} \times \cdots \times \RP^{2^{n_{\alpha(m)}}}$.
 Then $\overline{\omega}(\tau_M) = \overline{\omega}\big(\tau_{\RP^{n_1}}\big) \times \cdots \times \overline{\omega}\big(\tau_{\RP^{n_{\alpha(m)}}}\big)$ with highest non-trivial term $u^{2^{n_1} - 1} \times \cdots \times u^{2^{n_{\alpha(m)}} - 1}$ in degree $m - \alpha(m)$.
-The \emph{immersion conjecure}\index{immersion conjecture} states that if $N$ is any $m$-manifold, then $N$ immerses into $\R^{2m - \alpha(m)}$.
+The \emph{immersion conjecture}\index{immersion conjecture} states that if $N$ is any $m$-manifold, then $N$ immerses into $\R^{2m - \alpha(m)}$.
 A proof of this was claimed by Ralph L. Cohen in his 1985 paper \cite{cohen_immersion_1985}, but its correctness is controversial.
 
 We now turn to the final topic of the course:
@@ -526,7 +526,7 @@ To understand the Stiefel-Whitney classes of the underlying real bundle, we have
 	Then:
 	\begin{enumerate}
 		\item\label{lma:swofcomplexbundle:1} $\omega_i(\xi_\R) = 0$ if $i$ is odd.
-		\item\label{lma:swofcomplexbundle:2} $\omega_{2i}(\xi_\R)$ is the modulo 2 reduction of $c_i \in H^{2i}(B; \Z)$.
+		\item\label{lma:swofcomplexbundle:2} $\omega_{2i}(\xi_\R)$ is the modulo 2 reduction of $c_i(\xi) \in H^{2i}(B; \Z)$.
 	\end{enumerate}
 \end{lemma}
 In other words, the modulo 2 reduction of $c(\xi_\R)$ equals $\omega(\xi_\R)$.
