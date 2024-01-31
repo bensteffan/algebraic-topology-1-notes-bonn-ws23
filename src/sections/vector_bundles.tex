@@ -283,20 +283,20 @@ Next we aim to show that there exist universal bundles, at least over paracompac
 \end{theorem}
 \begin{proof}
 	For surjectivity, let $p\colon E \to X$ be an $n$-dimensional $\F$-vector bundle.
-	Assume there exists continuous map $\tilde{f}\colon E \to \F^\infty$ which is linear and injective on each fibre.
-	Then $f\colon X \to \Gr_n^{\F}$, $x \mapsto \tilde{f}(E_x)$ is continuous (this can be checked after trivialization) and $E \to f^* \gamma_{\F}^n \subseteq X \times \Gr_n^{\F} \times \F^\infty$, $e \mapsto (p(e), f(p(e)), \tilde{f}(e))$ defines a bundle isomorphism from $E$ to $f^* \gamma_{\F}^n$.
+	Assume there exists a continuous map $\tilde{f}\colon E \to \F^\infty$ which is linear and injective on each fibre.
+	Then $f\colon X \to \Gr_n^{\F}$, $x \mapsto \tilde{f}(E_x)$ is continuous (this can be checked after trivialization) and $E \to f^* \gamma_{\F}^n \subseteq X \times \Gr_n^{\F} \times \F^\infty$, $e \mapsto \big(p(e), f(p(e)), \tilde{f}(e)\big)$ defines a bundle isomorphism from $E$ to $f^* \gamma_{\F}^n$.
 
 	To construct $\tilde{f}$, we choose a numerable trivializing cover $\{U_i\}_i$ as before and trivializations $h_i\colon p^{-1}(U_i) \to U_i \times \F^n$.
 	Then $\tilde{f}_i\colon p^{-1}(U_i) \xto{h_i} U_i \times \F^n \xto{\pr_{\F^n}} \F^n$ defines such a map for the restricted bundle over each $U_i$ with codomain $\F^n$ instead of $\F^\infty$.
 	We choose a partition of unity $\{\varphi_i\}_i$ subordinate to this cover and define
 	\begin{equation*}
-		\tilde{f} = \big(\varphi_1 \circ p \circ \tilde{f}_1, \varphi_2 \circ p \circ \tilde{f}_2, \ldots\big) \subseteq (\F^n)^\infty \isom \F^\infty
+		\tilde{f}(e) \coloneq \big(\varphi_1(p(e)) \cdot \tilde{f}_1(e), \varphi_2(p(e)) \cdot \tilde{f}_2(e), \ldots\big) \in (\F^n)^\infty \isom \F^\infty
 	\end{equation*}
 	which has the desired properties.
 
 	For injectivity, let $f_1, f_2\colon X \to \Gr^{\F}_n$ be such that $f_1^* \gamma_{\F}^n \isom f_2^* \gamma_{\F}^n$ and write $E_i$ for the total space of $f_i^* \gamma_{\F}^n$.
 	As in the first part, we obtain maps $\tilde{f}_i\colon E_i \to \F^\infty$.
-	We can precompose $\tilde{f}_2$ with the a $E_1 \to E_2$ to get two maps $\tilde{f}_1, \tilde{g}\colon E_1 \to \F^\infty$, each linear and injective on fibres.
+	We can precompose $\tilde{f}_2$ with the isomorphism $E_1 \to E_2$ of total spaces to get two maps $\tilde{f}_1, \tilde{g}\colon E_1 \to \F^\infty$, each linear and injective on fibres.
 
 	It suffices to show that $\tilde{f}_1$ and $\tilde{g}$ are homotopic through maps that are linear and injective on fibres, since this gives a homotopy $f_1 \Rightarrow f_2$.
 	To produce this homotopy, we first note that there is a linear injective homotopy $h_t\colon \F^\infty \to \F^\infty$ from $\id_{\F^\infty}$ to the map $\tau(x_1, x_2, \ldots) = (x_1, 0, x_2, 0, \ldots)$, for example the direct path.
@@ -483,8 +483,7 @@ Note that we have a commutative square
 \end{equation*}
 Hence, $\Th(p)$ is homotopy equivalent to the mapping cone of the sphere bundle $S(E) \to B$.
 If $B$ is compact, then $\Th(p)$ is a homeomorphism to the one-point compactification of $E$ (showing this is exercise \ref{ex:thomspacecompactification}).
-% TODO "unreduced suspension" ???
-If $p = \epsilon^n$ is trivial, then $\Th(p) = S^n \wedge B_{+}$ is the unreduced suspension and the Thom isomorphism is the usual suspension isomorphism.
+If $p = \epsilon^n$ is trivial, then $\Th(p) = S^n \wedge B_{+}$ is the suspension and the Thom isomorphism is the usual suspension isomorphism.
 In general, $\Th(p)$ is a twisted suspension of $B_{+}$.
 The Thom isomorphism says that this twist is invisible to $H^*({{-}})$, at least if considered as a functor to graded $\F_2$-vector spaces.
 \begin{definition}\index{Stiefel-Whitney class}
@@ -806,11 +805,11 @@ Hence we have
 \end{remark}
 We further have
 \begin{lemma}
-	If $p\colon E \to B$ is a $(n + 1)$-dimensional euclidean real vector bundle with $B$ paracompct and associated $n$-dimensional sphere bundle $S(E) \xto{q} B$, then $e = \omega_{n + 1}(p) \in H^{n + 1}(B; \F_2)$.
+	If $p\colon E \to B$ is a $(n + 1)$-dimensional euclidean real vector bundle with $B$ paracompact and associated $n$-dimensional sphere bundle $S(E) \xto{q} B$, then $e = \omega_{n + 1}(p) \in H^{n + 1}(B; \F_2)$.
 \end{lemma}
 \begin{proof}
 	We first note that $\omega_{n + 1}(p) = f^* u \in H^{n + 1}(B; \F_2)$ where $f\colon (B, \emptyset) \to (E, E_0)$ is the zero section.
-	In other words, $f^*$ is the composite $H^*(E, E_0; \F_2) \xto{i^*} H^*(E; \F_2) \xleftarrow[\isom]{p^*} H^*(B; \F_2)$.
+	In other words, $f^*$ is given by the composite $H^*(E, E_0; \F_2) \xto{i^*} H^*(E; \F_2) \xleftarrow[\isom]{p^*} H^*(B; \F_2)$.
 	Indeed, we have $\Sq^{n + 1} u = u^2$ and $i^*(u) \smile u = u^2$ since
 	\begin{equation*}
 		\begin{tikzcd}
