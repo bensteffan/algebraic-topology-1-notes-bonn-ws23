@@ -3,44 +3,32 @@ This section contains all of the weekly exercises and solutions for the course.
 The solutions presented here are my own, unless explicitly stated otherwise.
 Most of them have been checked by a pair of skilled eyes but by no means all, so tread with appropriate care.
 
-At the end of the section (page \pageref{sect:quickquest} and following) you will find both sets of quick questions together with their (justified, again by me) answers.
+At the end of the section (page \pageref{sect:quickquest} and following) you will find additional exercises from other sources (including solutions, also by me) and both sets of quick questions together with their (justified, again by me) answers.
 
 \begin{exercise}\label{ex:serrefib}
-	The goal of the first problem is to recall the notion of a Serre fibration and its homotopical properties.
-	\begin{itemize}
-		\item A map of spaces $p\colon E \to B$ has the \emph{homotopy lifting property with respect to a space $X$} if for every commutative diagram of the form
-			\begin{equation*}
-				\begin{tikzcd}
-					X \times \{0\} 
-							\ar[r, "\tilde{f}_0"]
-							\ar[d, hook]
-						& E
-							\ar[d, "p"]
-					\\
-					X \times I
-							\ar[r, "f"]
-						& B
-				\end{tikzcd}
-			\end{equation*}
-			there exists a map $\tilde{f}\colon X \times I \to E$ making the diagram commute.
-		\item A map $p\colon E \to B$ has the \emph{homotopy lifting property with respect to a pair of spaces $(X, A)$} if for every commutative diagram of the form
-			\begin{equation*}
-				\begin{tikzcd}
-					X \cup_A (A \times I)
-							\ar[r]
-							\ar[d, hook]
-						& E
-							\ar[d, "p"]
-					\\
-					X \times I
-							\ar[r, "f"]
-						& B
-				\end{tikzcd}
-			\end{equation*}
-			there exists a map $\tilde{f}\colon X \times I \to E$ making the diagram commute. (The space $X \cup_A (A \times I)$ is defined by gluing $A \times I$ to $X$ along the natural map $A \times \{0\} \to X$.)
-		\item A map of spaces $p\colon E \to B$ is said to be a \emph{Serre fibration} if it has the homotopy lifting property with respect to all discs $D^n$, $n \geq 0$.
-			It can be shown that having the homotopy lifting property with respect to all discs is equivalent to having the homotopy lifting property with respect to all CW-pairs.
-	\end{itemize}
+	The goal of the first problem is to recall the notion of a Serre fibration and its homotopical properties:
+
+	A map $p\colon E \to B$ has the \emph{homotopy lifting property with respect to a pair of spaces $(X, A)$}\index{homotopy lifting property} if for every commutative diagram of the form
+	\begin{equation*}
+		\begin{tikzcd}
+			X \times \{0\} \cup (A \times I)
+					\ar[r, "\tilde{f}_0"]
+					\ar[d, hook]
+				& E
+					\ar[d, "p"]
+			\\
+			X \times I
+					\ar[r, swap, "f"]
+					\ar[ur, dashed, swap, "\tilde{f}"]
+				& B
+		\end{tikzcd}
+	\end{equation*}
+	a map $\tilde{f}$ as indicated exists and makes the whole diagram commute.
+
+	If $p$ has the lifting property for a pair of the form $(X, \emptyset)$, we simply say that it has the \emph{homotopy lifting property with respect to $X$}.
+	Finally, $p$ is called a \strong{Serre fibration}\index{fibration!Serre} if it has the homotopy lifting property for all disks $D^n$, $n \geq 0$.
+	It can be shown that $p$ then already has the homotopy lifting property for all CW-pairs $(X, A)$.
+
 	Furthermore, we recall the notion of a \emph{homotopy fibre}.
 	For a space $X$ and $x \in X$ we let $P_x X$ denote the space of paths in $X$ to $x$, that is $P_x X \coloneq \{\gamma\colon I \to X \mid \gamma(1) = x\}$, equipped with the compact-open topology.
 	Given a map $f\colon Y \to X$, the \emph{homotopy fibre} of $f$ at $x$ is then defined as the space
@@ -50,15 +38,77 @@ At the end of the section (page \pageref{sect:quickquest} and following) you wil
 	Now let $p\colon E \to B$ be a Serre fibration and $b \in B$ a basepoint.
 	We write $F = p^{-1}(b) \subseteq E$ for the fibre and define a map $\varphi\colon F \to \hofib_b(p)$ by the formula  
 	\begin{equation*}
-		z \mapsto (c(b), i(z))
+		z \mapsto (\const_b, i(z))
 	\end{equation*}
-	Here, $c(b)$ denotes the constant path in $B$ at the basepoint $b$.
+	Here, $\const_b$ denotes the constant path in $B$ at the basepoint $b$.
 
 	Prove that $\varphi$ is a weak homotopy equivalence, i.e. that it induces an isomorphism on homotopy groups for all basepoints.
 	\begin{hint}
 		If you have trouble with the proof, first focus on showing that $\varphi$ induces a bijection on path components.
 	\end{hint}
 \end{exercise}
+\begin{solution}
+	Recall that the homotopy fibre $\hofib_b(p)$ is the strict fibre of the fibration
+	\begin{align*}
+		\hofib_b(p) \incl P_p &\xto{q} B \\
+		(\gamma, z) &\mapsto \gamma(1)
+	\end{align*}
+	over $b \in B$ where $P_p \coloneq \big\{(\gamma, z) \in B^I \times E \mid \gamma(0) = p(z)\big\}$ is the path-space of $p$.
+	We obtain a commutative diagram
+	\begin{equation*}
+		\begin{tikzcd}
+			F 
+					\ar[r, hook]
+					\ar[d, "\varphi"]
+				& E
+					\ar[r, "p"]
+					\ar[d, bend right = 17, swap, "\psi"]
+				& B
+					\ar[d, equals]
+			\\
+			\hofib_b(p) 
+					\ar[r, hook]
+				& E_p
+					\ar[r, "q"]
+					\ar[u, bend right = 17, swap, "\rho"]
+				& B
+		\end{tikzcd}
+	\end{equation*}
+	where $\rho((\gamma, z)) \coloneq z$ and $\psi(z) \coloneq \big(\const_{p(z)}, z\big)$.
+	Noting finally that $\rho \circ \psi = \id_E$ outright and $\psi \circ \rho \htpyeqv \id_{E_p}$ via the homotopy
+	\begin{align*}
+		h\colon E_p &\to E_p^I \\
+		(\gamma, z) &\mapsto (t \mapsto (\gamma(t \cdot {{-}}), z))
+	\end{align*}
+	we obtain a diagram with exact rows
+	\begin{equation*}
+		\begin{tikzcd}[column sep = smallish]
+			\cdots
+					\ar[r]
+				& \pi_n(F, e)
+					\ar[r]
+					\ar[d, "\varphi_*"]
+				& \pi_n(E, e)
+					\ar[r]
+					\ar[d, "\psi_*", "\isom"']
+				& \pi_n(B, b)
+					\ar[r]
+					\ar[d, equals]
+				& \cdots
+			\\
+			\cdots
+					\ar[r]
+				& \pi_n(\hofib_b(p), \varphi(e))
+					\ar[r]
+				& \pi_n(E_p, \psi(e))
+					\ar[r]
+				& \pi_n(B, b)
+					\ar[r]
+				& \cdots
+		\end{tikzcd}
+	\end{equation*}
+	for any basepoint $e \in F$, so by the five-lemma the map $\varphi_*$ is an isomorphism in all degrees, i.e. a weak homotopy equivalence.
+\end{solution}
 
 \begin{exercise}
 	Let $C$ be a chain complex filtered by subcomplexes $C_0 \subseteq C_1 \subseteq C$.
@@ -72,7 +122,7 @@ At the end of the section (page \pageref{sect:quickquest} and following) you wil
 	\end{equation}
 	respectively.
 	The goal of this exercise is to compute the homology of $C$ in terms of the homology of the complexes $C_0$, $C_1 / C_0$, and $C / C_1$.
-	This is the length 2 special case of the spectral sequence associated to a filtered complex which we will later discuss in the lecture.
+	This is the length 2 special case of the spectral sequence associated to a filtered complex discussed in section \ref{sec:construction}.
 	\begin{enumerate}
 		\item Use the long exact sequences above to define maps $f\colon H_*(C / C_1) \to H_{* - 1}(C_1 / C_0)$ and $g\colon H_*(C_1 / C_0) \to H_{* - 1}(C_0)$.
 			Show that $g \circ f = 0$.
@@ -84,7 +134,6 @@ At the end of the section (page \pageref{sect:quickquest} and following) you wil
 				\item $\ker(g) / \img(f) \isom \img(H_*(C_1) \to H_*(C)) / \img(H_*(C_0) \to H_*(C))$
 				\item $\ker(d) \isom H_*(C) / \img(H_*(C_1) \to H_*(C))$
 			\end{itemize}
-			where $\img({{-}})$ is the image of a map.
 			In words, $\coker(d)$, $\ker(g) / \img(f)$, and $\ker(d)$ are isomorphic to the subquotients in the filtration on $H_*(C)$ given by the filtration on $H_*(C)$ given by the images of $H_*(C_0)$ and $H_*(C_1)$.
 	\end{enumerate}
 \end{exercise}
@@ -128,8 +177,8 @@ At the end of the section (page \pageref{sect:quickquest} and following) you wil
 		\end{tikzcd}
 	\end{equation*}
 	\caption{%
-		Sequences \ref{ex2:les1} and \ref{ex2:les2} arranged in a staircase diagram. 
-		The morphisms belonging to sequence \ref{ex2:les1} are set in \textcolor{gray}{gray}.
+		Sequences \eqref{ex2:les1} and \eqref{ex2:les2} arranged in a staircase diagram. 
+		The morphisms belonging to sequence \eqref{ex2:les1} are set in \textcolor{gray}{gray}.
 		The two maps $f$ and $g$ constructed in part two of the exercise are highlight in \textcolor{highlightcol}{red} and \textcolor{citecol}{violet}, respectively.
 	}
 	\label{fig:staircase}
@@ -139,19 +188,19 @@ At the end of the section (page \pageref{sect:quickquest} and following) you wil
 	That figure will also be helpful for following along.
 	\begin{enumerate}
 		\item We put $f \coloneq q^0_* \circ \del^1$ and $g \coloneq \del^0$.
-			Then $g \circ f = \del^0 \circ q^0_* \circ \del^1 = 0$ since $\del^0 \circ q^0_* = 0$ by exactness of sequence \ref{ex2:les1}.
+			Then $g \circ f = \del^0 \circ q^0_* \circ \del^1 = 0$ since $\del^0 \circ q^0_* = 0$ by exactness of sequence \eqref{ex2:les1}.
 		\item Note that the condition $g \circ f = 0$ amounts to saying that
 			\begin{equation*}
 				H_n(C / C_1) \xto{f} H_{n - 1}(C_1 / C_0) \xto{g} H_{n - 2}(C_0)
 			\end{equation*}
 			is a chain complex for all $n$; denoting its homology as $\bar{H}^0_n = \ker f$, $\bar{H}^1_{n - 1} = \ker g / \img f$, and $\bar{H}^2_{n - 2} = \coker g$, our goal is to find a map $d\colon \bar{H}^0_* \to \bar{H}^2_{* - 1}$ with the required properties.
-			To this end, note that there is an isomorphism $\sigma\colon H_n(C_1) \supseteq \img i^0_* \isom \bar{H}^2_n$ since by exactness of sequence \ref{ex2:les1}, $\img g = \img \del^0 = \ker i^0_*$.
+			To this end, note that there is an isomorphism $\sigma\colon H_n(C_1) \supseteq \img i^0_* \isom \bar{H}^2_n$ since by exactness of sequence \eqref{ex2:les1} $\img g = \img \del^0 = \ker i^0_*$.
 			We now put $d \coloneq \sigma \circ \del^1$.
 			First of all, note that this composition is well-defined since if $\alpha \in \ker f$, then $q^0_*(\del^1(\alpha)) = 0$ implies that $\del^1(\alpha) \in \ker q^0_* = \img i^0_*$, so $\del^1(\alpha)$ is in the domain of $\sigma$.
 
 			Now for the properties:
 			\begin{itemize}
-				\item Since $\img g = \ker i^0_*$ and $\img \del^1 = \ker i^1_*$ by exactness, we have $\coker d \isom (H_*(C_0) / \ker i^0_*) / \sigma(\ker i^1_*) \isom \img\bigg(H_*(C_0) \xto{i^1_* \circ i^0_*} H_*(C)\bigg)$ since $\sigma$ is the inverse to the quotient isomorphism $H_*(C_0) / \ker i^0_* \xto{\isom} \img i^0_*$. 
+				\item Since $\img g = \ker i^0_*$ and $\img \del^1 = \ker i^1_*$ by exactness, we have $\coker d \isom (H_*(C_0) / \ker i^0_*) / \sigma(\ker i^1_*) \isom \img\bigg(H_*(C_0) \xto{i^1_* \circ i^0_*} H_*(C)\bigg)$ as $\sigma$ is the inverse to the quotient isomorphism $H_*(C_0) / \ker i^0_* \xto{\isom} \img i^0_*$. 
 				\item For this item we will do a diagram chase.
 					Our goal is to define a surjective map $\varphi\colon \ker g \to \img i^1_* / \img (i^1_* \circ i^0_*)$ whose kernel is $\img f$.
 					In fact, let us put $\varphi(x) \coloneq [y]$ where $y \in \img i^1_* \subseteq H_n(C)$ is the image $i^1_*(y')$ of an element $y' \in (q^0_*)^{-1}(x) \subseteq H_n(C_1)$.
@@ -169,7 +218,7 @@ At the end of the section (page \pageref{sect:quickquest} and following) you wil
 					\begin{equation*}
 						\ker d = \ker \del^1 = \img q^1_* \isom H_*(C) / \ker q^1_* = H_*(C) / \img i^1_* 
 					\end{equation*}
-					using the exactness of sequence \ref{ex2:les2}.
+					using the exactness of sequence \eqref{ex2:les2}.
 			\end{itemize}
 			This concludes the proof.
 			\qedhere
@@ -194,18 +243,18 @@ At the end of the section (page \pageref{sect:quickquest} and following) you wil
 	\end{enumerate}
 \end{exercise}
 \begin{solution}
+	% TODO pictures?
 	\leavevmode
 	\begin{enumerate}
-		\item Consider the homological Serre spectral sequence for $S^n \to E \to B$ (which we can do since $S^n$ is connected and $B$ simply connected).
-			On the $E^2$-page, we have that
+		\item Consider the homological Serre spectral sequence for $S^n \to E \to B$ with $E^2$-page
 			\begin{equation}\label{ex:gysinwang:gysingroups}
 				E^2_{p, q} = H_p(B; H_q(S^n)) \isom \begin{cases}
 					H_p(B) 	& q = 0, n \\
 					0 		& \text{else}
 				\end{cases}
 			\end{equation}
-			since $H_q(S^n) \isom \Z$ if $q = 0, n$ and 0 else.
-			Therefore, the only possible non-trivial differentials are $d^{n + 1}\colon E^{n + 1}_{p, 0} \to E^{n + 1}_{p - n - 1, n}$ for any $p$.
+			as $B$ was assumed simply connected and $H_q(S^n) \isom \Z$ if $q = 0, n$ and 0 else.
+			The only possible non-trivial differentials are therefore of the form $d^{n + 1}\colon E^{n + 1}_{p, 0} \to E^{n + 1}_{p - n - 1, n}$ for any $p$.
 			Turning to the $E^\infty$-page, we see that every antidiagonal passes through at most two non-trivial groups, namely 
 			\begin{equation*}
 				E^\infty_{p, n} \isom \coker\big(d^{n + 1}\colon E^{n + 1}_{p + n + 1, 0} \to E^{n + 1}_{p, n}\big)
@@ -237,7 +286,7 @@ At the end of the section (page \pageref{sect:quickquest} and following) you wil
 			\end{equation*}
 			where $\kappa\colon E^\infty_{p - 1, 0} \incl E^{n + 1}_{p - 1, 0}$ is the kernel inclusion of the outgoing differential (this is exact since $\coker(d^{n + 1})$ is surjective and $\kappa$ is injective, by which exactness at and around $H_{p - 1}(E)$ reduces to exactness of sequence \eqref{ex:gysinwang:inftyseq}).
 			Finally substituting in the groups from equation \eqref{ex:gysinwang:gysingroups} for the $E^{n + 1}$-terms yields the claim.
-		\item This part is almost entirely analogous to part one so we will allow ourselves to be somewhat brief.
+		\item This proof is almost completely analogous to part one so we will be somewhat brief.
 
 			Note that the $E^2$-page of the associated homological Serre spectral sequence of the given fibre sequence has the form
 			\begin{equation}\label{ex:gysinwang:wanggroups}
@@ -252,7 +301,7 @@ At the end of the section (page \pageref{sect:quickquest} and following) you wil
 				0 \to E^\infty_{0, q} \to H_q(E) \to E^\infty_{n, q - n} \to 0
 			\end{equation*}
 			for any $q$.
-			In this situation we can identify $E^\infty_{0, q}$ and $E^\infty_{n, q - n}$ with the cokernel and kernel of the in- and outgoing differentials, respectively, like before so we obtain a long exact sequence
+			In this situation we can identify $E^\infty_{0, q}$ and $E^\infty_{n, q - n}$ with the cokernel and kernel of the in- and outgoing differentials, respectively, like before, so we obtain a long exact sequence
 			\begin{equation*}
 				\begin{tikzcd}
 					\cdots 
@@ -313,8 +362,8 @@ At the end of the section (page \pageref{sect:quickquest} and following) you wil
 	This has the consequence that if $H_*(X; \Z)$ and $H_*(\Omega X; \Z)$ are both concentrated in degrees $0, \ldots, k$ and $0, \ldots, l$ respectively for some $k, l \in \N$, then so are the groups $H_*(X; H_*(\Omega X; \F_p))$ (with the appropriate bigrading), and if we take $k$ and $l$ to be tight then $H_k(X; H_l(\Omega X; \F_p)) \neq 0$.
 	Looking now at the homological Serre spectral sequence for the fibre sequence $\Omega X \to * \to X$, this translates to $E^2_{k, l}$ being non-zero.
 	But since $E^2_{n, m} = 0$ whenever $n > k$ or $m > l$, no incoming our outgoing differential at this group is ever non-trivial and it survives onto the $E^\infty$-page.
-	But the total space is a point, so the $E^\infty$-page is a barren wasteland save for $E^\infty_{0, 0} \isom \F_p$, which is a contradiction!
-	Thus the $\F_p$-homology of at least one of $X$ or $\Omega X$ must be infinite, whence we conclude that space cannot be (weakly) homotopy equivalent to a finite CW-complex since the homology of a finite CW-complex is again finite (via cellular homology).
+	However, the total space is a point, so the $E^\infty$-page is a barren wasteland save for $E^\infty_{0, 0} \isom \F_p$, which is a contradiction!
+	Thus the $\F_p$-homology of at least one of $X$ or $\Omega X$ must be infinite, whence we conclude that space cannot be (weakly) homotopy equivalent to a finite CW-complex since the homology of a finite CW-complex is also finite (via cellular homology).
 \end{solution}
 
 \begin{exercise}
@@ -412,7 +461,7 @@ At the end of the section (page \pageref{sect:quickquest} and following) you wil
 				& 0
 		\end{tikzcd}
 	\end{equation*}
-	with the zero at the right coming from the group $\pi_{k - 1} S^k = 0$.
+	with the zero at the right stemming from the group $\pi_{k - 1} S^k = 0$.
 	As such, we have an isomorphism $\pi_{k - 1} F \isom \coker f_* \isom \coker(\Z \xto{\cdot n} \Z) = \Zn{n}$.
 	As below degree $k - 1$ the long exact sequence collapses, $\pi_{k - 1} F$ is in fact the lowest non-trivial homotopy group of $F$; accordingly, Hurewicz tells us that $H_{n - 1}(F) \isom \pi_{k - 1} F \isom \Zn{n}$ is the lowest non-trivial homology group of $F$ (noting for the case $k = 2$ that $\Zn{n}$ is abelian).
 
@@ -462,7 +511,7 @@ At the end of the section (page \pageref{sect:quickquest} and following) you wil
 		d_2\colon \underbrace{E_2^{0, q}}_{\isom \Zn{n}} \to \underbrace{E_2^{2, q - 1}}_{\isom \Zn{n}}
 	\end{equation*}
 	are isomorphisms for convergence reasons.
-	Let $x_i \in H^i(F)$ be a generator for all $i \geq 2$, and let $x_1 \in H^1(F) = 0$ denote a \enquote{ghost class}\footnote{a fancy name for 0 :)}.
+	Let $x_i \in H^i(F)$ be a generator for all $i \geq 2$, and let $x_1 \in H^1(F) = 0$ denote a \enquote{ghost class}\footnote{i.e. a convenient name for 0}.
 	Then $E^2_{2, q - 1}$ is generated by $e x_{q - i}$ for all $q \geq 2$, and we may without loss of generality arrange that $d_2(x_i) = e x_{i - 1}$ whenever $i \geq 2$ (noting the special case $d_2(x_2) = e x_1 = 0$).
 	Let now $i$ be minimal with the property that $l x_i = x_{i - a} x_a$ for some $l \in \Zn{n}$, $2 \leq a \leq i - 2$.
 	Using that differentials are graded derivations, we compute
@@ -514,14 +563,14 @@ At the end of the section (page \pageref{sect:quickquest} and following) you wil
 			S^3
 		\end{tikzcd}
 	\end{equation*}
-	be a Whitehead tower for $S^3$\footnote{We adopt the convention that $\tau_{\geq n} X$ is $(n - 1)$-connected with $\pi_k(\tau_{\geq n} X, *) \isom \pi_k(X, *)$ for all $k \geq n$.}.
-	Exploiting the usual Hurewicz trick, it is enough to compute $H_5(\tau_{\geq 5} S^3) \isom \pi_5(\tau_{\geq 5} S^3, *) \isom \pi_5(S^3, *)$.
+	be a Whitehead tower for $S^3$.
+	Exploiting the Hurewicz theorem as usual, it is enough to compute $H_5(\tau_{\geq 5} S^3) \isom \pi_5(\tau_{\geq 5} S^3, *) \isom \pi_5(S^3, *)$.
 	Noting that we already know that $\pi_4(\tau_{\geq 4} S^3, *) \isom \pi_4(S^3, *) \isom \Zn{2}$ from the lecture, we have two Serre fibrations
 	\begin{gather*}
 		K(\Zn{2}, 3) \to \tau_{\geq 5} S^3 \xto{\phi_5} \tau_{\geq 4} S^3 \mathrlap{\quad\text{and}}\\
 		K(\Z, 2) \to \tau_{\geq 4} S^3 \xto{\phi_4} S^3
 	\end{gather*}
-	The second fibration should look familiar, and recalling the uniqueness theorem for Whitehead towers (or one particular method of their construction with which this coincides) we see that we have already calculated $H^*(\tau_{\geq 4} S^3)$ in example 2.31 in the lecture\footnote{Actually, the indices in the in-lecture calculation are incorrect (if I have noted them down correctly), but this is easily remedied by having a good look at it.} to be  
+	The second fibration should look familiar, and recalling the uniqueness theorem for Whitehead towers (or one particular method of their construction with which this coincides) we see that we have already calculated $H^*(\tau_{\geq 4} S^3)$ in example \ref{expl:postnikov_section_s_3} to be  
 	\begin{equation*}
 		H_n(\tau_{\geq 4} S^3) \isom \begin{cases}
 			\Z 		& n = 0 \\
@@ -596,17 +645,19 @@ At the end of the section (page \pageref{sect:quickquest} and following) you wil
 	we quickly see that the of all the outgoing differentials of $E^2_{5, 0}$, the only interesting one is $d^5\colon E^5_{5, 0} \to E^5_{0, 4} \isom A$ as all other differentials have trivial codomain.
 	The only other incoming differential to $E^5_{0, 4}$ is $d_3^{3, 2}\colon \Zn{2} \isom E_3^{3, 2} \to E^3_{0, 4}$ and these together must kill it, so in particular we see that $E^5_{0, 4} \neq 0$ as $\coker d_3^{3, 2}$ is a group of order at least two. Unfortunately, distinguishing between the cases $E^5_{5, 0} \isom A$ and $E^5_{5, 0} \isom \Zn{2}$ seems intractable here, so we resort to yet another spectral sequence.
 
-	Observe that from any short exact sequence $0 \to G \to F \to H \to 0$ of abelian groups, we can obtain fibre sequences $K(G, n) \to K(F, n) \to K(H, n)$ for all $n \geq 1$ by realizing the second map as a map $\pi_n(K(F, n)) \to \pi_n(K(H, n))$\footnote{This can be done (in the case $n > 1$ which is the only case interesting us here) e.g. via direct construction by building up $K(F, n)$ and $K(H, n)$ starting with a wedge sum of copies of $S^n$ for each generator of the respective group, realizing the map on these generators, attaching $(n + 1)$-cells to realize all necessary relations between these generators, and finally killing all higher homotopy groups. It is part of the proof that this construction works that the map so constructed can be extended over all higher cells.}, taking the homotopy fibre and noting that the long exact sequence of homotopy groups implies that it is a $K(G, n)$.
+	Observe that from any short exact sequence $0 \to G \to F \to H \to 0$ of abelian groups, we can obtain fibre sequences $K(G, n) \to K(F, n) \to K(H, n)$ for all $n \geq 1$ by realizing the second map as a map $\pi_n(K(F, n)) \to \pi_n(K(H, n))$, taking the homotopy fibre and noting that the long exact sequence of homotopy groups implies that it is a $K(G, n)$.
 	We apply this to 
 	\begin{equation*}
 		0 \to \Z \to \Z \to \Zn{2} \to 0
 	\end{equation*}
 	with $n = 3$ to obtain a fibre sequence $K(\Z, 3) \to K(\Z, 3) \to K(\Zn{2}, 3)$.
-	Unfortunately, we do not have a good understanding of the (co)homology of $K(\Z, 3)$ right now, so we will have to make yet another detour through the path-loop fibration and study the fibre sequence $\CP^\infty \htpyeqv K(\Z, 2) \to * \to K(\Z, 3)$.
+	Unfortunately, we do not have a good understanding of the (co)homology of $K(\Z, 3)$, so we will have to make yet another detour through the path-loop fibration and study the fibre sequence $\CP^\infty \htpyeqv K(\Z, 2) \to * \to K(\Z, 3)$.
 	Consider therefore the Serre spectral sequence with $E_2$-page
-	\begin{equation*}
-		E_2^{*, *} = H^*(K(\Z, 3); H^*(\CP^\infty)) \isom H^*(K(\Z, 3)) \tensor H^*(\CP^\infty) \isom H^*(K(\Z, 3)) \tensor \Z[x]
-	\end{equation*}
+	\begin{align*}
+		E_2^{*, *} &= H^*(K(\Z, 3); H^*(\CP^\infty)) \\ 
+				   &\isom H^*(K(\Z, 3)) \tensor H^*(\CP^\infty) \\
+				   &\isom H^*(K(\Z, 3)) \tensor \Z[x]
+	\end{align*}
 	using that $H^*(\CP^\infty)$ is free and of finite type for the first and that $H^*(\CP^\infty) \isom \Z[x]$ with $x \in H^2(\CP^\infty)$ a generator for the second isomorphism.
 	By Hurewicz and universal coefficients, the first nonzero reduced cohomology group of $K(\Z, 3)$ is $H^3(K(\Z, 3)) \isom \Z$.
 	In particular, it seems wise to start the calculation by considering all differentials of the form $d_3\colon \Z \isom E_3^{0, 2q} \to E_3^{3, 2(q - 1)} \isom \Z$.
@@ -616,64 +667,19 @@ At the end of the section (page \pageref{sect:quickquest} and following) you wil
 	Let us move to the right now.
 	Clearly $E_2^{4, 0} = E_2^{5, 0} = 0$ as all differentials ending in these groups begin in a trivial group, so we turn to $E_2^{6, 0}$.
 	Here we only have a single potential ingoing differential, namely $d_3^{3, 2}$.
-	At $E_3^{3, 2}$ we therefore get both an incoming $d_3$, which is multiplication by 2, and an outgoing $d_3$, whose kernel must therefore contain $2\Z$ and which must kill both domain and codomain.
-	The only way to make this work is if $E_3^{6, 0} \isom E_2^{6, 0} \isom \Zn{2}$.
+	At $E_3^{3, 2}$ we therefore get both an incoming $d_3$, which is multiplication by 2, and an outgoing $d_3$ whose kernel must therefore contain $2\Z$ and which must kill both domain and codomain.
+	The only way this works out is if $E_3^{6, 0} \isom E_2^{6, 0} \isom \Zn{2}$.
 
-	We now return to our penultimate sequence, for which we have now gathered enough information to proceed.
-	We consider the Serre spectral sequence with $E_2$-page
+	We finally return to our penultimate sequence, for which we have now gathered enough information to proceed, and consider the Serre spectral sequence with $E_2$-page
 	\begin{equation*}
-		E_2^{*, *} \isom H^*(K(\Zn{2}, 3); H^*(K(\Z, 3)))
+		E_2^{p, q} \isom H^p(K(\Zn{2}, 3); H^q(K(\Z, 3)))
 	\end{equation*}
 	Keeping in mind that our goal is to calculate $H^6(K(\Zn{2}, 3)) \isom H_5(K(\Zn{2}, 3))$, we find ourselves lucky:
 	There is \emph{no} incoming differential at $E_2^{6, 0}$, all other relevant nontrivial groups living at $(0, 0)$, $(0, 3)$, $(4, 0)$, $(4, 3)$, and $(0, 6)$.
 	In other words, $E_2^{6, 0} \isom E_\infty^{6, 0}$ and therefore $E_2^{6, 0}$ contributes to the convergence to $H^6(K(\Z, 3)) \isom \Zn{2}$, so since $\Zn{2}$ does not admit any interesting filtrations we directly conclude that $E_2^{6, 0} = 0$ or $E_2^{6, 0} \isom \Zn{2}$.
 	But the first case we have excluded earlier, so we finally conclude that $\Zn{2} \isom H^6(K(\Zn{2}, 3)) \isom H_5(K(\Zn{2}, 3)) \isom \pi_5(S^3, *)$.
 \end{solution}
-
-\begin{exercise}
-	Compute the cohomology of the space $\map(S^1, S^3)$ of continuous (not necessarily basepoint-preserving) maps $f\colon S^1 \to S^3$.
-\end{exercise}
-\begin{solution}
-	There is a Serre fibration $\Omega S^3 \xto{\iota} \map(S^1, S^3) \xto{\ev_1} S^3$ as $S^1$ is locally compact and well-pointed.
-	Consider first the long exact sequence of homotopy groups associated to this fibration, which ends in
-	\begin{equation*}
-		\begin{tikzcd}[column sep = 2.6em]
-			\cdots 
-					\ar[r]
-				& \pi_3(\map(S^1, S^3), *)
-					\ar[r, "(\ev_1)_*"]
-				& \pi_3(S^3, *)
-					\ar[dll, rounded corners, swap, to path = {[pos = 1]
-						-- ([xshift = 1em] \tikztostart.east)
-						|- ($(\tikzcdmatrixname-1-2)!0.5!(\tikzcdmatrixname-2-2)$) \tikztonodes
-						-| ([xshift = -2ex] \tikztotarget.west)
-						-- (\tikztotarget)
-					}]
-			\\ 
-			\pi_2(\Omega S^3, *)
-					\ar[r, "\iota_*"]
-				& \pi_2(\map(S^1, S^3), *)
-					\ar[r]
-				& 0
-		\end{tikzcd}
-	\end{equation*}
-	as $S^3$ is 2-connected and $\Omega S^3$ simply connected.
-	Note that $\ev_1\colon \map(S^1, S^3) \to S^3$ admits a section, namely $\sigma\colon S^3 \to \map(S^1, S^3)$ being given by $\sigma(x) = \const_x$, the constant loop at $x$.
-	This implies that $(\ev_1)_*\colon \pi_*(\map(S^1, S^3), *) \to \pi_*(S^3, *)$ is surjective, so we can deduce that $\iota_*\colon \pi_2(\Omega S^3, *) \to \pi_2(\map(S^1, S^3), *)$ is an isomorphism, i.e. $\pi_2(\map(S^1, S^3), *) \to \pi_2(\Omega S^3, *) \isom \pi_3(S^3, *) \isom \Z$.
-	By Hurewicz, this further implies that $H_2(\map(S^1, S^3)) \isom \Z$ and therefore $H^2(\map(S^1, S^3)) \isom \Z$ by the universal coefficient theorem.
-
-	We now consider the Serre spectral sequence with $E_2$-page
-	\begin{equation*}
-		E_2^{*, *} = H^*(S^3; H^*(\Omega S^3)) \isom H^*(S^3) \tensor H^*(\Omega S^3) \isom \Lambda(e) \tensor \Gamma(x)
-	\end{equation*}
-	where $e \in H^3(S^3)$ and $x \in H^2(\Omega S^3)$ generators, with the first isomorphism stemming from the fact that $H^*(S^3)$ is free and finite and the second from the description of these rings calculated in the lecture.
-	For the differentials, the only possibly nonzero candidates are all of the form $d_3\colon E_3^{0, q} \to E_3^{3, q - 2}$ with $q$ even and $\geq 2$.
-	But note that the first such differential, $d_3^{0, 2}\colon \Z \isom E_3^{0, 2} \to E_3^{3, 0} \isom \Z$ must be trivial: Certainly $\ker d_3^{0, 2} \isom \Z$ as it is the only group contributing to the convergence to $H^2(\map(S^1, S^3)) \isom \Z$, so $d_3^{0, 2}$ must be multiplication by some $k > 1$; but then its cokernel is torsion and isomorphic to $H^3(\map(S^1, S^3))$ (as it is lonely remaining on the third antidiagonal) which is torsion-free via the universal coefficient theorem as by our calculation of $H_2(\map(S^1, S^3)) \isom \Z$ above.
-
-	Long story short, $d_3^{0, 2}$ is trivial, and reexpressed in multiplicative terms we see that $d_3(x) = 0$.
-	But every other $E_3^{0, 2q}$-group is generated by divided powers of $x$, so all other differentials must be trivial as well (as $0 = d^3(x^k) = d^3\big(k! \cdot \frac{x^k}{k!}\big)$ implies that $d^3\big(\frac{x^k}{k!}\big) = 0$ by freeness).
-	In other words, $E_\infty^{*, *} \isom E_2^{*, *}$ as bigraded rings, so since no antigiagonal contains more than one nontrivial term, we obtain that $H^*(\map(S^1, S^3)) \isom \Lambda(e) \tensor \Gamma(x)$ with $e \in H^3(\map(S^1, S^3))$ and $x \in H^2(\map(S^1, S^3))$ generators.
-\end{solution}
+% TODO make these pretty
 \begin{figure}[p!]
 	\centering
 	\tikzsetnextfilename{excs_postnikov5_specseq}
@@ -923,6 +929,52 @@ At the end of the section (page \pageref{sect:quickquest} and following) you wil
 	\caption{$E_2$-page of the Serre spectral sequence for $K(\Z, 3) \to K(\Z, 3) \to K(\Zn{2}, 3)$}
 \end{figure}
 
+\begin{exercise}
+	Compute the cohomology of the space $\map(S^1, S^3)$ of continuous (not necessarily basepoint-preserving) maps $f\colon S^1 \to S^3$.
+\end{exercise}
+\begin{solution}
+	There is a Serre fibration $\Omega S^3 \xto{\iota} \map(S^1, S^3) \xto{\ev_1} S^3$ as $S^1$ is locally compact and well-pointed.
+	Consider first the long exact sequence of homotopy groups associated to this fibration, which ends in
+	\begin{equation*}
+		\begin{tikzcd}[column sep = 2.6em]
+			\cdots 
+					\ar[r]
+				& \pi_3(\map(S^1, S^3), *)
+					\ar[r, "(\ev_1)_*"]
+				& \pi_3(S^3, *)
+					\ar[dll, rounded corners, swap, to path = {[pos = 1]
+						-- ([xshift = 1em] \tikztostart.east)
+						|- ($(\tikzcdmatrixname-1-2)!0.5!(\tikzcdmatrixname-2-2)$) \tikztonodes
+						-| ([xshift = -2ex] \tikztotarget.west)
+						-- (\tikztotarget)
+					}]
+			\\ 
+			\pi_2(\Omega S^3, *)
+					\ar[r, "\iota_*"]
+				& \pi_2(\map(S^1, S^3), *)
+					\ar[r]
+				& 0
+		\end{tikzcd}
+	\end{equation*}
+	as $S^3$ is 2-connected and $\Omega S^3$ simply connected.
+	Note that $\ev_1\colon \map(S^1, S^3) \to S^3$ admits a section, namely $\sigma\colon S^3 \to \map(S^1, S^3)$ being given by $\sigma(x) = \const_x$, the constant loop at $x$.
+	This implies that $(\ev_1)_*\colon \pi_*(\map(S^1, S^3), *) \to \pi_*(S^3, *)$ is surjective, so we can deduce that $\iota_*\colon \pi_2(\Omega S^3, *) \to \pi_2(\map(S^1, S^3), *)$ is an isomorphism, i.e. $\pi_2(\map(S^1, S^3), *) \to \pi_2(\Omega S^3, *) \isom \pi_3(S^3, *) \isom \Z$.
+	By Hurewicz, this further implies that $H_2(\map(S^1, S^3)) \isom \Z$ and therefore $H^2(\map(S^1, S^3)) \isom \Z$ by the universal coefficient theorem.
+
+	We now consider the Serre spectral sequence with $E_2$-page
+	\begin{equation*}
+		E_2^{*, *} = H^*(S^3; H^*(\Omega S^3)) \isom H^*(S^3) \tensor H^*(\Omega S^3) \isom \Lambda(e) \tensor \Gamma(x)
+	\end{equation*}
+	where $e \in H^3(S^3)$ and $x \in H^2(\Omega S^3)$ generators, with the first isomorphism stemming from the fact that $H^*(S^3)$ is free and finite and the second from the description of these rings calculated in the lecture.
+	For the differentials, the only possibly nonzero candidates are all of the form $d_3\colon E_3^{0, q} \to E_3^{3, q - 2}$ with $q$ even and $\geq 2$.
+	But note that the first such differential, $d_3^{0, 2}\colon \Z \isom E_3^{0, 2} \to E_3^{3, 0} \isom \Z$ must be trivial: Certainly $\ker d_3^{0, 2} \isom \Z$ as it is the only group contributing to the convergence to $H^2(\map(S^1, S^3)) \isom \Z$, so $d_3^{0, 2}$ must be multiplication by some $k > 1$; but then its cokernel is torsion and isomorphic to $H^3(\map(S^1, S^3))$ (as it is lonely remaining on the third antidiagonal) which is torsion-free via the universal coefficient theorem as by our calculation of $H_2(\map(S^1, S^3)) \isom \Z$ above.
+
+	Long story short, $d_3^{0, 2}$ is trivial, and reexpressed in multiplicative terms we see that $d_3(x) = 0$.
+	But every other $E_3^{0, 2q}$-group is generated by divided powers of $x$, so all other differentials must be trivial as well (as $0 = d^3(x^k) = d^3\big(k! \cdot \frac{x^k}{k!}\big)$ implies that $d^3\big(\frac{x^k}{k!}\big) = 0$ by freeness).
+	In other words, $E_\infty^{*, *} \isom E_2^{*, *}$ as bigraded rings, so since no antigiagonal contains more than one nontrivial term, we obtain that $H^*(\map(S^1, S^3)) \isom \Lambda(e) \tensor \Gamma(x)$ with $e \in H^3(\map(S^1, S^3))$ and $x \in H^2(\map(S^1, S^3))$ generators.
+\end{solution}
+
+% TODO here
 \begin{exercise}
 	\leavevmode
 	\begin{enumerate}
