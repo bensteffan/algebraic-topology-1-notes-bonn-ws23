@@ -1791,6 +1791,48 @@ There are two ways to tackle this problem, the first via obstruction theory and 
 	Thus we conclude no such fields of tangent 2-planes on $\RP^4$ and $\RP^6$ exist.
 \end{solution}
 
+\subsection{Additional Exercises}
+The exercises in this section are not from the official homework sheets and the solutions have not been checked by somebody else.
+Proceed with caution.
+References are provided.
+
+\begin{exercise}[{\cite[Exercise 2.13.5]{maxim_lecture_nodate}}]
+	Let $S^m \incl S^n \to S^l$ be a fibre bundle.
+	Prove using the Serre spectral sequence that $n = m + l$ and $l = m + 1$.
+\end{exercise}
+\begin{solution}
+	Note that the statement for $l = 0$ is vacuous since there are no bundles of the given form over a non-connected base.
+	Therefore, we may assume that $l \geq 1$ and therefore that $S^l$ is connected, so we have a Serre spectral sequence of the form
+	\begin{equation*}
+		E^2_{p, q} = H_p(S^l; H_q(S^m; \F_2)) \isom H_p(S^l; \F_2) \tensor H_q(S^m; \F_2) \Rightarrow H_{p + q}(S^n; \F_2)
+	\end{equation*}
+	using $\F_2$-coefficients to avoid having to worry about local system.
+	% TODO picture
+	Thus, the $E^2$-page is concentrated in degrees $(0, 0)$, $(l, 0)$, $(0, m)$, and $(l, m)$, the last of which can never have any nontrivial incoming our outgoing differentials, so we conclude that $\F_2 \isom E^2_{l, m} \isom E^\infty_{l, m}$ so that for convergence reasons we must have $H_{l + m}(S^n; \F_2) \isom \F_2$, in other words $n = l + m$.
+	In order for the other two terms away from the origin to die there must then be a differential $d^l\colon E^l_{l, 0} \to E^l_{0, m}$ which is an isomorphism, and this can only be the case if $l = m + 1$.
+\end{solution}
+
+\begin{exercise}[{\cite[Problem 8-B]{milnor_characteristic_1974}}]
+	Let $\xi\colon E \to B$ be a real vector bundle.
+	If $\omega(\xi) \neq 1$, show that the smallest $n > 0$ for which $\omega_n(\xi) \neq 0$ is a power of 2.
+\end{exercise}
+\begin{solution}
+	By definition the Stiefel Whitney classes satisfy
+	\begin{equation*}
+		\omega_i(\xi) \smile u = \Sq^i u
+	\end{equation*}
+	for $u \in H^*(E, E_0; \F_2)$ the Thom class.
+	Therefore, $\omega_i(\xi)$ is non-trivial iff $\Sq^i u$ is, and since $\Sq^i$ decomposes into a sum of products of lower order squares iff $i$ is not a power of two, the claim follows.
+\end{solution}
+
+\begin{exercise}[{\cite[Exercise 4.8.8]{maxim_lecture_nodate}}]
+	Show that $\CP^{2n - 1}$ is the boundary of a compact manifold for all $n > 0$.
+\end{exercise}
+\begin{solution}
+	We have seen that $\omega\big(\tau_{\CP^{2n - 1}}\big) = (1 + u)^{2n}$ for $u \in H^2(\CP^{2n - 1}; \F_2)$ the generator, but then $(1 + u)^{2n} = (1 + u^2)^n$ implies that the Stiefel-Whitney classes of $\tau_{\CP^{2n - 1}}$ are concentrated in degrees a multiple of 4, whereas $m \coloneq \dim \CP^{2n - 1} = 4n - 2$ is not, so every sequence $r_1 + 2 r_2 + \cdots + m r_m = m$ must contain at least one non-zero $r_i$ with $i$ not a multiple of 4, and consequently $\omega_1^{r_1} \cdots \omega_m^{r_m}[\CP^{2n - 1}] = 0$ for all such sequences.
+	We thus conclude that $\CP^{2n - 1}$ is null-bordant.
+\end{solution}
+
 \subsection{Quick Questions}\label{sect:quickquest}
 This section contains two sets of 20 questions each designed to be answered from the top of your head, together with example solutions.
 
