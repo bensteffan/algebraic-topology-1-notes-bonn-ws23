@@ -1015,3 +1015,138 @@ Generally, we have
 	Then $\Th(\xi')$ is a CW-complex with subcomplex $\Th(\xi)$ and relative cells in dimension $> n + m$.
 	The claim follows.
 \end{proof}
+\lecture{26.01.24}
+Applying this lemma to the map $\gamma_\R^{n - k} \dsum \epsilon \to \gamma_\R^{n - k + 1}$, we see that the induced map $\Th(\gamma_\R^{n - k} \dsum \epsilon) \to \Th(\gamma_\R^{n - k + 1})$ is $(2n - 2k)$-connected.
+\begin{corollary}
+	The map $\Bord_k^{(n)} \to \Bord_k^{(n + 1)}$ is an isomorphism if $n \geq 2k + 2$ and surjective if $n = 2k + 1$.
+\end{corollary}
+\begin{proof}
+	By the Freudenthal suspension theorem, the map
+	\begin{equation*}
+		\pi_n(\Th(\gamma_\R^{n - k})) \xto{\Sigma} \pi_{n + 1}(\Th(\gamma_\R^{n - k} \dsum \epsilon))
+	\end{equation*}
+	is an isomorphism if $n \leq 2(n - k) - 1$ and a surjection if $n = 2k + 1$.
+	Moreover, by the preceding lemma the map
+	\begin{equation*}
+		\pi_{n + 1}(\Th(\gamma_\R^{n - k} \dsum \epsilon)) \to \pi_{n + 1}(\Th(\gamma_\R^{n - k + 1}))
+	\end{equation*}
+	% TODO check the bounds on this
+	is an isomorphism if $n + 1 \leq 2n - 2k$, i.e. $2k + 1 \leq n$ and a surjection if $n = 2k$.
+	The claim follows.
+\end{proof}
+Therefore, for fixed $m$ the homotopy groups 
+\begin{equation*}
+	\pi_m(\Th(\gamma_\R^m)),\ \pi_{m + 1}(\Th(\gamma_\R^m)),\ \ldots,\ \pi_{2m - 2}(\Th(\gamma_\R^m))
+\end{equation*}
+are stable and compute the bordism groups $\Bord_0, \ldots, \Bord_{m - 2}$.
+In fact, it will follow from our discussion below that $\pi_{2m - 1}(\Th(\gamma_\R^m))$ is also already stable.
+
+The key ingredient to computing these groups is the following theorem:
+\begin{theorem}[Thom \cite{thom_quelques_1954}]
+	The Steenrod algebra $\symcal{A}$ acts freely on the cohomology ring $H^*(\Th(\gamma_\R^k; \F_2))$ in the range $k, k + 1, \ldots, 2k$, i.e. there exist classes $\{y_j\}_{j \in J}$, $y_j \in H^{n_j}(\Th(\gamma_\R^k); \F_2)$ such that the elements $\big(\Sq^I y_j\big)_{I \text{ admissible}, j \in J}$ form a basis of $H^*(\Th(\gamma_\R^k); \F_2)$ in degrees up to $2k$.
+\end{theorem}
+\begin{remark}
+	Why is this helpful?
+	We consider the space $Y = \prod_{j \in J} K(\F_2, n_j)$.
+	Then, by representability of $H^*({{-}}; \F_2)$, each $y_j$ corresponds to a map $\Th(\gamma_\R^k) \to K(\F_2, n_j)$.
+	Taken together, we obtain a map $\psi\colon \Th(\gamma_\R^k) \to Y$.
+\end{remark}
+% TODO find a working proof of this
+\begin{proof}[Proof of theorem]
+	We know that the cohomology $H^*(K(\F_2, n_j); \F_2)$ is free on the fundamental class $\iota_n \in H^{n_j}(K(\F_2, n_j); \F_2)$ over $\symcal{A}$ in degrees smaller than $2n_j$, so in particular in degrees smaller than $2k$.
+	Thus, in degrees less than $2k$, the cohomology $H^*(Y; \F_2) \isom \bigdsum_{j \in J} H^*(K(\F_2, n_j); \F_2)$ is free over $\symcal{A}$ on the fundamental classes which are mapped to the $y_j$ under $\psi^*$ by construction, i.e. TODO
+\end{proof}
+\begin{corollary}
+	For $n < 2k$ the dimension of the $\F_2$-vector space $\pi_n(\Th(\gamma_\R^k))$ equals the number of $j \in J$ such that $n_j = n$.
+\end{corollary}
+\begin{lemma}
+	In the range $\leq 2k$, $\symcal{A}$ acts freely on the Thom class $u \in H^k(\Th(\gamma_\R^k); \F_2)$.
+\end{lemma}
+\begin{proof}
+	The class $u$ is mapped to $\omega_k \in H^*(\Gr_k^\R; \F_2)$ under the induced map $s^*$ of the zero-section.
+	An arbitrary element in $H^*(\Th(\gamma_\R^k); \F_2)$ is of the form $u \smile x$ with $x \in H^*(\Gr_k^\R; \F_2)$, hence
+	\begin{equation*}
+		s^*(u \smile x) = \omega_k \smile x \in H^*(\Gr_k(\R^\infty); \F_2) \isom \F_2[\omega_1, \ldots, \omega_k]
+	\end{equation*}
+	This implies that $s^*$ identifies $H^*(\Th(\gamma_\R^k); \F_2)$ with the ideal $(\omega_k) \subset H^*(\Gr_k^\R; \F_2)$ as a module over the Steenrod algebra.
+	As before, we consider the inclusion
+	\begin{equation*}
+		H^*(\Gr_k^\R; \F_2) \incl H^*((\RP^\infty)^{\times k}; \F_2) \isom \F_2[u_1, \ldots, u_k]
+	\end{equation*}
+	which takes $\omega_K$ to $u_1 \cdots u_k$.
+	We order the monomials $u_1^{i_1} \cdots u_k^{i_k}$ of a given degree lexicographically by exponents $(i_1, \ldots, i_k)$.
+	Then we have, for $r \leq k$,
+	\begin{align*}
+		\Sq^r(u_1 \cdots u_k) &= \sum_{s_1 + \cdots + s_k = r} \Sq^{s_1} u_1 \cdots \Sq^{s_k} u_k \\
+							  &= u_1^2 \cdots u_r^2 u_{r + 1} \cdots u_k + \text{smaller terms}
+	\end{align*}
+	More generally, if $I = (i_1, \ldots, i_l)$ is admissible and $i_1 + \cdots + i_l \leq k$, then
+	\begin{equation*}
+		\Sq^I(u_1 \cdots u_k) = u_1^{2^l} \cdots u_{n_l}^{2^l} u_{n_l + 1}^{2^{l - 1}} \cdots u_{n_l + n_{l - 1}}^{2^{l - 2}} \cdots u_k + \text{smaller terms}
+	\end{equation*}
+	where $n_j = i_j - 2i_{j + 1}$ if $0 < j < l$ and $i_j$ if $j = l$.
+	We can recover $I$ from this largest term of $\Sq^I(u_1 \cdots u_k)$ because an admissible sequence is determined by the numbers $n_j$.
+\end{proof}
+\begin{remark}
+	From this it formally follows that
+	\begin{equation*}
+		H^* M\Ort \coloneq \lim_k H^{* + k}(\Th(\gamma_\R^k); \F_2)
+	\end{equation*}
+	is free over $\symcal{A}$, using that $\symcal{A}$ is a connected Hopf algebra via
+	\begin{equation*}
+		\Delta^* \Sq^n = \sum_{i + j = n} \Sq^i \tensor \Sq^j
+	\end{equation*}
+	and that $H^* M \Ort$ is a connected $\symcal{A}$-module coalgebra by a theorem of Milnor and Moore which states that, in this situation, if $\symcal{A}$ acts freely on $1 \in H^* M\Ort$, then $H^* M\Ort$ is free over $\symcal{A}$.
+\end{remark}
+\begin{example}
+	Let us compute $\Bord_k$ for $k = 0, \ldots, 4$.
+	To that end, we need to understand $H^l(\Th(\gamma_\R^5); \F_2)$ for $l \leq 9$.
+	% TODO \Gr_5 or \Gr_k?
+	As we have seen, the cohomology identifies with the ideal generated by $\omega_5$ in $H^*(\Gr_5^\R; \F_2)$.
+	We therefore have an additive basis in the required degrees as follows:
+	\begin{equation*}
+		\renewcommand{\arraystretch}{1.3}
+		\begin{array}{r|l}
+			l & \text{basis of } H^l(\Th(\gamma_\R^5); \F_2) \\ 
+			\hline
+			5 & \omega_5 \\
+			6 & \omega_5 \omega_1 \\
+			7 & \omega_5 \omega_1^2,\ \omega_5 \omega_2 \\
+			8 & \omega_5 \omega_1^3,\ \omega_5 \omega_2 \omega_1,\ \omega_5 \omega_3 \\
+			9 & \omega_5 \omega_1^4,\ \omega_5 \omega_1^2 \omega_2,\ \omega_5 \omega_1 \omega_3,\ \omega_5 \omega_2^2,\ \omega_5 \omega_4
+		\end{array}
+	\end{equation*}
+	Noting that $\Sq^i \omega_5 = \omega_5 \smile w_i$ by definition of the Stiefel-Whitney classes, we obtain the following $\symcal{A}$-action:
+	\begin{equation*}
+		\renewcommand{\arraystretch}{1.5}
+		\begin{array}{r|l}
+			l & \Sq^I \omega_5 \text{ with } I \text{ admissible, } |I| = l - 5	\\
+			\hline
+			6 & \Sq^1 \omega_5 = \omega_5 \omega_1 \\
+			7 & \Sq^2 \omega_5 = \omega_5 \omega_2 \\
+			8 & \begin{aligned}
+					\Sq^2 \Sq^1 \omega_5 &= \omega_5 \omega_2 \omega_1 + \omega_5 \omega_1^3 \\
+					\Sq^3 \omega_5 &= \omega_5 \omega_3
+			\end{aligned} \\
+			9 & \begin{aligned}
+					\Sq^3 \Sq^1 \omega_5 &= \omega_5 \omega_3 \omega_1 + \omega_5 \omega_2 \omega_1^2 \\
+					\Sq^4 \omega_5 &= \omega_5 \omega_4
+			\end{aligned}
+		\end{array}
+	\end{equation*}
+	To obtain a basis over $\symcal{A}$ from this, note that the element $y_2 \coloneq \omega_5 \omega_1^2$ is not contained in $\symcal{A} \omega_5$ and of minimal degree with this property, so it can be taken as another basis element.
+	We compute that
+	\begin{align*}
+		\Sq^1 y_2 &= \Sq^1 (\omega_5 \omega_1^2) = \omega_5 \omega_1^3 \\
+		\Sq^2 y_2 &= \omega_5 \omega_2 \omega_1^2 + \omega_5 \omega_1^4
+	\end{align*}
+	which leaves $y_3 \coloneq \omega_5 \omega_1^4$ and $y_4 \coloneq omega_5 \omega_2^2$ as not contained in $\langle y_1 \coloneq \omega_5, y_2 \rangle_{\symcal{A}}$, so $y_1, \ldots, y_4$ form a basis which implies that
+	\begin{align*}
+		\Bord_0 &\isom \F_2 \\
+		\Bord_1 &= 0 \\
+		\Bord_2 &\isom \F_2 \\
+		\Bord_3 &= 0 \\
+		\Bord_4 &\isom \F_2 \dsum \F_2
+	\end{align*}
+	as $|y_1| = 5$, $|y_2| = 7$, and $|y_3| = |y_4| = 9$.
+\end{example}
