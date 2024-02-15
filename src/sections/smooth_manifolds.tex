@@ -595,7 +595,7 @@ The remaining sequences are:
 Thus, the Stiefel-Whitney numbers of $\CP^2$ and $\RP^2 \times \RP^2$ agree, and in fact one can show that the two manifolds are cobordant.
 Much more generally, René Thom proved the following: 
 \edef\thomcitestring{Corollaire \uppercase\expandafter{\romannumeral 4\relax}.11 \& Théorème \uppercase\expandafter{\romannumeral 4\relax}.12}
-\begin{theorem}[{\cite[\thomcitestring]{thom_quelques_1954}}]
+\begin{theorem}[{\cite[\thomcitestring]{thom_quelques_1954}}]\label{thm:thom}
 	\leavevmode
 	\begin{enumerate}
 		\item Any two closed $n$-manifolds $M$ and $M'$ with identical Stiefel-Whitney numbers are cobordant.
@@ -1150,3 +1150,102 @@ The key ingredient to computing these groups is the following theorem:
 	\end{align*}
 	as $|y_1| = 5$, $|y_2| = 7$, and $|y_3| = |y_4| = 9$.
 \end{example}
+\lecture{29.01.24}
+It remains to show that if all Stiefel-Whitney numbers of a closed $k$-manifold $M$ are 0, then $M$ is a boundary.
+We will make use of the following fact:
+\begin{lemma}
+	Each $\overline{\omega}_i(M)$ is a polynomial in the $\omega_1(M), \ldots, \omega_i(M)$.
+\end{lemma}
+\begin{proof}
+	We have 
+	\begin{equation*}
+		1 = \omega(M) \overline{\omega}(M) = \sum_{i, j \geq 0} \omega_i(M) \overline{\omega}_j(M) = \sum_{n = 0}^k \sum_{i + j = n} \omega_i(M) \overline{\omega}_j(M)
+	\end{equation*}
+	and moreover for $n > 0$
+	\begin{equation*}
+		\sum_{i + j = n} \omega_i(M) \overline{\omega}_j(M) = 0
+	\end{equation*}
+	which means that
+	\begin{equation*}
+		\overline{\omega}_n(M) = \sum_{\substack{i + j = n \\ i > 0}} \omega_i(M) \overline{\omega}_j(M)
+	\end{equation*}
+	and the claim follows by induction.
+\end{proof}
+It follows that if $(n_1, \ldots, n_k)$ is a sequence of natural numbers satisfying $n_1 + \ldots + k n_k = k$, then $\overline{\omega}_1(M)^{n_1} \cdots \overline{\omega}_k(M)^{n_k} \in H^k(M; \F_2)$ is a sum of degree $k$ monomials in the $\omega_i$.
+Assuming for the time being that $M$ is connected, these monomials must all be zero as all Stiefel-Whitney numbers of $M$ are, so the \enquote{dual Stiefel-Whitney numbers}\index{Stiefel-Whitney numbers!dual} $\overline{\omega}_1^{n_1} \cdots \overline{\omega}_1^{n_k}[M]$ defined in analogy to the ordinary Stiefel-Whitney numbers are all zero.
+
+Let now $f\colon M \to \Gr_{n - k}^\R$ be a classifying map for the normal bundle with respect to some embedding $M \incl \R^n$ (for instance the Gauss map).
+The induced map in cohomology in degree $k$ is then of the form
+\begin{align*}
+	H^k(\Gr_{n - k}^\R; \F_2) &\xto{f^*} H^k(M; \F_2) \\
+	\omega_1^{n_1} \cdots \omega_k^{n_k} &\mapsto \overline{\omega}_1^{n_1}(M) \cdots \overline{\omega}_k^{n_k}(M) = 0
+\end{align*}
+and therefore the zero map.
+By naturality of the Thom-isomorphism, the map $\Th(f)\colon \Th(\nu_{M, \R^n}) \to \Th(\gamma_\R^{n - k})$ induces the zero map on $H^*({{-}}; \F_2)$ in degree $k + (n - k) = n$.
+In particular
+\begin{equation*}
+	\Phi_M = \Th(f) \circ c\colon S^n \to \Th(\gamma_\R^{n - k})
+\end{equation*}
+where $c\colon S^n \to \Th(\nu_{M, \R^n})$ is the collapse map induces the zero map on cohomology in all degrees $> 0$.
+\begin{lemma}
+	Let $f\colon X \to Y$ be a map with $X$ path-connected and $Y$ a product of Eilenberg-Mac Lane spaces $K(\F_2, m)$.
+	Then $f$ is nullhomotopic if and only if it induces the zero map on $\tilde{H}^*({{-}}; \F_2)$.
+\end{lemma}
+\begin{proof}
+	One direction is clear.
+	For the other, it suffices to consider the case $Y = K(\F_2, n)$, some $n$.
+	By representability, we have an isomorphism 
+	\begin{align*}
+		[X, K(\F_2, n)] &\isom H^n(X; \F_2) \\
+		[f] &\mapsto f^*(\iota_n)
+	\end{align*}
+	where $\iota_n \in H^n(K(\F_2, n); \F_2)$ is the fundamental class, so if $f$ is not nullhomotopic then $H^n(f; \F_2) \neq 0$.
+\end{proof}
+In our situation, choosing $n$ large enough such that $n < (2n - k)$ (i.e. $n > 2k$), we obtain a map $\psi\colon \Th(\gamma_\R^{n - k}) \to Y$ which induces an isomorphism on $\pi_i$ for $i < 2(n - k)$ where $Y$ is a product of Eilenberg-Mac Lane spaces.
+Then $\psi \circ \Phi_M$ induces the zero map on $\tilde{H}^*({{-}}; \F_2)$ and is therefore nullhomotopic, i.e. it represents 0 in $\pi_n(Y, *)$.
+Since $\psi$ is $2(n - k) > n$-connected, it follows that $\Phi_M$ must already be nullhomotopic.
+Via the identification
+\begin{align*}
+	\Bord_k^{(n)} &\xto{\isom} \pi_n(\Th(\gamma_\R^{n - k})) \\
+	[M] &\mapsto [\Phi_M]
+\end{align*}
+we conclude that $M$ is a boundary in $\R^n$.
+Finally, it remains to treat the case that $M$ is not connected.
+Let $M = M_1 \sqcup \cdots \sqcup M_r$ with the $M_i$ connected components.
+Then there are two angles of approach:
+\begin{enumerate}
+	\item Use that $M$ is cobordant to a connected $M'$.
+		For instance, $M$ is cobordant to $M_1 \csum \cdots \csum M_r$, the \emph{connected sum}\index{connected sum} of the $M_i$.
+	\item Note that for all $(n_1, \ldots, n_k)$ defining a Stiefel-Whitney number of $M$ we have $\overline{\omega}_1^{n_1} \cdots \overline{\omega}_k^{n_k}[M_i] \neq 0$ for an even number of indices $i$.
+		It follows that that again $\Phi_M$ induces the zero map on $\tilde{H}^*({{-}}; \F_2)$ even though this is not necessarily true of $\Th(f)$.
+		Now proceed as before.
+\end{enumerate}
+This concludes our partial proof of theorem \ref{thm:thom}.
+\begin{remark}
+	Let $M$ be a closed $k$-manifold.
+	For any $i$, the composite
+	\begin{equation*}
+		H^{k - i}(M; \F_2) \xto{\Sq^i} H^k(M; \F_2) \xto{\langle {{-}}, \mu_M\rangle} \F_2
+	\end{equation*}
+	is $\F_2$-linear and hence by Poincaré duality given by
+	\begin{equation*}
+		x \mapsto \langle x \smile v_i, \mu_M \rangle
+	\end{equation*}
+	for unique $v_i \in H^i(M; \F_2)$.
+	Since $\Sq^i x = 0$ if $i > k - i$, i.e. $2i > k$, we have $v_i = 0$ for all $i > k / 2$.
+	The $v_i$ are called the \strong{Wu classes}\index{Wu class} of $M$.
+	We denote the total class by $v = v_0 + v_1 + \ldots + v_{\lfloor k / 2\rfloor}$.
+\end{remark}
+\begin{theorem}[Wu formula]
+	The total Wu class satisfies $\Sq v = \omega(\tau_M)$.
+\end{theorem}
+\begin{proof}
+	See \cite[Theorem 11.14]{milnor_characteristic_1974}.
+\end{proof}
+\begin{corollary}
+	Any (weak) homotopy equivalence $\varphi\colon M \xto{\htpyeqv} M'$ sends $\omega(\tau_{M'})$ to $\omega(\tau_M)$, i.e. the Stiefel-Whitney classes of $\tau_M$ only depend on the (weak) homotopy type of $M$.
+\end{corollary}
+\begin{corollary}
+	If $M$ and $M'$ are (weakly) homotopy equivalent, then they are cobordant.
+	In particular, homeomorphic manifolds are cobordant.
+\end{corollary}
