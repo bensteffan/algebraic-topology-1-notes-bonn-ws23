@@ -3,7 +3,6 @@
 % TODO some high-level changes that are still outstanding:
 % 	- change the notation for the fundamental groupoid from \pi_1 X to \Pi_1 X and change all instances of homotopy groups sans basepoint from \pi_n(X) to \pi_n X [note to self: consider whether :%s/\m\\pi_\(?\|{.+}\)(\([^,]+\)/\pi_\1 \2/g plus repair work is better than the alternative :)]
 
-
 \usepackage{nicematrix}
 
 \usetikzlibrary{external, math, matrix, patterns, patterns.meta}
@@ -26,24 +25,10 @@
 \DeclareNamedOperator{Stab}
 \DeclareNamedOperator{Tot}
 \DeclareNamedOperator{gr}
-\DeclareNamedOperator{sk}
-\DeclareNamedOperator{tel}
-\DeclareNamedOperator{CohOps}
 
 \DeclareNamedOperator{Fr}
-\DeclareNamedOperator{Th}
-
-\DeclareMathOperator*{\holim}{holim}
-\DeclareMathOperator{\chr}{char}
-
-\DeclareMathOperator{\CohOpsst}{CohOps^{\mathrm{st}}}
-
-\DefineCategory{Fib}
-\DefineCategory{hTop}
 
 \newcommand{\hToprcpt}{\hTop^{\mathrm{prcpt.}}}
-
-\newcommand{\Hur}{\mathrm{Hur}}
 
 \newcommand{\pis}{\pi^{\mathrm{st}}}
 
@@ -54,14 +39,9 @@
 \newcommand{\Cfin}{\catfont{C}^\text{fin}}
 \newcommand{\Cfinp}[1][p]{\catfont{C}^\text{#1, fin}}
 
-\newcommand{\FP}{\F\mathrm{P}}
 \renewcommand{\H}{\fieldfont{H}}
 
-\newcommand{\Bord}{\symcal{N}}
-
 \renewcommand*{\Zn}[1]{\Z / #1}
-
-\newcommand{\csum}{\mathbin{\#}}
 
 % for quick questions & answers
 \mdtheorem[style = notethms-basestyle, linecolor = exercisecol]{questions}{Questions}
