@@ -341,7 +341,7 @@ At the end of the section (page \pageref{sect:quickquest} and following) you wil
 		Here we define $\F_\infty \coloneq \Q$.
 	\end{lemma}
 	\begin{smallproof}
-		As $A \tensor_{\Z} \Q \isom A / \tors(A)$ where $\tors(A) \coloneq \{a \in A \mid na = 0 \text{ for some } n \in \Z\}$ we can choose $p = \infty$ whenever $A$ is not entirely torsion.
+		If $A$ is not entirely torsion, then $p = \infty$ does the job.
 		Otherwise, pick a prime $p$ such that $A$ has $p$-torsion.
 		We then note that the map $A \xto{\cdot p} A$ is not surjective: if it were, we would have $A / \ker p \isom A$, but $A / \ker p$ does not have any $p$-torsion while $A$ does.
 		Therefore, $A \tensor_{\Z} \F_p \isom A / p A$ is non-trivial.
@@ -623,7 +623,7 @@ At the end of the section (page \pageref{sect:quickquest} and following) you wil
 
 	Next, consider the Serre spectral sequence of the fibre sequence $K(\Zn{2}, 2) \to * \to K(\Zn{2}, 3)$ with $E_2$-page
 	\begin{equation*}
-		E^2_{*, *} = H_*(K(\Zn{2}, 3); H_*(\Zn{2}, 2))
+		E^2_{*, *} = H_*(K(\Zn{2}, 3); H_*(K(\Zn{2}, 2)))
 	\end{equation*}
 	Noting that we have computed (via a standard application of the universal coefficient theorem) that
 	\begin{equation*}
@@ -639,7 +639,7 @@ At the end of the section (page \pageref{sect:quickquest} and following) you wil
 		H_k(K(\Zn{2}, 3)) \isom \begin{cases}
 			\Z & k = 0 \\
 			\Zn{2} & k = 3 \\
-			0 & k \neq 0, 3 \text{ and } k \leq 4
+			0 & k = 1, 2, 4
 		\end{cases}
 	\end{equation*}
 	we quickly see that the of all the outgoing differentials of $E^2_{5, 0}$, the only interesting one is $d^5\colon E^5_{5, 0} \to E^5_{0, 4} \isom A$ as all other differentials have trivial codomain.
@@ -1030,7 +1030,7 @@ At the end of the section (page \pageref{sect:quickquest} and following) you wil
 		\begin{equation*}
 			E_2^{p, q} = H^p(B; H^q(F_{-}; \Z))
 		\end{equation*}
-		We then have edge homomorphisms $e(p)\colon H^q(E) \to E_\infty^{0, q} \incl E_2^{0, q} \isom H^0(B; H^q(F_{-})) \to H^q(F_*)$ for $* \in E$ any basepoint which agrees with the surjective map $i^*\colon H^q(E) \to H^*(F)$.
+		We have edge homomorphisms $e(p)\colon H^q(E) \to E_\infty^{0, q} \incl E_2^{0, q} \isom H^0(B; H^q(F_{-})) \to H^q(F_*)$ for $* \in E$ any basepoint which agree with the surjective map $i^*\colon H^q(E) \to H^*(F)$.
 		In particular, this means that $H^0(B; H^q(F_{-})) \to H^q(F_*)$ must be surjective, so the action of $\pi_1(B, *)$ on $H^*(F)$ must be trivial\footnote{Life is hard (and short) enough so we will not prove this here, but it is not too difficult to see that $H^0(B; H^q(F_{-})) \isom H^q(F_*)$ is the \enquote{maximal} case that occurs when the $\pi_1(B, *)$-action is trivial, any element acting nontrivially killing some part of the left hand side by a calculation similar to what we did in exercise 1.1. (Apparently, if one is so inclined, one can show that $H^0(B; H^q(F_{-}))) \isom H^q(F)^{\pi_1(B, *)}$, the fixed points of $H^q(F)$ under the $\pi_1(B, *)$-action.)}.
 		
 		For the second statement, note that our spectral sequence now satisfies
