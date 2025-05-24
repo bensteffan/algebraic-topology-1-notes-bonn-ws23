@@ -3142,8 +3142,8 @@ We now turn this around and study $H^*(K(\Z, n); \Q)$ to compute $\pi_*(S^n) \te
 	Consider the Serre spectral sequence for the fibre sequence $K(\Z, 2n - 1) \to F \to K(\Z, n)$.
 	The differential $d_{2n}\colon H^{2n - 1}(K(\Z, 2n - 1); \Q) \to H^{2n}(K(\Z, n); \Q)$ must be surjective since we know by construction that the squaring map $H^n(F; \Q) \xto{({{-}})^2} H^{2n}(F; \Q)$ is zero.
 	By the product rule, each $d_{2n}\colon E_{2n}^{kn, 2n - 1} \to E_{2n}^{(k + 2)n, 0}$ with $k \geq 0$ is an isomorphism.
-	Hence, $H^*(F; \Q) \isom \Lambda(x_n)$ and $S^n \to F$ induces an isomorphism on $H^*({{-}}; \Q)$ and therefore on $\pi_*({{-}}) \tensor \Q$.
-	Therefore,
+	Hence $H^*(F; \Q) \isom \Lambda(x_n)$ and $S^n \to F$ induces an isomorphism on $H^*({{-}}; \Q)$ and therefore on $\pi_*({{-}}) \tensor \Q$.
+	Thus
 	\begin{equation*}
 		\pi_k(S^n) \tensor \Q \isom \pi_k(F) \tensor \Q \isom \begin{cases}
 			\Q 	& k = n, 2n - 1 \\
@@ -3192,9 +3192,9 @@ We now turn this around and study $H^*(K(\Z, n); \Q)$ to compute $\pi_*(S^n) \te
 		\node[spectral sequence/page label] at ($(Top Right) - (0.3, 0.3)$) {$E_2^{p, q}$};
 
 		\path[spectral sequence/differentials]
-			(m-1-2) edge["d_{2n}", "\isom"'] (m-3-4)
-			(m-1-4) edge["d_{2n}", "\isom"'] (m-3-6)
-			(m-1-6) edge["d_{2n}", "\isom"'] (m-3-8);
+			(m-1-2) edge["d_{2n}", "\isom"'] (m-3-6)
+			(m-1-4) edge["d_{2n}", "\isom"'] (m-3-8);
+			%(m-1-6) edge["d_{2n}", "\isom"'] (m-3-10);
 	\end{tikzpicture}
 	\begin{align*}
 		E_2^{p, q} &= H^p(K(\Z, n); H^q(K(\Z, 2n - 1); \Q)) \\
